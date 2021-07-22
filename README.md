@@ -34,3 +34,11 @@ Connection - SSH - Auth 에서 ppk 넣기
 
 ubuntu 계정으로 접속
 
+
+
+### 프론트엔드 컴포넌트 구조
+
+![image-frontend-tree1](./assets/frontend-tree1.png)
+
+![image-frontend-tree2](./assets/frontend-tree2.png)
+

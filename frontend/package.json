@@ -42,7 +42,19 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-console" : "off",
+      "generator-star-spacing": "off",
+      "prettier/prettier": [
+        "error",
+        { "tabWidth": 2,
+          "endOfLine": "auto",
+          "singleQuote": true,
+          "semi": false,
+          "trailingComma": true
+        }
+      ]
+    }
   },
   "browserslist": [
     "> 1%",

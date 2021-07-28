@@ -22,8 +22,9 @@ public class Favorite {
     @JoinColumn(name = "user_idx")
     private User user;
 
-    @OneToMany(mappedBy = "favorite", cascade = CascadeType.ALL)
-    private List<MyStudio> myStudios = new ArrayList<>();
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "studio_idx")
+    private MyStudio myStudio;
 
 
 }

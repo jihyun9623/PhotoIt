@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -28,13 +29,11 @@ public class MyStudio {
     @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
     private List<Photo> photos;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "favorite_idx")
-    private Favorite favorite;
+    @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
+    private List<Calendar> calendars;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "calendar_idx")
-    private Calendar calendar;
+    @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
+    private List<Favorite> favorites;
 
     @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
     private List<AuthorLocation> authorLocations;

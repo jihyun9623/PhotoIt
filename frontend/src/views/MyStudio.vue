@@ -1,5 +1,5 @@
 <template>
-  <h1>MyStudio</h1>
+  <h1>MyStudio1</h1>
 </template>
 
 <script>

@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 스튜디오 수정페이지 유저 확인 API ([GET] /studioedit/studioauth) 요청에 필요한 리퀘스트 바디 정의.
+ * 스튜디오 수정페이지 유저 확인 및 JWT확인 API ([GET] /studioedit/studioauth, ) 요청에 필요한 리퀘스트 바디 정의.
  */
 @Getter
 @Setter

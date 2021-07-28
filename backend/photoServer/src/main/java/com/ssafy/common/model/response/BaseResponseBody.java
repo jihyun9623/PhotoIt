@@ -1,3 +1,5 @@
+/* 2021-07-27 스켈레톤 코드 작성	by.HeeJung,Lee */
+
 package com.ssafy.common.model.response;
 
 import io.swagger.annotations.ApiModel;

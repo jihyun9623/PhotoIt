@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter @Setter
 public class PhotoTag {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "phototag_idx")
     private int idx;
 

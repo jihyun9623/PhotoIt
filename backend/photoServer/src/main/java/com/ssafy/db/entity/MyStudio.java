@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -13,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter @Setter
 public class MyStudio {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "studio_idx")
     private int idx;
 
@@ -29,11 +28,13 @@ public class MyStudio {
     @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
     private List<Photo> photos;
 
-    @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
-    private List<Calendar> calendars;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "favorite_idx")
+    private Favorite favorite;
 
-    @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
-    private List<Favorite> favorites;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "calendar_idx")
+    private Calendar calendar;
 
     @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
     private List<AuthorLocation> authorLocations;

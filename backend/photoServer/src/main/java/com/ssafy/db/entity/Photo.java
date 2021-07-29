@@ -12,7 +12,7 @@ import java.util.List;
 @Getter @Setter
 public class Photo {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "photo_idx")
     private int idx;
 

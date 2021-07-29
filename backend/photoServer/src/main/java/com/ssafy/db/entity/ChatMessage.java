@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class ChatMessage {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "msg_id")
     private Long msgId;
 

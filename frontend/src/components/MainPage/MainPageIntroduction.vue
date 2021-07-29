@@ -167,6 +167,7 @@ export default {
   font-weight: bold;
   font-size: 2.7rem;
   opacity: 0;
+  /* 가로 화면이 줄어들었을 때 글자가 깨지지 않도록 */
   word-wrap: normal;
 }
 </style>

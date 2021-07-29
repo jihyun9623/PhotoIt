@@ -2,14 +2,14 @@ package com.ssafy.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -26,18 +26,27 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+public class SwaggerConfig extends WebMvcConfigurationSupport {
 
-    @Bean
+    private String version = "V1";
+    private String title = "PHOTO-IT API " + version;
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
     /**
-     * api 구조를 만들어줄 범위를 지정한다.
-     * 여기선
+     * api 구조를 만들어줄 범위를 지정한다
      * */
+    @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false)
+                .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())        // 현재 RequestMapping으로 할당된 모든 URL 리스트를 추출
-                .paths(PathSelectors.ant("/api/**"))    // 그 중 /api/** 인 url들만 필터링
+          //      .paths(PathSelectors.ant("/**"))    // 그 중 /api/** 인 url들만 필터링
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.api.controller"))
                 .build()
                 .securityContexts(newArrayList(securityContext()))
                .securitySchemes(newArrayList(apiKey()))
@@ -50,6 +59,13 @@ public class SwaggerConfig {
                 .version("V1")
                 .description("사진작가-모델 매칭 플랫폼 개발 api")
                 .build();
+
+//            return new ApiInfoBuilder().title(title)
+//                .description("<h3>SSAFY API Reference for Developers</h3>PHOTO-IT Swagger API<br>")
+//                .contact(new Contact("SSAFY", "https://edu.ssafy.com", "ssafy@ssafy.com"))
+//                .license("SSAFY License")
+//                .licenseUrl("https://www.ssafy.com/ksp/jsp/swp/etc/swpPrivacy.jsp")
+//                .version("1.0").build();
     }
 
     private ApiKey apiKey() {

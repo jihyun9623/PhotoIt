@@ -28,4 +28,5 @@ public class UserDto {
     public String toString() {
         return userIdx+" "+userId+" "+userPw+" "+userNickname+" "+userAuthor+" "+userPhoto;
     }
+
 }

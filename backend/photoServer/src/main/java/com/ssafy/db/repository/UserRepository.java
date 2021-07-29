@@ -7,5 +7,7 @@ import java.util.List;
 
 // Mybatis에서 DAO로 불리는 DB Layer 접근자
 public interface UserRepository extends JpaRepository<User, Long> {
-    public List<User> findById(String id);
+    List<User> findById(String id);
+
+    List<User>findAll();
 }

@@ -30,5 +30,4 @@ public class User {
 
     private String photo;       //프로필 사진
 
-
 }

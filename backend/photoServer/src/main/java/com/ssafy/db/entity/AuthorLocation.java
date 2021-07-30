@@ -11,7 +11,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter @Setter
 public class AuthorLocation {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authorlocation_idx")
     private int idx;
 

@@ -10,7 +10,7 @@ import java.util.List;
 @Getter @Setter
 public class ChatManage {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatManage_idx")
     private Long idx;
 

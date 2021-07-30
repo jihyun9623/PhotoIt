@@ -11,11 +11,11 @@ import static javax.persistence.FetchType.LAZY;
 @Getter @Setter
 public class ChatList {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatList_idx")
     private Long idx;
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
     private Long roomId;
 

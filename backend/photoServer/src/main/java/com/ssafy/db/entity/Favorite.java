@@ -14,7 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter @Setter
 public class Favorite {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_idx")
     private int idx;
 

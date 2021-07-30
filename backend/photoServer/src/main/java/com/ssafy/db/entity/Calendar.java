@@ -13,7 +13,7 @@ import java.util.List;
 @Getter @Setter
 public class Calendar {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "calendar_id")
     private int idx;
 

@@ -37,5 +37,4 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = LAZY)
     private MyStudio myStudio;
 
-
 }

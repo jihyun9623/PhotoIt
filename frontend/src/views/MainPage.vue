@@ -1,14 +1,17 @@
 <template>
-  <h1>MainPage</h1>
+  <div>
+    <MainPageIntroduction />
+    <h1>MainPage</h1>
+  </div>
 </template>
 
 <script>
-// import component from "component location"
+import MainPageIntroduction from '@/components/MainPage/MainPageIntroduction'
 
 export default {
-  name: "MainPage",
+  name: 'MainPage',
   components: {
-    // components
+    MainPageIntroduction,
   },
-};
+}
 </script>

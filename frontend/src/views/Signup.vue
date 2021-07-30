@@ -3,8 +3,8 @@
     <div class="container-signup">
       <h1>Signup</h1>
       <p>
-        이메일 인증 <br />
-        인증 버튼 누르면 인증번호 입력창
+        추가할 일 <br />
+        API 넘어오면 하나씩 확인하면서 수정작업
       </p>
       <input
         style="display: none"
@@ -196,45 +196,30 @@
       <div v-if="credentials.photographer === 'true'">
         <p>지역 목록 선택</p>
         <div
-          class="btn-group"
+          class="row"
           role="group"
           aria-label="Basic checkbox toggle button group"
         >
-          <input
-            type="checkbox"
-            class="btn-check"
-            id="btncheck1"
-            autocomplete="off"
-            value="checkbox 1"
-            v-model="credentials.location"
-          />
-          <label class="btn btn-outline-primary" for="btncheck1"
-            >Checkbox 1</label
+          <div
+            class="col-3"
+            v-for="location_ele in location_all"
+            :key="location_ele.loca"
           >
-
-          <input
-            type="checkbox"
-            class="btn-check"
-            id="btncheck2"
-            autocomplete="off"
-            value="checkbox 2"
-            v-model="credentials.location"
-          />
-          <label class="btn btn-outline-primary" for="btncheck2"
-            >Checkbox 2</label
-          >
-
-          <input
-            type="checkbox"
-            class="btn-check"
-            id="btncheck3"
-            autocomplete="off"
-            value="checkbox 3"
-            v-model="credentials.location"
-          />
-          <label class="btn btn-outline-primary" for="btncheck3"
-            >Checkbox 3</label
-          >
+            <input
+              type="checkbox"
+              class="btn-check"
+              :id="location_ele.loca"
+              autocomplete="off"
+              :value="location_ele.loca"
+              v-model="credentials.location"
+            />
+            <label
+              class="btn btn-outline-primary btn-width"
+              :for="location_ele.loca"
+            >
+              {{ location_ele.loca }}
+            </label>
+          </div>
         </div>
       </div>
       <hr class="my-hr" />
@@ -259,9 +244,9 @@ export default {
         photographer: '',
         location: [],
         introduce: null,
+        profile: null,
       },
       preview: null,
-      profile: null,
       emailDup: null,
       emailSend: null,
       emailAuth: null,
@@ -269,6 +254,19 @@ export default {
       authedEmail: null,
       passwordConfirmation: null,
       nicknameDup: null,
+      dupNickname: null,
+      location_all: [
+        { loca: '서울' },
+        { loca: '부산' },
+        { loca: '경기도' },
+        { loca: '강원도' },
+        { loca: '경상남도' },
+        { loca: '경상북도' },
+        { loca: '전라남도' },
+        { loca: '전라북도' },
+        { loca: '충청남도' },
+        { loca: '충청북도' },
+      ],
     }
   },
   methods: {
@@ -279,7 +277,7 @@ export default {
         reader.onload = (e) => {
           this.preview = e.target.result
         }
-        this.profile = input.files[0]
+        this.credentials.profile = input.files[0]
         reader.readAsDataURL(input.files[0])
       }
     },
@@ -351,18 +349,29 @@ export default {
     // },
     //
     // signup: function () {
-    //   axios({
-    //     method: 'post',
-    //     url: '',
-    //     data: this.credentials,
-    //   })
-    //     .then(res => {
-    //       this.$router.push({ name: 'Login'})
+    //   if (
+    //     this.emailAuthChk === 'true' &&
+    //     this.authedEmail === this.credentials.email &&
+    //     this.credentials.password === this.passwordConfirmation &&
+    //     this.dupNickname === this.credentials.nickname
+    //   ) {
+    //     axios({
+    //       method: 'post',
+    //       url: '',
+    //       data: this.credentials,
     //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // }
+    //       .then(res => {
+    //         this.$router.push({ name: 'Login'})
+    //       })
+    //       .catch(err => {
+    //         console.log(err)
+    //       })
+    //   } else {
+    //     if (!(this.authedEmail === this.credentials.email)) {
+    //       this.warningtext = '인증한 이메일과 입력된 이메일이 다릅니다. 다시 확인해주세요.'
+    //     }
+    //   }
+    // },
   },
 
   components: {
@@ -435,6 +444,9 @@ export default {
   width: 100%;
 }
 .btn-group {
+  width: 100%;
+}
+.btn-width {
   width: 100%;
 }
 </style>

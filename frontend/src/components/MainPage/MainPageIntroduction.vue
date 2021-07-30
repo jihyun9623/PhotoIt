@@ -1,31 +1,33 @@
 <template>
-  <section class="background-wrap">
-    <div>
-      <div class="relative-block">
-        <img
-          src="../../assets/images/photographer.png"
-          alt="photohrapher"
-          class="background-img-photographer"
-        />
-        <img
-          src="../../assets/images/customer.png"
-          alt="customer"
-          class="background-img-customer"
-        />
-        <p class="text-pg">빛나는 재능을 가진<br />당신도</p>
-        <p class="text-ct">빛나는 순간을 남기고 싶은<br />당신도</p>
-        <span class="text-closing">
-          <p>당신만의</p>
-          <p>
-            <span class="pe-5">모델을</span>
-            <span class="ps-5">작가를</span>
-          </p>
-          <p>만나보세요</p>
-        </span>
+  <div>
+    <section class="background-wrap">
+      <div>
+        <div class="relative-block">
+          <img
+            src="../../assets/images/photographer.png"
+            alt="photohrapher"
+            class="background-img-photographer"
+          />
+          <img
+            src="../../assets/images/customer.png"
+            alt="customer"
+            class="background-img-customer"
+          />
+          <p class="text-pg">빛나는 재능을 가진<br />당신도</p>
+          <p class="text-ct">빛나는 순간을 남기고 싶은<br />당신도</p>
+          <span class="text-closing">
+            <p>당신만의</p>
+            <p>
+              <span class="pe-5">모델을</span>
+              <span class="ps-5">작가를</span>
+            </p>
+            <p>만나보세요</p>
+          </span>
+        </div>
       </div>
-    </div>
-  </section>
-  <div class="empty-box"></div>
+    </section>
+    <div class="empty-box"></div>
+  </div>
 </template>
 
 <script>

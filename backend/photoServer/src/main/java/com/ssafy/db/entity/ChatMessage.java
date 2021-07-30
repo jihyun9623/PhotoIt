@@ -29,5 +29,5 @@ public class ChatMessage {
 
     @NotNull
     @Column(columnDefinition = "boolean default false")
-    private Boolean read;
+    private Boolean isRead;
 }

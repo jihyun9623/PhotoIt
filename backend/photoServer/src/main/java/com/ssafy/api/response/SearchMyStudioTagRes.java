@@ -13,9 +13,9 @@ import java.util.Map;
 @ApiModel("SearchMyStudioTagResponse")
 public class SearchMyStudioTagRes extends BaseResponseBody {
     @ApiModelProperty(name = "사진, 사진id", notes = "사진과 사진ID List")
-    Map<File, Integer> photoList;
+    Map<String, Integer> photoList;
 
-    public static SearchMyStudioTagRes of(Integer statusCode, String message, Map<File, Integer> photoList) {
+    public static SearchMyStudioTagRes of(Integer statusCode, String message, Map<String, Integer> photoList) {
         SearchMyStudioTagRes body = new SearchMyStudioTagRes();
         body.setStatusCode(statusCode);
         body.setMessage(message);

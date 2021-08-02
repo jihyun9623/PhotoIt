@@ -24,7 +24,7 @@ public class SearchController {
     public ResponseEntity<SearchTagLocationRes> searchTagLocation(@RequestBody @PathVariable("tag") String tag,
                                                                   @PathVariable("location") String location, SearchPageReq searchReq) {
 
-        Map<File, String> photoList = new TreeMap<>();
+        Map<String, String> photoList = new TreeMap<>();
         return ResponseEntity.ok(SearchTagLocationRes.of(200,"Success", photoList, tag));
     }
 
@@ -32,7 +32,7 @@ public class SearchController {
     @ApiOperation(value = "해당 지역, 작가 검색", notes = "해당 지역의 해당 태그의 사진들을 가져온다. 지역이 없으면 전지역")
     public ResponseEntity<SearchPgLocationRes> searchPg(@RequestBody @PathVariable("pg") String pg,
                                                         @PathVariable("location") String location, SearchPageReq searchReq) {
-        Map<File, String> profileList = new TreeMap<>();
+        Map<String, String> profileList = new TreeMap<>();
         return ResponseEntity.ok(SearchPgLocationRes.of(200,"Success", profileList));
     }
 
@@ -41,7 +41,7 @@ public class SearchController {
     public ResponseEntity<SearchMyStudioTagRes> searchMyStudioTag(@RequestBody @PathVariable("idx") int id,
                                                                   @PathVariable("tag") String tag, SearchPageReq searchReq) {
 
-        Map<File, Integer> photoList = new TreeMap<>();
+        Map<String, Integer> photoList = new TreeMap<>();
         return ResponseEntity.ok(SearchMyStudioTagRes.of(200,"Success", photoList));
     }
 

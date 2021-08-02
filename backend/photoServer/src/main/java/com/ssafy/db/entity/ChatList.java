@@ -1,6 +1,8 @@
 package com.ssafy.db.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,7 +10,8 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Getter @Setter
+@NoArgsConstructor
+@Getter
 public class ChatList {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +30,13 @@ public class ChatList {
 
     @OneToOne(mappedBy = "chatList", fetch = LAZY)
     private ChatManage chatManage;
+
+    @Builder
+    public ChatList(Long idx, Long roomId, User user, int pairIdx, ChatManage chatManage) {
+        this.idx = idx;
+        this.roomId = roomId;
+        this.user = user;
+        this.pairIdx = pairIdx;
+        this.chatManage = chatManage;
+    }
 }

@@ -1,6 +1,8 @@
 package com.ssafy.db.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,7 +13,8 @@ import java.util.List;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Getter @Setter
+@NoArgsConstructor
+@Getter
 public class Favorite {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +25,14 @@ public class Favorite {
     @JoinColumn(name = "user_idx")
     private User user;
 
-    @OneToMany(mappedBy = "favorite", cascade = CascadeType.ALL)
-    private List<MyStudio> myStudios = new ArrayList<>();
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "studio_idx")
+    private MyStudio myStudio;
 
-
+    @Builder
+    public Favorite(int idx, User user, MyStudio myStudio) {
+        this.idx = idx;
+        this.user = user;
+        this.myStudio = myStudio;
+    }
 }

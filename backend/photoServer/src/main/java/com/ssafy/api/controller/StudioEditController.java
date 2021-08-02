@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/studioedit")
 public class StudioEditController {
-	
+
 	// 본인확인 인증
 	@GetMapping("/studioauth")
 	@ApiOperation(value = "마이스튜디오 본인확인", notes = "<strong>닉네임</strong>을 통해 확인한다.")

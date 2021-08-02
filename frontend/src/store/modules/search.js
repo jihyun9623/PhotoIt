@@ -4,6 +4,7 @@ import axios from 'axios'
 const state = () => ({
   resultTag: null,
   resultPhotographer: null,
+  isSearchHeaderShow: false,
 })
 
 // actions
@@ -12,7 +13,7 @@ const actions = {
     axios({
       method: 'post',
       url: `http:어쩌고/search/tag/${info.keyword}/${info.region}`,
-      data: info,
+      data: JSON.stringify(info),
     })
       .then((res) => {
         console.log(res)
@@ -29,7 +30,7 @@ const actions = {
     axios({
       method: 'post',
       url: `http:어쩌고/search/pg/${info.keyword}/${info.region}`,
-      data: info,
+      data: JSON.stringify(info),
     })
       .then((res) => {
         console.log(res)

@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-center">
-    <div class="search-style-header" v-show="isSearchHeaderShow">
+    <div class="search-style-page search-style">
       <select name="region" id="searchRegion" class="me-2">
         <option value="all">전체</option>
         <option value="서울">서울</option>
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   name: 'SearchBar',
   data() {
@@ -55,31 +54,27 @@ export default {
       }
     },
   },
-  computed: {
-    ...mapState({
-      isSearchHeaderShow: (state) => state.search.isSearchHeaderShow,
-    }),
-  },
 }
 </script>
 
 <style scoped>
-.search-style-header {
+.search-style-page {
   width: 60%;
   height: 35px;
   position: absolute;
+  top: 70%;
+  flex-wrap: nowrap;
 }
 input {
   width: 80%;
   height: 100%;
-  border: solid 1px black;
-  border-radius: 30px;
+  border: none;
   padding-top: 1px;
   padding-bottom: 0;
   outline: none;
 }
 button {
-  background-color: transparent;
+  background-color: white;
   border: none;
   height: 100%;
   padding-top: 1px;
@@ -93,6 +88,6 @@ button:hover {
 select {
   width: 13%;
   height: 100%;
-  border: solid 1px;
+  border: none;
 }
 </style>

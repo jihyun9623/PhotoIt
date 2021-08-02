@@ -163,7 +163,7 @@ export default {
 }
 .empty-box {
   width: 100%;
-  height: 1000px;
+  height: 200px;
 }
 .text-pg {
   position: absolute;

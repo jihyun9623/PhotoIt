@@ -1,8 +1,13 @@
 package com.ssafy.api.service;
 
+import com.ssafy.db.entity.User;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 
+@Service
 public interface UserService {
+
     // 지역목록요청 : locationList
     public ArrayList<String> locationList();
 
@@ -23,6 +28,8 @@ public interface UserService {
 
     // 로그아웃 : signOut
     public boolean signOut();
+
+    User getUserByUserId(String userId);
 
     // 회원정보 받아오기 : getMyInfo
     

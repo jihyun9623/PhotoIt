@@ -1,20 +1,22 @@
 package com.ssafy.api.service;
 
-import com.ssafy.db.entity.Location;
 import com.ssafy.db.entity.Photo;
-import com.ssafy.db.entity.Tag;
 import com.ssafy.db.entity.User;
+import org.springframework.stereotype.Service;
 
-import javax.swing.*;
+import java.io.File;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+@Service
 public interface MainPageService {
 
-    List<Location> locationList();
+    String[] locationList();
 
-    List<Tag> tagList();
+    String[] tagList();
 
-    User getUser(String JWT);
+    User getUser(String JWT, String id);
 
-    List<Photo> getMainContents();
+    Map<String, Map<String, String>> getMainContents();
 }

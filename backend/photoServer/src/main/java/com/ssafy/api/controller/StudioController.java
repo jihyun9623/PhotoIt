@@ -72,7 +72,7 @@ public class StudioController {
         String JWT = editcal.getJWT();
         Date[] cal_time = editcal.getCal_time();
 
-        /* 닉네임 조회 후, 마이스튜디오 idx 받아온 후 best사진 받아옴 */
+        /* 닉네임 조회 후, 마이스튜디오 idx 받아온 후 일정 리스트 받아옴 */
         String dbsearch = "";
 
         if(true) {

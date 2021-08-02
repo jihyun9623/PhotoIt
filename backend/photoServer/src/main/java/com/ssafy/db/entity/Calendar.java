@@ -1,6 +1,8 @@
 package com.ssafy.db.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,16 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@NoArgsConstructor
+@Getter
 public class Calendar {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "calendar_id")
+    @Column(name = "calendar_idx")
     private int idx;
 
     @NotNull
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL)
-    private List<MyStudio> myStudios = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "studio_idx")
+    private MyStudio myStudio;
+
+    @Builder
+    public Calendar(int idx, LocalDateTime date, MyStudio myStudio) {
+        this.idx = idx;
+        this.date = date;
+        this.myStudio = myStudio;
+    }
 }

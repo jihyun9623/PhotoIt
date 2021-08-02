@@ -60,12 +60,6 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .description("사진작가-모델 매칭 플랫폼 개발 api")
                 .build();
 
-//            return new ApiInfoBuilder().title(title)
-//                .description("<h3>SSAFY API Reference for Developers</h3>PHOTO-IT Swagger API<br>")
-//                .contact(new Contact("SSAFY", "https://edu.ssafy.com", "ssafy@ssafy.com"))
-//                .license("SSAFY License")
-//                .licenseUrl("https://www.ssafy.com/ksp/jsp/swp/etc/swpPrivacy.jsp")
-//                .version("1.0").build();
     }
 
     private ApiKey apiKey() {

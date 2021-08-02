@@ -12,13 +12,13 @@ import java.util.Map;
 @Getter @Setter
 @ApiModel("MainPageTagPhotoResponse")
 public class MainPageTagPhotoRes extends BaseResponseBody {
-    @ApiModelProperty(name = "사진 목록", notes = "태그별 사진파일과 그 사진의 작가의 닉네임")
-    Map<String, Map<String, File>[]> tagPhotoList;
+    @ApiModelProperty(name = "사진 목록", notes = "태그(파일, 사진작가)")
+    Map<String, Map<String, String>> tagPhotoList;
 
     @ApiModelProperty(name = "태그 목록", example = "웨딩, 야외")
     String[] tagList;
 
-    public static MainPageTagPhotoRes of(Integer statusCode, String message, Map<String, Map<String, File>[]> tagPhotoList, String[] tagList) {
+    public static MainPageTagPhotoRes of(Integer statusCode, String message, Map<String, Map<String, String>> tagPhotoList, String[] tagList) {
         MainPageTagPhotoRes body = new MainPageTagPhotoRes();
         body.setStatusCode(statusCode);
         body.setMessage(message);

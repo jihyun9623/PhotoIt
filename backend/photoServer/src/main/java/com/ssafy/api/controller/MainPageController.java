@@ -5,8 +5,14 @@ import com.ssafy.api.response.MainPageLocationRes;
 import com.ssafy.api.response.MainPageProfileRes;
 import com.ssafy.api.response.MainPageTagPhotoRes;
 import com.ssafy.api.service.MainPageService;
+import com.ssafy.api.service.MainPageServiceImpl;
+import com.ssafy.api.service.UserServiceImpl;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.User;
+import com.ssafy.db.repository.LocationRepository;
+import com.ssafy.db.repository.TagRepository;
 import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +29,12 @@ import java.util.TreeMap;
 
 @Api(value = "메인 페이지 api", tags = {"MainPage"})
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/")
 public class MainPageController {
     public static final Logger logger = LoggerFactory.getLogger(MainPageController.class);
+
+    private final MainPageService mainPageService;
 
     @GetMapping("/location")
     @ApiOperation(value = "지역 불러오기", notes = "저장된 지역들을 불러온다.")
@@ -36,7 +45,7 @@ public class MainPageController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     public ResponseEntity<MainPageLocationRes> locationList () {
-        String[] locationList = new String[2];
+        String[] locationList = mainPageService.locationList();
         return ResponseEntity.ok(MainPageLocationRes.of(200,"Success", locationList));
 
     }
@@ -50,7 +59,7 @@ public class MainPageController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     public ResponseEntity<MainPageTagPhotoRes> tagList() {
-        String[] tagList = new String[2];
+        String[] tagList = mainPageService.tagList();
         return ResponseEntity.ok(MainPageTagPhotoRes.of(200,"Success", tagList));
     }
 
@@ -63,8 +72,9 @@ public class MainPageController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     public ResponseEntity<MainPageTagPhotoRes> mainPageContents() {
-        String[] tagList = new String[2];
-        Map<String, Map<String, File>[]> tagPhotoList = new TreeMap<>();
+        String[] tagList = mainPageService.tagList();
+        Map<String, Map<String, String>> tagPhotoList = mainPageService.getMainContents();
+
         return ResponseEntity.ok(MainPageTagPhotoRes.of(200,"Success", tagPhotoList, tagList));
     }
 
@@ -77,9 +87,8 @@ public class MainPageController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     public ResponseEntity<MainPageProfileRes> userProfile(@RequestBody @ApiParam(value="JWT, user Id", required = true) MainPageReq mainReq) {
-        String jwt = mainReq.getJWT();
-        String nickName = "";
-        File profile = null;
+        String nickName = mainPageService.getUser(mainReq.getJWT(), mainReq.getId()).getNickname();
+        String profile = mainPageService.getUser(mainReq.getJWT(), mainReq.getId()).getPhoto();
         return ResponseEntity.ok(MainPageProfileRes.of(200,"Success", profile, nickName));
     }
 

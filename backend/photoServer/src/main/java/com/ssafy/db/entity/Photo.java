@@ -1,15 +1,19 @@
 package com.ssafy.db.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@NoArgsConstructor
+@Getter
 public class Photo {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +24,12 @@ public class Photo {
     @JoinColumn(name = "studio_idx")
     private MyStudio myStudio;
 
-    private int viewcnt;
+    private int viewCnt;
 
+    @NotNull
     private String origin;      //원본사진 UUID
 
+    @NotNull
     private String thumbnail;   //썸네일 UUID
 
     @Column(columnDefinition = "boolean default false")   //기본값 false
@@ -33,5 +39,15 @@ public class Photo {
     private LocalDateTime upload;
 
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
-    private List<PhotoTag> photoTags;
+    private List<PhotoTag> photoTags = new ArrayList<>();
+
+    @Builder
+    public Photo(int idx, int viewCnt, String origin, String thumbnail, boolean best, LocalDateTime upload) {
+        this.idx = idx;
+        this.viewCnt = viewCnt;
+        this.origin = origin;
+        this.thumbnail = thumbnail;
+        this.best = best;
+        this.upload = upload;
+    }
 }

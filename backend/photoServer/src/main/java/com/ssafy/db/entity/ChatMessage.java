@@ -1,6 +1,8 @@
 package com.ssafy.db.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,7 +10,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@NoArgsConstructor
+@Getter
 public class ChatMessage {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +33,14 @@ public class ChatMessage {
     @NotNull
     @Column(columnDefinition = "boolean default false")
     private Boolean isRead;
+
+    @Builder
+    public ChatMessage(Long msgId, ChatManage chatManage, String sender, String content, LocalDateTime date, Boolean isRead) {
+        this.msgId = msgId;
+        this.chatManage = chatManage;
+        this.sender = sender;
+        this.content = content;
+        this.date = date;
+        this.isRead = isRead;
+    }
 }

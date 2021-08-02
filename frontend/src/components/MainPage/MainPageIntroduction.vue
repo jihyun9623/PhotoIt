@@ -23,6 +23,7 @@
             </p>
             <p>만나보세요</p>
           </span>
+          <SearchBar class="search-bar" />
         </div>
       </div>
     </section>
@@ -31,8 +32,11 @@
 </template>
 
 <script>
+import SearchBar from '@/components/Common/SearchBar'
+
 export default {
   name: 'MainPageIntroduction',
+  components: { SearchBar },
   data() {
     return {
       baseBgTop: 0,
@@ -49,6 +53,7 @@ export default {
         '.background-img-photographer',
       )
       const bgImgCustomer = document.querySelector('.background-img-customer')
+      const searchBar = document.querySelector('.search-bar')
 
       const { top: bgTop, height: bgHeight } = bgSection.getBoundingClientRect()
       const { clientHeight } = document.documentElement
@@ -66,6 +71,7 @@ export default {
           textPg.style.opacity = 1 - scrollY / 1000
           textCt.style.opacity = '0'
           textClosing.style.opacity = '0'
+          searchBar.style.opacity = '0'
         } else if (
           contentQuarter < parseInt(scrollY) &&
           parseInt(scrollY) <= contentQuarter * 2
@@ -76,6 +82,7 @@ export default {
           textPg.style.opacity = '0'
           textCt.style.opacity = 1 - (scrollY - this.baseScrollY) / 1000
           textClosing.style.opacity = '0'
+          searchBar.style.opacity = '0'
         } else if (
           contentQuarter < parseInt(scrollY) * 2 &&
           parseInt(scrollY) <= contentQuarter * 3
@@ -84,6 +91,7 @@ export default {
           textPg.style.opacity = '0'
           textCt.style.opacity = '0'
           textClosing.style.opacity = '1'
+          searchBar.style.opacity = '1'
         }
       }
       if (bgTop >= 0) {

@@ -162,8 +162,7 @@ export default {
   transition: opacity 3s;
 }
 .empty-box {
-  width: 100%;
-  height: 200px;
+  height: 15vh;
 }
 .text-pg {
   position: absolute;

@@ -8,7 +8,7 @@
 
 <script>
 import SearchBar from '@/components/Common/SearchBar'
-// import { mapState } from 'vuex'
+
 export default {
   name: 'MainPageHeader',
   components: {

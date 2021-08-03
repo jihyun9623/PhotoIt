@@ -104,7 +104,7 @@ public class MainPageServiceImpl implements MainPageService{
             for(Photo p : photos) {
                 for(PhotoTag pt : p.getPhotoTags()) {
                     if(pt.getTag().getName() == tempTag) {
-                        tempMap.put(p.getMyStudio().getNickname(), p.getOrigin());
+                        tempMap.put(p.getOrigin(), p.getMyStudio().getNickname());
                     }
                 }
             }

@@ -5,26 +5,18 @@ import com.ssafy.api.response.MainPageLocationRes;
 import com.ssafy.api.response.MainPageProfileRes;
 import com.ssafy.api.response.MainPageTagPhotoRes;
 import com.ssafy.api.service.MainPageService;
-import com.ssafy.api.service.MainPageServiceImpl;
-import com.ssafy.api.service.UserServiceImpl;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.LocationRepository;
-import com.ssafy.db.repository.TagRepository;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.util.Map;
-import java.util.TreeMap;
 
 
 @Api(value = "메인 페이지 api", tags = {"MainPage"})
@@ -64,7 +56,7 @@ public class MainPageController {
     }
 
     @GetMapping("/contents")
-    @ApiOperation(value = "메인콘텐츠 가져오기", notes = "사진 태그별 사진, 사진작가 닉네임들을 가져온다.")
+    @ApiOperation(value = "메인콘텐츠 가져오기", notes = "사진태그 ,(썸네일, 닉네임)")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success", response = MainPageTagPhotoRes.class),
             @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),

@@ -20,19 +20,22 @@ public class SearchController {
     public static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
     @GetMapping("/tag/{tag}/{location}")
-    @ApiOperation(value = "해당 지역,태그 사진 가져오기", notes = "해당 지역의 해당 태그의 사진들을 가져온다. 지역이 없으면 전지역")
+    @ApiOperation(value = "해당 지역,태그 사진 가져오기", notes = "해당 지역의 사진ID, [썸네일, 닉네임]. 지역이 없으면 전지역(all)")
     public ResponseEntity<SearchTagLocationRes> searchTagLocation(@RequestBody @PathVariable("tag") String tag,
                                                                   @PathVariable("location") String location, SearchPageReq searchReq) {
 
-        Map<String, String> photoList = new TreeMap<>();
+        Map<Integer, String[]> photoList = new TreeMap<>();        //사진ID, [사진, 닉네임]
+
         return ResponseEntity.ok(SearchTagLocationRes.of(200,"Success", photoList, tag));
     }
 
     @GetMapping("/pg/{nickname}/{location}")
-    @ApiOperation(value = "해당 지역, 작가 검색", notes = "해당 지역의 해당 태그의 사진들을 가져온다. 지역이 없으면 전지역")
+    @ApiOperation(value = "해당 지역, 작가 검색", notes = "해당 지역의 해당 닉네임을 포함하는 작가들의 프로필 사진을 가져온다. " +
+                                                "지역이 없으면 전지역(all)")
     public ResponseEntity<SearchPgLocationRes> searchPg(@RequestBody @PathVariable("pg") String pg,
-                                                        @PathVariable("location") String location, SearchPageReq searchReq) {
-        Map<String, String> profileList = new TreeMap<>();
+                                                        @PathVariable("nickname") String nickname,
+                                                        @PathVariable("location") String location,  SearchPageReq searchReq) {
+        Map<String, String> profileList = new TreeMap<>();      //프로필사진, 닉네임
         return ResponseEntity.ok(SearchPgLocationRes.of(200,"Success", profileList));
     }
 
@@ -41,7 +44,7 @@ public class SearchController {
     public ResponseEntity<SearchMyStudioTagRes> searchMyStudioTag(@RequestBody @PathVariable("idx") int id,
                                                                   @PathVariable("tag") String tag, SearchPageReq searchReq) {
 
-        Map<String, Integer> photoList = new TreeMap<>();
+        Map<String, Integer> photoList = new TreeMap<>();       //원본사진, 사진ID
         return ResponseEntity.ok(SearchMyStudioTagRes.of(200,"Success", photoList));
     }
 

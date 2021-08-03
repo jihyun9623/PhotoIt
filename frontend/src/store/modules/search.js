@@ -12,7 +12,7 @@ const actions = {
   tagSearch({ commit, rootState }, info) {
     axios({
       method: 'post',
-      url: `http:어쩌고/search/tag/${info.keyword}/${info.region}`,
+      url: `http://localhost:8080/search/tag/${info.keyword}/${info.region}`,
       headers: rootState.login.TOKEN,
       data: JSON.stringify(info),
     })
@@ -30,7 +30,7 @@ const actions = {
   photographerSearch({ commit, rootState }, info) {
     axios({
       method: 'post',
-      url: `http:어쩌고/search/pg/${info.keyword}/${info.region}`,
+      url: `http://localhost:8080/search/pg/${info.keyword}/${info.region}`,
       headers: rootState.login.TOKEN,
       data: JSON.stringify(info),
     })

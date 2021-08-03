@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("BaseResponseBody")
+@ApiModel("StudioGetPhotosResBody")
 public class StudioGetPhotosResBody extends BaseResponseBody {
     @ApiModelProperty(name = "best3/전체 사진 리스트", example = "사진 id 리스트")
     String[] Photos;

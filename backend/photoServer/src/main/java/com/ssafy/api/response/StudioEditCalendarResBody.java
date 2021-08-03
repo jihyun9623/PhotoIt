@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("BaseResponseBody")
+@ApiModel("StudioEditCalendarResBody")
 public class StudioEditCalendarResBody extends BaseResponseBody {
     @ApiModelProperty(name="일정 추가/삭제 리스트", example = "210801")
     String[] schedule;

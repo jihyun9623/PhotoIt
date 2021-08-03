@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("BaseResponseBody")
+@ApiModel("StudioPgProfileResBody")
 public class StudioPgProfileResBody extends BaseResponseBody{
     @ApiModelProperty(name="한줄 프로필", example = "안녕하세요 저는")
     String introduce;

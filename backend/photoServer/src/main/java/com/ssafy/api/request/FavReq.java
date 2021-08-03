@@ -7,8 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("StudioPgProfileReq")
-public class StudioPgProfileReq {
-    @ApiModelProperty(name = "pg_nickname", example = "GodHanQ")
+@ApiModel("FavReq")
+public class FavReq {
+    @ApiModelProperty(name = "nickname", example = "GodHanQ")
     String nickname;
 }

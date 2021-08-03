@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -20,7 +21,7 @@ public class Usercontroller {
     @Autowired
     UserService userService;
     @PostMapping()
-    @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
+    @ApiOperation(value = "회원 가입", notes = "회원가입 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
@@ -29,8 +30,11 @@ public class Usercontroller {
     })
     @GetMapping("/register")
     public BaseResponseBody signUp(@RequestBody @ApiParam(value = "회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
-        BaseResponseBody res;
-        return null;
+        userService.signUp(registerInfo);
+        BaseResponseBody res=new BaseResponseBody();
+        res.setMessage("Success");
+        res.setStatusCode(200);
+        return res;
     }
 
 

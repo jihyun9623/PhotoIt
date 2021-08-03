@@ -52,6 +52,13 @@ public class MyStudio {
         this.calendars = calendars;
         this.favorites = favorites;
         this.authorLocations = authorLocations;
+    }
 
+    @Builder
+    public MyStudio(String profile, String nickname, User user, List<AuthorLocation> authorLocations) {
+        this.profile = profile;
+        this.nickname = nickname;
+        this.user = user;
+        this.authorLocations = authorLocations;
     }
 }

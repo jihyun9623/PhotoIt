@@ -27,4 +27,9 @@ public class Location {
         this.authorLocations = authorLocations;
     }
 
+    @Builder
+    public Location(String name) {
+        this.name = name;
+    }
+
 }

@@ -4,35 +4,83 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.response.StudioEditPgProfileResponseBody;
 import com.ssafy.api.response.StudioEditPhotoResponseBody;
-import com.ssafy.db.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public interface StudioEditService {
 
+    /**
+     * @param JWT
+     * @param nickname
+     * @return
+     * true : same user
+     * false : not same user
+     */
     boolean studioAuth(String JWT, String nickname);
 
+    /**
+     * @param JWT
+     * @return
+     * null : 작가가 아니거나 지역을 선택하지않아 지역이 없음
+     */
     StudioEditPgProfileResponseBody getPgProfile(String JWT);
 
+    /**
+     * @param JWT
+     * @return
+     * null : 등록된 베스트 사진없음
+     */
     StudioEditPhotoResponseBody getBestPhoto(String JWT);
 
-    Map<String, MultipartFile> getPgPhoto(String JWT);
+    /**
+     * @param JWT
+     * @return
+     * null : 등록된 사진없음
+     */
+    StudioEditPhotoResponseBody getPgPhoto(String JWT);
 
-    boolean addBestPhoto(String JWT, int photo_id);
+    /**
+     * @param JWT
+     * @param add_id
+     * @return
+     * False : 베스트 사진 적용 실패
+     */
+    boolean addBestPhoto(String JWT, int add_id);
 
-    boolean updateBestPhoto(String JWT, int photo_id);
+    /**
+     * @param JWT
+     * @param add_id
+     * @param del_id
+     * @return
+     * False : 베스트 사진 수정 실패
+     */
+    boolean updateBestPhoto(String JWT, int add_id, int del_id);
 
-    boolean delBestPhoto(String JWT, int photo_id);
+    /**
+     * @param JWT
+     * @param del_id
+     * @return
+     * False : 베스트 사진 삭제 실패
+     */
+    boolean delBestPhoto(String JWT, int del_id);
 
-    boolean addPgPhoto(String JWT, List<MultipartFile> files);
+    /**
+     * @param JWT
+     * @param files
+     * @param tags
+     * @return
+     * False : 업로드 실패
+     */
+    boolean addPgPhoto(String JWT, List<MultipartFile> files, String[][] tags);
 
-    boolean delPgPhoto(String JWT, int photo_id);
-
-    String utilCheckUserId(String JWT);
+    /**
+     * @param JWT
+     * @param del_id
+     * @return
+     * False : 삭제 실패
+     */
+    boolean delPgPhoto(String JWT, int del_id);
 }

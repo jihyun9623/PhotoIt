@@ -9,12 +9,12 @@ import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class StudioEditServiceImpl implements StudioEditService {
@@ -23,27 +23,28 @@ public class StudioEditServiceImpl implements StudioEditService {
     UserRepository userRepository;
 
     @Autowired
+    LocationRepository locationRepository;
+
+    @Autowired
     MyStudioRepository myStudioRepository;
 
     @Autowired
     PhotoRepository photoRepository;
 
     @Autowired
-    LocationRepository locationRepository;
+    PhotoTagRepository photoTagRepository;
+
+    @Autowired
+    TagRepository tagRepository;
 
     // 닉네임과 현재 접속자를 비교하여 Edit접근여부 판단
-    /**
-     * @return
-     * true : same user
-     * false : not same user
-     */
     @Override
     public boolean studioAuth(String JWT, String nickname) {
         // JWT -> user_id
-        String jwt_id = utilCheckUserId(JWT);
+        String user_id = utilCheckUserId(JWT);
 
         // user_id -> nickname, compare
-        User user = userRepository.findUserById(jwt_id).orElse(null);
+        User user = userRepository.findUserById(user_id).orElse(null);
 
         // same -> true, diff -> false
         if(user != null && user.getNickname().equals(nickname)) return true;
@@ -51,17 +52,11 @@ public class StudioEditServiceImpl implements StudioEditService {
     }
 
     // 작가의 프로필을 받아옴 (한줄소개, 지역)
-    /**
-     * @param JWT
-     * @return
-     * null : 작가가 아니거나 지역을 선택하지않아 지역이 없음
-     * map<String, List<String>> : keys = location,introduce
-     */
     @Override
     public StudioEditPgProfileResponseBody getPgProfile(String JWT){
         // JWT -> user_id -> MyStudio
-        String jwt_id = utilCheckUserId(JWT);
-        MyStudio myStudio = myStudioRepository.findByUser_Id(jwt_id);
+        String user_id = utilCheckUserId(JWT);
+        MyStudio myStudio = myStudioRepository.findByUser_Id(user_id);
 
         // 작가 스튜디오 조회 실패
         if(myStudio == null) return null;
@@ -87,66 +82,168 @@ public class StudioEditServiceImpl implements StudioEditService {
     @Override
     public StudioEditPhotoResponseBody getBestPhoto(String JWT) {
         // JWT -> user_id -> MyStudio -> List<Photo>
-        String jwt_id = utilCheckUserId(JWT);
-        List<Photo> photos = photoRepository.findByMyStudio_User_Id(jwt_id);
+        String user_id = utilCheckUserId(JWT);
+        List<Photo> photos = photoRepository.findByMyStudio_User_IdAndBestIsTrue(user_id);
 
         // Best 사진으로 등록한 사진이 없음
         if(photos.size() == 0) return null;
 
         // 사진ID, 사진파일 Mapping
-        Map<String, List<String>> map = new HashMap<>();
+        List<String> strings = new ArrayList<>();
+        List<MultipartFile> files = new ArrayList<>();
 
-        List<String> locations = new ArrayList<>();
-        for (AuthorLocation x : authorLocation) { locations.add(x.getLocation().getName()); }
-        List<String> introduce = new ArrayList<>();
-        introduce.add(myStudio.getProfile());
+        for(Photo p : photos) {
+            strings.add(Integer.toString(p.getIdx()));
+            // TO-DO 파일 불러오기
+            // File <- p.getOrigin()
+            // MultipartFile multipartFile = null;
+            // files.add(multipartFile);
+        }
 
-        map.put("location", locations);
-        map.put("introduce", introduce);
+        StudioEditPhotoResponseBody responseBody = new StudioEditPhotoResponseBody();
+        responseBody.setFiles(files);
+        responseBody.setId(strings);
 
-        return null;
+        return responseBody;
     }
 
+    // 작가의 전체 사진들을 받아오기 (사진ID, 파일)
     @Override
-    public Map<String, MultipartFile> getPgPhoto(String JWT) {
-        return null;
+    public StudioEditPhotoResponseBody getPgPhoto(String JWT) {
+        // JWT -> user_id -> MyStudio -> List<Photo>
+        String user_id = utilCheckUserId(JWT);
+        List<Photo> photos = photoRepository.findByMyStudio_User_Id(user_id);
+
+        // 등록한 사진이 없음
+        if(photos.size() == 0) return null;
+
+        // 사진ID, 사진파일 Mapping
+        List<String> strings = new ArrayList<>();
+        List<MultipartFile> files = new ArrayList<>();
+
+        for(Photo p : photos) {
+            strings.add(Integer.toString(p.getIdx()));
+            // TO-DO 파일 불러오기 (섬네일파일로 불러오기)
+            // File <- p.getOrigin()
+            // MultipartFile multipartFile = null;
+            // files.add(multipartFile);
+        }
+
+        StudioEditPhotoResponseBody responseBody = new StudioEditPhotoResponseBody();
+        responseBody.setFiles(files);
+        responseBody.setId(strings);
+
+        return responseBody;
     }
 
+    // 작가 베스트 사진 추가
     @Override
-    public boolean addBestPhoto(String JWT, int photo_id) {
+    public boolean addBestPhoto(String JWT, int add_id) {
+        // JWT -> user_id -> MyStudio -> Photo -> best
+        String user_id = utilCheckUserId(JWT);
+        MyStudio myStudio = myStudioRepository.findByUser_Id(user_id);
+
+        // 베스트 사진이 2개 이하일때 추가 가능
+        if(photoRepository.countByMyStudio_IdxAndBestIsTrue(myStudio.getIdx()) <= 2) {
+            return photoRepository.updateBestPhoto(add_id, true);
+        }
+        else return false;
+
+    }
+
+    // 작가 베스트 사진 수정
+    @Override
+    public boolean updateBestPhoto(String JWT, int add_id, int del_id) {
+        // JWT -> user_id -> MyStudio -> Photo -> best
+        String user_id = utilCheckUserId(JWT);
+
+        // 본인의 사진인지 별도 확인 필요
+        if(!myPhotoCheck(del_id)) return false;
+
+        if(photoRepository.updateBestPhoto(del_id, false)) {
+            return photoRepository.updateBestPhoto(add_id, true);
+        }
         return false;
     }
 
+    // 작가 베스트 사진 삭제
     @Override
-    public boolean updateBestPhoto(String JWT, int photo_id) {
-        return false;
+    public boolean delBestPhoto(String JWT, int del_id) {
+        // JWT -> user_id -> MyStudio -> Photo -> best
+        String user_id = utilCheckUserId(JWT);
+
+        // 본인의 사진인지 별도 확인 필요
+        if(!myPhotoCheck(del_id)) return false;
+
+        return photoRepository.updateBestPhoto(del_id, false);
     }
 
+    // 작가 사진 업로드
     @Override
-    public boolean delBestPhoto(String JWT, int photo_id) {
-        return false;
+    @Transactional
+    public boolean addPgPhoto(String JWT, List<MultipartFile> files, String[][] tags) {
+        // JWT -> user_id -> MyStudio -> Photo
+        String user_id = utilCheckUserId(JWT);
+        MyStudio myStudio = myStudioRepository.findByUser_Id(user_id);
+        List<String> UplodedFilesUUID = new ArrayList<>();
+
+        for(int i = 0; i < files.size(); i++) {
+            MultipartFile file = files.get(i);
+            String[] tag = tags[i];
+
+            // TO-DO : File 업로드 하기
+            // File 업로드 중 에러 발생시 롤백필요, UplodedFilesUUID를통해 사진 삭제, False 리턴
+
+            // DB insert & File save
+            String uuid;
+            while(true){
+                uuid = java.util.UUID.randomUUID().toString();
+                // 랜덤생성 UUID가 겹치는 것이 있는지 확인
+                if(!photoRepository.existsByOrigin(uuid)) break;
+            }
+
+            Photo photo = new Photo(0, myStudio, 0, uuid,  uuid, false, LocalDateTime.now());
+
+            photoRepository.save(photo);
+
+            // PhotoTag Table에 사진태그 추가
+            for(int j = 0; j < tag.length; j++) {
+                // 실존 태그인지 체크
+                if(tagRepository.findByName(tag[j]) != null) {
+                    PhotoTag photoTag = new PhotoTag(0, photo, tagRepository.findByName(tag[j]));
+                    photoTagRepository.save(photoTag);
+                }
+            }
+        }
+        return true;
     }
 
+    // 작가 사진 삭제
     @Override
-    public boolean addPgPhoto(String JWT, List<MultipartFile> files) {
-        return false;
+    public boolean delPgPhoto(String JWT, int del_id) {
+        // JWT -> user_id -> MyStudio -> Photo
+        String user_id = utilCheckUserId(JWT);
+
+        // 본인의 사진인지 별도 확인 필요
+        if(!myPhotoCheck(del_id)) return false;
+
+        return photoRepository.deleteByIdx(del_id) > 0 ? true : false;
     }
 
-    @Override
-    public boolean delPgPhoto(String JWT, int photo_id) {
-        return false;
-    }
-
-    /**
-     * @param JWT
-     * @return
-     * 0 : NotUser(or Expired Token)
-     * 1 : User(Normal)
-     * 2 : User(PhotoGrapher)
-     */
-    @Override
-    public String utilCheckUserId(String JWT) {
+    // JWT -> user_id
+    private String utilCheckUserId(String JWT) {
         // TO-DO : JWT를 보고 id를 리턴하는 함수 구현 필요
         return "user_id";
+    }
+
+    // 본인사진인지 체크
+    private boolean myPhotoCheck (int id) {
+        Photo temp = photoRepository.findByIdx(id);
+        if(temp != null) {
+            if(!temp.getMyStudio().getUser().getId().equals(id))
+                return false;
+        }
+        else return false;
+        return true;
     }
 }

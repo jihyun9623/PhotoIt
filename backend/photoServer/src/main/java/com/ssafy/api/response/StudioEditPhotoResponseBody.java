@@ -19,11 +19,11 @@ import java.util.List;
 @ApiModel("BaseResponseBody")
 public class StudioEditPhotoResponseBody extends BaseResponseBody {
 	@ApiModelProperty(name="사진 ID 배열", example = "123512")
-	String[] id;
+	List<String> id;
 	@ApiModelProperty(name="사진 파일", example = "multipart 형")
 	List<MultipartFile> files;
 	
-	public static StudioEditPhotoResponseBody of(Integer statusCode, String message, String[] id, List<MultipartFile> files) {
+	public static StudioEditPhotoResponseBody of(Integer statusCode, String message, List<String> id, List<MultipartFile> files) {
 		StudioEditPhotoResponseBody body = new StudioEditPhotoResponseBody();
 		body.setStatusCode(statusCode);
 		body.setMessage(message);

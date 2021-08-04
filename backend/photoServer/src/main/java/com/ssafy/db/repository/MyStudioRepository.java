@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface MyStudioRepository extends JpaRepository<MyStudio, Integer> {
     List<MyStudio> findByNicknameContaining(String nickName);
+    Optional<MyStudio> findByNickname(String nickName);
 }

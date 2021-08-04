@@ -1,14 +1,18 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.response.PhotoIdPhotoRes;
+import com.ssafy.api.response.PhotoIdThumbNickNameRes;
+import com.ssafy.api.response.ProfileNickNameRes;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
 public interface SearchService {
-    Map<Integer, String[]> photoList(String tag, String location);
+    List<PhotoIdThumbNickNameRes> photoList(String tag, String location);
 
-    Map<String, String> profileList(String nickname, String location);
+    List<ProfileNickNameRes> profileList(String nickname, String location);
 
-    Map<String, Integer> myStudioPhotoList(String tag, Integer id);
+    List<PhotoIdPhotoRes> myStudioPhotoList(String tag, Integer id);
 }

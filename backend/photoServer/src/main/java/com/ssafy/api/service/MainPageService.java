@@ -1,5 +1,8 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.response.TagThumbNickNameRes;
+import com.ssafy.api.response.ThumbPhotoIdRes;
+import com.ssafy.api.response.UserProfile;
 import com.ssafy.db.entity.Photo;
 import com.ssafy.db.entity.User;
 import org.springframework.stereotype.Service;
@@ -16,7 +19,15 @@ public interface MainPageService {
 
     String[] tagList();
 
-    User getUser(String JWT, String id);
+    UserProfile userProfile(String JWT, String id);
 
-    Map<String, Map<String, String>> getMainContents();
+    List<TagThumbNickNameRes> getMainContents();
+
+    String[] photoTagList(String thumbnail);
+
+    String photoOrigin(String thumbnail);
+
+    boolean isFavorite(String nickName, String userId);
+
+    List<ThumbPhotoIdRes> thumbPhotoIds(String nickName, String thumbnail);
 }

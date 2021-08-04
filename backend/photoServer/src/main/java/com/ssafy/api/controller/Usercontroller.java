@@ -2,7 +2,7 @@ package com.ssafy.api.controller;
 
 
 import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.api.service.UserService;
+//import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class Usercontroller {
     private static final Logger logger = LoggerFactory.getLogger(Usercontroller.class);
 
-    @Autowired
-    UserService userService;
+//    @Autowired
+//    UserService userService;
     @PostMapping()
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
     @ApiResponses({

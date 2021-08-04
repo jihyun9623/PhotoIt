@@ -23,8 +23,4 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 
     long countByMyStudio_IdxAndBestIsTrue(int idx);
 
-    @Modifying
-    @Query("update Photo set Photo.best = :best where idx = :id")
-    Boolean updateBestPhoto(int id, boolean best);
-
 }

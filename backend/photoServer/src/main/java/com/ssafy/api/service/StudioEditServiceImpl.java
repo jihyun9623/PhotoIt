@@ -7,7 +7,6 @@ import com.ssafy.api.response.StudioEditPgProfileResponseBody;
 import com.ssafy.api.response.StudioEditPhotoResponseBody;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,23 +18,21 @@ import java.util.List;
 @Service
 public class StudioEditServiceImpl implements StudioEditService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final LocationRepository locationRepository;
+    private final MyStudioRepository myStudioRepository;
+    private final PhotoRepository photoRepository;
+    private final PhotoTagRepository photoTagRepository;
+    private final TagRepository tagRepository;
 
-    @Autowired
-    LocationRepository locationRepository;
-
-    @Autowired
-    MyStudioRepository myStudioRepository;
-
-    @Autowired
-    PhotoRepository photoRepository;
-
-    @Autowired
-    PhotoTagRepository photoTagRepository;
-
-    @Autowired
-    TagRepository tagRepository;
+    public StudioEditServiceImpl(UserRepository userRepository, LocationRepository locationRepository, MyStudioRepository myStudioRepository, PhotoRepository photoRepository, PhotoTagRepository photoTagRepository, TagRepository tagRepository) {
+        this.userRepository = userRepository;
+        this.locationRepository = locationRepository;
+        this.myStudioRepository = myStudioRepository;
+        this.photoRepository = photoRepository;
+        this.photoTagRepository = photoTagRepository;
+        this.tagRepository = tagRepository;
+    }
 
     // 닉네임과 현재 접속자를 비교하여 Edit접근여부 판단
     @Override
@@ -47,8 +44,7 @@ public class StudioEditServiceImpl implements StudioEditService {
         User user = userRepository.findUserById(user_id).orElse(null);
 
         // same -> true, diff -> false
-        if(user != null && user.getNickname().equals(nickname)) return true;
-        else return false;
+        return user != null && user.getNickname().equals(nickname);
     }
 
     // 작가의 프로필을 받아옴 (한줄소개, 지역)
@@ -145,9 +141,13 @@ public class StudioEditServiceImpl implements StudioEditService {
 
         // 베스트 사진이 2개 이하일때 추가 가능
         if(photoRepository.countByMyStudio_IdxAndBestIsTrue(myStudio.getIdx()) <= 2) {
-            return photoRepository.updateBestPhoto(add_id, true);
+            Photo photo_before = photoRepository.findByIdx(add_id);
+            if(photo_before == null) return false;
+            Photo photo_after = new Photo(add_id, photo_before.getMyStudio(), photo_before.getViewCnt(), photo_before.getOrigin(), photo_before.getThumbnail(), true, photo_before.getUpload());
+
+            photoRepository.save(photo_after);
         }
-        else return false;
+        return true;
 
     }
 
@@ -158,12 +158,21 @@ public class StudioEditServiceImpl implements StudioEditService {
         String user_id = utilCheckUserId(JWT);
 
         // 본인의 사진인지 별도 확인 필요
-        if(!myPhotoCheck(del_id)) return false;
+        if(!myPhotoCheck(del_id, user_id)) return false;
 
-        if(photoRepository.updateBestPhoto(del_id, false)) {
-            return photoRepository.updateBestPhoto(add_id, true);
-        }
-        return false;
+        Photo photo_before = photoRepository.findByIdx(del_id);
+        if(photo_before == null) return false;
+        Photo photo_after = new Photo(del_id, photo_before.getMyStudio(), photo_before.getViewCnt(), photo_before.getOrigin(), photo_before.getThumbnail(), false, photo_before.getUpload());
+
+        photoRepository.save(photo_after);
+
+        photo_before = photoRepository.findByIdx(add_id);
+        if(photo_before == null) return false;
+        photo_after = new Photo(add_id, photo_before.getMyStudio(), photo_before.getViewCnt(), photo_before.getOrigin(), photo_before.getThumbnail(), true, photo_before.getUpload());
+
+        photoRepository.save(photo_after);
+
+        return true;
     }
 
     // 작가 베스트 사진 삭제
@@ -173,9 +182,15 @@ public class StudioEditServiceImpl implements StudioEditService {
         String user_id = utilCheckUserId(JWT);
 
         // 본인의 사진인지 별도 확인 필요
-        if(!myPhotoCheck(del_id)) return false;
+        if(!myPhotoCheck(del_id, user_id)) return false;
 
-        return photoRepository.updateBestPhoto(del_id, false);
+        Photo photo_before = photoRepository.findByIdx(del_id);
+        if(photo_before == null) return false;
+        Photo photo_after = new Photo(del_id, photo_before.getMyStudio(), photo_before.getViewCnt(), photo_before.getOrigin(), photo_before.getThumbnail(), false, photo_before.getUpload());
+
+        photoRepository.save(photo_after);
+
+        return true;
     }
 
     // 작가 사진 업로드
@@ -196,11 +211,10 @@ public class StudioEditServiceImpl implements StudioEditService {
 
             // DB insert & File save
             String uuid;
-            while(true){
+            do {
                 uuid = java.util.UUID.randomUUID().toString();
                 // 랜덤생성 UUID가 겹치는 것이 있는지 확인
-                if(!photoRepository.existsByOrigin(uuid)) break;
-            }
+            } while (photoRepository.existsByOrigin(uuid));
 
             Photo photo = new Photo(0, myStudio, 0, uuid,  uuid, false, LocalDateTime.now());
 
@@ -225,9 +239,9 @@ public class StudioEditServiceImpl implements StudioEditService {
         String user_id = utilCheckUserId(JWT);
 
         // 본인의 사진인지 별도 확인 필요
-        if(!myPhotoCheck(del_id)) return false;
+        if(!myPhotoCheck(del_id, user_id)) return false;
 
-        return photoRepository.deleteByIdx(del_id) > 0 ? true : false;
+        return photoRepository.deleteByIdx(del_id) > 0;
     }
 
     // JWT -> user_id
@@ -237,14 +251,11 @@ public class StudioEditServiceImpl implements StudioEditService {
     }
 
     // 본인사진인지 체크
-    private boolean myPhotoCheck (int id) {
-        Photo temp = photoRepository.findByIdx(id);
-        if(temp != null) {
-            if(!temp.getMyStudio().getUser().getId().equals(id))
-                return false;
-        }
-        else return false;
-        return true;
+    private boolean myPhotoCheck (int photo_id, String user_id) {
+        Photo temp = photoRepository.findByIdx(photo_id);
+        if(temp == null) return false;
+
+        return temp.getMyStudio().getUser().getId().equals(user_id);
     }
 
     private boolean fileSave (MultipartFile file, String uuid) {

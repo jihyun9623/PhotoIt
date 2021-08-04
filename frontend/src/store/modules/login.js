@@ -1,13 +1,8 @@
 import axios from 'axios'
 
-// state
-const state = () => ({
-  TOKEN: null,
-})
-
 // actions
 const actions = {
-  saveToken({ commit }, credentials) {
+  saveToken(credentials) {
     axios({
       method: 'post',
       url: 'http://localhost:8080/user/signiin',
@@ -15,8 +10,10 @@ const actions = {
       data: JSON.stringify(credentials),
     })
       .then((res) => {
-        console.log(res)
-        commit('SAVE_TOKEN', res.data.token)
+        // console.log(res)
+        // res.data.tokek, res.data.id가 맞는지 확인
+        localStorage.setItem('jwt', res.data.token)
+        localStorage.setItem('id', res.data.id)
         this.$emit('login')
         this.$router.push({ name: 'MainPage' })
       })
@@ -25,22 +22,20 @@ const actions = {
         alert('로그인 정보가 잘못되었습니다.')
       })
   },
-  deleteToken({ commit }) {
-    commit('DELETE_TOKEN')
+  deleteToken() {
+    localStorage.removeItem('jwt')
+    localStorage.removeItem('id')
+    this.$router.push({ name: 'MainPage' })
   },
-}
-
-const mutations = {
-  SAVE_TOKEN(state, token) {
-    state.TOKEN = token
-  },
-  DELETE_TOKEN(state) {
-    state.TOKEN = null
+  getToken() {
+    const token = localStorage.getItem('jwt')
+    const config = {
+      Authorization: `JWT ${token}`,
+    }
+    return config
   },
 }
 
 export default {
-  state,
   actions,
-  mutations,
 }

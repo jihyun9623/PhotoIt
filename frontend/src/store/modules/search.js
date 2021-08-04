@@ -9,11 +9,10 @@ const state = () => ({
 
 // actions
 const actions = {
-  tagSearch({ commit, rootState }, info) {
+  tagSearch({ commit }, info) {
     axios({
       method: 'post',
       url: `http://localhost:8080/search/tag/${info.keyword}/${info.region}`,
-      headers: rootState.login.TOKEN,
       data: JSON.stringify(info),
     })
       .then((res) => {
@@ -27,11 +26,10 @@ const actions = {
         alert('다시 시도해주십시오.')
       })
   },
-  photographerSearch({ commit, rootState }, info) {
+  photographerSearch({ commit }, info) {
     axios({
       method: 'post',
       url: `http://localhost:8080/search/pg/${info.keyword}/${info.region}`,
-      headers: rootState.login.TOKEN,
       data: JSON.stringify(info),
     })
       .then((res) => {

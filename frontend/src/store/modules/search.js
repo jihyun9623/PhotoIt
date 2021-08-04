@@ -43,6 +43,12 @@ const actions = {
         alert('다시 시도해주십시오.')
       })
   },
+  searchBarViewTrue({ commit }) {
+    commit('SEARCH_BAR_VIEW_TRUE')
+  },
+  searchBarViewFalse({ commit }) {
+    commit('SEARCH_BAR_VIEW_FALSE')
+  },
 }
 
 const mutations = {
@@ -51,6 +57,12 @@ const mutations = {
   },
   PHOTOGRAPHER_SEARCH(state, data) {
     state.resultPhotographer = data
+  },
+  SEARCH_BAR_VIEW_TRUE(state) {
+    state.isSearchHeaderShow = true
+  },
+  SEARCH_BAR_VIEW_FALSE(state) {
+    state.isSearchHeaderShow = false
   },
 }
 

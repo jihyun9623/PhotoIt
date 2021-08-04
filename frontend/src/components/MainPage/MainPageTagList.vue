@@ -144,7 +144,7 @@ export default {
     },
   },
   mounted() {
-    this.makePackage()
+    // this.makePackage()
   },
 }
 </script>

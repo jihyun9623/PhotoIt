@@ -59,6 +59,9 @@ export default {
     ...mapState({
       isSearchHeaderShow: (state) => state.search.isSearchHeaderShow,
     }),
+    // isSearchHeaderShow() {
+    //   return this.$store.state.search.isSearchHeaderShow
+    // },
   },
 }
 </script>

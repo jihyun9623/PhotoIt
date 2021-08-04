@@ -1,18 +1,21 @@
 /* 2021-07-27 스켈레톤 코드 작성	by.HeeJung,Lee */
+/* 2021-08-03 Feat : Service 구현에 따른 컨트롤러 수정	by.HeeJung,Lee */
 
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.StudioEditAuthReq;
 import com.ssafy.api.request.StudioEditPhotoSelectReq;
 import com.ssafy.api.request.StudioEditPhotoUploadReq;
-import com.ssafy.api.response.StudioEditPhotoResponseBody;
 import com.ssafy.api.response.StudioEditPgProfileResponseBody;
+import com.ssafy.api.response.StudioEditPhotoResponseBody;
+import com.ssafy.api.service.StudioEditService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/studioedit")
 public class StudioEditController {
+
+	@Autowired
+	StudioEditService studioEditService;
 
 	// 본인확인 인증
 	@GetMapping("/studioauth")
@@ -34,14 +40,11 @@ public class StudioEditController {
 		String nickname = authInfo.getNickname();
 		String jwt = authInfo.getJWT();
 
-		/* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 */
-		String jwtFromServer = "";
+		// 현재 JWT의 nickname과 가져온 닉네임 비고
+		boolean result = studioEditService.studioAuth(jwt, nickname);
 
-		if(jwt.equals(jwtFromServer)) {
-			return ResponseEntity.ok(BaseResponseBody.of(200, "Success"));
-		}
-
-		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Not Matched"));
+		if(result) { return ResponseEntity.ok(BaseResponseBody.of(200, "Success")); }
+		else return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Not Matched"));
 	}
 
 	// 프로필 받아오기
@@ -53,7 +56,7 @@ public class StudioEditController {
 			@ApiResponse(code = 404, message = "프로필 없음", response = BaseResponseBody.class),
 			@ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class),
 	})
-	public ResponseEntity<StudioEditPgProfileResponseBody> getPgProfi님le(@RequestBody @ApiParam(value = "JWT", required = true) StudioEditAuthReq authInfo) {
+	public ResponseEntity<StudioEditPgProfileResponseBody> getPgProfile(@RequestBody @ApiParam(value = "JWT", required = true) StudioEditAuthReq authInfo) {
 		String jwt = authInfo.getJWT();
 
 		/* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 프로필과 지역을 불러옴*/
@@ -84,12 +87,12 @@ public class StudioEditController {
 		String jwtFromServer = "";
 		String[] id = {"","",""};
 
-		File resource1 = new File("/com/ssafy/image/image.jpg");
-		File resource2 = null;
-		File resource3 = null;
+		MultipartFile resource1 = null;
+		MultipartFile resource2 = null;
+		MultipartFile resource3 = null;
 
 		// 파일 불러오기 필요
-		List<File> fileList = new ArrayList<File>();
+		List<MultipartFile> fileList = new ArrayList<>();
 		fileList.add(resource1); fileList.add(resource2); fileList.add(resource3);
 
 		String[] location = {"", ""};
@@ -117,12 +120,12 @@ public class StudioEditController {
 		String jwtFromServer = "";
 		String[] id = {"","",""};
 
-		File resource1 = new File("/com/ssafy/image/thumbnailimage.jpg");
-		File resource2 = null;
-		File resource3 = null;
+		MultipartFile resource1 = null;
+		MultipartFile resource3 = null;
+		MultipartFile resource2 = null;
 
 		// 파일 불러오기 필요
-		List<File> fileList = new ArrayList<File>();
+		List<MultipartFile> fileList = new ArrayList<>();
 		fileList.add(resource1); fileList.add(resource2); fileList.add(resource3);
 
 		if(jwt.equals(jwtFromServer)) {
@@ -214,7 +217,7 @@ public class StudioEditController {
 	public ResponseEntity<BaseResponseBody> addPgPhoto(@RequestBody @ApiParam(value = "JWT", required = true) StudioEditPhotoUploadReq uploadReq) {
 		String jwt = uploadReq.getJWT();
 		String tag[][] = uploadReq.getTag();
-		File[] file = uploadReq.getFile();
+		MultipartFile[] files = uploadReq.getFiles();
 
 		/* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 전체사진(섬네일) 업로드*/
 		String jwtFromServer = "";

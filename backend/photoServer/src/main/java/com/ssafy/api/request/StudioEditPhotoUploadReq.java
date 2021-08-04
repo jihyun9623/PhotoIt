@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
@@ -19,7 +20,7 @@ public class StudioEditPhotoUploadReq {
 	@ApiModelProperty(name="tag List", example="웨딩, 우정, 졸업")
 	String[][] tag;
 	@ApiModelProperty(name="files", example="업로드 사진")
-	File[] file;
+	MultipartFile[] files;
 	@ApiModelProperty(name="JWT", example ="NEMOBAJISPONGEBOBILOVEMONDAY")
 	String JWT;
 }

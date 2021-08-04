@@ -6,7 +6,7 @@ import com.ssafy.api.response.MainPageProfileRes;
 import com.ssafy.api.response.MainPageTagPhotoRes;
 import com.ssafy.api.service.MainPageService;
 import com.ssafy.api.service.MainPageServiceImpl;
-import com.ssafy.api.service.UserServiceImpl;
+//import com.ssafy.api.service.UserServiceImpl;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.LocationRepository;

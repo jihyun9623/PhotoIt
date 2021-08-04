@@ -1,9 +1,10 @@
 package com.ssafy.db.repository;
 
-import com.ssafy.db.entity.AuthorLocation;
 import com.ssafy.db.entity.MyStudio;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MyStudioRepository extends JpaRepository<MyStudio, String> {
+import java.util.Optional;
 
+public interface MyStudioRepository extends JpaRepository<MyStudio, Integer> {
+    MyStudio findByUser_Id(String id);
 }

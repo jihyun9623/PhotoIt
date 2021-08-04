@@ -3,7 +3,6 @@ package com.ssafy.db.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -42,8 +41,9 @@ public class Photo {
     private List<PhotoTag> photoTags = new ArrayList<>();
 
     @Builder
-    public Photo(int idx, int viewCnt, String origin, String thumbnail, boolean best, LocalDateTime upload) {
+    public Photo(int idx, MyStudio myStudio,int viewCnt, String origin, String thumbnail, boolean best, LocalDateTime upload) {
         this.idx = idx;
+        this.myStudio = myStudio;
         this.viewCnt = viewCnt;
         this.origin = origin;
         this.thumbnail = thumbnail;

@@ -78,4 +78,11 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
+    @Override
+    public boolean signIn() {
+        return false;
+    }
+
+
 }

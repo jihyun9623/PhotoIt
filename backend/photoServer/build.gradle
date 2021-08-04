@@ -58,6 +58,15 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.1.1'
 
+	/* mail 설정 */
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+
 }
 test {
 	useJUnitPlatform()

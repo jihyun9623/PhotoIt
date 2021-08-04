@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'SearchBar',
+  name: 'MainPageSearchBar',
   data() {
     return {
       something: null,

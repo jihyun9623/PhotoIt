@@ -13,17 +13,13 @@ import java.util.Map;
 @ApiModel("MainPageProfileResponse")
 public class MainPageProfileRes extends BaseResponseBody {
     @ApiModelProperty(name = "프로필 사진", example = "파일 저장 위치")
-    String profile;
+    UserProfile userProfile;
 
-    @ApiModelProperty(name = "닉네임", example = "haq")
-    String nickName;
-
-    public static MainPageProfileRes of(Integer statusCode, String message, String profile, String nickName) {
+    public static MainPageProfileRes of(Integer statusCode, String message, UserProfile userProfile) {
         MainPageProfileRes body = new MainPageProfileRes();
         body.setStatusCode(statusCode);
         body.setMessage(message);
-        body.setProfile(profile);
-        body.setNickName(nickName);
+        body.setUserProfile(userProfile);
         return body;
     }
 }

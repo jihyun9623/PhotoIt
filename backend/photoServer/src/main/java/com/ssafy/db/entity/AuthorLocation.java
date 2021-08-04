@@ -33,9 +33,4 @@ public class AuthorLocation {
         this.location = location;
     }
 
-    @Builder
-    public AuthorLocation(MyStudio myStudio, Location location) {
-        this.myStudio = myStudio;
-        this.location = location;
-    }
 }

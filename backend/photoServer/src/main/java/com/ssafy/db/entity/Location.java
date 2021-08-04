@@ -26,10 +26,4 @@ public class Location {
         this.name = name;
         this.authorLocations = authorLocations;
     }
-
-    @Builder
-    public Location(String name) {
-        this.name = name;
-    }
-
 }

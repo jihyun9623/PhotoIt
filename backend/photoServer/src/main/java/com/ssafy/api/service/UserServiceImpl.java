@@ -14,6 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -39,41 +41,41 @@ public class UserServiceImpl implements UserService {
         // location 테이블에 저장
             // location
 
-        // 1. 작가회원이면 mystudio + location 생성
-        if(info.getPg()==true){
-            // 2-1. mystudio 생성
-            MyStudio myStudio=MyStudio.builder()
-                    .nickname(info.getNickname())
-                    .profile(info.getProfile())
-                    .build();
-            // 이거는...저장이아닌가....?
-            // myStudioRepository.save(myStudio);
-
-            // 지역부터 Location에 추가해준다.
-            for(String s:info.getLocation()){
-                Location loc=new Location(s);
-
-                // 이미 있는 지역이 아니라면 location 테이블에 추가.
-                if(locationRepository.findLocationByName(s)!=null){
-                    locationRepository.save(loc);
-                }
-                // 들어온 지역 각각 저장한다... 이게 아니면 어떡하지....
-                AuthorLocation authLoc=AuthorLocation.builder()
-                                                .location(loc)
-                                                .myStudio(myStudio)
-                                                .build();
-                authorLocationRepository.save(authLoc);
-            }
-        // 유저 만들어서 저장
+        // 1. 일단 유저는 만들어서 저장.
         User user=User.builder()
                 .id(info.getId())
                 .nickname(info.getNickname())
                 .passwd(info.getPasswd())
                 .pg(info.getPg())
                 .photo(info.getPhoto())
-                .myStudio(myStudio)
                 .build();
         userRepository.save(user);
+
+        // 2. 작가회원이면 mystudio + location 생성
+        if(info.getPg()==true){
+            // 부모인 스튜디오 먼저 생성.
+            MyStudio myStudio=MyStudio.builder()
+                    .nickname(info.getNickname())
+                    .profile(info.getProfile())
+                    .user(user)
+                    .build();
+            myStudioRepository.save(myStudio);
+
+            /** 지역부터 Location에 추가해준다.*/
+            for(String s:info.getLocation()){
+                // 이미 있는 지역이 아니라면 location 테이블에 추가.
+                if(locationRepository.findLocationByName(s)==null){
+                    Location loc=Location.builder().name(s).build();
+                    locationRepository.save(loc);
+                }
+                Location loc=locationRepository.findLocationByName(s);
+                System.out.println("---위치 리스트---");
+                AuthorLocation authLoc=AuthorLocation.builder()
+                                                .location(loc)
+                                                .myStudio(myStudio)
+                                                .build();
+                authorLocationRepository.save(authLoc);
+            }
         }
     }
 }

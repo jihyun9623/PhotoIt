@@ -20,7 +20,7 @@ public class Usercontroller {
 
     @Autowired
     UserService userService;
-    @PostMapping()
+
     @ApiOperation(value = "회원 가입", notes = "회원가입 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -28,8 +28,9 @@ public class Usercontroller {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    @GetMapping("/register")
+    @PostMapping("/signup")
     public BaseResponseBody signUp(@RequestBody @ApiParam(value = "회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
+        System.out.println("signup method 진입");
         userService.signUp(registerInfo);
         BaseResponseBody res=new BaseResponseBody();
         res.setMessage("Success");

@@ -169,8 +169,8 @@ public class StudioEditController {
 	})
 	public ResponseEntity<BaseResponseBody> addPgPhoto(@RequestBody @ApiParam(value = "JWT", required = true) StudioEditPhotoUploadReq uploadReq) {
 		String jwt = uploadReq.getJWT();
-		String tag[][] = uploadReq.getTag();
-		List<MultipartFile> files = uploadReq.getFiles();
+		String tag[][] = uploadReq.getData();
+		List<MultipartFile> files = uploadReq.getFile();
 
 		/* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 전체사진(섬네일) 업로드*/
 		boolean result = studioEditService.addPgPhoto(jwt, files, tag);

@@ -246,4 +246,16 @@ public class StudioEditServiceImpl implements StudioEditService {
         else return false;
         return true;
     }
+
+    private boolean fileSave (MultipartFile file, String uuid) {
+        // 섬네일 따기
+        // 파일 원본 저장
+        // 섬네일 저장
+        return false;
+    }
+
+    private boolean fileDelete (MultipartFile file, String uuid) {
+        // 섬네일, 원본 삭제
+        return false;
+    }
 }

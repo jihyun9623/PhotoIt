@@ -5,12 +5,14 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.response.StudioEditPgProfileResponseBody;
 import com.ssafy.api.response.StudioEditPhotoResponseBody;
+import com.ssafy.common.util.Uploader;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +26,16 @@ public class StudioEditServiceImpl implements StudioEditService {
     private final PhotoRepository photoRepository;
     private final PhotoTagRepository photoTagRepository;
     private final TagRepository tagRepository;
+    private final Uploader uploader;
 
-    public StudioEditServiceImpl(UserRepository userRepository, LocationRepository locationRepository, MyStudioRepository myStudioRepository, PhotoRepository photoRepository, PhotoTagRepository photoTagRepository, TagRepository tagRepository) {
+    public StudioEditServiceImpl(UserRepository userRepository, LocationRepository locationRepository, MyStudioRepository myStudioRepository, PhotoRepository photoRepository, PhotoTagRepository photoTagRepository, TagRepository tagRepository, Uploader uploader) {
         this.userRepository = userRepository;
         this.locationRepository = locationRepository;
         this.myStudioRepository = myStudioRepository;
         this.photoRepository = photoRepository;
         this.photoTagRepository = photoTagRepository;
         this.tagRepository = tagRepository;
+        this.uploader = uploader;
     }
 
     // 닉네임과 현재 접속자를 비교하여 Edit접근여부 판단
@@ -207,6 +211,10 @@ public class StudioEditServiceImpl implements StudioEditService {
             String[] tag = tags[i];
 
             // TO-DO : File 업로드 하기
+            for(MultipartFile x : files) {
+                String URL = uploader.uploadS3Instance(x, );
+            }
+
             // File 업로드 중 에러 발생시 롤백필요, UplodedFilesUUID를통해 사진 삭제, False 리턴
 
             // DB insert & File save

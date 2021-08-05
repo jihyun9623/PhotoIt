@@ -54,7 +54,8 @@ public class JwtTokenUtil {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String userPk, UserRole roles){
+    //public String createToken(String userPk, UserRole roles){
+    public String createToken(String userPk, List<String> roles){
         Claims claims= Jwts.claims().setSubject(userPk);        // JWT Payload에 저장되는 정보 단위
         claims.put("roles", roles); // 정보는 key/value 쌍으로 저장됨.
         Date now=new Date();

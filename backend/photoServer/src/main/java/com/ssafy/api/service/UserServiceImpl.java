@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,8 +57,8 @@ public class UserServiceImpl implements UserService {
                     .id(info.getId())
                     .nickname(info.getNickname())
                     .passwd(passwordEncoder.encode(info.getPasswd()))   //decoding how?
-                    //  .roles(Collections.singletonList("ROLE_USER"))
-                    .role(UserRole.ROLE_PG)
+                    .roles(Collections.singletonList("ROLE_USER"))
+                    //.role(UserRole.ROLE_PG)
                     .pg(info.getPg())
                     .photo(info.getPhoto())
                     .build();
@@ -91,8 +92,8 @@ public class UserServiceImpl implements UserService {
                     .id(info.getId())
                     .nickname(info.getNickname())
                     .passwd(passwordEncoder.encode(info.getPasswd()))   //decoding how?
-                  //  .roles(Collections.singletonList("ROLE_USER"))
-                    .role(UserRole.ROLE_USER)
+                    .roles(Collections.singletonList("ROLE_USER"))
+                 //   .role(UserRole.ROLE_USER)
                     .pg(info.getPg())
                     .photo(info.getPhoto())
                     .build();
@@ -107,7 +108,8 @@ public class UserServiceImpl implements UserService {
         if(!passwordEncoder.matches(loginInfo.getPasswd(), member.getPasswd())){
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        return jwtTokenProvider.createToken(member.getId(), member.getRole());
+        //return jwtTokenProvider.createToken(member.getId(), member.getRole());
+        return jwtTokenProvider.createToken(member.getId(), member.getRoles());
     }
 
 

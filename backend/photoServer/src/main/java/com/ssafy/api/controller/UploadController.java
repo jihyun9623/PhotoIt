@@ -31,6 +31,5 @@ public class UploadController {
         }catch(Exception e) {
             return ResponseEntity.ok(BaseResponseBody.of(400, "파일을 찾을 수 없습니다"));
         }
-        
     }
 }

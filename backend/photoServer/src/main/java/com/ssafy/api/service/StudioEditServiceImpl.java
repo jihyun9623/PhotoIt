@@ -8,20 +8,17 @@ import com.ssafy.api.response.StudioEditPhotoResponseBody;
 import com.ssafy.common.util.Uploader;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
+import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.imgscalr.Scalr;
-
-import javax.imageio.ImageIO;
 
 @Service
 public class StudioEditServiceImpl implements StudioEditService {
@@ -33,7 +30,6 @@ public class StudioEditServiceImpl implements StudioEditService {
     private final PhotoTagRepository photoTagRepository;
     private final TagRepository tagRepository;
     private final Uploader uploader;
-
     private final String DirNameOrigin = "origin";
     private final String DirNameThumbnail = "thumbnail";
     private final static String TEMP_FILE_PATH = "src/main/resources/static/";

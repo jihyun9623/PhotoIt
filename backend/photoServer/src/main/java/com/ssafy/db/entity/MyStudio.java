@@ -52,6 +52,6 @@ public class MyStudio {
         this.calendars = calendars;
         this.favorites = favorites;
         this.authorLocations = authorLocations;
-    }
 
+    }
 }

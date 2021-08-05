@@ -21,7 +21,7 @@
       <img
         v-else
         @click="$refs.fileInput.click()"
-        src="@/assets/images/profile_default.png"
+        src="@/assets/profile_default.png"
         class="profile-preview"
       />
 
@@ -36,7 +36,7 @@
             placeholder="user@gmail.com"
             class="form-control-plaintext"
             id="email"
-            v-model="credentials.id"
+            v-model="credentials.email"
           />
         </div>
         <button
@@ -78,7 +78,7 @@
             placeholder="인증코드를 입력해주세요"
             class="form-control-plaintext"
             id="emailAuth"
-            v-model="emailAuth.code"
+            v-model="emailAuth"
           />
         </div>
         <button class="btn btn-primary col-2" @click="emailAuthCheck">
@@ -109,7 +109,7 @@
           placeholder="비밀번호 (8 ~ 13자리)"
           class="form-control-plaintext"
           id="password"
-          v-model="credentials.passwd"
+          v-model="credentials.password"
         />
       </div>
 
@@ -123,7 +123,7 @@
         />
       </div>
       <p
-        v-if="credentials.passwd === passwordConfirmation"
+        v-if="credentials.password === passwordConfirmation"
         class="warning-text"
       >
         비밀번호가 일치합니다.
@@ -168,7 +168,7 @@
         >
           <input
             type="radio"
-            v-model="credentials.pg"
+            v-model="credentials.photographer"
             value="true"
             class="btn-check"
             name="btnradio"
@@ -181,7 +181,7 @@
 
           <input
             type="radio"
-            v-model="credentials.pg"
+            v-model="credentials.photographer"
             value="false"
             class="btn-check"
             name="btnradio"
@@ -193,7 +193,7 @@
           >
         </div>
       </div>
-      <div v-if="credentials.pg === 'true'">
+      <div v-if="credentials.photographer === 'true'">
         <p>지역 목록 선택</p>
         <div
           class="row"
@@ -224,46 +224,37 @@
       </div>
       <hr class="my-hr" />
 
-      <button
-        type="button"
-        class="btn btn-default"
-        @click="signup(credentials)"
-      >
-        회원가입
-      </button>
+      <button type="button" class="btn btn-default">회원가입</button>
     </div>
   </div>
 </template>
 
 <script>
 // import component from "component location"
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'Signup',
   data: function () {
     return {
       credentials: {
-        id: null, // email
-        passwd: null, // 비밀번호
-        nickname: null, // 닉네임
-        pg: '', // 사진작가 여부
-        location: [], // 지역 정보
-        introduce: null, // 한줄 자기소개
-        file: null, // 프로필 사진 파일
+        email: null,
+        password: null,
+        nickname: null,
+        photographer: '',
+        location: [],
+        introduce: null,
+        profile: null,
       },
-      preview: null, // 프로필 사진 프리뷰
-      emailDup: null, // 이메일 중복확인 요청 후, 중복여부 응답
-      emailSend: null, // 인증 요청갔는지 확인하고 인증 입력창 띄운다.
-      emailAuth: {
-        id: null,
-        code: null, // 유저가 입력한 인증 코드
-      },
-      emailAuthChk: null, // 인증번호 일치 여부 (null 이면 이메일 인증 아직 안함)
-      passwordConfirmation: null, // 비밀번호 확인 입력 내용
-      nicknameDup: null, // 닉네임 중복확인 요청 후, 중복 여부 응답
-      dupNickname: null, // 중복확인 요청 보냈던 닉네임 따로 저장
-      // 이거 location은 App.vue에서 지역목록요청으로 받고 vuex state에 저장할 것 (임시 설정 목록임)
+      preview: null,
+      emailDup: null,
+      emailSend: null,
+      emailAuth: null,
+      emailAuthChk: null,
+      authedEmail: null,
+      passwordConfirmation: null,
+      nicknameDup: null,
+      dupNickname: null,
       location_all: [
         { loca: '서울' },
         { loca: '부산' },
@@ -286,7 +277,7 @@ export default {
         reader.onload = (e) => {
           this.preview = e.target.result
         }
-        this.credentials.file = input.files[0]
+        this.credentials.profile = input.files[0]
         reader.readAsDataURL(input.files[0])
       }
     },
@@ -295,7 +286,7 @@ export default {
     //   axios({
     //     method: 'post',
     //     url: '',
-    //     data: this.credentials.id,
+    //     data: this.credentials.email,
     //   })
     //     .then(res => {
     //       console.log(res)
@@ -307,13 +298,13 @@ export default {
     //     })
     // },
     //
-    // // emailAuthSend : 인증 버튼 클릭 시, 서버에 코드를 인증메일로 보내줄 것을 요청
+    // // emailAuthSend : 서버에 코드를 인증메일로 보내줄 것을 요청
     // emailAuthSend: function () {
-    //   this.emailSend = 'true' // 전송 보내지면 인증 입력창 띄워야 함
+    //   this.emailSend = 'true'
     //   axios({
     //     method: 'post',
     //     url: '',
-    //     data: this.credentials.id,
+    //     data: this.credentials.email,
     //   })
     //     .then(res => {
     //       console.log(res)
@@ -325,17 +316,15 @@ export default {
     //
     // // emailAuthCheck : 입력한 코드 확인 요청
     // emailAuthCheck: function () {
-    //   this.emailAuth.id = this.credentials.id
-    //   // 인증 때 이메일도 함께 보내야하고, 나중에 인증한 메일과 회원가입창 메일이 같은지 확인해야 한다.
     //   axios({
     //     method: 'post',
     //     url: '',
-    //     data: this.emailAuth, // 유저가 입력한 인증코드를 보낸다.
+    //     data: this.emailAuth,
     //   })
     //     .then(res => {
     //       console.log(res)
     //       this.emailAuthChk = true
-    //       this.emailAuth.id = this.credentials.id
+    //       this.authedEmail = this.credentials.email
     // 이부분 제대로 동작하나 확인할 것.
     // 인증을 완료한 메일과 입력창에 입력해둔 메일이 같아야 회원가입이 가능하도록
     //     })
@@ -353,49 +342,36 @@ export default {
     //   })
     //     .then(res => {
     //       this.nicknameDup = '200'
-    //       this.dupNickname = this.credentials.nickname
     //     })
     //     .catch(res => {
     //       this.nicknameDup = '401'
     //     })
     // },
     //
-    signup: function () {
-      axios({
-        method: 'post',
-        url: 'http://localhost:8080/user/signup',
-        data: this.credentials,
-      })
-        .then((res) => {
-          console.log(res)
-          // this.$router.push({ name: 'Login'})
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      // if (
-      //   this.emailAuthChk === 'true' &&
-      //   this.emailAuth.id === this.credentials.id &&
-      //   this.credentials.passwd === this.passwordConfirmation &&
-      //   this.dupNickname === this.credentials.nickname
-      // ) {
-      //   axios({
-      //     method: 'post',
-      //     url: '',
-      //     data: this.credentials,
-      //   })
-      //     .then(res => {
-      //       this.$router.push({ name: 'Login'})
-      //     })
-      //     .catch(err => {
-      //       console.log(err)
-      //     })
-      // } else {
-      //   if (!(this.emailAuth.id === this.credentials.id)) {
-      //     this.warningtext = '인증한 이메일과 입력된 이메일이 다릅니다. 다시 확인해주세요.'
-      //   }
-      // }
-    },
+    // signup: function () {
+    //   if (
+    //     this.emailAuthChk === 'true' &&
+    //     this.authedEmail === this.credentials.email &&
+    //     this.credentials.password === this.passwordConfirmation &&
+    //     this.dupNickname === this.credentials.nickname
+    //   ) {
+    //     axios({
+    //       method: 'post',
+    //       url: '',
+    //       data: this.credentials,
+    //     })
+    //       .then(res => {
+    //         this.$router.push({ name: 'Login'})
+    //       })
+    //       .catch(err => {
+    //         console.log(err)
+    //       })
+    //   } else {
+    //     if (!(this.authedEmail === this.credentials.email)) {
+    //       this.warningtext = '인증한 이메일과 입력된 이메일이 다릅니다. 다시 확인해주세요.'
+    //     }
+    //   }
+    // },
   },
 
   components: {

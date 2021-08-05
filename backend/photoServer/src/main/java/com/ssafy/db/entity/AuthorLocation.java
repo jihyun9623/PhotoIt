@@ -32,5 +32,4 @@ public class AuthorLocation {
         this.myStudio = myStudio;
         this.location = location;
     }
-
 }

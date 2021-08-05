@@ -1,11 +1,10 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.response.TagThumbNickNameRes;
-import com.ssafy.api.response.ThumbNickNameRes;
-import com.ssafy.api.response.ThumbPhotoIdRes;
-import com.ssafy.api.response.UserProfile;
 import com.ssafy.db.entity.*;
-import com.ssafy.db.repository.*;
+import com.ssafy.db.repository.LocationRepository;
+import com.ssafy.db.repository.PhotoRepository;
+import com.ssafy.db.repository.TagRepository;
+import com.ssafy.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ public class MainPageServiceImpl implements MainPageService{
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
     private final PhotoRepository photoRepository;
-    private final MyStudioRepository myStudioRepository;
 
     @Override
     public String[] locationList() {
@@ -44,17 +42,15 @@ public class MainPageServiceImpl implements MainPageService{
     }
 
     @Override
-    public UserProfile userProfile(String JWT, String id) {
+    public User getUser(String JWT, String id) {
         if(JWT==null)
             return null;
-        User user = userRepository.findUserById(id).orElseThrow(RuntimeException::new);
-        UserProfile userProfile = UserProfile.of(user.getNickname(), user.getPhoto());
-        return userProfile;
+        return userRepository.findUserById(id).orElseThrow(RuntimeException::new);
     }
 
     @Override
-    public List<TagThumbNickNameRes> getMainContents() {
-        int viewsTag = 3, randTag = 3, photoCnt = 20;  //view수 기반 태그, 랜덤 태그 수, 태그 별 사진 수
+    public Map<String, Map<String, String>> getMainContents() {
+        int viewsTag = 3, randTag = 3;  //view수 기반 태그, 랜덤 태그 수
         List<Tag> mainTags = new ArrayList<>();
         List<Photo> photos = photoRepository.findAll();
         List<Tag> tagList = tagRepository.findAll();
@@ -100,92 +96,21 @@ public class MainPageServiceImpl implements MainPageService{
 
         // tag viewTags + randTag 만큼 넘겨주기!
 
-        List<TagThumbNickNameRes> tagPhotoList = new ArrayList<>();
+        Map<String, Map<String, String>> tagPhotoList = new HashMap();
         for(Tag t : tagList) {
             String tempTag = t.getName();
-            List<ThumbNickNameRes> temp = new ArrayList<>();
-            cnt = 0;
+            Map<String, String> tempMap = new HashMap<>();
+
             for(Photo p : photos) {
                 for(PhotoTag pt : p.getPhotoTags()) {
                     if(pt.getTag().getName() == tempTag) {
-                        temp.add(ThumbNickNameRes.of(p.getThumbnail(), p.getMyStudio().getNickname()));
-                        cnt++;
+                        tempMap.put(p.getMyStudio().getNickname(), p.getOrigin());
                     }
                 }
-                if(cnt==photoCnt)
-                    break;
             }
-            tagPhotoList.add(TagThumbNickNameRes.of(tempTag, temp));
+            tagPhotoList.put(tempTag, tempMap);
         }
-
 
         return tagPhotoList;
-    }
-
-    @Override
-    public String[] photoTagList(String thumbnail) {
-        Photo photo = photoRepository.findByThumbnail(thumbnail)
-                    .orElseThrow(RuntimeException::new);
-        return (String[]) photo.getPhotoTags().toArray();
-    }
-
-    @Override
-    public String photoOrigin(String thumbnail) {
-        Photo photo = photoRepository.findByThumbnail(thumbnail)
-                .orElseThrow(RuntimeException::new);
-
-        return photo.getOrigin();
-    }
-
-    @Override
-    public boolean isFavorite(String nickName, String userId) {
-        Boolean isFav = false;
-        MyStudio myStudio = myStudioRepository.findByNickname(nickName)
-                            .orElseThrow(RuntimeException::new);
-        User user = userRepository.findUserById(userId)
-                    .orElseThrow(RuntimeException::new);
-        for(Favorite f : user.getFavorites()) {
-            if(f.getMyStudio().getNickname() == nickName) {
-                isFav = true;
-                break;
-            }
-        }
-        return isFav;
-    }
-
-    @Override
-    public List<ThumbPhotoIdRes> thumbPhotoIds(String nickName, String thumbnail) {
-        int thumbPhotoIdsSize = 20;
-        MyStudio myStudio = myStudioRepository.findByNickname(nickName)
-                            .orElseThrow(RuntimeException::new);
-        List<ThumbPhotoIdRes> thumbPhotoIds = new ArrayList<>();
-        for(Photo p : myStudio.getPhotos()) {
-            if(p.getThumbnail()==thumbnail)
-                continue;
-            ThumbPhotoIdRes temp = ThumbPhotoIdRes.of(p.getThumbnail(), p.getIdx());
-            thumbPhotoIds.add(temp);
-            if(thumbPhotoIds.size() == thumbPhotoIdsSize)
-                break;
-        }
-        return thumbPhotoIds;
-    }
-
-    @Override
-    public void photoViewCnt(String thumbnail) {
-        Photo photo = photoRepository.findByThumbnail(thumbnail)
-                        .orElseThrow(RuntimeException::new);
-
-        Photo newPhoto = Photo.builder()
-                         .idx(photo.getIdx())
-                         .best(photo.isBest())
-                         .viewCnt(photo.getViewCnt()+1)
-                         .myStudio(photo.getMyStudio())
-                         .origin(photo.getOrigin())
-                         .thumbnail(photo.getThumbnail())
-                         .upload(photo.getUpload())
-                         .build();
-
-        photoRepository.save(newPhoto);
-
     }
 }

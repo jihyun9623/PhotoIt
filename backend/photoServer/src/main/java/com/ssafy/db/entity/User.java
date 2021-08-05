@@ -1,5 +1,7 @@
 package com.ssafy.db.entity;
 
+import com.ssafy.api.request.UserRegisterPostReq;
+import io.jsonwebtoken.lang.Assert;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.nio.file.attribute.AclEntry;
 import java.util.ArrayList;
 import java.util.List;
 import static javax.persistence.FetchType.LAZY;

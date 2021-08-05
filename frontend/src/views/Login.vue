@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="login-form container mt-5">
-      <form class="row">
+      <div class="row">
         <!-- Logo 자리 -->
         <div class="logo-box mb-5">로고 자리</div>
         <div class="mb-3">
@@ -14,7 +14,7 @@
             id="email"
             placeholder="user@example.com"
             v-model="credentials.id"
-            @keyup.enter="login"
+            @keyup.enter="userLogin"
           />
         </div>
         <div class="mb-3">
@@ -27,18 +27,18 @@
             id="password"
             placeholder="비밀번호"
             v-model="credentials.passwd"
-            @keyup.enter="login"
+            @keyup.enter="userLogin"
           />
         </div>
         <div class="align-items-center mb-4 mt-2">
-          <button class="btn login-form-btn mb-2" @click="login">로그인</button>
-          <button type="button" class="btn login-form-btn mb-2">
-            <!-- <router-link :to="{ name: Signup }"> -->
-            <span>회원가입</span>
-            <!-- </router-link> -->
+          <button class="btn login-form-btn mb-2" @click="userLogin">
+            로그인
+          </button>
+          <button type="button" class="btn login-form-btn mb-2 signup-btn">
+            <router-link :to="{ name: 'Signup' }"> 회원가입 </router-link>
           </button>
         </div>
-      </form>
+      </div>
       <div class="mt-4 d-flex justify-content-evenly">
         <button class="btn login-find-btn">
           <!-- <router-link :to="{ name: 어딘가 }"> -->
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-// import component from "component location"
+import axios from 'axios'
 
 export default {
   name: 'Login',
@@ -68,10 +68,28 @@ export default {
       },
     }
   },
-  method: {
-    login() {
+  methods: {
+    userLogin() {
       // store의 login 모듈의 saveToken 실행
-      this.$store.dispatch('login/saveToken', this.credentials)
+      // this.$store.dispatch('login/saveToken', this.credentials)
+      console.log(this.credentials)
+      axios({
+        method: 'post',
+        url: 'http://localhost:8080/user/signin',
+        data: this.credentials,
+      })
+        .then((res) => {
+          // console.log(res)
+          // res.data.token, res.data.id가 맞는지 확인
+          localStorage.setItem('jwt', res.data.token)
+          localStorage.setItem('id', res.data.id)
+          this.$emit('login')
+          this.$router.push({ name: 'MainPage' })
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('로그인 정보가 잘못되었습니다.')
+        })
     },
   },
 }
@@ -110,5 +128,9 @@ input {
 .form-control:focus {
   border-color: #c4c4c4;
   box-shadow: inset 0px 0px rgba(255, 255, 255, 0);
+}
+.signup-btn a {
+  text-decoration: none;
+  color: black;
 }
 </style>

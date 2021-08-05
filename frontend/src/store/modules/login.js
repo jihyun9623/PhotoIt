@@ -5,13 +5,12 @@ const actions = {
   saveToken(credentials) {
     axios({
       method: 'post',
-      url: 'http://localhost:8080/user/signiin',
-      // JSON 파일로 전송
-      data: JSON.stringify(credentials),
+      url: 'http://localhost:8080/user/signin',
+      data: credentials,
     })
       .then((res) => {
         // console.log(res)
-        // res.data.tokek, res.data.id가 맞는지 확인
+        // res.data.token, res.data.id가 맞는지 확인
         localStorage.setItem('jwt', res.data.token)
         localStorage.setItem('id', res.data.id)
         this.$emit('login')

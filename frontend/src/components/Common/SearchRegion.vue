@@ -16,7 +16,7 @@ import Logo from '@/components/Common/Logo'
 import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
 
 export default {
-  name: 'MainPageHeader',
+  name: 'SearchRegion',
   components: {
     SearchBar,
     Logo,

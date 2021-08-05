@@ -47,13 +47,13 @@ export default {
     stickySearchBar() {
       const searchBar = document.querySelector('.search-style')
       const sticky = searchBar.getBoundingClientRect().top
-      // console.log(sticky)
+      console.log(sticky, this.$store.state.search.isSearchHeaderShow)
       if (0 >= sticky) {
         searchBar.style.opacity = '0'
-        this.$store.state.search.isSearchHeaderShow = true
+        this.$store.dispatch('search/searchBarViewTrue')
       } else {
         searchBar.style.opacity = '1'
-        this.$store.state.search.isSearchHeaderShow = false
+        this.$store.dispatch('search/searchBarViewFalse')
       }
     },
     scrollEffect() {
@@ -162,8 +162,7 @@ export default {
   transition: opacity 3s;
 }
 .empty-box {
-  width: 100%;
-  height: 200px;
+  height: 15vh;
 }
 .text-pg {
   position: absolute;

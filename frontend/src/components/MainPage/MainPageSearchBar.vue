@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'SearchBar',
+  name: 'MainPageSearchBar',
   data() {
     return {
       something: null,
@@ -85,7 +85,7 @@ button {
   /* background-color: white; */
   background-color: transparent;
   /* 배경이 나뉘면 color 수정 */
-  color: #c4c4c4;
+  /* color: #c4c4c4; */
   border: none;
   height: 100%;
   padding-top: 1px;

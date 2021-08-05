@@ -26,7 +26,7 @@
             class="form-control"
             id="password"
             placeholder="비밀번호"
-            v-model="credentials.password"
+            v-model="credentials.passwd"
             @keyup.enter="login"
           />
         </div>

@@ -9,11 +9,10 @@ const state = () => ({
 
 // actions
 const actions = {
-  tagSearch({ commit, rootState }, info) {
+  tagSearch({ commit }, info) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/search/tag/${info.keyword}/${info.region}`,
-      headers: rootState.login.TOKEN,
       data: JSON.stringify(info),
     })
       .then((res) => {
@@ -27,11 +26,10 @@ const actions = {
         alert('다시 시도해주십시오.')
       })
   },
-  photographerSearch({ commit, rootState }, info) {
+  photographerSearch({ commit }, info) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/search/pg/${info.keyword}/${info.region}`,
-      headers: rootState.login.TOKEN,
       data: JSON.stringify(info),
     })
       .then((res) => {
@@ -45,6 +43,12 @@ const actions = {
         alert('다시 시도해주십시오.')
       })
   },
+  searchBarViewTrue({ commit }) {
+    commit('SEARCH_BAR_VIEW_TRUE')
+  },
+  searchBarViewFalse({ commit }) {
+    commit('SEARCH_BAR_VIEW_FALSE')
+  },
 }
 
 const mutations = {
@@ -54,9 +58,16 @@ const mutations = {
   PHOTOGRAPHER_SEARCH(state, data) {
     state.resultPhotographer = data
   },
+  SEARCH_BAR_VIEW_TRUE(state) {
+    state.isSearchHeaderShow = true
+  },
+  SEARCH_BAR_VIEW_FALSE(state) {
+    state.isSearchHeaderShow = false
+  },
 }
 
 export default {
+  namespaced: true,
   state,
   actions,
   mutations,

@@ -13,7 +13,7 @@ const state = () => ({
 const actions = {
   getRegions({ commit }) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/location`,
     }).then((res) => {
       console.log(res)
@@ -23,7 +23,7 @@ const actions = {
   },
   getTags({ commit }) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/tag`,
     }).then((res) => {
       console.log(res)
@@ -31,13 +31,16 @@ const actions = {
       commit('GET_TAGS', 'res.data.???')
     })
   },
-  getProfileNickname({ commit, rootState }) {
+  getProfileNickname({ commit, dispatch }) {
+    const id = localStorage.getItem('id')
+    const payload = {
+      id: id,
+    }
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/profile`,
-      headers: rootState.login.TOKEN,
-      // 상재님한테 추가해 달라고 하기
-      // data: JSON.stringify(rootState.singup.id),
+      headers: dispatch('login/getToken', { root: true }),
+      data: JSON.stringify(payload),
     }).then((res) => {
       console.log(res)
       // 추가해야 함!
@@ -46,7 +49,7 @@ const actions = {
   },
   getMainContents({ commit }) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/contents`,
     }).then((res) => {
       console.log(res)
@@ -76,6 +79,7 @@ const mutations = {
 }
 
 export default {
+  namespaced: true,
   state,
   actions,
   mutations,

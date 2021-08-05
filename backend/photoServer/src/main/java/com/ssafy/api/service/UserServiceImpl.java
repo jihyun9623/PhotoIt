@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
                     .id(info.getId())
                     .nickname(info.getNickname())
                     .passwd(passwordEncoder.encode(info.getPasswd()))   //decoding how?
-                    .roles(Collections.singletonList("ROLE_USER"))
+                    //.roles(Collections.singletonList("ROLE_USER"))
                     //.role(UserRole.ROLE_PG)
                     .pg(info.getPg())
                     .photo(info.getPhoto())
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
                     .id(info.getId())
                     .nickname(info.getNickname())
                     .passwd(passwordEncoder.encode(info.getPasswd()))   //decoding how?
-                    .roles(Collections.singletonList("ROLE_USER"))
+                 //   .roles(Collections.singletonList("ROLE_USER"))
                  //   .role(UserRole.ROLE_USER)
                     .pg(info.getPg())
                     .photo(info.getPhoto())
@@ -103,13 +103,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String signin(UserLoginPostReq loginInfo) {
-        User member=userRepository.findById(loginInfo.getId())
+        User member=userRepository.findUserById(loginInfo.getId())
                 .orElseThrow(()->new IllegalArgumentException("가입되지 않은 아이디입니다."));
         if(!passwordEncoder.matches(loginInfo.getPasswd(), member.getPasswd())){
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         //return jwtTokenProvider.createToken(member.getId(), member.getRole());
-        return jwtTokenProvider.createToken(member.getId(), member.getRoles());
+        return jwtTokenProvider.createToken(member.getId());
     }
 
 

@@ -39,13 +39,13 @@ public class JwtTokenUtil {
 
     private static String secretKey = "secretKey-test-authorization-jwt-manage-token-photo-it";
     private static Long tokenValidTime =30*60*1000L;
+    // 이거 뭐하는 놈인지 꼭 찾아보기;
+    private final UserDetailsService userDetailsService;
 
 //    public static final String TOKEN_PREFIX = "Bearer ";
 //    public static final String HEADER_STRING = "Authorization";
 //    public static final String ISSUER = "ssafy.com";
 
-    // 이거 뭐하는 놈인지 꼭 찾아보기;
-    private final UserDetailsService userDetailsService;
 
 
     // 객체 초기화, secretKey Base64로 인코딩.
@@ -55,21 +55,20 @@ public class JwtTokenUtil {
     }
 
     //public String createToken(String userPk, UserRole roles){
-    public String createToken(String userPk, List<String> roles){
-        Claims claims= Jwts.claims().setSubject(userPk);        // JWT Payload에 저장되는 정보 단위
-        claims.put("roles", roles); // 정보는 key/value 쌍으로 저장됨.
-        Date now=new Date();
+    public String createToken(String userPk){
+        Claims claims = Jwts.claims().setSubject(userPk);
+        Date now = new Date();
         return Jwts.builder()
-                .setClaims(claims)  // 정보 저장
-                .setIssuedAt(now)   // 토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime()+ tokenValidTime)) // set Expire Time
+                .setClaims(claims) // 정보 저장
+                .setIssuedAt(now) // 토큰 발행 시간 정보
+                .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
                 .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘과
-                                                                // signature에 들어갈 secret 값 세팅
+                // signature 에 들어갈 secret값 세팅
                 .compact();
     }
 
     // JWT 토큰에서 인증 정보 조회
-    public Authentication getAuthentication(String token){
+    public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }

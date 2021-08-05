@@ -84,6 +84,7 @@ export default {
           // res.data.token, res.data.id가 맞는지 확인
           localStorage.setItem('jwt', res.data.token)
           localStorage.setItem('id', res.data.id)
+          alert('로그인 성공!')
           this.$emit('login')
           this.$router.push({ name: 'MainPage' })
         })

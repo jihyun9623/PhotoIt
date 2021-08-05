@@ -23,23 +23,17 @@ public class StudioServiceImpl implements StudioService {
     PhotoRepository photoRepository;
     LocationRepository locationRepository;
 
-    @Override
-    public Integer getStudioIdx(String nickname) {
-        //studio idx 리턴
-        return 123;
-    }
-
     //작가 프로필 가져오기
     @Override
     public StudioPgProfileResBody getPgProfile(String nickname){
         // 닉네임으로 스튜디오 idx를 가져옴
-        Integer studio_idx = getStudioIdx(nickname);
+        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
 
         // 스튜디오 idx로 작가 프로필을 가져옴
-        MyStudio myStudio = myStudioRepository.findUserByIdx(studio_idx);
+        MyStudio myStudio = myStudioRepository.findUserByStudio_Idx(studioIdx);
 
         // 지역
-        List<Location> loc = locationRepository.findByAuthorLocations_MyStudio_Idx(studio_idx);
+        List<Location> loc = locationRepository.findByAuthorLocations_MyStudio_Idx(studioIdx);
         if(loc.size() == 0) return null;
 
         //지역,작가소개 매핑
@@ -57,10 +51,10 @@ public class StudioServiceImpl implements StudioService {
     @Override
     public LocalDateTime[] showCalendar(String nickname){
         // 닉네임으로 스튜디오 idx를 가져옴
-        Integer studio_idx = getStudioIdx(nickname);
+        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
 
         // 스튜디오 idx로 일정 리스트를 가져옴
-        List<Calendar> cal = calnedarRepository.findByMyStudio_Idx(studio_idx);
+        List<Calendar> cal = calnedarRepository.findCal(studioIdx);
 
         // 일정이 없음
         if(cal.size() == 0) return null;
@@ -80,8 +74,9 @@ public class StudioServiceImpl implements StudioService {
         // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
         String jwtNickname = "";
 
-        Integer studio_idx = getStudioIdx(nickname);
-        MyStudio mystudio = myStudioRepository.findUserByIdx(studio_idx);
+        // 닉네임으로 스튜디오 idx를 가져옴
+        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
+        MyStudio mystudio = myStudioRepository.findUserByStudio_Idx(studioIdx);
 
         if(nickname!=jwtNickname) return false;
 
@@ -98,10 +93,10 @@ public class StudioServiceImpl implements StudioService {
     @Override
     public StudioGetPhotosResBody getBestPhotos(String nickname){
         // 닉네임으로 스튜디오 idx를 가져옴
-        Integer studio_idx = getStudioIdx(nickname);
+        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
 
         // 스튜디오 idx로 베스트 사진 접근
-        List<Photo> bPhotos = photoRepository.findByMyStudio_IdxAndBestIsTrue(studio_idx);
+        List<Photo> bPhotos = photoRepository.findByStudioIdxAndBestIsTrue(studioIdx);
 
         // Best 사진으로 등록한 사진이 없음
         if(bPhotos.size() == 0) return null;
@@ -130,10 +125,10 @@ public class StudioServiceImpl implements StudioService {
     @Override
     public StudioGetPhotosResBody getAllPgPhotos(String nickname){
         // 닉네임으로 스튜디오 idx를 가져옴
-        Integer studio_idx = getStudioIdx(nickname);
+        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
 
         // 스튜디오 idx로 전체 사진 접근
-        List<Photo> photos = photoRepository.findByMyStudio_Idx(studio_idx);
+        List<Photo> photos = photoRepository.findByStudioIdx(studioIdx);
 
         // 작가 사진이 없음
         if(photos.size() == 0) return null;

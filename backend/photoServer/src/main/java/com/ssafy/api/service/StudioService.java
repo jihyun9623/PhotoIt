@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 
 @Service
 public interface StudioService {
-    public Integer getStudioIdx(String nickname);
-
     public StudioPgProfileResBody getPgProfile(String nickname);
 
     public LocalDateTime[] showCalendar(String nickname);

@@ -30,4 +30,6 @@ public interface MainPageService {
     boolean isFavorite(String nickName, String userId);
 
     List<ThumbPhotoIdRes> thumbPhotoIds(String nickName, String thumbnail);
+
+    void photoViewCnt(String thumbnail);
 }

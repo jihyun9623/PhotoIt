@@ -5,42 +5,18 @@
         class="container d-flex align-items-center justify-content-lg-between"
       >
         <h1 class="me-auto me-lg-0">
-          <router-link to="/" class="navbar-brand"
+          <router-link to="/"
             ><img
               src="../assets/images/Logo.png"
               alt=""
-              width="100"
-              height="50"
+              width="75"
+              height="40"
               class="d-inline-block align-text-top"
           /></router-link>
         </h1>
 
-        <li class="nav-item float-end list-unstyled" v-if="!isLoginGetters">
-          <router-link to="/login" class="btn btn-primary">Login</router-link
-          >&nbsp;
-          <router-link to="/signUp" class="btn btn-primary">SignUp</router-link>
-        </li>
-        <li class="nav-item float-end list-unstyled" v-else>
-          <a
-            v-show="$store.state.login.isLogin"
-            class="navbar-brand"
-            style="color: white"
-          >
-            <img
-              src="../assets/images/photographer.png"
-              alt=""
-              width="34"
-              height="30"
-              class="d-inline-block align-text-top"
-            />
-            {{ $store.state.login.userName }}'s HappyHouse
-          </a>
-          <button class="get-started-btn" @click="logout" id="logout">
-            Logout</button
-          >&nbsp;
-          <router-link to="/userInfo" class="get-started-btn"
-            >MyPage</router-link
-          >
+        <li class="nav-item float-end list-unstyled">
+          <ProfileIconMenu />
         </li>
       </div>
     </header>
@@ -205,6 +181,7 @@
 </template>
 
 <script>
+import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
 // import component from "component location"
 
 export default {
@@ -227,6 +204,7 @@ export default {
   },
   components: {
     // components
+    ProfileIconMenu,
   },
 }
 </script>

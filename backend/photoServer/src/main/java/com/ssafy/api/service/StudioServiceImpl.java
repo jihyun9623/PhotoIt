@@ -4,9 +4,11 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.response.StudioGetPhotosResBody;
 import com.ssafy.api.response.StudioPgProfileResBody;
-import com.ssafy.db.entity.*;
+import com.ssafy.db.entity.Calendar;
+import com.ssafy.db.entity.Location;
+import com.ssafy.db.entity.MyStudio;
+import com.ssafy.db.entity.Photo;
 import com.ssafy.db.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,21 +18,29 @@ import java.util.List;
 
 @Service
 public class StudioServiceImpl implements StudioService {
-    @Autowired
-    UserRepository userRepository;
-    MyStudioRepository myStudioRepository;
-    CalendarRepository calnedarRepository;
-    PhotoRepository photoRepository;
-    LocationRepository locationRepository;
+
+    private final UserRepository userRepository;
+    private final MyStudioRepository myStudioRepository;
+    private final CalendarRepository calendarRepository;
+    private final PhotoRepository photoRepository;
+    private final LocationRepository locationRepository;
+
+    public StudioServiceImpl(UserRepository userRepository, MyStudioRepository myStudioRepository, CalendarRepository calendarRepository, PhotoRepository photoRepository, LocationRepository locationRepository) {
+        this.userRepository = userRepository;
+        this.myStudioRepository = myStudioRepository;
+        this.calendarRepository = calendarRepository;
+        this.photoRepository = photoRepository;
+        this.locationRepository = locationRepository;
+    }
 
     //작가 프로필 가져오기
     @Override
     public StudioPgProfileResBody getPgProfile(String nickname){
         // 닉네임으로 스튜디오 idx를 가져옴
-        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
+        int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
 
         // 스튜디오 idx로 작가 프로필을 가져옴
-        MyStudio myStudio = myStudioRepository.findUserByStudio_Idx(studioIdx);
+        MyStudio myStudio = myStudioRepository.findUserByMyStudio_Idx(studioIdx);
 
         // 지역
         List<Location> loc = locationRepository.findByAuthorLocations_MyStudio_Idx(studioIdx);
@@ -51,10 +61,10 @@ public class StudioServiceImpl implements StudioService {
     @Override
     public LocalDateTime[] showCalendar(String nickname){
         // 닉네임으로 스튜디오 idx를 가져옴
-        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
+        int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
 
         // 스튜디오 idx로 일정 리스트를 가져옴
-        List<Calendar> cal = calnedarRepository.findCal(studioIdx);
+        List<Calendar> cal = calendarRepository.findByMyStudio_Idx(studioIdx);
 
         // 일정이 없음
         if(cal.size() == 0) return null;
@@ -75,15 +85,15 @@ public class StudioServiceImpl implements StudioService {
         String jwtNickname = "";
 
         // 닉네임으로 스튜디오 idx를 가져옴
-        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
-        MyStudio mystudio = myStudioRepository.findUserByStudio_Idx(studioIdx);
+        int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
+        MyStudio mystudio = myStudioRepository.findUserByMyStudio_Idx(studioIdx);
 
         if(nickname!=jwtNickname) return false;
 
         // DB에 일정 추가하기
         for(int i=0;i<cal_time.length;i++){
             Calendar calList = new Calendar(0, cal_time[i],mystudio);
-            calnedarRepository.save(calList);
+            calendarRepository.save(calList);
         }
 
         return true;
@@ -93,10 +103,10 @@ public class StudioServiceImpl implements StudioService {
     @Override
     public StudioGetPhotosResBody getBestPhotos(String nickname){
         // 닉네임으로 스튜디오 idx를 가져옴
-        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
+        int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
 
         // 스튜디오 idx로 베스트 사진 접근
-        List<Photo> bPhotos = photoRepository.findByStudioIdxAndBestIsTrue(studioIdx);
+        List<Photo> bPhotos = photoRepository.findByMyStudio_IdxAndBestIsTrue(studioIdx);
 
         // Best 사진으로 등록한 사진이 없음
         if(bPhotos.size() == 0) return null;
@@ -125,10 +135,10 @@ public class StudioServiceImpl implements StudioService {
     @Override
     public StudioGetPhotosResBody getAllPgPhotos(String nickname){
         // 닉네임으로 스튜디오 idx를 가져옴
-        Integer studioIdx = userRepository.findUserByNickname(nickname).getMyStudio().getIdx();
+        int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
 
         // 스튜디오 idx로 전체 사진 접근
-        List<Photo> photos = photoRepository.findByStudioIdx(studioIdx);
+        List<Photo> photos = photoRepository.findByMyStudio_Idx(studioIdx);
 
         // 작가 사진이 없음
         if(photos.size() == 0) return null;

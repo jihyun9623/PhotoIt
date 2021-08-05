@@ -10,6 +10,6 @@ public interface MyStudioRepository extends JpaRepository<MyStudio, Integer> {
     List<MyStudio> findByNicknameContaining(String nickName);
     Optional<MyStudio> findByNickname(String nickName);
     MyStudio findByUser_Id(String id);
-    MyStudio findUserByStudio_Idx(Integer studio_idx);
-    MyStudio findUserByNickname(String nickname);
+    MyStudio findUserByMyStudio_Idx(Integer studio_idx);
+    MyStudio findByUser_Nickname(String nickname);
 }

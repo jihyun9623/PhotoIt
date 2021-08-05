@@ -23,8 +23,8 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 
     long countByMyStudio_IdxAndBestIsTrue(int idx);
 
-    List<Photo> findByStudioIdx(Integer studio_idx);
-    List<Photo> findByStudioIdxAndBestIsTrue(Integer studio_idx);
+    List<Photo> findByMyStudio_Idx(Integer studio_idx);
+    List<Photo> findByMyStudio_IdxAndBestIsTrue(Integer studio_idx);
 
     List<Photo> findByMyStudio_IdxAndBestIsTrue(int idx);
 }

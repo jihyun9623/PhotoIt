@@ -169,4 +169,23 @@ public class MainPageServiceImpl implements MainPageService{
         }
         return thumbPhotoIds;
     }
+
+    @Override
+    public void photoViewCnt(String thumbnail) {
+        Photo photo = photoRepository.findByThumbnail(thumbnail)
+                        .orElseThrow(RuntimeException::new);
+
+        Photo newPhoto = Photo.builder()
+                         .idx(photo.getIdx())
+                         .best(photo.isBest())
+                         .viewCnt(photo.getViewCnt()+1)
+                         .myStudio(photo.getMyStudio())
+                         .origin(photo.getOrigin())
+                         .thumbnail(photo.getThumbnail())
+                         .upload(photo.getUpload())
+                         .build();
+
+        photoRepository.save(newPhoto);
+
+    }
 }

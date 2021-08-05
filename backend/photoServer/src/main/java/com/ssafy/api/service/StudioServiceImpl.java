@@ -19,7 +19,7 @@ public class StudioServiceImpl implements StudioService {
     @Autowired
     UserRepository userRepository;
     MyStudioRepository myStudioRepository;
-    CalnedarRepository calnedarRepository;
+    CalendarRepository calnedarRepository;
     PhotoRepository photoRepository;
     LocationRepository locationRepository;
 
@@ -36,7 +36,7 @@ public class StudioServiceImpl implements StudioService {
         Integer studio_idx = getStudioIdx(nickname);
 
         // 스튜디오 idx로 작가 프로필을 가져옴
-        MyStudio myStudio = myStudioRepository.findUserByStudio_Idx(studio_idx);
+        MyStudio myStudio = myStudioRepository.findUserByIdx(studio_idx);
 
         // 지역
         List<Location> loc = locationRepository.findByAuthorLocations_MyStudio_Idx(studio_idx);
@@ -60,7 +60,7 @@ public class StudioServiceImpl implements StudioService {
         Integer studio_idx = getStudioIdx(nickname);
 
         // 스튜디오 idx로 일정 리스트를 가져옴
-        List<Calendar> cal = calnedarRepository.findCal(studio_idx);
+        List<Calendar> cal = calnedarRepository.findByMyStudio_Idx(studio_idx);
 
         // 일정이 없음
         if(cal.size() == 0) return null;
@@ -81,7 +81,7 @@ public class StudioServiceImpl implements StudioService {
         String jwtNickname = "";
 
         Integer studio_idx = getStudioIdx(nickname);
-        MyStudio mystudio = myStudioRepository.findUserByStudio_Idx(studio_idx);
+        MyStudio mystudio = myStudioRepository.findUserByIdx(studio_idx);
 
         if(nickname!=jwtNickname) return false;
 
@@ -101,7 +101,7 @@ public class StudioServiceImpl implements StudioService {
         Integer studio_idx = getStudioIdx(nickname);
 
         // 스튜디오 idx로 베스트 사진 접근
-        List<Photo> bPhotos = photoRepository.findByStudioIdxAndBestIsTrue(studio_idx);
+        List<Photo> bPhotos = photoRepository.findByMyStudio_IdxAndBestIsTrue(studio_idx);
 
         // Best 사진으로 등록한 사진이 없음
         if(bPhotos.size() == 0) return null;
@@ -133,7 +133,7 @@ public class StudioServiceImpl implements StudioService {
         Integer studio_idx = getStudioIdx(nickname);
 
         // 스튜디오 idx로 전체 사진 접근
-        List<Photo> photos = photoRepository.findByStudioIdx(studio_idx);
+        List<Photo> photos = photoRepository.findByMyStudio_Idx(studio_idx);
 
         // 작가 사진이 없음
         if(photos.size() == 0) return null;

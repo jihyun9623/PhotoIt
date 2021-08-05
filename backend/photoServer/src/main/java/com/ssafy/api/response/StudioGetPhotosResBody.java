@@ -19,14 +19,14 @@ public class StudioGetPhotosResBody extends BaseResponseBody {
     @ApiModelProperty(name="사진 ID 배열", example = "123512")
     String[] pid;
     @ApiModelProperty(name="사진 파일", example = "multipart 형")
-    List<MultipartFile> fileList;
+    String[] origin;
 
-    public static StudioGetPhotosResBody of(Integer statusCode, String message, String[] pid, List<MultipartFile> fileList){
+    public static StudioGetPhotosResBody of(Integer statusCode, String message, String[] pid, String[] origin){
         StudioGetPhotosResBody body = new StudioGetPhotosResBody();
         body.setStatusCode(statusCode);
         body.setMessage(message);
         body.setPid(pid);
-        body.setFileList(fileList);
+        body.setOrigin(origin);
         return body;
     }
 }

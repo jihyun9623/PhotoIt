@@ -19,14 +19,14 @@ import java.util.List;
 
 @Api(value = "Studio API")
 @RestController
-@RequestMapping("studio")
+@RequestMapping("/studio")
 public class StudioController {
 
     @Autowired
     StudioService studioService;
 
     // 작가 프로필 받아오기
-    @GetMapping("pgprofile")
+    @GetMapping("/pgprofile")
     @ApiOperation(value = "작가 프로필 받아오기",notes = "한줄프로필,지역을 받아온다.")
     @ApiResponses({
             @ApiResponse(code = 201,message = "조회 성공", response = StudioPgProfileResBody.class),
@@ -48,7 +48,7 @@ public class StudioController {
     }
 
     // 일정 보여주기
-    @GetMapping("showcal")
+    @GetMapping("/showcal")
     @ApiOperation(value = "일정 보여주기")
     @ApiResponses({
             @ApiResponse(code = 201, message = "조회 성공", response = StudioCalendarResBody.class),
@@ -68,7 +68,7 @@ public class StudioController {
     }
 
     // 일정 수정하기
-    @PostMapping("editcal")
+    @PostMapping("/editcal")
     @ApiOperation(value = "일정 수정하기")
     @ApiResponses({
             @ApiResponse(code = 201, message = "수정 성공", response = BaseResponseBody.class),
@@ -92,7 +92,7 @@ public class StudioController {
     }
 
     // 베스트3 사진 받아오기
-    @GetMapping("bestphotos")
+    @GetMapping("/bestphotos")
     @ApiOperation(value = "베스트3 사진 받아오기")
     @ApiResponses({
             @ApiResponse(code = 201, message = "조회 성공", response = StudioGetPhotosResBody.class),
@@ -114,7 +114,7 @@ public class StudioController {
     }
 
     // 작가 전체사진 받아오기기
-    @GetMapping("pgphoto")
+    @GetMapping("/pgphoto")
     @ApiOperation(value = "작가 전체사진 받아오기")
     @ApiResponses({
             @ApiResponse(code = 201, message = "조회 성공", response = StudioGetPhotosResBody.class),

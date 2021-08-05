@@ -86,7 +86,7 @@ public class StudioServiceImpl implements StudioService {
         int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
         MyStudio mystudio = myStudioRepository.findByIdx(studioIdx);
 
-        if(nickname!=jwtNickname) return false;
+        if(!nickname.equals(jwtNickname)) return false;
 
         // DB에 일정 추가하기
         for(int i=0;i<cal_time.length;i++){
@@ -111,20 +111,17 @@ public class StudioServiceImpl implements StudioService {
 
         // 사진ID, 사진파일 Mapping
         String[] pid = new String[bPhotos.size()];
-        List<MultipartFile> files = new ArrayList<>();
+        String[] borigin = new String[bPhotos.size()];
 
         int i=0;
         for(Photo p : bPhotos) {
             pid[i++] = Integer.toString(p.getIdx());
-            // TO-DO 파일 불러오기
-            // File <- p.getOrigin()
-            // MultipartFile multipartFile = null;
-            // files.add(multipartFile);
+            borigin[i++] = p.getOrigin();
         }
 
         StudioGetPhotosResBody resbody = new StudioGetPhotosResBody();
         resbody.setPid(pid);
-        resbody.setFileList(files);
+        resbody.setOrigin(borigin);
 
         return resbody;
     };
@@ -143,20 +140,17 @@ public class StudioServiceImpl implements StudioService {
 
         // 사진ID, 사진파일 Mapping
         String[] pid = new String[photos.size()];
-        List<MultipartFile> files = new ArrayList<>();
+        String[] origin = new String[photos.size()];
 
         int i=0;
         for(Photo p : photos) {
             pid[i++] = Integer.toString(p.getIdx());
-            // TO-DO 파일 불러오기
-            // File <- p.getOrigin()
-            // MultipartFile multipartFile = null;
-            // files.add(multipartFile);
+            origin[i++] = p.getOrigin();
         }
 
         StudioGetPhotosResBody resbody = new StudioGetPhotosResBody();
         resbody.setPid(pid);
-        resbody.setFileList(files);
+        resbody.setOrigin(origin);
 
         return resbody;
     };

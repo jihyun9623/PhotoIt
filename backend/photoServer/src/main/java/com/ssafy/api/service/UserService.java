@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
@@ -14,7 +15,7 @@ public interface UserService {
     public void signUp(UserRegisterPostReq user);
 
     // 로그인 : signIn
-    public boolean signIn();
+    String signin(UserLoginPostReq loginInfo);
 
 //    // 지역목록요청 : locationList
 //    public ArrayList<String> locationList();

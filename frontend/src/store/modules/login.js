@@ -11,7 +11,8 @@ const actions = {
     axios({
       method: 'post',
       url: 'http:어쩌고/user/signiin',
-      data: credentials,
+      // JSON 파일로 전송
+      data: JSON.stringify(credentials),
     })
       .then((res) => {
         console.log(res)

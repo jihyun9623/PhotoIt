@@ -4,15 +4,17 @@ import axios from 'axios'
 const state = () => ({
   resultTag: null,
   resultPhotographer: null,
+  isSearchHeaderShow: false,
 })
 
 // actions
 const actions = {
-  tagSearch({ commit }, info) {
+  tagSearch({ commit, rootState }, info) {
     axios({
       method: 'post',
       url: `http:어쩌고/search/tag/${info.keyword}/${info.region}`,
-      data: info,
+      headers: rootState.login.TOKEN,
+      data: JSON.stringify(info),
     })
       .then((res) => {
         console.log(res)
@@ -25,11 +27,12 @@ const actions = {
         alert('다시 시도해주십시오.')
       })
   },
-  photographerSearch({ commit }, info) {
+  photographerSearch({ commit, rootState }, info) {
     axios({
       method: 'post',
       url: `http:어쩌고/search/pg/${info.keyword}/${info.region}`,
-      data: info,
+      headers: rootState.login.TOKEN,
+      data: JSON.stringify(info),
     })
       .then((res) => {
         console.log(res)

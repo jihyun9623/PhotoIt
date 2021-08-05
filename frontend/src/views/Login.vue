@@ -5,7 +5,7 @@
         <!-- Logo 자리 -->
         <div class="logo-box mb-5">로고 자리</div>
         <div class="mb-3">
-          <label for="email" class="form-label d-flex justify-content-start"
+          <label for="id" class="form-label d-flex justify-content-start"
             >이메일(아이디)</label
           >
           <input
@@ -13,7 +13,7 @@
             class="form-control"
             id="email"
             placeholder="user@example.com"
-            v-model="credentials.email"
+            v-model="credentials.id"
             @keyup.enter="login"
           />
         </div>
@@ -63,8 +63,8 @@ export default {
   data() {
     return {
       credentials: {
-        email: null,
-        password: null,
+        id: null,
+        passwd: null,
       },
     }
   },

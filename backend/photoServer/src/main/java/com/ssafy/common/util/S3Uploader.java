@@ -5,10 +5,13 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -38,6 +41,11 @@ public class S3Uploader implements Uploader{
             throw new UnsupportedOperationException("지원하지않는 확장자 입니다.");
         }
         return upload(convertedFile, dirName);
+    }
+
+    @Override
+    public String uploadS3Instance(File file, String dirName) throws IOException {
+        return upload(file, dirName);
     }
 
     @Override

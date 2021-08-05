@@ -5,15 +5,23 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.response.StudioEditPgProfileResponseBody;
 import com.ssafy.api.response.StudioEditPhotoResponseBody;
+import com.ssafy.common.util.Uploader;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.imgscalr.Scalr;
+
+import javax.imageio.ImageIO;
 
 @Service
 public class StudioEditServiceImpl implements StudioEditService {
@@ -24,14 +32,20 @@ public class StudioEditServiceImpl implements StudioEditService {
     private final PhotoRepository photoRepository;
     private final PhotoTagRepository photoTagRepository;
     private final TagRepository tagRepository;
+    private final Uploader uploader;
 
-    public StudioEditServiceImpl(UserRepository userRepository, LocationRepository locationRepository, MyStudioRepository myStudioRepository, PhotoRepository photoRepository, PhotoTagRepository photoTagRepository, TagRepository tagRepository) {
+    private final String DirNameOrigin = "origin";
+    private final String DirNameThumbnail = "thumbnail";
+    private final static String TEMP_FILE_PATH = "src/main/resources/static/";
+
+    public StudioEditServiceImpl(UserRepository userRepository, LocationRepository locationRepository, MyStudioRepository myStudioRepository, PhotoRepository photoRepository, PhotoTagRepository photoTagRepository, TagRepository tagRepository, Uploader uploader) {
         this.userRepository = userRepository;
         this.locationRepository = locationRepository;
         this.myStudioRepository = myStudioRepository;
         this.photoRepository = photoRepository;
         this.photoTagRepository = photoTagRepository;
         this.tagRepository = tagRepository;
+        this.uploader = uploader;
     }
 
     // 닉네임과 현재 접속자를 비교하여 Edit접근여부 판단
@@ -86,14 +100,11 @@ public class StudioEditServiceImpl implements StudioEditService {
 
         // 사진ID, 사진파일 Mapping
         List<String> strings = new ArrayList<>();
-        List<MultipartFile> files = new ArrayList<>();
+        List<String> files = new ArrayList<>();
 
         for(Photo p : photos) {
             strings.add(Integer.toString(p.getIdx()));
-            // TO-DO 파일 불러오기
-            // File <- p.getOrigin()
-            // MultipartFile multipartFile = null;
-            // files.add(multipartFile);
+            files.add(p.getOrigin());
         }
 
         StudioEditPhotoResponseBody responseBody = new StudioEditPhotoResponseBody();
@@ -115,14 +126,11 @@ public class StudioEditServiceImpl implements StudioEditService {
 
         // 사진ID, 사진파일 Mapping
         List<String> strings = new ArrayList<>();
-        List<MultipartFile> files = new ArrayList<>();
+        List<String> files = new ArrayList<>();
 
         for(Photo p : photos) {
             strings.add(Integer.toString(p.getIdx()));
-            // TO-DO 파일 불러오기 (섬네일파일로 불러오기)
-            // File <- p.getOrigin()
-            // MultipartFile multipartFile = null;
-            // files.add(multipartFile);
+            files.add(p.getThumbnail());
         }
 
         StudioEditPhotoResponseBody responseBody = new StudioEditPhotoResponseBody();
@@ -200,23 +208,29 @@ public class StudioEditServiceImpl implements StudioEditService {
         // JWT -> user_id -> MyStudio -> Photo
         String user_id = utilCheckUserId(JWT);
         MyStudio myStudio = myStudioRepository.findByUser_Id(user_id);
-        List<String> UplodedFilesUUID = new ArrayList<>();
 
+        // 여러 사진파일 업로드
         for(int i = 0; i < files.size(); i++) {
             MultipartFile file = files.get(i);
             String[] tag = tags[i];
+            String originURL = null;
+            String thumbnailURL = null;
 
-            // TO-DO : File 업로드 하기
-            // File 업로드 중 에러 발생시 롤백필요, UplodedFilesUUID를통해 사진 삭제, False 리턴
+            try {
+                originURL = uploader.uploadS3Instance(file, DirNameOrigin);
 
-            // DB insert & File save
-            String uuid;
-            do {
-                uuid = java.util.UUID.randomUUID().toString();
-                // 랜덤생성 UUID가 겹치는 것이 있는지 확인
-            } while (photoRepository.existsByOrigin(uuid));
+                /* 섬네일 추출 */
+                File thumbnail = new File(TEMP_FILE_PATH + "thumbnail");
+                // QUALITY 1~5 -> 4, resizeMode = Auto, size = 400 * 400, Filename = "thumbnail_" + OriginalName
+                ImageIO.write(Scalr.resize(ImageIO.read(file.getInputStream()), Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 400,400), file.getContentType(), thumbnail);
 
-            Photo photo = new Photo(0, myStudio, 0, uuid,  uuid, false, LocalDateTime.now());
+                thumbnailURL = uploader.uploadS3Instance(thumbnail, DirNameThumbnail);
+            } catch (IOException e) {
+                return false;
+            }
+
+            // DB insert
+            Photo photo = new Photo(0, myStudio, 0, originURL,  thumbnailURL, false, LocalDateTime.now());
 
             photoRepository.save(photo);
 
@@ -241,7 +255,18 @@ public class StudioEditServiceImpl implements StudioEditService {
         // 본인의 사진인지 별도 확인 필요
         if(!myPhotoCheck(del_id, user_id)) return false;
 
-        return photoRepository.deleteByIdx(del_id) > 0;
+        Photo photo = photoRepository.findByIdx(del_id);
+
+        if(photo != null) {
+            String origin = photo.getOrigin();
+            String thumbnail = photo.getThumbnail();
+            if(photoRepository.deleteByIdx(del_id) > 0) {
+                uploader.deleteS3Instance(origin);
+                uploader.deleteS3Instance(thumbnail);
+                return true;
+            }
+        }
+        return false;
     }
 
     // JWT -> user_id
@@ -256,17 +281,5 @@ public class StudioEditServiceImpl implements StudioEditService {
         if(temp == null) return false;
 
         return temp.getMyStudio().getUser().getId().equals(user_id);
-    }
-
-    private boolean fileSave (MultipartFile file, String uuid) {
-        // 섬네일 따기
-        // 파일 원본 저장
-        // 섬네일 저장
-        return false;
-    }
-
-    private boolean fileDelete (MultipartFile file, String uuid) {
-        // 섬네일, 원본 삭제
-        return false;
     }
 }

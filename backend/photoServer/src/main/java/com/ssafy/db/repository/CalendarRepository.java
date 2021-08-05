@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CalnedarRepository extends JpaRepository<Calendar, Integer> {
-    List<Calendar> findCal(Integer studioIdx);
+public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
+    List<Calendar> findByMyStudio_Idx(int idx);
 }

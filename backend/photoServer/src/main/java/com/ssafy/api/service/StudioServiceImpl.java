@@ -19,7 +19,7 @@ public class StudioServiceImpl implements StudioService {
     @Autowired
     UserRepository userRepository;
     MyStudioRepository myStudioRepository;
-    CalnedarRepository calnedarRepository;
+    CalendarRepository calnedarRepository;
     PhotoRepository photoRepository;
     LocationRepository locationRepository;
 

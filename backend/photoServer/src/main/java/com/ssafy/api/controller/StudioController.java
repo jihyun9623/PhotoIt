@@ -107,7 +107,7 @@ public class StudioController {
         StudioGetPhotosResBody studioGetPhotosResBody = studioService.getBestPhotos(nickname);
 
         if(studioGetPhotosResBody!=null) {
-            return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getPid(),studioGetPhotosResBody.getFileList()));
+            return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getPid(),studioGetPhotosResBody.getOrigin()));
         }
 
         return ResponseEntity.status(401).body(StudioGetPhotosResBody.of(401, "Failed",null,null));
@@ -129,7 +129,7 @@ public class StudioController {
         StudioGetPhotosResBody studioGetPhotosResBody = studioService.getAllPgPhotos(nickname);
 
         if(studioGetPhotosResBody!=null) {
-            return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getPid(),studioGetPhotosResBody.getFileList()));
+            return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getPid(),studioGetPhotosResBody.getOrigin()));
         }
 
         return ResponseEntity.status(401).body(StudioGetPhotosResBody.of(401, "Failed",null,null));

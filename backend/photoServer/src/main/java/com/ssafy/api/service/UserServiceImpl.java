@@ -40,15 +40,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signUp(UserRegisterPostReq info) {
-        /** User 테이블에 저장
-            // id, passwd, nickname, pg, photo
-        // mystudio 테이블에 저장
-            // nickname, profile
-        // author_location 테이블에 저장
-            // location 저장
-        // location 테이블에 저장
-            // location
-        */
 
         // 작가회원이면 mystudio + location 생성
         if(info.getPg()==true){
@@ -81,9 +72,9 @@ public class UserServiceImpl implements UserService {
                 }
                 Location loc=locationRepository.findLocationByName(s);
                 AuthorLocation authLoc=AuthorLocation.builder()
-                                                .location(loc)
-                                                .myStudio(myStudio)
-                                                .build();
+                        .location(loc)
+                        .myStudio(myStudio)
+                        .build();
                 authorLocationRepository.save(authLoc);
             }
         }else{

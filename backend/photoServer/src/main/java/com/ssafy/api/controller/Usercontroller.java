@@ -1,6 +1,5 @@
 package com.ssafy.api.controller;
 
-
 import com.fasterxml.jackson.databind.ser.Serializers;
 import com.ssafy.api.request.MailAuthPostReq;
 import com.ssafy.api.request.MailPostReq;

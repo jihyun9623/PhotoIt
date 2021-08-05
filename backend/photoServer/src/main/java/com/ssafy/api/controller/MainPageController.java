@@ -1,29 +1,18 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.DetailReq;
 import com.ssafy.api.request.MainPageReq;
-import com.ssafy.api.response.MainPageLocationRes;
-import com.ssafy.api.response.MainPageProfileRes;
-import com.ssafy.api.response.MainPageTagPhotoRes;
+import com.ssafy.api.response.*;
 import com.ssafy.api.service.MainPageService;
-import com.ssafy.api.service.MainPageServiceImpl;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.LocationRepository;
-import com.ssafy.db.repository.TagRepository;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.List;
 
 
 @Api(value = "메인 페이지 api", tags = {"MainPage"})
@@ -63,7 +52,7 @@ public class MainPageController {
     }
 
     @GetMapping("/contents")
-    @ApiOperation(value = "메인콘텐츠 가져오기", notes = "사진 태그별 사진, 사진작가 닉네임들을 가져온다.")
+    @ApiOperation(value = "메인콘텐츠 가져오기", notes = "사진태그 ,(썸네일, 닉네임)")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success", response = MainPageTagPhotoRes.class),
             @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
@@ -72,9 +61,21 @@ public class MainPageController {
     })
     public ResponseEntity<MainPageTagPhotoRes> mainPageContents() {
         String[] tagList = mainPageService.tagList();
-        Map<String, Map<String, String>> tagPhotoList = mainPageService.getMainContents();
+        List<TagThumbNickNameRes> tagPhotoList = mainPageService.getMainContents();
 
         return ResponseEntity.ok(MainPageTagPhotoRes.of(200,"Success", tagPhotoList, tagList));
+    }
+
+    @PostMapping("/detail")
+    @ApiOperation(value = "사진 디테일 콘텐츠 가져오기", notes = "(원본사진 경로, 원본사진 태그List, 찜 여부, [썸네일경로, 사진ID] N개")
+    public ResponseEntity<MainPagePhotoDetailRes> photoDetail(@RequestBody @ApiParam(value = "사진작가 닉네임, 썸네일 경로, user id(로그인되어있으면", required = true) DetailReq detailReq) {
+        String origin = mainPageService.photoOrigin(detailReq.getThumbnail());
+        String[] tagList = mainPageService.photoTagList(detailReq.getThumbnail());
+        Boolean isFavorite = mainPageService.isFavorite(detailReq.getNickName(), detailReq.getId());
+        List<ThumbPhotoIdRes> thumbPhotoIds = mainPageService.thumbPhotoIds(detailReq.getNickName(), detailReq.getThumbnail());
+        mainPageService.photoViewCnt(detailReq.getThumbnail());
+
+        return ResponseEntity.ok(MainPagePhotoDetailRes.of(200, "Success", origin, tagList, isFavorite, thumbPhotoIds));
     }
 
     @GetMapping("/profile")
@@ -86,9 +87,8 @@ public class MainPageController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     public ResponseEntity<MainPageProfileRes> userProfile(@RequestBody @ApiParam(value="JWT, user Id", required = true) MainPageReq mainReq) {
-        String nickName = mainPageService.getUser(mainReq.getJWT(), mainReq.getId()).getNickname();
-        String profile = mainPageService.getUser(mainReq.getJWT(), mainReq.getId()).getPhoto();
-        return ResponseEntity.ok(MainPageProfileRes.of(200,"Success", profile, nickName));
+        UserProfile userProfile = mainPageService.userProfile(mainReq.getJWT(), mainReq.getId());
+        return ResponseEntity.ok(MainPageProfileRes.of(200,"Success", userProfile));
     }
 
 }

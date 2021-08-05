@@ -11,7 +11,7 @@ const state = () => ({
 const actions = {
   tagSearch({ commit }, info) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/search/tag/${info.keyword}/${info.region}`,
       data: JSON.stringify(info),
     })
@@ -28,7 +28,7 @@ const actions = {
   },
   photographerSearch({ commit }, info) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/search/pg/${info.keyword}/${info.region}`,
       data: JSON.stringify(info),
     })

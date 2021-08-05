@@ -13,7 +13,7 @@ const state = () => ({
 const actions = {
   getRegions({ commit }) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/location`,
     }).then((res) => {
       console.log(res)
@@ -23,7 +23,7 @@ const actions = {
   },
   getTags({ commit }) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/tag`,
     }).then((res) => {
       console.log(res)
@@ -37,7 +37,7 @@ const actions = {
       id: id,
     }
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/profile`,
       headers: dispatch('login/getToken', { root: true }),
       data: JSON.stringify(payload),
@@ -49,7 +49,7 @@ const actions = {
   },
   getMainContents({ commit }) {
     axios({
-      method: 'post',
+      method: 'get',
       url: `http://localhost:8080/contents`,
     }).then((res) => {
       console.log(res)

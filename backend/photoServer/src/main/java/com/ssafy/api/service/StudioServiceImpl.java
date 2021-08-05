@@ -19,14 +19,12 @@ import java.util.List;
 @Service
 public class StudioServiceImpl implements StudioService {
 
-    private final UserRepository userRepository;
     private final MyStudioRepository myStudioRepository;
     private final CalendarRepository calendarRepository;
     private final PhotoRepository photoRepository;
     private final LocationRepository locationRepository;
 
-    public StudioServiceImpl(UserRepository userRepository, MyStudioRepository myStudioRepository, CalendarRepository calendarRepository, PhotoRepository photoRepository, LocationRepository locationRepository) {
-        this.userRepository = userRepository;
+    public StudioServiceImpl(MyStudioRepository myStudioRepository, CalendarRepository calendarRepository, PhotoRepository photoRepository, LocationRepository locationRepository) {
         this.myStudioRepository = myStudioRepository;
         this.calendarRepository = calendarRepository;
         this.photoRepository = photoRepository;
@@ -40,7 +38,7 @@ public class StudioServiceImpl implements StudioService {
         int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
 
         // 스튜디오 idx로 작가 프로필을 가져옴
-        MyStudio myStudio = myStudioRepository.findUserByMyStudio_Idx(studioIdx);
+        MyStudio myStudio = myStudioRepository.findByIdx(studioIdx);
 
         // 지역
         List<Location> loc = locationRepository.findByAuthorLocations_MyStudio_Idx(studioIdx);
@@ -86,7 +84,7 @@ public class StudioServiceImpl implements StudioService {
 
         // 닉네임으로 스튜디오 idx를 가져옴
         int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
-        MyStudio mystudio = myStudioRepository.findUserByMyStudio_Idx(studioIdx);
+        MyStudio mystudio = myStudioRepository.findByIdx(studioIdx);
 
         if(nickname!=jwtNickname) return false;
 

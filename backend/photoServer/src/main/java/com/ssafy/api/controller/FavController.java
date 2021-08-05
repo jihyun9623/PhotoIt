@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(value = "Fav API")
 @RestController
-@RequestMapping("fav")
+@RequestMapping("/fav")
 public class FavController {
 
     @Autowired
     FavService favService;
 
-    // 찜 해제하기
-    @PostMapping("edit")
+    // 찜 추가하기
+    @PostMapping("/add")
     @ApiOperation(value = "찜 추가")
     @ApiResponses({
             @ApiResponse(code = 201,message = "추가 성공", response = BaseResponseBody.class),
@@ -41,7 +41,7 @@ public class FavController {
     }
 
     // 찜 해제하기
-    @PostMapping("edit")
+    @PostMapping("/delete")
     @ApiOperation(value = "찜 해제")
     @ApiResponses({
             @ApiResponse(code = 201,message = "해제 성공", response = BaseResponseBody.class),
@@ -64,7 +64,7 @@ public class FavController {
     }
 
     //사진 확대했을 때 작가 이름 옆의 찜 확인
-    @GetMapping("check")
+    @GetMapping("/check")
     @ApiOperation(value = "찜 확인")
     @ApiResponses({
             @ApiResponse(code = 201,message = "확인 성공", response = BaseResponseBody.class),
@@ -87,7 +87,7 @@ public class FavController {
     }
 
     //찜목록 불러오기
-    @GetMapping("list")
+    @GetMapping("/list")
     @ApiOperation(value = "찜 목록 불러오기")
     @ApiResponses({
             @ApiResponse(code = 201,message = "조회 성공", response = FavResBody.class),

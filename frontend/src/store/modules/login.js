@@ -10,7 +10,7 @@ const actions = {
   saveToken({ commit }, credentials) {
     axios({
       method: 'post',
-      url: 'http:어쩌고/user/signiin',
+      url: 'http://localhost:8080/user/signiin',
       // JSON 파일로 전송
       data: JSON.stringify(credentials),
     })

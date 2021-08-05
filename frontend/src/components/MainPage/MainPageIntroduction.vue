@@ -47,7 +47,7 @@ export default {
     stickySearchBar() {
       const searchBar = document.querySelector('.search-style')
       const sticky = searchBar.getBoundingClientRect().top
-      console.log(sticky)
+      // console.log(sticky)
       if (0 >= sticky) {
         searchBar.style.opacity = '0'
         this.$store.state.search.isSearchHeaderShow = true

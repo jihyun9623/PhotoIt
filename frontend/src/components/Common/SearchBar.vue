@@ -1,29 +1,29 @@
 <template>
-  <div class="d-flex justify-content-center">
-    <div class="search-style-header" v-show="isSearchHeaderShow">
-      <select name="region" id="searchRegion" class="me-2">
-        <option value="all">전체</option>
-        <option value="서울">서울</option>
-        <option value="부산">부산</option>
-        <option value="경기도">경기도</option>
-        <option value="강원도">강원도</option>
-        <option value="경상남도">경상남도</option>
-        <option value="경상북도">경상북도</option>
-        <option value="전라남도">전라남도</option>
-        <option value="전라북도">전라북도</option>
-        <option value="충청남도">충청남도</option>
-        <option value="충청북도">충청북도</option>
-      </select>
-      <input
-        type="text"
-        id="integrated-search"
-        v-model="something"
-        placeholder="  닉네임(ex: 김작가),  #태그(ex: #웨딩)"
-        @keyup.enter="integratedSearch"
-      />
-      <button><i class="fas fa-search"></i></button>
-    </div>
+  <!-- <div class="d-flex justify-content-center"> -->
+  <div class="search-style-header inline-block" v-show="isSearchHeaderShow">
+    <select name="region" id="searchRegion" class="me-2" v-model="info.region">
+      <option value="all">전체</option>
+      <option value="서울">서울</option>
+      <option value="부산">부산</option>
+      <option value="경기도">경기도</option>
+      <option value="강원도">강원도</option>
+      <option value="경상남도">경상남도</option>
+      <option value="경상북도">경상북도</option>
+      <option value="전라남도">전라남도</option>
+      <option value="전라북도">전라북도</option>
+      <option value="충청남도">충청남도</option>
+      <option value="충청북도">충청북도</option>
+    </select>
+    <input
+      type="text"
+      id="integrated-search"
+      v-model="something"
+      placeholder="  닉네임(ex: 김작가),  #태그(ex: #웨딩)"
+      @keyup.enter="integratedSearch"
+    />
+    <button @click="integratedSearch"><i class="fas fa-search"></i></button>
   </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -41,16 +41,16 @@ export default {
   },
   methods: {
     integratedSearch() {
-      const searchRegion = document.querySelector('#searchRegion')
-      this.region = searchRegion.options[searchRegion.selectedIndex].value
       // something이 태그인 경우
       if (this.something[0] === '#') {
-        this.info.keyword = this.something.slice(1, this.something.length)
+        this.info.keyword = this.something
+          .slice(1, this.something.length)
+          .trim()
         this.$store.dispatch('search/tagSearch', this.info)
       }
       // something이 작가인 경우
       else {
-        this.info.keyword = this.something
+        this.info.keyword = this.something.trim()
         this.$store.dispatch('search/photographerSearch', this.info)
       }
     },
@@ -67,12 +67,12 @@ export default {
 .search-style-header {
   width: 60%;
   height: 35px;
-  position: absolute;
+  /* position: absolute; */
 }
 input {
   width: 80%;
   height: 100%;
-  border: solid 1px black;
+  border: solid 1px #c4c4c4;
   border-radius: 30px;
   padding-top: 1px;
   padding-bottom: 0;
@@ -93,6 +93,6 @@ button:hover {
 select {
   width: 13%;
   height: 100%;
-  border: solid 1px;
+  border: solid 1px #c4c4c4;
 }
 </style>

@@ -22,11 +22,8 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
     long deleteByIdx(int idx);
 
     long countByMyStudio_IdxAndBestIsTrue(int idx);
-<<<<<<< HEAD
-=======
 
     List<Photo> findByStudioIdx(Integer studio_idx);
     List<Photo> findByStudioIdxAndBestIsTrue(Integer studio_idx);
->>>>>>> origin/BEfeat_Studio
 
 }

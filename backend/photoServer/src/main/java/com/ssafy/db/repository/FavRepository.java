@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface FavRepository extends JpaRepository<Favorite, Integer> {
     List<Favorite> findFavByUser(Integer userIdx);
+    boolean deleteByStudioIdx(Integer studioIdx);
 }

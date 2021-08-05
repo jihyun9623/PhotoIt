@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 @ApiModel("FavReq")
 public class FavReq {
-    @ApiModelProperty(name = "nickname", example = "GodHanQ")
-    String nickname;
+    @ApiModelProperty(name = "userNickname", example = "GodHanQ")
+    String userNick;
+    @ApiModelProperty(name = "pgNickname", example = "IMAPHOTOGRAPHER")
+    String pgNick;
 }

@@ -1,3 +1,5 @@
+/* 작성자 : 김지현 */
+
 package com.ssafy.api.request;
 
 import io.swagger.annotations.ApiModel;
@@ -7,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("PgProfileReq")
+@ApiModel("StudioPgProfileReq")
 public class StudioPgProfileReq {
     @ApiModelProperty(name = "pg_nickname", example = "GodHanQ")
     String nickname;

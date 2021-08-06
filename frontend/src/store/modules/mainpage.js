@@ -14,7 +14,7 @@ const actions = {
   getRegions({ commit }) {
     axios({
       method: 'get',
-      url: `http://localhost:8080/location`,
+      url: `http://i5a108.p.ssafy.io:8080/location`,
     }).then((res) => {
       console.log(res)
       // 추가해야 함!
@@ -24,7 +24,7 @@ const actions = {
   getTags({ commit }) {
     axios({
       method: 'get',
-      url: `http://localhost:8080/tag`,
+      url: `http://i5a108.p.ssafy.io:8080/tag`,
     }).then((res) => {
       console.log(res)
       // 추가해야 함!
@@ -38,7 +38,7 @@ const actions = {
     }
     axios({
       method: 'get',
-      url: `http://localhost:8080/profile`,
+      url: `http://i5a108.p.ssafy.io:8080/profile`,
       headers: dispatch('login/getToken', { root: true }),
       data: JSON.stringify(payload),
     }).then((res) => {
@@ -50,7 +50,7 @@ const actions = {
   getMainContents({ commit }) {
     axios({
       method: 'get',
-      url: `http://localhost:8080/contents`,
+      url: `http://i5a108.p.ssafy.io:8080/contents`,
     }).then((res) => {
       console.log(res)
       // 추가해야 함!

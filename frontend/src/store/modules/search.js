@@ -12,8 +12,8 @@ const actions = {
   tagSearch({ commit }, info) {
     axios({
       method: 'get',
-      url: `http://localhost:8080/search/tag/${info.keyword}/${info.region}`,
-      data: JSON.stringify(info),
+      url: `http://i5a108.p.ssafy.io:8080/search/tag/${info.keyword}/${info.region}`,
+      data: info,
     })
       .then((res) => {
         console.log(res)
@@ -29,8 +29,8 @@ const actions = {
   photographerSearch({ commit }, info) {
     axios({
       method: 'get',
-      url: `http://localhost:8080/search/pg/${info.keyword}/${info.region}`,
-      data: JSON.stringify(info),
+      url: `http://i5a108.p.ssafy.io:8080/search/pg/${info.keyword}/${info.region}`,
+      data: info,
     })
       .then((res) => {
         console.log(res)

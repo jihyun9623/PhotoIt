@@ -37,7 +37,7 @@ const actions = {
       id: id,
     }
     axios({
-      method: 'get',
+      method: 'post',
       url: `http://i5a108.p.ssafy.io:8080/profile`,
       headers: dispatch('login/getToken', { root: true }),
       data: JSON.stringify(payload),

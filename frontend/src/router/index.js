@@ -16,7 +16,7 @@ const routes = [
     component: Login,
   },
   {
-    path: '/search',
+    path: '/search/:keyword/:region/:type',
     name: 'SearchResult',
     component: SearchResult,
   },

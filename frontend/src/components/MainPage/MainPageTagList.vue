@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <!-- 태그 -->
-      <div class="tag-name d-flex justify-content-start fw-bold fs-4 mb-3">
+      <div class="tag-name d-flex justify-content-start fw-bold fs-4 mb-1">
         <!-- view router: 검색 결과 페이지로 이동 -->
         # {{ tagName }}태그
       </div>

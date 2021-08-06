@@ -3,7 +3,7 @@
     <MainPageHeader />
     <MainPageIntroduction />
     <!-- v-for로 보여줄 태그 개수에 맞추어서 보여주기-->
-    <!-- <MainPageTagList v-for="(tagSet, idx) in tagList" :key="idx" :tagSet="tagSet" /> -->
+    <!-- <MainPageTagList v-for="(tagSet, idx) in tagList" :key="idx" :tagSet="tagSet" class="mb-5 mt-3" /> -->
     <MainPageTagList />
   </div>
 </template>

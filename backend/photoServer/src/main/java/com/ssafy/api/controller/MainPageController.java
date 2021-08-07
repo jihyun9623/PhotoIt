@@ -78,7 +78,7 @@ public class MainPageController {
         return ResponseEntity.ok(MainPagePhotoDetailRes.of(200, "Success", origin, tagList, isFavorite, thumbPhotoIds));
     }
 
-    @GetMapping("/profile")
+    @PostMapping("/profile")
     @ApiOperation(value = "프로필 가져오기", notes = "프로필 사진, 닉네임을 가져온다")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success", response = MainPageProfileRes.class),

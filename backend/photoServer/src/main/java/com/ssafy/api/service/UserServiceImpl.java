@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
                     .nickname(info.getNickname())
                     .passwd(passwordEncoder.encode(info.getPasswd()))   //decoding how?
                     //.roles(Collections.singletonList("ROLE_USER"))
-                    //.role(UserRole.ROLE_PG)
+                    .role("PG")
                     .pg(info.getPg())
                     .photo(info.getPhoto())
                     .build();
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
                     .nickname(info.getNickname())
                     .passwd(passwordEncoder.encode(info.getPasswd()))   //decoding how?
                  //   .roles(Collections.singletonList("ROLE_USER"))
-                 //   .role(UserRole.ROLE_USER)
+                    .role("USER")
                     .pg(info.getPg())
                     .photo(info.getPhoto())
                     .build();

@@ -6,16 +6,16 @@ import lombok.Setter;
 
 @Setter @Getter
 public class ProfileNickNameRes {
-    @ApiModelProperty(name = "유저 닉네임")
+    @ApiModelProperty(name = "프로필 사진")
+    String photo;
+
+    @ApiModelProperty(name = "작가 닉네임")
     String nickName;
 
-    @ApiModelProperty(name = "작가 지역")
-    String location;
-
-    public static ProfileNickNameRes of(String nickName, String location) {
+    public static ProfileNickNameRes of(String photo, String nickName) {
         ProfileNickNameRes body = new ProfileNickNameRes();
         body.setNickName(nickName);
-        body.setLocation(location);
+        body.setPhoto(photo);
         return body;
     }
 }

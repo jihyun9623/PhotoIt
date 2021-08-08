@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
@@ -13,15 +14,14 @@ public interface UserService {
     // 회원가입 완료 요청 : signUp
     public void signUp(UserRegisterPostReq user);
 
+    // 로그인 : signIn
+    String signin(UserLoginPostReq loginInfo);
+
 //    // 지역목록요청 : locationList
-//    public ArrayList<String> locationList(){
-//        return null;s
-//    }
+//    public ArrayList<String> locationList();
 
 //    // 이메일 인증 요청 : emailAuth
-//    public boolean emailAuth(){
-//
-//    }
+//    public boolean emailAuth();
 //
 //    // 이메일 코드 확인 요청 : emailAuthCheck
 //    public boolean emailAuthCheck();
@@ -30,8 +30,6 @@ public interface UserService {
 //    public boolean nameDupCheck();
 //
 //
-//    // 로그인 : signIn
-//    public boolean signIn();
 //
 //    // 로그아웃 : signOut
 //    public boolean signOut();

@@ -23,6 +23,8 @@ public class Photo {
     @JoinColumn(name = "studio_idx")
     private MyStudio myStudio;
 
+    @NotNull
+    @Column(columnDefinition = "integer default 0")        //기본값 0
     private int viewCnt;
 
     @NotNull
@@ -35,6 +37,7 @@ public class Photo {
     private boolean best;
 
     @NotNull
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime upload;
 
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)

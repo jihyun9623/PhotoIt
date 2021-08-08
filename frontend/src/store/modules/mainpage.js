@@ -14,21 +14,21 @@ const actions = {
   getRegions({ commit }) {
     axios({
       method: 'get',
-      url: `http://i5a108.p.ssafy.io:8080/location`,
+      // url: `http://i5a108.p.ssafy.io:8080/location`,
+      url: `http://localhost:8080/location`,
     }).then((res) => {
       console.log(res)
-      // 추가해야 함!
-      commit('GET_REGIONS', 'res.data.???')
+      commit('GET_REGIONS', res.data.locationList)
     })
   },
   getTags({ commit }) {
     axios({
       method: 'get',
-      url: `http://i5a108.p.ssafy.io:8080/tag`,
+      // url: `http://i5a108.p.ssafy.io:8080/tag`,
+      url: `http://localhost:8080/tag`,
     }).then((res) => {
       console.log(res)
-      // 추가해야 함!
-      commit('GET_TAGS', 'res.data.???')
+      commit('GET_TAGS', res.data.tagList)
     })
   },
   getProfileNickname({ commit, dispatch }) {
@@ -37,8 +37,9 @@ const actions = {
       id: id,
     }
     axios({
-      method: 'post',
-      url: `http://i5a108.p.ssafy.io:8080/profile`,
+      method: 'get',
+      // url: `http://i5a108.p.ssafy.io:8080/profile`,
+      url: `http://localhost:8080/profile`,
       headers: dispatch('login/getToken', { root: true }),
       data: JSON.stringify(payload),
     }).then((res) => {
@@ -50,11 +51,11 @@ const actions = {
   getMainContents({ commit }) {
     axios({
       method: 'get',
-      url: `http://i5a108.p.ssafy.io:8080/contents`,
+      // url: `http://i5a108.p.ssafy.io:8080/contents`,
+      url: `http://localhost:8080/contents`,
     }).then((res) => {
       console.log(res)
-      // 추가해야 함!
-      commit('GET_MAIN_CONTENTS', 'res.data.???')
+      commit('GET_MAIN_CONTENTS', res.data.tagPhotoList)
     })
   },
 }

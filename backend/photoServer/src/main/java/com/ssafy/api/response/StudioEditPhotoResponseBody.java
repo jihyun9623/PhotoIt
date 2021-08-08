@@ -21,9 +21,9 @@ public class StudioEditPhotoResponseBody extends BaseResponseBody {
 	@ApiModelProperty(name="사진 ID 배열", example = "123512")
 	List<String> id;
 	@ApiModelProperty(name="사진 파일", example = "multipart 형")
-	List<MultipartFile> files;
+	List<String> files;
 	
-	public static StudioEditPhotoResponseBody of(Integer statusCode, String message, List<String> id, List<MultipartFile> files) {
+	public static StudioEditPhotoResponseBody of(Integer statusCode, String message, List<String> id, List<String> files) {
 		StudioEditPhotoResponseBody body = new StudioEditPhotoResponseBody();
 		body.setStatusCode(statusCode);
 		body.setMessage(message);

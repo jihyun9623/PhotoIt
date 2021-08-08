@@ -363,7 +363,8 @@ export default {
     signup: function () {
       axios({
         method: 'post',
-        url: 'http://i5a108.p.ssafy.io:8080/user/signup',
+        // url: 'http://i5a108.p.ssafy.io:8080/user/signup',
+        url: 'http://localhost:8080/user/signup',
         data: this.credentials,
       })
         .then((res) => {

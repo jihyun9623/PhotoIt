@@ -9,13 +9,13 @@
           class="tag-name"
           @click="goSearch"
         >
-          # {{ tagName }}태그
+          # {{ tagName }}
         </router-link>
       </div>
       <div class="row">
         <!-- 캐러셀 -->
         <div
-          id="tagListCarousel"
+          :id="`tagListCarousel-${tagName}`"
           class="carousel slide"
           data-bs-interval="false"
         >
@@ -23,76 +23,112 @@
             <!-- 카드 -->
             <div class="carousel-item active">
               <div class="row">
-                <!-- 임시로 4개로 올려둠 (추후 삭제) -->
-                <div class="col-md-3" v-for="(N, idx) in 4" :key="idx">
-                  <div data-bs-toggle="modal" data-bs-target="#detailModal">
-                    <!-- <div class="col-md-3"
-                      v-for="(item, idx) in defaultPackage"
-                      :key="idx"
-                    > -->
-                    <!-- <MainPageTagItem :item="item" class="tag-item" /> -->
-                    <MainPageTagItem class="tag-item" />
-                    <!-- 모달 -->
-                    <!-- <PhotoDetail /> -->
-                    <div
-                      class="modal fade"
-                      id="detailModal"
-                      tabindex="-1"
-                      aria-labelledby="detailModalLabel"
-                      aria-hidden="true"
-                    >
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">
-                              Modal title
-                            </h5>
-                            <button
-                              type="button"
-                              class="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                            ></button>
-                          </div>
-                          <div class="modal-body">...</div>
-                          <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn btn-secondary"
-                              data-bs-dismiss="modal"
-                            >
-                              Close
-                            </button>
-                            <button type="button" class="btn btn-primary">
-                              Save changes
-                            </button>
-                          </div>
-                        </div>
+                <MainPageTagItem
+                  v-for="(item, idx) in defaultPackage"
+                  :item="item"
+                  :key="idx"
+                  class="tag-item"
+                  data-bs-toggle="modal"
+                  :data-bs-target="`#detailModal-${item.photoId}`"
+                />
+                <!-- 모달 -->
+                <div
+                  v-for="(item, idx) in defaultPackage"
+                  :item="item"
+                  :key="idx"
+                  class="modal fade"
+                  :id="`detailModal-${item.photoId}`"
+                  tabindex="-1"
+                  aria-labelledby="detailModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                          Modal title
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">{{ item.photoId }}</div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                          Save changes
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
+                <!-- <PhotoDetail /> -->
               </div>
             </div>
-            <!-- 임시로 5개 올려둠 (추후 삭제) -->
-            <div class="carousel-item" v-for="(N, idx) in 5" :key="idx">
-              <!-- <div
+            <div
               class="carousel-item"
-              v-for="(package, idx) in otherPackages"
+              v-for="(otherPackage, idx) in otherPackages"
               :key="idx"
-              > -->
+            >
               <div class="row">
-                <!-- 임시로 4개씩 올려둠(추후 삭제) -->
-                <div class="col-md-3" v-for="(N, idx) in 4" :key="idx">
-                  <!-- <div class="col-md-3"
-                    v-for="(item, idx) in Package"
-                    :key="idx"
-                  > -->
-                  <!-- <MainPageTagItem :item="item" class="tag-item" /> -->
-                  <MainPageTagItem class="tag-item" />
-                  <!-- 모달 -->
-                  <!-- <PhotoDetail /> -->
+                <MainPageTagItem
+                  v-for="(item, idx) in otherPackage"
+                  :key="idx"
+                  :item="item"
+                  class="tag-item"
+                  data-bs-toggle="modal"
+                  :data-bs-target="`#detailModal-${item.photoId}`"
+                />
+                <!-- 모달 -->
+                <div
+                  v-for="(item, idx) in otherPackage"
+                  :item="item"
+                  :key="idx"
+                  class="modal fade"
+                  :id="`detailModal-${item.photoId}`"
+                  tabindex="-1"
+                  aria-labelledby="detailModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                          Modal title
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">{{ item.photoId }}</div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                          Save changes
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                <!-- <PhotoDetail /> -->
               </div>
             </div>
           </div>
@@ -100,7 +136,7 @@
           <button
             class="carousel-control-prev"
             type="button"
-            data-bs-target="#tagListCarousel"
+            :data-bs-target="`#tagListCarousel-${tagName}`"
             data-bs-slide="prev"
             style="background-color: #c4c4c4; width: auto"
           >
@@ -110,7 +146,7 @@
           <button
             class="carousel-control-next"
             type="button"
-            data-bs-target="#tagListCarousel"
+            :data-bs-target="`#tagListCarousel-${tagName}`"
             data-bs-slide="next"
             style="background-color: #c4c4c4; width: auto"
           >
@@ -137,14 +173,17 @@ export default {
   },
   data() {
     return {
-      // tagName: this.tagSet.tag,
-      // allPackage: this.tagSet.thumbNickNameList,
-      // defaultPackage: this.allPackage.slice(0, 4),
+      tagName: this.tagSet.tag,
+      allPackage: this.tagSet.thumbNickNameList,
+      defaultPackage: null,
       otherPackages: [],
       carouselRotation: null,
     }
   },
-  meghods: {
+  methods: {
+    defaltSlice() {
+      this.defaultPackage = this.allPackage.slice(0, 4)
+    },
     makePackage() {
       // 캐러셀 하나당 카드 4개씩
       this.carouselRotation = Math.ceil(this.allPackage.length / 4) - 1
@@ -160,7 +199,8 @@ export default {
     },
   },
   mounted() {
-    // this.makePackage()
+    this.defaltSlice()
+    this.makePackage()
   },
 }
 </script>

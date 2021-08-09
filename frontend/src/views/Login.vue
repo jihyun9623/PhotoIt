@@ -79,9 +79,8 @@ export default {
         data: this.credentials,
       })
         .then((res) => {
-          // console.log(res)
-          // res.data.token, res.data.id가 맞는지 확인
-          localStorage.setItem('jwt', res.data.token)
+          console.log(res)
+          localStorage.setItem('jwt', res.data.jwt)
           localStorage.setItem('id', res.data.id)
           this.$emit('login')
           this.$router.push({ name: 'MainPage' })

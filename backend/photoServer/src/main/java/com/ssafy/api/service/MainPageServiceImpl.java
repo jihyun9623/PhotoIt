@@ -113,7 +113,7 @@ public class MainPageServiceImpl implements MainPageService{
             for(Photo p : photos) {
                 for(PhotoTag pt : p.getPhotoTags()) {
                     if(pt.getTag().getName() == tempTag) {
-                        temp.add(ThumbNickNameRes.of(p.getThumbnail(), p.getMyStudio().getNickname()));
+                        temp.add(ThumbNickNameRes.of(p.getThumbnail(), p.getIdx() ,p.getMyStudio().getNickname()));
                         cnt++;
                     }
                 }

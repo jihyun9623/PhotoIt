@@ -5,6 +5,19 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'App',
+  created() {
+    // 로그인 여부 확인, 로그인 했을 때만 프로필과 닉네임을 요청한다.
+    this.$store.dispatch('login/isLoginCheck')
+    if (this.$store.state.login.isLogin) {
+      this.$store.dispatch('mainpage/getProfileNickname')
+    }
+  },
+}
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

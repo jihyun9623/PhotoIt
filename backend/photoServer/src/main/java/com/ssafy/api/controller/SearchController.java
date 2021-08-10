@@ -20,6 +20,7 @@ import java.util.TreeMap;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/search")
+@CrossOrigin("*")
 public class SearchController {
     public static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 

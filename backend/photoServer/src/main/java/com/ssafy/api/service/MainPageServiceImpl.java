@@ -4,6 +4,7 @@ import com.ssafy.api.response.TagThumbNickNameRes;
 import com.ssafy.api.response.ThumbNickNameRes;
 import com.ssafy.api.response.ThumbPhotoIdRes;
 import com.ssafy.api.response.UserProfile;
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class MainPageServiceImpl implements MainPageService{
     private final UserRepository userRepository;
     private final PhotoRepository photoRepository;
     private final MyStudioRepository myStudioRepository;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     @Transactional
@@ -48,10 +50,9 @@ public class MainPageServiceImpl implements MainPageService{
 
     @Override
     @Transactional
-    public UserProfile userProfile(String JWT, String id) {
-        if(JWT==null)
-            return null;
-        User user = userRepository.findUserById(id).orElseThrow(RuntimeException::new);
+    public UserProfile userProfile(String JWT) {
+
+        User user = userRepository.findUserById(jwtTokenUtil.getUserPk(JWT)).orElseThrow(RuntimeException::new);
         UserProfile userProfile = UserProfile.of(user.getNickname(), user.getPhoto());
         return userProfile;
     }

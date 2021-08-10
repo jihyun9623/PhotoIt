@@ -1,180 +1,155 @@
 <template>
   <div>
+    <!-- NavBar 위치에 해당하는 헤더 -->
     <header id="header" class="fixed-top">
       <div
-        class="container d-flex align-items-center justify-content-lg-between"
+        class="d-flex align-items-center justify-content-lg-between ps-3 pt-2"
       >
         <h1 class="me-auto me-lg-0">
           <router-link to="/"
             ><img
               src="../assets/images/Logo.png"
-              alt=""
               width="75"
               height="40"
               class="d-inline-block align-text-top"
           /></router-link>
         </h1>
-
-        <li class="nav-item float-end list-unstyled">
-          <ProfileIconMenu />
-        </li>
+        <ProfileIconMenu />
       </div>
     </header>
-    <section id="hero" class="d-flex align-items-center justify-content-center">
+    <!-- 메인 컨테이너 -->
+    <section class="d-flex align-items-center justify-content-center pt-5 mt-5">
       <div class="container text-center">
-        <main class="form-signin">
-          <form>
-            <router-link to="/">
-              <img
-                class="mb-3"
-                src="../assets/images/Logo_vertical.png"
-                alt=""
-                width="800"
-                height="100"
-              />
-            </router-link>
-            <h3 class="h3 mb-4 fw-normal">My Page</h3>
-            <div class="input-group mb-4">
-              <span class="input-group-text" id="clsfName"
-                ><img
-                  src="assets/img/user/membership.png"
-                  alt=""
-                  style="width: 20px; height: 20px"
-              /></span>
-              <input
-                type="text"
-                class="form-control mb-0"
-                aria-label="userClsfName"
-                aria-describedby="userClsfName"
-                v-model="userClsfName"
-                disabled
-              />
-            </div>
-            <div class="input-group mb-4">
-              <span class="input-group-text" id="name"
-                ><img
-                  src="assets/img/user/userName.png"
-                  alt=""
-                  style="width: 20px; height: 20px"
-              /></span>
-              <input
-                type="text"
-                class="form-control mb-0"
-                aria-label="userName"
-                aria-describedby="userName"
-                v-model="userName"
-                disabled
-              />
-            </div>
-            <div class="input-group mb-4">
-              <span class="input-group-text" id="email"
-                ><img
-                  src="assets/img/user/userEmail.png"
-                  alt=""
-                  style="width: 20px; height: 20px"
-              /></span>
-              <input
-                type="text"
-                class="form-control mb-0"
-                aria-label="userEmail"
-                aria-describedby="userEmail"
-                v-model="userEmail"
-                disabled
-              />
-            </div>
-            <div class="input-group mb-4">
-              <span class="input-group-text" id="password"
-                ><img
-                  src="assets/img/user/userPassword.png"
-                  alt=""
-                  style="width: 20px; height: 20px"
-              /></span>
-              <input
-                type="password"
-                class="form-control mb-0"
-                aria-label="userPassword"
-                aria-describedby="userPassword"
-                v-model="userPassword"
-                :disabled="isDisabled"
-              />
-            </div>
-            <div class="input-group mb-4">
-              <span class="input-group-text" id="confirmPassword"
-                ><img
-                  src="assets/img/user/userPassword.png"
-                  alt=""
-                  style="width: 20px; height: 20px"
-              /></span>
-              <input
-                type="password"
-                class="form-control mb-0"
-                aria-label="confirmPassword"
-                aria-describedby="confirmPassword"
-                v-model="userPassword"
-                :disabled="isDisabled"
-              />
-            </div>
-            <div class="input-group mb-4">
-              <span class="input-group-text" id="phoneNumber"
-                ><img
-                  src="assets/img/user/phone.png"
-                  alt=""
-                  style="width: 20px; height: 20px"
-              /></span>
-              <input
-                type="text"
-                class="form-control mb-0"
-                aria-label="userPhoneNumber"
-                aria-describedby="userPhoneNumber"
-                v-model="userPhoneNumber"
-                :disabled="isDisabled"
-              />
-            </div>
-            <div class="input-group mb-4">
-              <span class="input-group-text" id="address"
-                ><img
-                  src="assets/img/user/address.png"
-                  alt=""
-                  style="width: 20px; height: 20px"
-              /></span>
-              <input
-                type="text"
-                class="form-control mb-0"
-                aria-label="userAddress"
-                aria-describedby="userAddress"
-                v-model="userAddress"
-                :disabled="isDisabled"
-              />
-            </div>
-
-            <button
-              @click="update"
-              class="btn btn-lg btn-outline btn-warning"
-              type="button"
-              v-if="!isUpdate"
+        <form>
+          <h3 class="h3 mb-5 border">로고자리</h3>
+          <hr />
+          <!-- 아이디 -->
+          <div class="input-group mb-4 mt-5">
+            <span class="input-group-text col-4 justify-content-center"
+              >이메일</span
             >
-              수정</button
-            >&nbsp;
-            <button
-              @click="updateUser"
-              class="btn btn-lg btn-outline btn-success"
-              type="button"
-              v-else
+            <input
+              type="text"
+              class="form-control mb-0"
+              aria-label="formEmail"
+              aria-describedby="formEmail"
+              v-model="formEmail"
+              disabled
+            />
+          </div>
+          <!-- 닉네임 -->
+          <div class="input-group mb-5">
+            <span class="input-group-text col-4 justify-content-center"
+              >닉네임</span
             >
-              확인</button
-            >&nbsp;
+            <input
+              type="text"
+              class="form-control mb-0"
+              aria-label="formNickname"
+              aria-describedby="formNickname"
+              v-model="formNickname"
+              disabled
+            />
+          </div>
+          <hr />
+          <!-- 비밀번호 -->
+          <div class="input-group mb-4 mt-5">
+            <span class="input-group-text col-4 justify-content-center"
+              >비밀번호</span
+            >
+            <input
+              type="text"
+              class="form-control mb-0"
+              aria-label="formPasswd"
+              aria-describedby="formPasswd"
+              v-model="formPasswd"
+            />
+          </div>
+          <!-- 비밀번호 재확인 -->
+          <div class="input-group mb-5">
+            <span class="input-group-text col-4 justify-content-center"
+              >비밀번호 재확인</span
+            >
+            <input
+              type="text"
+              class="form-control mb-0"
+              aria-label="formPasswdCheck"
+              aria-describedby="formPasswdCheck"
+              v-model="formPasswdCheck"
+            />
+          </div>
+          <hr />
+          <!-- 작가여부-->
+          <div class="input-group mb-4 mt-5">
+            <span class="input-group-text col-4 justify-content-center"
+              >작가여부</span
+            >
+            <input
+              type="text"
+              class="form-control mb-0"
+              aria-label="formPgCheck"
+              aria-describedby="formPgCheck"
+              v-model="formPgCheck"
+              disabled
+            />
+            <button
+              @click="switchToPg"
+              class="btn btn-lg btn-outline btn-primary"
+              type="button"
+              v-if="!formPgCheck"
+            >
+              작가로 전환하기
+            </button>
+          </div>
+          <!-- 작가 자기소개 -->
+          <div class="input-group mb-4">
+            <span class="input-group-text col-4 justify-content-center"
+              >작가 자기소개</span
+            >
+            <input
+              type="text"
+              class="form-control mb-0"
+              aria-label="formIntroduce"
+              aria-describedby="formIntroduce"
+              v-model="formIntroduce"
+            />
+          </div>
+          <!-- 작가 지역 -->
+          <div class="input-group mb-5">
+            <span class="input-group-text col-4 justify-content-center"
+              >작가 지역</span
+            >
+            <input
+              type="text"
+              class="form-control mb-0"
+              aria-label="formLocation"
+              aria-describedby="formLocation"
+              v-model="formLocation"
+            />
+          </div>
+          <hr />
+          <div class="d-flex justify-content-end mt-5">
             <button
               @click="deleteUser"
               class="btn btn-lg btn-outline btn-danger"
               type="button"
               v-if="!isUpdate"
             >
-              탈퇴
+              회원 탈퇴
             </button>
-            <br />
-            <p class="mt-4 mb-3 text-muted">&copy; 2017–2021</p>
-          </form>
-        </main>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button
+              @click="update"
+              class="btn btn-lg btn-outline btn-warning"
+              type="button"
+              v-if="!isUpdate"
+            >
+              회원 정보 수정
+            </button>
+          </div>
+          <br />
+          <p class="mt-4 mb-3 text-muted">&copy; 2017–2021</p>
+        </form>
       </div>
     </section>
   </div>
@@ -208,36 +183,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.btn-danger {
-  color: #fff;
-  background-color: #8a262f;
-  border-color: #8a262f;
-}
-.btn-success {
-  color: #fff;
-  background-color: #3c5b3e;
-  border-color: #3c5b3e;
-}
-.btn-warning {
-  color: #fff;
-  background-color: #d3a92c;
-  border-color: #d3a92c;
-}
-.btn-warning:hover {
-  color: #fff;
-  background-color: #ffc451;
-  border-color: #ffc451;
-}
-.btn-success:hover {
-  color: #fff;
-  background-color: #288b38;
-  border-color: #288b38;
-}
-.btn-danger:hover {
-  color: #fff;
-  background-color: #d62727;
-  border-color: #d62727;
-}
-</style>

@@ -32,11 +32,7 @@ const actions = {
     })
   },
   getProfileNickname({ commit }) {
-    const id = localStorage.getItem('id')
     const jwt = localStorage.getItem('jwt')
-    const payload = {
-      id: id,
-    }
     const config = {
       Authorization: `JWT ${jwt}`,
     }
@@ -45,7 +41,6 @@ const actions = {
       // url: `http://i5a108.p.ssafy.io:8080/profile`,
       url: `http://localhost:8080/profile`,
       headers: config,
-      data: payload,
     })
       .then((res) => {
         console.log(res)

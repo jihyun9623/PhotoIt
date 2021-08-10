@@ -1,5 +1,6 @@
 package com.ssafy.db.entity;
 
+import com.ssafy.api.request.UserRegisterPostReq;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +33,10 @@ public class AuthorLocation {
         this.myStudio = myStudio;
         this.location = location;
     }
+
+//    public void updateAuthorLocationProfile(MyStudio myStudio, Location location){
+//        this.myStudio=myStudio;
+//        this.location=location;
+//    }
 
 }

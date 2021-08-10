@@ -11,6 +11,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +22,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.DatatypeConverter;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -55,21 +60,27 @@ public class JwtTokenUtil {
     }
 
     //public String createToken(String userPk, UserRole roles){
-    public String createToken(String userPk){
-        Claims claims = Jwts.claims().setSubject(userPk);
+    public String createToken(@NotNull String id, String userPk){
+        //Claims claims = Jwts.claims().setSubject(userPk);
         Date now = new Date();
+        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
+
         return Jwts.builder()
-                .setClaims(claims) // 정보 저장
+                //.setClaims(claims) // 정보 저장
+                .claim(id, userPk)
                 .setIssuedAt(now) // 토큰 발행 시간 정보
                 .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
                 .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘과
-                // signature 에 들어갈 secret값 세팅
+                                                                // signature 에 들어갈 secret값 세팅
+                .signWith(Keys.hmacShaKeyFor(secretKeyBytes), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token)); //여기서 에러남
+        System.out.println("**********************");
+        System.out.println(userDetails.toString());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

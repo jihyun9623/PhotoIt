@@ -5,10 +5,13 @@ import com.ssafy.api.request.MailAuthPostReq;
 import com.ssafy.api.request.MailPostReq;
 import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.response.LocationGetRes;
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.MailService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.common.util.JwtTokenUtil;
+import com.ssafy.db.entity.Location;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,13 @@ public class Usercontroller {
 
     @Autowired
     MailService mailService;
+
+    @ApiOperation(value = "지역 목록 요청", notes = "지역 목록을 불러온다.")
+    @GetMapping("/location")
+    public LocationGetRes getLocation() {
+        logger.debug("getLocation 진입, 지역목록 불러오기");
+        return LocationGetRes.of(200, "Success", userService.locationList());
+    }
 
     @ApiOperation(value = "회원 가입", notes = "회원가입 한다.")
     @ApiResponses({
@@ -51,9 +61,13 @@ public class Usercontroller {
     })
     @PostMapping("/signin")
     public UserLoginPostRes signin(@RequestBody @ApiParam(value = "로그인 정보", required = true)UserLoginPostReq loginInfo){
-        System.out.println("login method 진입");
-        System.out.println(loginInfo.getId()+" "+loginInfo.getPasswd());
+
+        logger.debug("login Method 진입");
+        logger.debug(loginInfo.getId()+" "+loginInfo.getPasswd());
         String jwt = userService.signin(loginInfo);
+
+        // 토큰 구성 체크 겸 테스트
+        userService.testToken(loginInfo, jwt);
         return UserLoginPostRes.of(200, "Success", jwt, loginInfo.getId());
     }
 
@@ -83,7 +97,7 @@ public class Usercontroller {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    @PostMapping("/emailauthcheck")
+    @PostMapping("/emailAuthCheck")
     public BaseResponseBody emailAuthCheck(@RequestBody @ApiParam(value="확인할 인증코드와 아이디", required = true) MailAuthPostReq authinfo){
         System.out.println("email auth check method 진입");
         // 이거 id만 들어오는데 알아서 id만 받나?

@@ -84,6 +84,18 @@ public class User implements UserDetails{
         this.role=role;
     }
 
+    // 수정할 정보 : passwd, nickname(중복체크해야됨), pg, location, introduce
+    public void updateUserProfile(UserRegisterPostReq updateInfo){
+        this.nickname=updateInfo.getNickname();
+        this.passwd=updateInfo.getPasswd();
+        this.photo=updateInfo.getPhoto();
+    }
+
+    public void upgradePhotographer(){
+        this.pg=true;
+        this.role="PG";
+    }
+
     // JWT-Spring Security Settings
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

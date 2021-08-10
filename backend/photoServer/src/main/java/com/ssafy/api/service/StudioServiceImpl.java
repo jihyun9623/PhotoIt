@@ -52,6 +52,7 @@ public class StudioServiceImpl implements StudioService {
         resbody.setLocation(strings);
         resbody.setIntroduce(myStudio.getProfile());
 
+        System.out.println(strings.toString());
         return resbody;
     };
 

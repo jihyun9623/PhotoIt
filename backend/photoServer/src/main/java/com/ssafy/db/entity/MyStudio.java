@@ -1,5 +1,6 @@
 package com.ssafy.db.entity;
 
+import com.ssafy.api.request.UserRegisterPostReq;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,6 +53,13 @@ public class MyStudio {
         this.calendars = calendars;
         this.favorites = favorites;
         this.authorLocations = authorLocations;
+    }
+
+    // 수정할 정보 : passwd, nickname(중복체크해야됨), pg, location, introduce
+    public void updateMyStudioProfile(UserRegisterPostReq updateInfo, User user){
+        this.nickname=updateInfo.getNickname();
+        this.profile=updateInfo.getProfile();
+        //this.user=user;
     }
 
 }

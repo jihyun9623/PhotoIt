@@ -1,9 +1,18 @@
 <template>
-  <div class="card">
-    <img class="img-fluid rounded-circle" alt="Profile" :src="thumb" />
-    <div class="card-body">
-      <p class="card-text fs-6 fw-bold text-center">{{ nickName }}</p>
-    </div>
+  <div class="col-6 col-md-3 d-flex justify-content-center">
+    <router-link
+      :to="{ path: `/mystudio/${profile.nickName}` }"
+      class="pg-name"
+    >
+      <div class="card">
+        <img class="img-fluid card-img" alt="Profile" :src="profile.photo" />
+        <div class="card-body">
+          <p class="card-text fs-6 fw-bold text-center pt-3">
+            {{ profile.nickName }}
+          </p>
+        </div>
+      </div>
+    </router-link>
   </div>
 </template>
 
@@ -15,13 +24,27 @@ export default {
       type: Object,
     },
   },
-  data() {
-    return {
-      thumb: this.profile.thumb,
-      nickName: this.profile.nickName,
-    }
-  },
 }
 </script>
 
-<style></style>
+<style scoped>
+.card-img {
+  width: 20vh;
+  height: 20vh;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.card-img:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  opacity: 0.7;
+  overflow: hidden;
+}
+.card {
+  border-style: none;
+}
+.pg-name {
+  text-decoration: none;
+  color: black;
+}
+</style>

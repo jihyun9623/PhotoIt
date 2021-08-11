@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("UserRegisterPostRequest")
-public class UserRegisterPostReq {
+public class UserReq {
 
 	@ApiModelProperty(name="유저 ID", example="hanq@naver.com")
 	private String id;
@@ -38,8 +38,8 @@ public class UserRegisterPostReq {
 	private String photo;	// String->File로 추후 수정
 
 	@Builder
-    public UserRegisterPostReq(String id, String nickname, String passwd, Boolean pg, String photo,
-							   List<String> location, String profile) {
+    public UserReq(String id, String nickname, String passwd, Boolean pg, String photo,
+				   List<String> location, String profile) {
         this.id = id;
         this.nickname = nickname;
         this.passwd = passwd;

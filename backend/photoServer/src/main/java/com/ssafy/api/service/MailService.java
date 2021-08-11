@@ -2,8 +2,6 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.MailAuthPostReq;
 import com.ssafy.api.request.MailPostReq;
-import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.common.model.response.BaseResponseBody;
 
 public interface MailService {
     boolean emailAuth(MailPostReq authinfo);

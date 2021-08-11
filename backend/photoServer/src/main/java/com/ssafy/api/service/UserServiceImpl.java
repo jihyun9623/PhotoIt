@@ -1,7 +1,6 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.UserLoginPostReq;
-import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.request.UserReq;
 import com.ssafy.api.response.MyPageGetRes;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.*;
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +40,14 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenProvider;
 
+    public boolean isValidToken(String token){
+        if(token!=null && token.length()>0) {
+            logger.debug("token 검증");
+            return jwtTokenProvider.validateToken(token);
+        }else {
+            throw new RuntimeException("인증 토큰이 없습니다");
+        }
+    }
     @Override
     public List<String> locationList() {
         List<String> loc_list=new ArrayList<>();
@@ -74,7 +82,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 회원가입
      * */
-    public void signUp(UserRegisterPostReq info) {
+    public void signUp(UserReq info) {
 
         // 작가회원이면 mystudio + location 생성
         if(info.getPg()==true){
@@ -108,7 +116,7 @@ public class UserServiceImpl implements UserService {
     /**
      * myStudio+location 생성
      * */
-    public void PhotoGrapherSetting(User user, UserRegisterPostReq info){
+    public void PhotoGrapherSetting(User user, UserReq info){
         MyStudio myStudio=MyStudio.builder()
                 .nickname(info.getNickname())
                 .profile(info.getProfile())
@@ -136,16 +144,16 @@ public class UserServiceImpl implements UserService {
     /**
      * 로그인
      * */
-    public String signin(UserLoginPostReq loginInfo) {
+    public String signin(UserReq loginInfo) {
+        logger.debug("로그인 메서드 진입");
         User member=userRepository.findUserById(loginInfo.getId())
                 .orElseThrow(()->new IllegalArgumentException("가입되지 않은 아이디입니다."));
         if(!passwordEncoder.matches(loginInfo.getPasswd(), member.getPasswd())){
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        System.out.println("로그인 성공 : " + member.getId());
-
+        logger.debug("로그인 성공 : " + member.getId());
         return jwtTokenProvider.createToken(member.getId(), member.getRole());
-        //return jwtTokenProvider.createToken(member.getId());
+       // return jwtTokenProvider.createToken(member.getId(), member.getRole());
     }
 
 
@@ -153,15 +161,35 @@ public class UserServiceImpl implements UserService {
     /**
      * 회원정보 불러오기
      * */
-    public MyPageGetRes getProfile(String nickname) {
-        User member=userRepository.findUserByNickname(nickname);
-        System.out.println(member.getId());
-        System.out.println(member.getPasswd());
-        System.out.println(member.getNickname());
-        System.out.println(member.getPg());
-        //지역
-        System.out.println(member.getRole());
-        return null;
+    public MyPageGetRes getProfile(String token) {
+        String id = jwtTokenProvider.getUserInfo(token);
+        logger.debug("토큰에서 뽑아낸 user id : "+id);
+        User member=userRepository.findUserById(id).orElseThrow(()->new IllegalArgumentException("존재하지 않는 아이디입니다."));
+        MyPageGetRes res;
+        if(member.getPg()==true){   // 작가면
+            MyStudio memberStudio=myStudioRepository.findByUserIdx(member.getIdx());
+            List<AuthorLocation>list=authorLocationRepository.findAuthorLocationByMyStudio(memberStudio);
+            List<String>memberList=new ArrayList<>();
+            for(AuthorLocation loc:list){
+                Location l=loc.getLocation();
+                memberList.add(l.getName());
+            }
+            res= MyPageGetRes.builder()
+                    .id(member.getId())
+                    .nickname(member.getNickname())
+                    .pg(member.getPg())
+                    .photo(member.getPhoto())
+                    .introduce(memberStudio.getProfile())
+                    .Location(memberList).build();
+        }else{
+            res= MyPageGetRes.builder()
+                    .id(member.getId())
+                    .nickname(member.getNickname())
+                    .pg(member.getPg())
+                    .photo(member.getPhoto())
+                    .build();
+        }
+        return res;
     }
 
     @Override
@@ -181,13 +209,14 @@ public class UserServiceImpl implements UserService {
     /**
      * 회원정보 수정 메서드
      * */
-    public void updateProfile(UserRegisterPostReq updateInfo) {
+    public void updateProfile(UserReq updateInfo) {
         logger.debug("updateProfile 진입");
-        // 수정할 정보 : passwd, nickname(중복체크해야됨), pg, location, introduce
+        // 수정할 정보 : passwd, nickname, pg, location, introduce
 
         User member=userRepository.findById(updateInfo.getId())
                 .orElseThrow(()->new IllegalArgumentException("없는 아이디입니다."));
 
+        updateInfo.setPasswd(passwordEncoder.encode(updateInfo.getPasswd()));
         // 작가 업데이트
         if(updateInfo.getPg()==true) {
             logger.debug("작가 -> 작가");
@@ -243,11 +272,37 @@ public class UserServiceImpl implements UserService {
         logger.debug("제거 완료");
     }
 
+    @Override
+    public boolean nicknameDuplicateCheck(String nickname) {
+        if(userRepository.findUserByNickname(nickname)!=null){
+            return true;    // null이 아니라면 중복
+        }
+        return false;
+    }
 
-    public void testToken(UserLoginPostReq loginInfo, String token){
-        System.out.println(loginInfo.getId()+"/jwt 토큰 : "+token);   //ok
-        System.out.println("토큰 안의 유저 정보 추출 : " + jwtTokenProvider.getUserPk(token));    //ok
-        System.out.println("토큰에서 인증 정보 조회 : "+ jwtTokenProvider.getAuthentication(loginInfo.getId()));
+    @Override
+    public boolean idDuplicateCheck(String id) {
+        if(userRepository.findUserById(id)!=null){
+            return true;    // null이 아니라면 중복
+        }
+        return false;
+    }
+
+
+    public void testToken(String token){
+       //Map<String, Object> data = jwtTokenProvider.get(token);
+        jwtTokenProvider.getAuthentication(token);
+    }
+
+    /**
+     * 프로필 사진 수정
+     * */
+    @Override
+    public void editProfilePhoto(String token, UserReq photo) {
+        String id = jwtTokenProvider.getUserInfo(token);
+        User member=userRepository.findUserById(id).orElseThrow(()->new IllegalArgumentException("존재하지 않는 아이디입니다"));
+        member.updateUserPhoto(photo);
+       userRepository.save(member);
     }
 
 }

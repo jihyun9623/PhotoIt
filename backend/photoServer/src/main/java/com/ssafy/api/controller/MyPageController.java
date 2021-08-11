@@ -1,20 +1,15 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.MailAuthPostReq;
-import com.ssafy.api.request.MyPageGetReq;
-import com.ssafy.api.request.MyPagePwdPostReq;
-import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.request.UserReq;
+import com.ssafy.api.response.MyPageGetRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.db.entity.Location;
+import com.ssafy.common.util.JwtTokenUtil;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/mypage")
@@ -26,70 +21,137 @@ public class MyPageController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
     /**
      * mypage controller 내 모든 메서드 jwt 인증 과정 거쳐야함
-     * */
+     */
 
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
     @ApiOperation(value = "마이페이지 회원정보 조회", notes = "마이페이지 진입시 해당 회원의 정보를 모두 불러온다")
     @GetMapping
-    public BaseResponseBody getProfile() {
+    public BaseResponseBody getProfile(@RequestHeader(value = "Authorization") String token) {
         logger.debug("MyPage 진입, 회원정보 불러오기");
-        userService.getProfile("한뀨");
-        return BaseResponseBody.of(200, "Success");
+        if (userService.isValidToken(token)) {
+            logger.debug("토큰 유효함");
+            MyPageGetRes res = userService.getProfile(token);
+            logger.debug(res.toString());
+            return BaseResponseBody.of(200, "Success");
+        } else {
+            return BaseResponseBody.of(401, "Invalid Token");
+        }
     }
 
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
     @ApiOperation(value = "회원정보 수정", notes = "회원정보를 업데이트한다")
     @PutMapping
-    public BaseResponseBody updateProfile(@RequestBody @ApiParam(value="수정할 회원정보", required = true)UserRegisterPostReq updateInfo) {
+    public BaseResponseBody updateProfile(
+            @RequestHeader(value = "Authorization") String token,
+            @RequestBody @ApiParam(value = "수정할 회원정보", required = true) UserReq updateInfo) {
         logger.debug("회원정보 수정 메서드 진입");
 
         // 회원가입시 받는 정보랑 비슷해서 UserRegisterPostReq형으로 받아옴.
         // 수정할 정보 : passwd, nickname(중복체크해야됨), pg, location, introduce
-        userService.updateProfile(updateInfo);
-        return BaseResponseBody.of(200, "Success");
+        if (userService.isValidToken(token)) {
+            userService.updateProfile(updateInfo);
+            return BaseResponseBody.of(200, "Success");
+        } else {
+            return BaseResponseBody.of(401, "Invalid Token");
+        }
     }
 
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
     @ApiOperation(value = "회원 탈퇴", notes = "회원정보를 삭제한다")
     @DeleteMapping
-    public BaseResponseBody deleteUser(@RequestBody @ApiParam(value="수정할 회원정보", required = true)int idx) {
+    public BaseResponseBody deleteUser(
+            @RequestHeader(value = "Authorization") String token,
+            @RequestBody @ApiParam(value = "수정할 회원정보", required = true) int idx) {
         logger.debug("회원 탈퇴 메서드 진입");
-        userService.withdrawalUser("erasable@test.com");
-        return BaseResponseBody.of(200, "Success");
+
+        if (userService.isValidToken(token)) {
+            userService.withdrawalUser("erasable@test.com");
+            return BaseResponseBody.of(200, "Success");
+        } else {
+            return BaseResponseBody.of(401, "Invalid Token");
+        }
     }
 
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
     @ApiOperation(value = "사진작가 업그레이드", notes = "사진작가로 업그레이드 한다.")
     @GetMapping("/pg")
-    public BaseResponseBody upgradePhotographer(){
+    public BaseResponseBody upgradePhotographer(@RequestHeader(value = "Authorization") String token) {
         // 헤더에서 jwt 뜯기............
-        boolean EnableUpgrade = userService.upgradePhotographer("업그레이드할 아이디 // 예시임");
-        if(EnableUpgrade)
-            return BaseResponseBody.of(200, "Success");
-        else
-            return BaseResponseBody.of(401, "Cannot Upgrade Photographer");
+        if (userService.isValidToken(token)) {
+            String id = jwtTokenUtil.getUserInfo(token);
+            boolean EnableUpgrade = userService.upgradePhotographer(id);
+            if (EnableUpgrade)
+                return BaseResponseBody.of(200, "Success");
+            else
+                return BaseResponseBody.of(401, "Cannot Upgrade Photographer");
+        } else {
+            return BaseResponseBody.of(401, "Invalid Token");
+        }
+
     }
 
-    // 현재 안 돌아가는 거 맞음
+
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
     @ApiOperation(value = "비밀번호 재확인", notes = "회원정보 수정 전 비밀번호를 재확인한다")
     @PostMapping("/passwdCheck")
-    public BaseResponseBody isPasswordRight(@RequestBody @ApiParam(value="확인할 아이디와 비밀번호", required = true)MyPagePwdPostReq pwdInfo) {
+    public BaseResponseBody isPasswordRight(
+            @RequestHeader(value = "Authorization") String token,
+            @RequestBody @ApiParam(value = "확인할 아이디와 비밀번호", required = true) UserReq pwdInfo) {
         logger.debug("password 재확인 메서드 진입");
-        // jwt 안의 id를 추출해내야함!!!
-        //Boolean isRight=userService.isPasswordRight(pwdInfo.getId(), pwdInfo.getPasswd());
-        return BaseResponseBody.of(200, "Success");
+
+        if (userService.isValidToken(token)) {
+            String id = jwtTokenUtil.getUserInfo(token);
+            Boolean isRight = userService.isPasswordRight(id, pwdInfo.getPasswd());
+            return BaseResponseBody.of(200, "Success");
+        } else {
+            return BaseResponseBody.of(401, "Invalid Token");
+        }
     }
 
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
+    @ApiOperation(value = "닉네임 중복 확인", notes = "닉네임 중복 확인")
+    @PostMapping("/nicknameCheck")
+    public BaseResponseBody nicknameDuplicateCheck(
+            @RequestHeader(value = "Authorization") String token,
+            @RequestBody @ApiParam(value = "확인할 닉네임", required = true) UserReq nickInfo) {
+        if (userService.isValidToken(token)) {
+            Boolean isDuplicated = userService.nicknameDuplicateCheck(nickInfo.getNickname());    // 중복이면 true, 중복 아니면 false.
+            if (!isDuplicated) {
+                return BaseResponseBody.of(200, "Success");
+            } else {
+                return BaseResponseBody.of(401, "Duplicated");
+            }
+        } else {
+            return BaseResponseBody.of(401, "Invalid Token");
+        }
+    }
 
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
+    @ApiOperation(value = "프로필사진 수정", notes = "프로필 사진 수정")
+    @PutMapping("/editphoto")
+    public BaseResponseBody editProfilePhoto(
+            @RequestHeader(value = "Authorization") String token,
+            @RequestBody @ApiParam(value = "수정할 사진 url", required = true) UserReq photoInfo) {
+        if (userService.isValidToken(token)) {
+            userService.editProfilePhoto(token, photoInfo);
 
-
-
-
+            return  BaseResponseBody.of(200, "Success");
+        } else {
+            return BaseResponseBody.of(401, "Invalid Token");
+        }
+    }
 
 
     // 들어가자마자 회원정보 받아오기 get : /mypage - clear
     // 비밀번호 맞는지도 확인하는 메서드 있어야대 post : /mypage/passwdCheck - clear
-    // 회원정보 수정하기 put : /mypage
-    // 회원탈퇴 delete : /mypage
-    // 닉네임 중복 체크 post : /mypage/nicknameCheck
+    // 회원정보 수정하기 put : /mypage - clear
+    // 회원탈퇴 delete : /mypage - clear
+    // 닉네임 중복 체크 post : /mypage/nicknameCheck - clear
     // 프로필 사진 수정 put : /mypage/editphoto
-    // 작가 업그레이드 post : /mypage/pg
+    // 작가 업그레이드 post : /mypage/pg - clear
 }

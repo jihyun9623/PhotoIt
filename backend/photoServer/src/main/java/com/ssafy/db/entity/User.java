@@ -1,7 +1,6 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.api.request.UserRegisterPostReq;
-import io.jsonwebtoken.lang.Assert;
+import com.ssafy.api.request.UserReq;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,9 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.nio.file.attribute.AclEntry;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static javax.persistence.FetchType.LAZY;
 @Entity
@@ -85,10 +82,13 @@ public class User implements UserDetails{
     }
 
     // 수정할 정보 : passwd, nickname(중복체크해야됨), pg, location, introduce
-    public void updateUserProfile(UserRegisterPostReq updateInfo){
+    public void updateUserProfile(UserReq updateInfo){
         this.nickname=updateInfo.getNickname();
         this.passwd=updateInfo.getPasswd();
-        this.photo=updateInfo.getPhoto();
+    }
+
+    public void updateUserPhoto(UserReq photoInfo){
+        this.photo=photoInfo.getPhoto();
     }
 
     public void upgradePhotographer(){

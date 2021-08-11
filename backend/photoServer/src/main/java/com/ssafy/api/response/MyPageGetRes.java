@@ -1,8 +1,11 @@
 package com.ssafy.api.response;
 
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.Favorite;
+import com.ssafy.db.entity.MyStudio;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -30,26 +33,40 @@ public class MyPageGetRes extends  BaseResponseBody{
 	String nickname;
 	@ApiModelProperty(name="작가 여부", example = "true")
 	Boolean pg;
+	@ApiModelProperty(name="프로필사진", example = "-")
+	String photo;
 	@ApiModelProperty(name="작가 활동 지역", example = "[서울, 경기]")
 	List location;
 	@ApiModelProperty(name="작가 한 줄 소개", example = "안녕하세요 김작가입니다.")
 	String introduce;
 
-	public static MyPageGetRes of(Integer statusCode, String msg, String id, String passwd, String nickname, Boolean pg, List location, String introduce){
-		// 1. ResponseBody 객체 res 하나 만들어서
-		MyPageGetRes res=new MyPageGetRes();
-
-		// 2. BaseResponseBody에서 상속받은 응답상태랑 메세지 설정해주고
-		res.setStatusCode(statusCode);
-		res.setMessage(msg);
-
-		res.setId(id);
-		res.setPasswd(passwd);
-		res.setNickname(nickname);
-		res.setPg(pg);
-		res.setLocation(location);
-		res.setIntroduce(introduce);
-		return res;
+	@Builder
+	public MyPageGetRes(String id, String nickname, String passwd, Boolean pg, String photo, List Location, String introduce) {
+		this.id = id;
+		this.nickname = nickname;
+		this.passwd = passwd;
+		this.pg = pg;
+		this.photo = photo;
+		this.location=Location;
+		this.introduce=introduce;
 	}
+
+//	public static MyPageGetRes of(Integer statusCode, String msg, String id, String passwd, String nickname, Boolean pg, List location, String introduce){
+//		// 1. ResponseBody 객체 res 하나 만들어서
+//		MyPageGetRes res=MyPageGetRes.builder().
+//				id(
+//
+//		// 2. BaseResponseBody에서 상속받은 응답상태랑 메세지 설정해주고
+//		res.setStatusCode(statusCode);
+//		res.setMessage(msg);
+//
+//		res.setId(id);
+//		res.setPasswd(passwd);
+//		res.setNickname(nickname);
+//		res.setPg(pg);
+//		res.setLocation(location);
+//		res.setIntroduce(introduce);
+//		return res;
+//	}
 
 }

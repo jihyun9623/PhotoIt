@@ -118,6 +118,7 @@ export default {
   },
   unmounted() {
     removeEventListener('scroll', this.stickySearchBar)
+    removeEventListener('scroll', this.scrollEffect)
     this.$store.state.search.isSearchHeaderShow = true
   },
 }

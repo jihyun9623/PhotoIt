@@ -19,7 +19,7 @@ public interface MainPageService {
 
     String[] tagList();
 
-    UserProfile userProfile(String JWT, String id);
+    UserProfile userProfile(String JWT);
 
     List<TagThumbNickNameRes> getMainContents();
 

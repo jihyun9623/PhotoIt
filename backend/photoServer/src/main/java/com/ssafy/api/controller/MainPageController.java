@@ -1,10 +1,10 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.DetailReq;
-import com.ssafy.api.request.MainPageReq;
 import com.ssafy.api.response.*;
 import com.ssafy.api.service.MainPageService;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.common.util.JwtTokenUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -19,10 +20,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/")
+@CrossOrigin("*")
 public class MainPageController {
     public static final Logger logger = LoggerFactory.getLogger(MainPageController.class);
 
     private final MainPageService mainPageService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/location")
     @ApiOperation(value = "지역 불러오기", notes = "저장된 지역들을 불러온다.")
@@ -78,7 +81,7 @@ public class MainPageController {
         return ResponseEntity.ok(MainPagePhotoDetailRes.of(200, "Success", origin, tagList, isFavorite, thumbPhotoIds));
     }
 
-    @GetMapping("/profile")
+    @PostMapping("/profile")
     @ApiOperation(value = "프로필 가져오기", notes = "프로필 사진, 닉네임을 가져온다")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success", response = MainPageProfileRes.class),
@@ -86,8 +89,9 @@ public class MainPageController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    public ResponseEntity<MainPageProfileRes> userProfile(@RequestBody @ApiParam(value="JWT, user Id", required = true) MainPageReq mainReq) {
-        UserProfile userProfile = mainPageService.userProfile(mainReq.getJWT(), mainReq.getId());
+    public ResponseEntity<MainPageProfileRes> userProfile(HttpServletRequest req) {
+        String JWT = req.getHeader("Authorization").split(" ")[1];
+        UserProfile userProfile = mainPageService.userProfile(JWT);
         return ResponseEntity.ok(MainPageProfileRes.of(200,"Success", userProfile));
     }
 

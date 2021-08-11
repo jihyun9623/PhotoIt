@@ -2,9 +2,15 @@
   <section>
     <div class="container">
       <!-- 태그 -->
-      <div class="tag-name d-flex justify-content-start fw-bold fs-4 mb-3">
+      <div class="tag-name d-flex justify-content-start fw-bold fs-4 mb-1">
         <!-- view router: 검색 결과 페이지로 이동 -->
-        # {{ tagName }}태그
+        <router-link
+          :to="{ path: `/search/${tagName}/all/tag` }"
+          class="tag-name"
+          @click="goSearch"
+        >
+          # {{ tagName }}태그
+        </router-link>
       </div>
       <div class="row">
         <!-- 캐러셀 -->
@@ -24,7 +30,7 @@
                       v-for="(item, idx) in defaultPackage"
                       :key="idx"
                     > -->
-                    <!-- <MainPageTagItem :item="item" /> -->
+                    <!-- <MainPageTagItem :item="item" class="tag-item" /> -->
                     <MainPageTagItem class="tag-item" />
                     <!-- 모달 -->
                     <!-- <PhotoDetail /> -->
@@ -82,8 +88,10 @@
                     v-for="(item, idx) in Package"
                     :key="idx"
                   > -->
-                  <!-- <MainPageTagItem :item="item" /> -->
-                  <MainPageTagItem />
+                  <!-- <MainPageTagItem :item="item" class="tag-item" /> -->
+                  <MainPageTagItem class="tag-item" />
+                  <!-- 모달 -->
+                  <!-- <PhotoDetail /> -->
                 </div>
               </div>
             </div>
@@ -138,10 +146,17 @@ export default {
   },
   meghods: {
     makePackage() {
+      // 캐러셀 하나당 카드 4개씩
       this.carouselRotation = Math.ceil(this.allPackage.length / 4) - 1
       for (let start = 4; start < this.allPackage.length; start += 4) {
         this.otherPackages.push(this.allPackage.slice(start, start + 4))
       }
+    },
+    goSearch() {
+      this.$store.dispatch('search/tagSearch', {
+        keyword: this.tagName,
+        region: 'all',
+      })
     },
   },
   mounted() {
@@ -153,5 +168,12 @@ export default {
 <style scoped>
 .tag-item:hover {
   cursor: pointer;
+  transform: scale(1.1);
+  opacity: 0.7;
+  overflow: hidden;
+}
+.tag-name {
+  text-decoration: none;
+  color: black;
 }
 </style>

@@ -18,7 +18,7 @@
       type="text"
       id="integrated-search"
       v-model="something"
-      placeholder="  닉네임(ex: 김작가),  #태그(ex: #웨딩)"
+      placeholder="닉네임(ex: 김작가),  #태그(ex: #웨딩)"
       @keyup.enter="integratedSearch"
     />
     <button @click="integratedSearch"><i class="fas fa-search"></i></button>
@@ -47,11 +47,17 @@ export default {
           .slice(1, this.something.length)
           .trim()
         this.$store.dispatch('search/tagSearch', this.info)
+        this.$router.push(
+          `/search/${this.info.keyword}/${this.info.region}/tag`,
+        )
       }
       // something이 작가인 경우
       else {
         this.info.keyword = this.something.trim()
         this.$store.dispatch('search/photographerSearch', this.info)
+        this.$router.push(
+          `/search/${this.info.keyword}/${this.info.region}/photographer`,
+        )
       }
     },
   },
@@ -80,6 +86,7 @@ input {
   padding-top: 1px;
   padding-bottom: 0;
   outline: none;
+  text-indent: 2%;
 }
 button {
   background-color: transparent;

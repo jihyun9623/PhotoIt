@@ -10,16 +10,16 @@ const state = () => ({
 // actions
 const actions = {
   tagSearch({ commit }, info) {
+    console.log(info)
     axios({
       method: 'get',
-      url: `http://localhost:8080/search/tag/${info.keyword}/${info.region}`,
-      data: JSON.stringify(info),
+      url: `http://i5a108.p.ssafy.io:8080/search/tag/${info.keyword}/${info.region}`,
+      data: info,
     })
       .then((res) => {
         console.log(res)
         // 추가해야 함!
-        commit('TAG_SEARCH', 'res.data.???')
-        this.$router.push({ name: 'SearchResult' })
+        commit('TAG_SEARCH', res.data.photoList)
       })
       .catch((err) => {
         console.log(err)
@@ -29,14 +29,13 @@ const actions = {
   photographerSearch({ commit }, info) {
     axios({
       method: 'get',
-      url: `http://localhost:8080/search/pg/${info.keyword}/${info.region}`,
-      data: JSON.stringify(info),
+      url: `http://i5a108.p.ssafy.io:8080/search/pg/${info.keyword}/${info.region}`,
+      data: info,
     })
       .then((res) => {
         console.log(res)
         // 추가해야 함!
-        commit('PHOTOGRAPHER_SEARCH', 'res.data.???')
-        this.$router.push({ name: 'SearchResult' })
+        commit('PHOTOGRAPHER_SEARCH', res.data.profileList)
       })
       .catch((err) => {
         console.log(err)

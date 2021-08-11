@@ -6,8 +6,8 @@ const state = {
 // actions
 const actions = {
   isLoginCheck({ commit }) {
-    const id = localStorage.getItem('id')
-    if (id) {
+    const jwt = localStorage.getItem('jwt')
+    if (jwt) {
       commit('IS_LOGIN')
     } else {
       commit('IS_LOGOUT')

@@ -42,18 +42,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 //        http
 //                .and()
-                .authorizeRequests()
+                .authorizeRequests()    // 다음에 반환되는 객체로 호출되는 메소드들은 요청 보안 수준의 세부적인 설정.
  //               .antMatchers("/mypage/**").hasAnyRole()    //user든 pg든 뭐라도 있는 사람만 마이페이지 접속 가능
 //                .antMatchers("/studioedit/**").hasRole("ROLE_PG")
 //                .antMatchers("/mypage/**").hasRole("ROLE_USER")
 //                .antMatchers("/mypage/**").hasRole("ROLE_PG")
 //                .antMatchers("/fav/**").hasRole("ROLE_USER")
 //                .antMatchers("/fav/**").hasRole("ROLE_PG")
-                .antMatchers("/user/**").permitAll()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+//                .antMatchers("/user/**").permitAll()
+                .antMatchers("/mypage").authenticated()
+//                .antMatchers("/**").permitAll()
+                .anyRequest().permitAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
     }
 

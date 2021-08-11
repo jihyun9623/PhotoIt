@@ -24,7 +24,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println("*************핸들러제발좀들어와라****************");
+		logger.debug("ooooooooooooooooo preHandle 진입 ooooooooooooooooooo");
 
 		if(request.getMethod().equals("OPTIONS")) {
 			return true;

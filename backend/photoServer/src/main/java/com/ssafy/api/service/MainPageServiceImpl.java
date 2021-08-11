@@ -156,8 +156,7 @@ public class MainPageServiceImpl implements MainPageService{
     @Transactional
     public boolean isFavorite(String nickName, String userId) {
         Boolean isFav = false;
-        MyStudio myStudio = myStudioRepository.findByNickname(nickName)
-                            .orElseThrow(RuntimeException::new);
+
         if(userId=="")
             return false;
         User user = userRepository.findUserById(userId)
@@ -174,7 +173,7 @@ public class MainPageServiceImpl implements MainPageService{
     @Override
     @Transactional
     public List<ThumbPhotoIdRes> thumbPhotoIds(String nickName, String thumbnail) {
-        int thumbPhotoIdsSize = 20;
+        int thumbPhotoIdsSize = 4;
         MyStudio myStudio = myStudioRepository.findByNickname(nickName)
                             .orElseThrow(RuntimeException::new);
         List<ThumbPhotoIdRes> thumbPhotoIds = new ArrayList<>();

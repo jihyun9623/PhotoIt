@@ -30,9 +30,10 @@
                   class="tag-item"
                   data-bs-toggle="modal"
                   :data-bs-target="`#detailModal-${item.photoId}`"
+                  @click="photoDetail(item.nickName, item.thumbnail)"
                 />
                 <!-- 모달 -->
-                <div
+                <!-- <div
                   v-for="(item, idx) in defaultPackage"
                   :item="item"
                   :key="idx"
@@ -70,8 +71,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- <PhotoDetail /> -->
+                </div> -->
+                <PhotoDetail :items="defaultPackage" />
               </div>
             </div>
             <div
@@ -161,10 +162,12 @@
 
 <script>
 import MainPageTagItem from '@/components/MainPage/MainPageTagItem'
+import PhotoDetail from '@/components/Common/PhotoDetail'
 export default {
   name: 'MainPageTagList',
   components: {
     MainPageTagItem,
+    PhotoDetail,
   },
   props: {
     tagSet: {
@@ -195,6 +198,20 @@ export default {
       this.$store.dispatch('search/tagSearch', {
         keyword: this.tagName,
         region: 'all',
+      })
+    },
+    photoDetail(pgNickname, thumbnailURL) {
+      let id = ''
+      this.$store.dispatch('login/isLoginCheck')
+      if (this.$store.state.login.isLogin) {
+        id = localStorage.getItem('id')
+      }
+      const nickName = pgNickname
+      const thumbnail = thumbnailURL
+      this.$store.dispatch('mainpage/getDetailPhotos', {
+        id: id,
+        nickName: nickName,
+        thumbnail: thumbnail,
       })
     },
   },

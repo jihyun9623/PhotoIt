@@ -7,6 +7,10 @@ const state = () => ({
   profilePicture: null,
   nickname: null,
   contents: null,
+  detailPhoto: null,
+  detailOtherPhotos: null,
+  detailIsFavorite: null,
+  detailTagList: null,
 })
 
 // actions
@@ -44,7 +48,7 @@ const actions = {
     })
       .then((res) => {
         console.log(res)
-        commit('GET_ProfileNickname', res.data.userProfile)
+        commit('GET_PROFILE_NICKNAME', res.data.userProfile)
       })
       .catch((err) => {
         console.log(err)
@@ -60,6 +64,21 @@ const actions = {
       commit('GET_MAIN_CONTENTS', res.data.tagPhotoList)
     })
   },
+  getDetailPhotos({ commit }, info) {
+    axios({
+      method: 'post',
+      // url: `http://i5a108.p.ssafy.io:8080/detail`,
+      url: `http://localhost:8080/detail`,
+      data: info,
+    })
+      .then((res) => {
+        console.log(res)
+        commit('GET_DETAIL_PHOTO', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
 }
 
 const mutations = {
@@ -69,15 +88,19 @@ const mutations = {
   GET_TAGS(state, data) {
     state.tags = data
   },
-  GET_ProfileNickname(state, data) {
-    // 확인 필요
+  GET_PROFILE_NICKNAME(state, data) {
     state.profilePicture = data.photo
-    // 확인 필요
     state.nickname = data.nickName
   },
   GET_MAIN_CONTENTS(state, data) {
     // 어떤 데이터를 어떻게 나누어 저장할지 추후 수정
     state.contents = data
+  },
+  GET_DETAIL_PHOTO(state, data) {
+    state.isFavorite = data.isFavorite
+    state.detailPhoto = data.origin
+    state.detailOtherPhotos = data.thumbPhotoIds
+    state.detailTagList = data.tagList
   },
 }
 

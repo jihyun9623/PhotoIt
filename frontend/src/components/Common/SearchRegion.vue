@@ -30,7 +30,7 @@ export default {
   position: fixed;
   width: 100%;
   background-color: transparent;
-  z-index: 1;
+  z-index: 100;
   height: 10%;
 }
 .logo-box {

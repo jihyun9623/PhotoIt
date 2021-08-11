@@ -1,41 +1,39 @@
 // import axios from 'axios'
+const state = {
+  isLogin: false,
+}
 
-// // actions
-// const actions = {
-//   saveToken(credentials) {
-//     axios({
-//       method: 'post',
-//       url: 'http://localhost:8080/user/signin',
-//       data: credentials,
-//     })
-//       .then((res) => {
-//         // console.log(res)
-//         // res.data.token, res.data.id가 맞는지 확인
-//         localStorage.setItem('jwt', res.data.token)
-//         localStorage.setItem('id', res.data.id)
-//         this.$emit('login')
-//         this.$router.push({ name: 'MainPage' })
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//         alert('로그인 정보가 잘못되었습니다.')
-//       })
-//   },
-//   deleteToken() {
-//     localStorage.removeItem('jwt')
-//     localStorage.removeItem('id')
-//     this.$router.push({ name: 'MainPage' })
-//   },
-//   getToken() {
-//     const token = localStorage.getItem('jwt')
-//     const config = {
-//       Authorization: `JWT ${token}`,
-//     }
-//     return config
-//   },
-// }
+// actions
+const actions = {
+  isLoginCheck({ commit }) {
+    const jwt = localStorage.getItem('jwt')
+    if (jwt) {
+      commit('IS_LOGIN')
+    } else {
+      commit('IS_LOGOUT')
+    }
+  },
+  deleteToken({ commit }) {
+    localStorage.removeItem('jwt')
+    localStorage.removeItem('id')
+    commit('IS_LOGOUT')
+    this.$router.push({ name: 'MainPage' })
+  },
+}
 
-// export default {
-//   namespaced: true,
-//   actions,
-// }
+// mutations
+const mutations = {
+  IS_LOGIN(state) {
+    state.isLogin = true
+  },
+  IS_LOGOUT(state) {
+    state.isLogin = false
+  },
+}
+
+export default {
+  namespaced: true,
+  state,
+  actions,
+  mutations,
+}

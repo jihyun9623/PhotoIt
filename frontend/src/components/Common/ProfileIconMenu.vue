@@ -24,6 +24,7 @@ export default {
   height: 100%;
   background-color: gray;
   clip-path: circle(30%);
+  /* border-radius: 50%; */
   /* 나중에 지우기 */
   line-height: 70px;
 }

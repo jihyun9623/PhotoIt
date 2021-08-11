@@ -8,16 +8,9 @@
         v-model="info.region"
       >
         <option value="all">전체</option>
-        <option value="서울">서울</option>
-        <option value="부산">부산</option>
-        <option value="경기도">경기도</option>
-        <option value="강원도">강원도</option>
-        <option value="경상남도">경상남도</option>
-        <option value="경상북도">경상북도</option>
-        <option value="전라남도">전라남도</option>
-        <option value="전라북도">전라북도</option>
-        <option value="충청남도">충청남도</option>
-        <option value="충청북도">충청북도</option>
+        <option v-for="(region, idx) in regions" :key="idx" :value="region">
+          {{ region }}
+        </option>
       </select>
       <input
         type="text"
@@ -63,6 +56,11 @@ export default {
           `/search/${this.info.keyword}/${this.info.region}/photographer`,
         )
       }
+    },
+  },
+  computed: {
+    regions() {
+      return this.$store.state.mainpage.regions
     },
   },
 }

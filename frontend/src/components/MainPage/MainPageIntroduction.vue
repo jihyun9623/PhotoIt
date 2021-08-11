@@ -118,6 +118,7 @@ export default {
   },
   unmounted() {
     removeEventListener('scroll', this.stickySearchBar)
+    removeEventListener('scroll', this.scrollEffect)
     this.$store.state.search.isSearchHeaderShow = true
   },
 }
@@ -162,7 +163,7 @@ export default {
   transition: opacity 3s;
 }
 .empty-box {
-  height: 15vh;
+  height: 10vh;
 }
 .text-pg {
   position: absolute;

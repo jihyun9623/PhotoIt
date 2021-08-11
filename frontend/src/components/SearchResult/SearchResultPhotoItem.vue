@@ -1,6 +1,8 @@
 <template>
-  <div class="card">
-    <img class="img-fluid" alt="Photo" :src="thumb" />
+  <div class="col-6 col-md-3 pb-5">
+    <div class="card">
+      <img class="img-fluid card-img" alt="Photo" :src="photo.thumb" />
+    </div>
   </div>
 </template>
 
@@ -12,14 +14,19 @@ export default {
       type: Object,
     },
   },
-  data() {
-    return {
-      photoId: this.photo.photoId,
-      thumb: this.photo.thumb,
-      nickName: this.photo.nickName,
-    }
-  },
 }
 </script>
 
-<style></style>
+<style scoped>
+.card-img {
+  width: 100%;
+  height: 20vh;
+  object-fit: cover;
+}
+.card-img:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  opacity: 0.7;
+  overflow: hidden;
+}
+</style>

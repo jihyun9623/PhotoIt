@@ -39,18 +39,18 @@
           </button>
         </div>
       </div>
-      <div class="mt-4 d-flex justify-content-evenly">
+      <!-- <div class="mt-4 d-flex justify-content-evenly">
         <button class="btn login-find-btn">
-          <!-- <router-link :to="{ name: 어딘가 }"> -->
-          <span>아이디 찾기</span>
-          <!-- </router-link> -->
+          <router-link :to="{ name: 어딘가 }">
+            <span>아이디 찾기</span>
+          </router-link>
         </button>
         <button class="btn login-find-btn">
-          <!-- <router-link :to="{ name: 어딘가 }"> -->
-          <span>비밀번호 찾기</span>
-          <!-- </router-link> -->
+          <router-link :to="{ name: 어딘가 }">
+            <span>비밀번호 찾기</span>
+          </router-link>
         </button>
-      </div>
+      </div> -->
     </div>
   </section>
 </template>
@@ -79,11 +79,11 @@ export default {
         data: this.credentials,
       })
         .then((res) => {
-          // console.log(res)
-          // res.data.token, res.data.id가 맞는지 확인
-          localStorage.setItem('jwt', res.data.token)
+          console.log(res)
+          localStorage.setItem('jwt', res.data.jwt)
           localStorage.setItem('id', res.data.id)
           this.$emit('login')
+          this.$store.dispatch('login/isLoginCheck')
           this.$router.push({ name: 'MainPage' })
         })
         .catch((err) => {
@@ -91,6 +91,12 @@ export default {
           alert('로그인 정보가 잘못되었습니다.')
         })
     },
+  },
+  created() {
+    this.$store.dispatch('login/isLoginCheck')
+    if (this.$store.state.login.isLogin) {
+      this.$router.push({ name: 'MainPage' })
+    }
   },
 }
 </script>

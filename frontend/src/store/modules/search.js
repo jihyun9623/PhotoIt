@@ -13,12 +13,12 @@ const actions = {
     console.log(info)
     axios({
       method: 'get',
-      url: `http://i5a108.p.ssafy.io:8080/search/tag/${info.keyword}/${info.region}`,
+      // url: `http://i5a108.p.ssafy.io:8080/search/tag/${info.keyword}/${info.region}`,
+      url: `http://localhost:8080/search/tag/${info.keyword}/${info.region}`,
       data: info,
     })
       .then((res) => {
         console.log(res)
-        // 추가해야 함!
         commit('TAG_SEARCH', res.data.photoList)
       })
       .catch((err) => {
@@ -29,12 +29,12 @@ const actions = {
   photographerSearch({ commit }, info) {
     axios({
       method: 'get',
-      url: `http://i5a108.p.ssafy.io:8080/search/pg/${info.keyword}/${info.region}`,
+      // url: `http://i5a108.p.ssafy.io:8080/search/pg/${info.keyword}/${info.region}`,
+      url: `http://localhost:8080/search/pg/${info.keyword}/${info.region}`,
       data: info,
     })
       .then((res) => {
         console.log(res)
-        // 추가해야 함!
         commit('PHOTOGRAPHER_SEARCH', res.data.profileList)
       })
       .catch((err) => {

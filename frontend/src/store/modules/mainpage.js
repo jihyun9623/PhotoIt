@@ -31,22 +31,24 @@ const actions = {
       commit('GET_TAGS', res.data.tagList)
     })
   },
-  getProfileNickname({ commit, dispatch }) {
-    const id = localStorage.getItem('id')
-    const payload = {
-      id: id,
+  getProfileNickname({ commit }) {
+    const jwt = localStorage.getItem('jwt')
+    const config = {
+      Authorization: `JWT ${jwt}`,
     }
     axios({
-      method: 'get',
+      method: 'post',
       // url: `http://i5a108.p.ssafy.io:8080/profile`,
       url: `http://localhost:8080/profile`,
-      headers: dispatch('login/getToken', { root: true }),
-      data: JSON.stringify(payload),
-    }).then((res) => {
-      console.log(res)
-      // 추가해야 함!
-      commit('GET_ProfileNickname', 'res.data.???')
+      headers: config,
     })
+      .then((res) => {
+        console.log(res)
+        commit('GET_ProfileNickname', res.data.userProfile)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   getMainContents({ commit }) {
     axios({
@@ -69,7 +71,7 @@ const mutations = {
   },
   GET_ProfileNickname(state, data) {
     // 확인 필요
-    state.profilePicture = data.profile
+    state.profilePicture = data.photo
     // 확인 필요
     state.nickname = data.nickName
   },

@@ -31,7 +31,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('mainpage/getRegions')
+    // this.$store.dispatch('mainpage/getRegions')
     this.$store.dispatch('mainpage/getTags')
     this.$store.dispatch('mainpage/getMainContents')
   },

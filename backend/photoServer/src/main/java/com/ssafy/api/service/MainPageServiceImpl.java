@@ -52,7 +52,7 @@ public class MainPageServiceImpl implements MainPageService{
     @Transactional
     public UserProfile userProfile(String JWT) {
 
-        User user = userRepository.findUserById(jwtTokenUtil.getUserPk(JWT)).orElseThrow(RuntimeException::new);
+        User user = userRepository.findUserById(jwtTokenUtil.getUserInfo(JWT)).orElseThrow(RuntimeException::new);
         UserProfile userProfile = UserProfile.of(user.getNickname(), user.getPhoto());
         return userProfile;
     }
@@ -156,8 +156,7 @@ public class MainPageServiceImpl implements MainPageService{
     @Transactional
     public boolean isFavorite(String nickName, String userId) {
         Boolean isFav = false;
-        MyStudio myStudio = myStudioRepository.findByNickname(nickName)
-                            .orElseThrow(RuntimeException::new);
+
         if(userId=="")
             return false;
         User user = userRepository.findUserById(userId)
@@ -174,7 +173,7 @@ public class MainPageServiceImpl implements MainPageService{
     @Override
     @Transactional
     public List<ThumbPhotoIdRes> thumbPhotoIds(String nickName, String thumbnail) {
-        int thumbPhotoIdsSize = 20;
+        int thumbPhotoIdsSize = 4;
         MyStudio myStudio = myStudioRepository.findByNickname(nickName)
                             .orElseThrow(RuntimeException::new);
         List<ThumbPhotoIdRes> thumbPhotoIds = new ArrayList<>();

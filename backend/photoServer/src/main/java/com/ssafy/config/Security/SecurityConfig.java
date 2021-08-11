@@ -23,7 +23,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // 암호화에 필요한 PasswordEncoder 를 Bean 등록
     @Bean
     public PasswordEncoder passwordEncoder() {
-
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
@@ -44,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http
 //                .and()
                 .authorizeRequests()
-                .antMatchers("/mypage/**").hasAnyRole()    //user든 pg든 뭐라도 있는 사람만 마이페이지 접속 가능
+ //               .antMatchers("/mypage/**").hasAnyRole()    //user든 pg든 뭐라도 있는 사람만 마이페이지 접속 가능
 //                .antMatchers("/studioedit/**").hasRole("ROLE_PG")
 //                .antMatchers("/mypage/**").hasRole("ROLE_USER")
 //                .antMatchers("/mypage/**").hasRole("ROLE_PG")

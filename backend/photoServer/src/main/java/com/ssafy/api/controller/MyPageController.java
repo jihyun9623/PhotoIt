@@ -33,6 +33,7 @@ public class MyPageController {
     @GetMapping
     public BaseResponseBody getProfile(@RequestHeader(value = "Authorization") String token) {
         logger.debug("MyPage 진입, 회원정보 불러오기");
+        token = token.split(" ")[1];
         if (userService.isValidToken(token)) {
             logger.debug("토큰 유효함");
             MyPageGetRes res = userService.getProfile(token);
@@ -50,7 +51,7 @@ public class MyPageController {
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "수정할 회원정보", required = true) UserReq updateInfo) {
         logger.debug("회원정보 수정 메서드 진입");
-
+        token = token.split(" ")[1];
         // 회원가입시 받는 정보랑 비슷해서 UserRegisterPostReq형으로 받아옴.
         // 수정할 정보 : passwd, nickname(중복체크해야됨), pg, location, introduce
         if (userService.isValidToken(token)) {
@@ -68,7 +69,7 @@ public class MyPageController {
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "수정할 회원정보", required = true) int idx) {
         logger.debug("회원 탈퇴 메서드 진입");
-
+        token = token.split(" ")[1];
         if (userService.isValidToken(token)) {
             userService.withdrawalUser("erasable@test.com");
             return BaseResponseBody.of(200, "Success");
@@ -81,7 +82,7 @@ public class MyPageController {
     @ApiOperation(value = "사진작가 업그레이드", notes = "사진작가로 업그레이드 한다.")
     @GetMapping("/pg")
     public BaseResponseBody upgradePhotographer(@RequestHeader(value = "Authorization") String token) {
-        // 헤더에서 jwt 뜯기............
+        token = token.split(" ")[1];
         if (userService.isValidToken(token)) {
             String id = jwtTokenUtil.getUserInfo(token);
             boolean EnableUpgrade = userService.upgradePhotographer(id);
@@ -103,7 +104,7 @@ public class MyPageController {
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "확인할 아이디와 비밀번호", required = true) UserReq pwdInfo) {
         logger.debug("password 재확인 메서드 진입");
-
+        token = token.split(" ")[1];
         if (userService.isValidToken(token)) {
             String id = jwtTokenUtil.getUserInfo(token);
             Boolean isRight = userService.isPasswordRight(id, pwdInfo.getPasswd());
@@ -119,6 +120,7 @@ public class MyPageController {
     public BaseResponseBody nicknameDuplicateCheck(
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "확인할 닉네임", required = true) UserReq nickInfo) {
+        token = token.split(" ")[1];
         if (userService.isValidToken(token)) {
             Boolean isDuplicated = userService.nicknameDuplicateCheck(nickInfo.getNickname());    // 중복이면 true, 중복 아니면 false.
             if (!isDuplicated) {
@@ -137,6 +139,7 @@ public class MyPageController {
     public BaseResponseBody editProfilePhoto(
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "수정할 사진 url", required = true) UserReq photoInfo) {
+        token = token.split(" ")[1];
         if (userService.isValidToken(token)) {
             userService.editProfilePhoto(token, photoInfo);
 

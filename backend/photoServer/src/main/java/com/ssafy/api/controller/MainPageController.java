@@ -3,12 +3,14 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.DetailReq;
 import com.ssafy.api.response.*;
 import com.ssafy.api.service.MainPageService;
+import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.JwtTokenUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,10 @@ public class MainPageController {
     private final MainPageService mainPageService;
     private final JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    UserService userService;
+
+
     @GetMapping("/location")
     @ApiOperation(value = "지역 불러오기", notes = "저장된 지역들을 불러온다.")
     @ApiResponses({
@@ -35,9 +41,9 @@ public class MainPageController {
             @ApiResponse(code = 404, message = "지역 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    public ResponseEntity<MainPageLocationRes> locationList () {
+    public ResponseEntity<MainPageLocationRes> locationList() {
         String[] locationList = mainPageService.locationList();
-        return ResponseEntity.ok(MainPageLocationRes.of(200,"Success", locationList));
+        return ResponseEntity.ok(MainPageLocationRes.of(200, "Success", locationList));
 
     }
 
@@ -51,7 +57,7 @@ public class MainPageController {
     })
     public ResponseEntity<MainPageTagPhotoRes> tagList() {
         String[] tagList = mainPageService.tagList();
-        return ResponseEntity.ok(MainPageTagPhotoRes.of(200,"Success", tagList));
+        return ResponseEntity.ok(MainPageTagPhotoRes.of(200, "Success", tagList));
     }
 
     @GetMapping("/contents")
@@ -66,7 +72,7 @@ public class MainPageController {
         String[] tagList = mainPageService.tagList();
         List<TagThumbNickNameRes> tagPhotoList = mainPageService.getMainContents();
 
-        return ResponseEntity.ok(MainPageTagPhotoRes.of(200,"Success", tagPhotoList, tagList));
+        return ResponseEntity.ok(MainPageTagPhotoRes.of(200, "Success", tagPhotoList, tagList));
     }
 
     @PostMapping("/detail")
@@ -82,6 +88,7 @@ public class MainPageController {
     }
 
     @PostMapping("/profile")
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
     @ApiOperation(value = "프로필 가져오기", notes = "프로필 사진, 닉네임을 가져온다")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success", response = MainPageProfileRes.class),
@@ -91,8 +98,12 @@ public class MainPageController {
     })
     public ResponseEntity<MainPageProfileRes> userProfile(HttpServletRequest req) {
         String JWT = req.getHeader("Authorization").split(" ")[1];
-        UserProfile userProfile = mainPageService.userProfile(JWT);
-        return ResponseEntity.ok(MainPageProfileRes.of(200,"Success", userProfile));
+        if (userService.isValidToken(JWT)) {
+            UserProfile userProfile = mainPageService.userProfile(JWT);
+            return ResponseEntity.ok(MainPageProfileRes.of(200, "Success", userProfile));
+        } else {
+            return ResponseEntity.ok(MainPageProfileRes.of(401, "Invalid Token", null));
+        }
     }
 
 }

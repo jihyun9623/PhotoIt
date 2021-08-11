@@ -78,15 +78,6 @@ class MainPageServiceImplTest {
 
     @Test
     void 유저들고오기() {
-        User user = User.builder()
-                    .id("hanq@kakao.com")
-                    .passwd("qwe123")
-                    .nickname("hanq")
-                    .pg(false)
-                    .photo("dadw")
-                    .build();
-        userRepository.save(user);
-        assertEquals(user, mainPageService.getUser("Asda", "hanq@kakao.com"));
 
     }
 

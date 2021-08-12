@@ -4,15 +4,17 @@ import com.ssafy.api.response.TagThumbNickNameRes;
 import com.ssafy.api.response.ThumbNickNameRes;
 import com.ssafy.api.response.ThumbPhotoIdRes;
 import com.ssafy.api.response.UserProfile;
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.util.*;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MainPageServiceImpl implements MainPageService{
     private final LocationRepository locationRepository;
@@ -20,8 +22,10 @@ public class MainPageServiceImpl implements MainPageService{
     private final UserRepository userRepository;
     private final PhotoRepository photoRepository;
     private final MyStudioRepository myStudioRepository;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
+    @Transactional
     public String[] locationList() {
         List<Location> locations = locationRepository.findAll();
         String[] locationList = new String[locations.size()];
@@ -33,6 +37,7 @@ public class MainPageServiceImpl implements MainPageService{
     }
 
     @Override
+    @Transactional
     public String[] tagList() {
         List<Tag> tags = tagRepository.findAll();
         String[] tagList = new String[tags.size()];
@@ -44,15 +49,16 @@ public class MainPageServiceImpl implements MainPageService{
     }
 
     @Override
-    public UserProfile userProfile(String JWT, String id) {
-        if(JWT==null)
-            return null;
-        User user = userRepository.findUserById(id).orElseThrow(RuntimeException::new);
+    @Transactional
+    public UserProfile userProfile(String JWT) {
+
+        User user = userRepository.findUserById(jwtTokenUtil.getUserInfo(JWT)).orElseThrow(RuntimeException::new);
         UserProfile userProfile = UserProfile.of(user.getNickname(), user.getPhoto());
         return userProfile;
     }
 
     @Override
+    @Transactional
     public List<TagThumbNickNameRes> getMainContents() {
         int viewsTag = 3, randTag = 3, photoCnt = 20;  //view수 기반 태그, 랜덤 태그 수, 태그 별 사진 수
         List<Tag> mainTags = new ArrayList<>();
@@ -108,7 +114,7 @@ public class MainPageServiceImpl implements MainPageService{
             for(Photo p : photos) {
                 for(PhotoTag pt : p.getPhotoTags()) {
                     if(pt.getTag().getName() == tempTag) {
-                        temp.add(ThumbNickNameRes.of(p.getThumbnail(), p.getMyStudio().getNickname()));
+                        temp.add(ThumbNickNameRes.of(p.getThumbnail(), p.getIdx() ,p.getMyStudio().getNickname()));
                         cnt++;
                     }
                 }
@@ -123,13 +129,22 @@ public class MainPageServiceImpl implements MainPageService{
     }
 
     @Override
+    @Transactional
     public String[] photoTagList(String thumbnail) {
         Photo photo = photoRepository.findByThumbnail(thumbnail)
                     .orElseThrow(RuntimeException::new);
-        return (String[]) photo.getPhotoTags().toArray();
+
+        List<PhotoTag> photoTags = photo.getPhotoTags();
+        String[] photoTagList = new String[photoTags.size()];
+        int cnt = 0;
+        for(PhotoTag pt: photoTags) {
+            photoTagList[cnt++] = pt.getTag().getName();
+        }
+        return photoTagList;
     }
 
     @Override
+    @Transactional
     public String photoOrigin(String thumbnail) {
         Photo photo = photoRepository.findByThumbnail(thumbnail)
                 .orElseThrow(RuntimeException::new);
@@ -138,10 +153,12 @@ public class MainPageServiceImpl implements MainPageService{
     }
 
     @Override
+    @Transactional
     public boolean isFavorite(String nickName, String userId) {
         Boolean isFav = false;
-        MyStudio myStudio = myStudioRepository.findByNickname(nickName)
-                            .orElseThrow(RuntimeException::new);
+
+        if(userId=="")
+            return false;
         User user = userRepository.findUserById(userId)
                     .orElseThrow(RuntimeException::new);
         for(Favorite f : user.getFavorites()) {
@@ -154,8 +171,9 @@ public class MainPageServiceImpl implements MainPageService{
     }
 
     @Override
+    @Transactional
     public List<ThumbPhotoIdRes> thumbPhotoIds(String nickName, String thumbnail) {
-        int thumbPhotoIdsSize = 20;
+        int thumbPhotoIdsSize = 4;
         MyStudio myStudio = myStudioRepository.findByNickname(nickName)
                             .orElseThrow(RuntimeException::new);
         List<ThumbPhotoIdRes> thumbPhotoIds = new ArrayList<>();
@@ -171,6 +189,7 @@ public class MainPageServiceImpl implements MainPageService{
     }
 
     @Override
+    @Transactional
     public void photoViewCnt(String thumbnail) {
         Photo photo = photoRepository.findByThumbnail(thumbnail)
                         .orElseThrow(RuntimeException::new);
@@ -187,5 +206,22 @@ public class MainPageServiceImpl implements MainPageService{
 
         photoRepository.save(newPhoto);
 
+    }
+
+    @Override
+    @Transactional
+    public int photoIdx(String thumbnail) {
+        int photoIdx = photoRepository.findByThumbnail(thumbnail)
+                       .orElseThrow(RuntimeException::new).getIdx();
+
+        return photoIdx;
+    }
+
+    @Override
+    @Transactional
+    public String profilePhoto(String thumbnail) {
+        String profilePhoto = photoRepository.findByThumbnail(thumbnail)
+                        .orElseThrow(RuntimeException::new).getMyStudio().getUser().getPhoto();
+        return profilePhoto;
     }
 }

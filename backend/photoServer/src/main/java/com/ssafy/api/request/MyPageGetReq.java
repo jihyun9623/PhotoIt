@@ -20,21 +20,21 @@ package com.ssafy.api.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 유저 로그인 API ([SPOST] /user/signin) 요청에 필요한 리퀘스트 바디 정의.
+ * 마이페이지 API ([GET] /mypage) 요청에 필요한 리퀘스트 바디 정의.
  * */
 
-@Getter
-@Setter
-@ApiModel("UserLoginPostRequest")
-public class UserLoginPostReq{
-	@ApiModelProperty(name="유저 ID", example = "test")
-	String id;
+@Data
+@ApiModel("MyPageGetRequest")
+public class MyPageGetReq {
+	@ApiModelProperty(name="JWT 인증 토큰", example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN...")
+	String jwt;
 
-	@ApiModelProperty(name="유저 PW", example = "1234")
-	String passwd;
+	@ApiModelProperty(name="유저 닉네임", example = "한뀨")
+	String nickname;
 }
 

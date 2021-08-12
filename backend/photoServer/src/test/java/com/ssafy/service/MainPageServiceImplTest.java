@@ -1,9 +1,11 @@
 package com.ssafy.service;
 
 import com.ssafy.api.service.MainPageService;
+import com.ssafy.db.entity.MyStudio;
 import com.ssafy.db.entity.Tag;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.LocationRepository;
+import com.ssafy.db.repository.MyStudioRepository;
 import com.ssafy.db.repository.TagRepository;
 import com.ssafy.db.repository.UserRepository;
 import org.json.JSONObject;
@@ -31,6 +33,9 @@ class MainPageServiceImplTest {
 
     @Autowired
     LocationRepository locationRepository;
+
+    @Autowired
+    MyStudioRepository myStudioRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -78,20 +83,11 @@ class MainPageServiceImplTest {
 
     @Test
     void 유저들고오기() {
-        User user = User.builder()
-                    .id("hanq@kakao.com")
-                    .passwd("qwe123")
-                    .nickname("hanq")
-                    .pg(false)
-                    .photo("dadw")
-                    .build();
-        userRepository.save(user);
-        assertEquals(user, mainPageService.getUser("Asda", "hanq@kakao.com"));
 
     }
 
     @Test
-    void getMainContents() {
+    void detail() {
 
     }
 }

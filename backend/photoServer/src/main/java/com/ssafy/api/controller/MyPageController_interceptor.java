@@ -32,7 +32,8 @@ public class MyPageController_interceptor {
     @ApiOperation(value = "마이페이지 회원정보 조회", notes = "마이페이지 진입시 해당 회원의 정보를 모두 불러온다")
     @GetMapping
     public BaseResponseBody getProfile(@RequestHeader(value = "Authorization") String token) {
-            MyPageGetRes res = userService.getProfile(token);
+        token=token.split(token)[1];
+        MyPageGetRes res = userService.getProfile(token);
             logger.debug(res.toString());
             return BaseResponseBody.of(200, "Success");
     }

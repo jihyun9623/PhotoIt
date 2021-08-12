@@ -28,10 +28,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //        this.jwtInterceptor=jwtInterceptor;
 //    }
 
-    @Override
-        public void addInterceptors(InterceptorRegistry registry) {
-        System.out.println("안들어감~~");
-        registry.addInterceptor(jwtInterceptor)
-                .addPathPatterns("/mypage");
-    }
+//    @Override
+//        public void addInterceptors(InterceptorRegistry registry) {
+//        System.out.println("안들어감~~");
+//        registry.addInterceptor(jwtInterceptor)
+//                .addPathPatterns("/mypage");
+//    }
 }

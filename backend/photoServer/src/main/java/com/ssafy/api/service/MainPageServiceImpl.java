@@ -207,4 +207,21 @@ public class MainPageServiceImpl implements MainPageService{
         photoRepository.save(newPhoto);
 
     }
+
+    @Override
+    @Transactional
+    public int photoIdx(String thumbnail) {
+        int photoIdx = photoRepository.findByThumbnail(thumbnail)
+                       .orElseThrow(RuntimeException::new).getIdx();
+
+        return photoIdx;
+    }
+
+    @Override
+    @Transactional
+    public String profilePhoto(String thumbnail) {
+        String profilePhoto = photoRepository.findByThumbnail(thumbnail)
+                        .orElseThrow(RuntimeException::new).getMyStudio().getUser().getPhoto();
+        return profilePhoto;
+    }
 }

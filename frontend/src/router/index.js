@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import MainPage from '@/views/MainPage.vue'
 import Login from '@/views/Login.vue'
 import SearchResult from '@/views/SearchResult.vue'
+import FavoriteList from '@/views/FavoriteList.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/search',
     name: 'SearchResult',
     component: SearchResult,
+  },
+  {
+    path: '/favlist',
+    name: 'FavoriteList',
+    component: FavoriteList,
   },
 ]
 

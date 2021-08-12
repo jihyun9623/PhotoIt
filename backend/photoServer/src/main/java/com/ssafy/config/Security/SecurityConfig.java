@@ -50,12 +50,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/fav/**").hasRole("ROLE_USER")
 //                .antMatchers("/fav/**").hasRole("ROLE_PG")
 //                .antMatchers("/user/**").permitAll()
-                .antMatchers("/mypage").authenticated()
+//                .antMatchers("/mypage").authenticated()
 //                .antMatchers("/**").permitAll()
-                .anyRequest().permitAll()
-                .and()
-                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().permitAll();
+//                .and()
+//                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+//                        UsernamePasswordAuthenticationFilter.class);
     }
 
 }

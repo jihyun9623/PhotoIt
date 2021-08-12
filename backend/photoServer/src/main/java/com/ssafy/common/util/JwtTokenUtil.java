@@ -72,7 +72,7 @@ public class JwtTokenUtil {
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         logger.debug("getAuthentication 진입");
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserInfo(token)); //여기서 에러남
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserInfo(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 @ApiModel("StudioEditCalendarResBody")
 public class StudioCalendarResBody extends BaseResponseBody {
     @ApiModelProperty(name="일정 리스트", example = "210801")
-    LocalDateTime[] calList;
+    String[] calList;
 
-    public static StudioCalendarResBody of(Integer statusCode, String message, LocalDateTime[] calList) {
+    public static StudioCalendarResBody of(Integer statusCode, String message, String[] calList) {
         StudioCalendarResBody body = new StudioCalendarResBody();
         body.setStatusCode(statusCode);
         body.setMessage(message);

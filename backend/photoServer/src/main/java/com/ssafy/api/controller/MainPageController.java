@@ -83,8 +83,10 @@ public class MainPageController {
         Boolean isFavorite = mainPageService.isFavorite(detailReq.getNickName(), detailReq.getId());
         List<ThumbPhotoIdRes> thumbPhotoIds = mainPageService.thumbPhotoIds(detailReq.getNickName(), detailReq.getThumbnail());
         mainPageService.photoViewCnt(detailReq.getThumbnail());
+        int photoIdx = mainPageService.photoIdx(detailReq.getThumbnail());
+        String profilePhoto = mainPageService.profilePhoto(detailReq.getThumbnail());
 
-        return ResponseEntity.ok(MainPagePhotoDetailRes.of(200, "Success", origin, tagList, isFavorite, thumbPhotoIds));
+        return ResponseEntity.ok(MainPagePhotoDetailRes.of(200, "Success", origin, tagList, isFavorite, photoIdx, profilePhoto, thumbPhotoIds));
     }
 
     @PostMapping("/profile")

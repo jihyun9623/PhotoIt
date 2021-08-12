@@ -106,9 +106,6 @@ public class StudioServiceImpl implements StudioService {
         // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
         String jwtNickname = "";
 
-        // 닉네임으로 스튜디오 idx를 가져옴
-        int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
-
         if(!nickname.equals(jwtNickname)) return false;
 
         // 일정 삭제하기
@@ -137,8 +134,9 @@ public class StudioServiceImpl implements StudioService {
 
         int i=0;
         for(Photo p : bPhotos) {
-            pid[i++] = Integer.toString(p.getIdx());
-            borigin[i++] = p.getOrigin();
+            pid[i] = Integer.toString(p.getIdx());
+            borigin[i] = p.getOrigin();
+            i++;
         }
 
         StudioGetPhotosResBody resbody = new StudioGetPhotosResBody();
@@ -166,8 +164,10 @@ public class StudioServiceImpl implements StudioService {
 
         int i=0;
         for(Photo p : photos) {
-            pid[i++] = Integer.toString(p.getIdx());
-            origin[i++] = p.getOrigin();
+            if(p==null) break;
+            pid[i] = Integer.toString(p.getIdx());
+            origin[i] = p.getOrigin();
+            i++;
         }
 
         StudioGetPhotosResBody resbody = new StudioGetPhotosResBody();

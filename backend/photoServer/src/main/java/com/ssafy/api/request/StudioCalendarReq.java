@@ -18,5 +18,5 @@ public class StudioCalendarReq {
     @ApiModelProperty(name = "JWT", example = "HOTSUMMERTURNONAIRCONTROLLERTHENEARTHSICK")
     String JWT;
     @ApiModelProperty(name = "cal_time", example = "210729")
-    LocalDateTime[] cal_time;
+    String[] cal_time;
 }

@@ -12,9 +12,11 @@ import java.time.LocalDateTime;
 public interface StudioService {
     public StudioPgProfileResBody getPgProfile(String nickname);
 
-    public LocalDateTime[] showCalendar(String nickname);
+    public String[] showCalendar(String nickname);
 
-    public boolean editCalendar(String nickname, String JWT, LocalDateTime[] cal_time);
+    public boolean addCalendar(String nickname, String JWT, String[] cal_time);
+
+    public boolean deleteCalendar(String nickname, String JWT, String[] cal_time);
 
     public StudioGetPhotosResBody getBestPhotos(String nickname);
 

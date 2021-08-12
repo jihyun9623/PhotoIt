@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
     List<Calendar> findByMyStudio_Idx(int idx);
+    boolean deleteByDate(String date);
 }

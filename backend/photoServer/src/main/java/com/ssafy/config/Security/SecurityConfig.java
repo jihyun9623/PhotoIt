@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/fav/**").hasRole("ROLE_USER")
 //                .antMatchers("/fav/**").hasRole("ROLE_PG")
 //                .antMatchers("/user/**").permitAll()
-//                .antMatchers("/mypage").authenticated()
+                .antMatchers("/location").authenticated()
 //                .antMatchers("/**").permitAll()
                 .anyRequest().permitAll();
 //                .and()

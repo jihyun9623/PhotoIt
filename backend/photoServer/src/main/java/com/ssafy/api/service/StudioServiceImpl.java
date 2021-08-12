@@ -61,7 +61,7 @@ public class StudioServiceImpl implements StudioService {
 
     //일정 가져오기
     @Override
-    public LocalDateTime[] showCalendar(String nickname){
+    public String[] showCalendar(String nickname){
         // 닉네임으로 스튜디오 idx를 가져옴
         int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
 
@@ -71,7 +71,7 @@ public class StudioServiceImpl implements StudioService {
         // 일정이 없음
         if(cal.size() == 0) return null;
 
-        LocalDateTime[] calList = new LocalDateTime[cal.size()];
+        String[] calList = new String[cal.size()];
         int i=0;
         for(Calendar c : cal) calList[i++] = c.getDate();
 
@@ -85,10 +85,10 @@ public class StudioServiceImpl implements StudioService {
         return member.getNickname();
     }
 
-    //일정 수정
+    //일정 추가
     @Override
-    public boolean editCalendar(String nickname, String JWT, LocalDateTime[] cal_time){
-        // 닉네임, JWT로 본인 확인 -> 마이스튜디오 idx 받아옴 -> 일정 리스트 받아옴
+    public boolean addCalendar(String nickname, String JWT, String[] cal_time){
+        // 닉네임, JWT로 본인 확인 -> 마이스튜디오 idx 받아옴 -> 일정 추가
 
         // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
         String jwtNickname = getNicknameFromToken(JWT);
@@ -103,6 +103,24 @@ public class StudioServiceImpl implements StudioService {
         for(int i=0;i<cal_time.length;i++){
             Calendar calList = new Calendar(0, cal_time[i],mystudio);
             calendarRepository.save(calList);
+        }
+
+        return true;
+    };
+
+    //일정 삭제
+    @Override
+    public boolean deleteCalendar(String nickname, String JWT, String[] cal_time){
+        // 닉네임, JWT로 본인 확인 -> 마이스튜디오 idx 받아옴 -> 일정 삭제
+
+        // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
+        String jwtNickname = getNicknameFromToken(JWT);
+
+        if(!nickname.equals(jwtNickname)) return false;
+
+        // 일정 삭제하기
+        for(int i=0;i<cal_time.length;i++){
+            calendarRepository.deleteByDate(cal_time[i]);
         }
 
         return true;
@@ -126,8 +144,9 @@ public class StudioServiceImpl implements StudioService {
 
         int i=0;
         for(Photo p : bPhotos) {
-            pid[i++] = Integer.toString(p.getIdx());
-            borigin[i++] = p.getOrigin();
+            pid[i] = Integer.toString(p.getIdx());
+            borigin[i] = p.getOrigin();
+            i++;
         }
 
         StudioGetPhotosResBody resbody = new StudioGetPhotosResBody();
@@ -155,8 +174,10 @@ public class StudioServiceImpl implements StudioService {
 
         int i=0;
         for(Photo p : photos) {
-            pid[i++] = Integer.toString(p.getIdx());
-            origin[i++] = p.getOrigin();
+            if(p==null) break;
+            pid[i] = Integer.toString(p.getIdx());
+            origin[i] = p.getOrigin();
+            i++;
         }
 
         StudioGetPhotosResBody resbody = new StudioGetPhotosResBody();

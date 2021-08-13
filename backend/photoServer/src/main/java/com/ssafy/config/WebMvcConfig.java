@@ -1,6 +1,9 @@
 package com.ssafy.config;
 
 import com.ssafy.JwtInterceptor;
+import com.ssafy.common.util.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -11,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
+    private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
     public void addCorsMapping(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -24,14 +28,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private JwtInterceptor jwtInterceptor;
 
-    public WebMvcConfig(JwtInterceptor jwtInterceptor){
-        this.jwtInterceptor=jwtInterceptor;
+    public WebMvcConfig(JwtInterceptor jwtInterceptor) {
+        this.jwtInterceptor = jwtInterceptor;
     }
 
     @Override
-        public void addInterceptors(InterceptorRegistry registry) {
-        System.out.println("addInterceptors");
-      //  registry.addInterceptor(jwtInterceptor);
-             //   .addPathPatterns("/location");
+    public void addInterceptors(InterceptorRegistry registry) {
+        logger.debug("addInterceptors");
+          registry.addInterceptor(jwtInterceptor)
+                  .excludePathPatterns("/location");
+        //   .addPathPatterns("/location");
     }
 }

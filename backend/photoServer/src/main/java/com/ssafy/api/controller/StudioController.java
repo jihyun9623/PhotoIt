@@ -40,7 +40,7 @@ public class StudioController {
             return ResponseEntity.ok(StudioPgProfileResBody.of(200, "Success", pgProfResBody.getIntroduce(), pgProfResBody.getLocation()));
         }
 
-        return ResponseEntity.status(401).body(StudioPgProfileResBody.of(401, "Failed",null,null));
+        return ResponseEntity.status(401).body(StudioPgProfileResBody.of(401, "작가가 아닙니다.",null,null));
     }
 
     // 일정 보여주기
@@ -58,10 +58,10 @@ public class StudioController {
 
         if(cal!=null) return ResponseEntity.ok(StudioCalendarResBody.of(200, "Success",cal));
 
-        return ResponseEntity.ok(StudioCalendarResBody.of(401, "Failed",null));
+        return ResponseEntity.ok(StudioCalendarResBody.of(401, "일정이 없습니다.",null));
     }
 
-    // 일정 추가하기
+    // 일정 추가하기 //프론트에서 중복추가 안막아줄거면 백에서 해야함!
     @PostMapping("/addcal")
     @ApiOperation(value = "일정 추가하기")
     @ApiResponses({
@@ -126,7 +126,7 @@ public class StudioController {
             return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getPid(),studioGetPhotosResBody.getOrigin()));
         }
 
-        return ResponseEntity.status(401).body(StudioGetPhotosResBody.of(401, "Failed",null,null));
+        return ResponseEntity.status(401).body(StudioGetPhotosResBody.of(401, "베스트 사진이 없습니다.",null,null));
     }
 
     // 작가 전체사진 받아오기기
@@ -146,6 +146,6 @@ public class StudioController {
             return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getPid(),studioGetPhotosResBody.getOrigin()));
         }
 
-        return ResponseEntity.status(401).body(StudioGetPhotosResBody.of(401, "Failed",null,null));
+        return ResponseEntity.status(401).body(StudioGetPhotosResBody.of(401, "사진이 없습니다.",null,null));
     }
 }

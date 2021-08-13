@@ -8,6 +8,7 @@
     <SearchBar />
     <ProfileIconMenu />
     <router-link :to="{ path: '/login' }"> 로그인 </router-link>
+    <router-link :to="{ path: '/signup' }"> 회원가입_임시 </router-link>
   </nav>
 </template>
 

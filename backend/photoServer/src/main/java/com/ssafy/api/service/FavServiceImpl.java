@@ -18,7 +18,9 @@ import java.util.List;
 public class FavServiceImpl implements FavService{
     @Autowired
     UserRepository userRepository;
+    @Autowired
     MyStudioRepository myStudioRepository;
+    @Autowired
     FavRepository favRepository;
 
     // 찜 추가
@@ -43,6 +45,7 @@ public class FavServiceImpl implements FavService{
                 return false;
             }
         }
+
         // 찜 리스트에 없음
         Favorite favorite = new Favorite(0, user, myStudio);
         favRepository.save(favorite);
@@ -68,7 +71,7 @@ public class FavServiceImpl implements FavService{
             Favorite value = it.next();
             // 찜 리스트에 있음
             if(value.getMyStudio().getIdx()==studioIdx) {
-                return favRepository.deleteByMyStudio_Idx(studioIdx);
+                if(favRepository.deleteByMyStudio_Idx(studioIdx)==1) return true;
             }
         }
 

@@ -65,7 +65,7 @@ public class StudioEditController_interceptor {
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "JWT", required = true) StudioEditAuthReq authInfo) {
         String jwt = token;
-        
+
         // JWT -> PhotoGrapher Profile
         StudioEditPgProfileResponseBody responseBody = studioEditService.getPgProfile(jwt);
 

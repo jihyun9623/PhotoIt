@@ -38,10 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .cors().and()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 역시 사용하지 않습니다.
-                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 역시 사용하지 않습니다.
+ //               .and()
 
-                .authorizeRequests()    // 다음에 반환되는 객체로 호출되는 메소드들은 요청 보안 수준의 세부적인 설정.
+ //               .authorizeRequests()    // 다음에 반환되는 객체로 호출되는 메소드들은 요청 보안 수준의 세부적인 설정.
  //               .antMatchers("/mypage/**").hasAnyRole()    //user든 pg든 뭐라도 있는 사람만 마이페이지 접속 가능
 //                .antMatchers("/studioedit/**").hasRole("ROLE_PG")
 //                .antMatchers("/location").authenticated()
@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/mypage_inter/**").authenticated()
 //                .antMatchers("/studioedit/**").authenticated()
 //                .antMatchers("/**").permitAll()
-                .anyRequest().permitAll();
+//                .anyRequest().permitAll();
 //                .and()
 //                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 //                        UsernamePasswordAuthenticationFilter.class);

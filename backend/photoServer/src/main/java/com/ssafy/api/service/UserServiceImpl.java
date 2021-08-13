@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserReq;
 import com.ssafy.api.response.MyPageGetRes;
+import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.AuthorLocationRepository;
@@ -13,6 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-
+    private final StringRedisTemplate redisTemplate;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenProvider;
 
@@ -79,9 +82,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    /**
-     * 회원가입
-     * */
+    /* 회원가입 */
     public void signUp(UserReq info) {
 
         // 작가회원이면 mystudio + location 생성
@@ -113,9 +114,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    /**
-     * myStudio+location 생성
-     * */
+    /* myStudio+location 생성 */
     public void PhotoGrapherSetting(User user, UserReq info){
         MyStudio myStudio=MyStudio.builder()
                 .nickname(info.getNickname())
@@ -141,9 +140,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    /**
-     * 로그인
-     * */
+    /* 로그인 */
     public String signin(UserReq loginInfo) {
         logger.debug("로그인 메서드 진입");
         User member=userRepository.findUserById(loginInfo.getId())
@@ -154,6 +151,15 @@ public class UserServiceImpl implements UserService {
         logger.debug("로그인 성공 : " + member.getId());
         return jwtTokenProvider.createToken(member.getId(), member.getRole());
        // return jwtTokenProvider.createToken(member.getId(), member.getRole());
+    }
+
+    @Override
+    /* 로그아웃 */
+    public BaseResponseBody signOut(String token) {
+        ValueOperations<String, String>logoutValueOpations=redisTemplate.opsForValue();
+        User member= (User) jwtTokenProvider.getAuthentication(token).getPrincipal();
+        logger.debug("로그아웃 유저 아이디 : {}, 유저 이름 : '{}'", member.getId(), member.getNickname());
+        return BaseResponseBody.of(200, "Success Logout");
     }
 
 

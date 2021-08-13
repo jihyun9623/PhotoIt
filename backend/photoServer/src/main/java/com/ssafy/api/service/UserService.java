@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserReq;
 import com.ssafy.api.response.MyPageGetRes;
+import com.ssafy.common.model.response.BaseResponseBody;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface UserService {
 
     // 로그인 : signIn
     String signin(UserReq loginInfo);
+
+    // 로그아웃 : signOut
+    BaseResponseBody signOut(String token);
 
     // 들어가자마자 회원정보 받아오기 get : /mypage
     MyPageGetRes getProfile(String token);
@@ -43,19 +47,7 @@ public interface UserService {
     void editProfilePhoto(String token, UserReq photo);
 
 
-    // 닉네임 중복 체크 post : /mypage/nicknameCheck
-
-    // 프로필 사진 수정 put : /mypage/editphoto
-
-
-//    // 닉네임 중복검사 : nameDupCheck
-//    public boolean nameDupCheck();
-//
-//
-//
 //    // 로그아웃 : signOut
 //    public boolean signOut();
-//
-//    User getUserByUserId(String userId);
 
 }

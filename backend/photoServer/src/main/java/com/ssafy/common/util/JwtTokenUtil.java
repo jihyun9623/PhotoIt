@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,10 +36,11 @@ public class JwtTokenUtil {
     private static String secretKey = "secretKey-test-authorization-jwt-manage-token-photo-it";
     private static Long tokenValidTime =300*60*1000L;       // 토큰 유효 시간 나중에 바꾸기
     private final UserDetailsService userDetailsService;
+    private final StringRedisTemplate redisTemplate;
 
-    public static final String TOKEN_PREFIX = "Bearer ";
-    public static final String HEADER_STRING = "Authorization";
-    public static final String ISSUER = "ssafy.com";
+//    public static final String TOKEN_PREFIX = "Bearer ";
+//    public static final String HEADER_STRING = "Authorization";
+//    public static final String ISSUER = "ssafy.com";
 
 
     // 객체 초기화, secretKey Base64로 인코딩.
@@ -105,6 +108,11 @@ public class JwtTokenUtil {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             System.out.println(claims.getBody());
+            ValueOperations<String, String>logoutValueOperations=redisTemplate.opsForValue();
+            if(logoutValueOperations.get(token)!=null){
+                logger.debug("로그아웃된 토큰입니다.");
+                return false;
+            }
             return !claims.getBody().getExpiration().before(new Date());
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");

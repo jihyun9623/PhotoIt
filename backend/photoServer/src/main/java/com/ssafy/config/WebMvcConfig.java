@@ -38,7 +38,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(InterceptorRegistry registry)    {
         List<String>exclude_list= Arrays.asList("/*","/user/**", "/search/**", "/studio/**", "/fav/**", "/char/**");
         logger.debug("addInterceptors");
           registry.addInterceptor(jwtInterceptor)

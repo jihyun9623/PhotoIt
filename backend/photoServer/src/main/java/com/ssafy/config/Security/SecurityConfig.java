@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  //               .antMatchers("/mypage/**").hasAnyRole()    //user든 pg든 뭐라도 있는 사람만 마이페이지 접속 가능
 //                .antMatchers("/studioedit/**").hasRole("ROLE_PG")
 //                .antMatchers("/location").authenticated()
-
+                .antMatchers("/user/signin").authenticated()
                 .antMatchers("/mypage_inter/**").authenticated()
                 .antMatchers("/studioedit/**").authenticated()
 //                .antMatchers("/**").permitAll()

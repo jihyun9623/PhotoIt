@@ -11,6 +11,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -32,11 +36,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         this.jwtInterceptor = jwtInterceptor;
     }
 
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        List<String>exclude_list= Arrays.asList("/*","/user/**", "/search/**", "/studio/**", "/fav/**", "/char/**");
         logger.debug("addInterceptors");
           registry.addInterceptor(jwtInterceptor)
-                  .excludePathPatterns("/location");
+                  .excludePathPatterns(exclude_list)
+                  .addPathPatterns("/profile");
         //   .addPathPatterns("/location");
     }
 }

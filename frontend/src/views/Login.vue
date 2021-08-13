@@ -86,7 +86,7 @@ export default {
           localStorage.setItem('id', res.data.id)
           alert('로그인 성공!')
           this.$emit('login')
-          this.$router.push({ name: 'MainPage' })
+          this.$router.push({ name: 'MainPage' })s
         })
         .catch((err) => {
           console.log(err)

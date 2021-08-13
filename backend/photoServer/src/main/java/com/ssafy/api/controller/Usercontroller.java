@@ -50,6 +50,14 @@ public class Usercontroller {
         return BaseResponseBody.of(200, "Success");
     }
 
+    @ApiOperation(value="로그아웃", notes="로그아웃")
+    @GetMapping("/signout")
+    public BaseResponseBody signOut( @RequestHeader(value = "Authorization") String token){
+        logger.debug("로그아웃 메서드 진입");
+        return userService.signOut(token);
+    }
+
+
 
     @ApiOperation(value = "로그인", notes = "로그인 한다.")
     @ApiResponses({

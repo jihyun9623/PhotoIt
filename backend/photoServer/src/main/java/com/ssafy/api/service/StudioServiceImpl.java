@@ -37,26 +37,27 @@ public class StudioServiceImpl implements StudioService {
     //작가 프로필 가져오기
     @Override
     public StudioPgProfileResBody getPgProfile(String nickname){
-        // 닉네임으로 스튜디오 idx를 가져옴
-        int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
+        try {
+            // 닉네임으로 스튜디오 idx를 가져옴
+            int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
 
-        // 스튜디오 idx로 작가 프로필을 가져옴
-        MyStudio myStudio = myStudioRepository.findByIdx(studioIdx);
+            // 스튜디오 idx로 작가 프로필을 가져옴
+            MyStudio myStudio = myStudioRepository.findByIdx(studioIdx);
 
-        // 지역
-        List<Location> loc = locationRepository.findByAuthorLocations_MyStudio_Idx(studioIdx);
-        if(loc.size() == 0) return null;
+            // 지역
+            List<Location> loc = locationRepository.findByAuthorLocations_MyStudio_Idx(studioIdx);
 
-        //지역,작가소개 매핑
-        String[] strings = new String[loc.size()];
-        for (int i = 0; i < loc.size(); i++) { strings[i] = loc.get(i).getName(); }
+            //지역,작가소개 매핑
+            String[] strings = new String[loc.size()];
+            for (int i = 0; i < loc.size(); i++) { strings[i] = loc.get(i).getName(); }
 
-        StudioPgProfileResBody resbody = new StudioPgProfileResBody();
-        resbody.setLocation(strings);
-        resbody.setIntroduce(myStudio.getProfile());
-
-        System.out.println(strings.toString());
-        return resbody;
+            StudioPgProfileResBody resbody = new StudioPgProfileResBody();
+            resbody.setLocation(strings);
+            resbody.setIntroduce(myStudio.getProfile());
+            return resbody;
+        }catch (NullPointerException e){
+            return null;
+        }
     };
 
     //일정 가져오기
@@ -91,7 +92,7 @@ public class StudioServiceImpl implements StudioService {
         // 닉네임, JWT로 본인 확인 -> 마이스튜디오 idx 받아옴 -> 일정 추가
 
         // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
-        String jwtNickname = getNicknameFromToken(JWT);
+        String jwtNickname = "qwe";//getNicknameFromToken(JWT);
 
         // 닉네임으로 스튜디오 idx를 가져옴
         int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
@@ -99,13 +100,16 @@ public class StudioServiceImpl implements StudioService {
 
         if(!nickname.equals(jwtNickname)) return false;
 
-        // DB에 일정 추가하기
-        for(int i=0;i<cal_time.length;i++){
-            Calendar calList = new Calendar(0, cal_time[i],mystudio);
-            calendarRepository.save(calList);
+        try{
+            // DB에 일정 추가하기
+            for(int i=0;i<cal_time.length;i++){
+                Calendar calList = new Calendar(0, cal_time[i],mystudio);
+                calendarRepository.save(calList);
+            }
+            return true;
+        }catch (Exception e){
+            return false;
         }
-
-        return true;
     };
 
     //일정 삭제
@@ -114,16 +118,16 @@ public class StudioServiceImpl implements StudioService {
         // 닉네임, JWT로 본인 확인 -> 마이스튜디오 idx 받아옴 -> 일정 삭제
 
         // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
-        String jwtNickname = getNicknameFromToken(JWT);
+        String jwtNickname = "qwe";//getNicknameFromToken(JWT);
 
         if(!nickname.equals(jwtNickname)) return false;
 
         // 일정 삭제하기
         for(int i=0;i<cal_time.length;i++){
-            calendarRepository.deleteByDate(cal_time[i]);
+            if(calendarRepository.deleteByDate(cal_time[i])==1) return true;
         }
 
-        return true;
+        return false;
     };
 
     //베스트 사진 가져오기

@@ -49,10 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/mypage_inter/**").authenticated()
 //                .antMatchers("/studioedit/**").authenticated()
 //                .antMatchers("/**").permitAll()
-                .anyRequest().permitAll()
-                .and()
-                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().permitAll();
+//                .and()
+//                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+//                        UsernamePasswordAuthenticationFilter.class);
     }
 
 }

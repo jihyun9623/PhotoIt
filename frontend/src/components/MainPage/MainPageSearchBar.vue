@@ -1,28 +1,32 @@
 <template>
-  <!-- <div class="d-flex justify-content-center"> -->
-  <div class="search-style-header inline-block" v-show="isSearchHeaderShow">
-    <select name="region" id="searchRegion" class="me-2" v-model="info.region">
-      <option value="all">전체</option>
-      <option v-for="(region, idx) in regions" :key="idx" :value="region">
-        {{ region }}
-      </option>
-    </select>
-    <input
-      type="text"
-      id="integrated-search"
-      v-model="something"
-      placeholder="닉네임(ex: 김작가),  #태그(ex: #웨딩)"
-      @keyup.enter="integratedSearch"
-    />
-    <button @click="integratedSearch"><i class="fas fa-search"></i></button>
+  <div class="d-flex justify-content-center">
+    <div class="search-style-page search-style">
+      <select
+        name="region"
+        id="searchRegion"
+        class="me-2"
+        v-model="info.region"
+      >
+        <option value="all">전체</option>
+        <option v-for="(region, idx) in regions" :key="idx" :value="region">
+          {{ region }}
+        </option>
+      </select>
+      <input
+        type="text"
+        id="integrated-search-main"
+        v-model="something"
+        placeholder="닉네임(ex: 김작가),  #태그(ex: #웨딩)"
+        @keyup.enter="integratedSearch"
+      />
+      <button @click="integratedSearch"><i class="fas fa-search"></i></button>
+    </div>
   </div>
-  <!-- </div> -->
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
-  name: 'SearchBar',
+  name: 'MainPageSearchBar',
   data() {
     return {
       something: null,
@@ -55,9 +59,6 @@ export default {
     },
   },
   computed: {
-    ...mapState({
-      isSearchHeaderShow: (state) => state.search.isSearchHeaderShow,
-    }),
     regions() {
       return this.$store.state.mainpage.regions
     },
@@ -66,14 +67,17 @@ export default {
 </script>
 
 <style scoped>
-.search-style-header {
+.search-style-page {
   width: 60%;
   height: 35px;
-  /* position: absolute; */
+  position: absolute;
+  top: 70%;
+  flex-wrap: nowrap;
 }
 input {
   width: 80%;
   height: 100%;
+  /* border: none; */
   border: solid 1px #c4c4c4;
   border-radius: 30px;
   padding-top: 1px;
@@ -82,13 +86,16 @@ input {
   text-indent: 2%;
 }
 button {
+  /* background-color: white; */
   background-color: transparent;
+  /* 배경이 나뉘면 color 수정 */
+  /* color: #c4c4c4; */
   border: none;
   height: 100%;
   padding-top: 1px;
 }
 button:hover {
-  color: rgb(238, 94, 94);
+  color: #ffffff;
   border: none;
   height: 100%;
   padding-top: 1px;
@@ -96,6 +103,6 @@ button:hover {
 select {
   width: 13%;
   height: 100%;
-  border: solid 1px #c4c4c4;
+  border: #c4c4c4;
 }
 </style>

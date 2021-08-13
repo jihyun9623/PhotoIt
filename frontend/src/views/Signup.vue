@@ -194,7 +194,21 @@
         </div>
       </div>
       <div v-if="credentials.pg === 'true'">
-        <p>지역 목록 선택</p>
+        <p></p>
+        <p class="signup-title">작가 한마디</p>
+        <div class="row">
+          <div>
+            <input
+              type="profile"
+              placeholder="작가 한마디를 입력해 주세요."
+              class="form-control-plaintext"
+              id="profile"
+              v-model="credentials.profile"
+            />
+          </div>
+        </div>
+        <p></p>
+        <p class="signup-title">지역 목록 선택</p>
         <div
           class="row"
           role="group"
@@ -202,22 +216,22 @@
         >
           <div
             class="col-3"
-            v-for="location_ele in location_all"
-            :key="location_ele.loca"
+            v-for="location_ele in $store.state.location_all"
+            :key="location_ele"
           >
             <input
               type="checkbox"
               class="btn-check"
-              :id="location_ele.loca"
+              :id="location_ele"
               autocomplete="off"
-              :value="location_ele.loca"
+              :value="location_ele"
               v-model="credentials.location"
             />
             <label
               class="btn btn-outline-primary btn-width"
-              :for="location_ele.loca"
+              :for="location_ele"
             >
-              {{ location_ele.loca }}
+              {{ location_ele }}
             </label>
           </div>
         </div>
@@ -245,12 +259,12 @@ export default {
     return {
       credentials: {
         id: null, // email
-        passwd: null, // 비밀번호
-        nickname: null, // 닉네임
-        pg: '', // 사진작가 여부
         location: [], // 지역 정보
-        introduce: null, // 한줄 자기소개
+        nickname: null, // 닉네임
+        passwd: null, // 비밀번호
+        pg: '', // 사진작가 여부
         file: null, // 프로필 사진 파일
+        profile: null, // 한줄 자기소개
       },
       preview: null, // 프로필 사진 프리뷰
       emailDup: null, // 이메일 중복확인 요청 후, 중복여부 응답
@@ -263,19 +277,6 @@ export default {
       passwordConfirmation: null, // 비밀번호 확인 입력 내용
       nicknameDup: null, // 닉네임 중복확인 요청 후, 중복 여부 응답
       dupNickname: null, // 중복확인 요청 보냈던 닉네임 따로 저장
-      // 이거 location은 App.vue에서 지역목록요청으로 받고 vuex state에 저장할 것 (임시 설정 목록임)
-      location_all: [
-        { loca: '서울' },
-        { loca: '부산' },
-        { loca: '경기도' },
-        { loca: '강원도' },
-        { loca: '경상남도' },
-        { loca: '경상북도' },
-        { loca: '전라남도' },
-        { loca: '전라북도' },
-        { loca: '충청남도' },
-        { loca: '충청북도' },
-      ],
     }
   },
   methods: {
@@ -290,22 +291,22 @@ export default {
         reader.readAsDataURL(input.files[0])
       }
     },
-    // // emailDupCheck : 이메일 중복확인 요청
-    // emailDupCheck: function () {
-    //   axios({
-    //     method: 'post',
-    //     url: '',
-    //     data: this.credentials.id,
-    //   })
-    //     .then((res) => {
-    //       console.log(res)
-    //       this.emailDup = '200'
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //       this.emailDup = '401'
-    //     })
-    // },
+    // emailDupCheck : 이메일 중복확인 요청
+    emailDupCheck: function () {
+      axios({
+        method: 'post',
+        url: 'http://localhost:8080/user/emaildup',
+        data: this.credentials,
+      })
+        .then((res) => {
+          console.log(res)
+          this.emailDup = '200'
+        })
+        .catch((err) => {
+          console.log(err)
+          this.emailDup = '401'
+        })
+    },
     //
     // // emailAuthSend : 인증 버튼 클릭 시, 서버에 코드를 인증메일로 보내줄 것을 요청
     // emailAuthSend: function () {
@@ -397,7 +398,6 @@ export default {
       // }
     },
   },
-
   components: {
     // components
   },
@@ -435,6 +435,17 @@ export default {
   border-width: 1px 0;
   padding-right: 0;
   padding-left: 0;
+  background-color: #f7f7f7;
+}
+.form-control-plaintext:hover {
+  font-size: 15px;
+  font-weight: bold;
+  border: 0px;
+  margin-bottom: 5px;
+  border-width: 1px 0;
+  padding-right: 0;
+  padding-left: 0;
+  background-color: #e7e7e7;
 }
 .my-hr {
   height: 2px;

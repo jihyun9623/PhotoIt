@@ -15,6 +15,6 @@ export default {}
 
 <style>
 .icon {
-  width: 30%;
+  width: 45%;
 }
 </style>

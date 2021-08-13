@@ -15,8 +15,9 @@
         </div>
       </div>
       <div class="headerelement col-2">
-        <MyStudioHeaderFavorite class="col-6" />
-        <MyStudioHeaderChat class="col-6" />
+        <MyStudioHeaderFavorite class="col-4" />
+        <MyStudioHeaderChat class="col-4" />
+        <div class="col-4"></div>
       </div>
       <div class="headerelement col-4">
         <MyStudioHeaderSearchBar />

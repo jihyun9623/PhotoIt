@@ -32,11 +32,15 @@ export default {
   // --------여기부터 삭제 가능...!------
   methods: {
     userLogout() {
-      // logout_erasable
+      const jwt = localStorage.getItem('jwt')
+      const config = {
+        Authorization: `JWT ${jwt}`,
+      }
       axios({
         method: 'get',
         url: 'http://i5a108.p.ssafy.io:8080/user/signout',
         data: this.credentials,
+        headers: config,
       })
         .then(() => {
           alert('로그아웃!')

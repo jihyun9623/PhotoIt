@@ -32,7 +32,6 @@ public class MainPageController {
     @Autowired
     UserService userService;
 
-
     @GetMapping("/location")
     @ApiOperation(value = "지역 불러오기", notes = "저장된 지역들을 불러온다.")
     @ApiResponses({

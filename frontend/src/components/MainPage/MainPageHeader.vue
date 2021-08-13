@@ -7,6 +7,7 @@
     </div>
     <SearchBar />
     <ProfileIconMenu />
+    <router-link :to="{ path: '/login' }"> 로그인 </router-link>
   </nav>
 </template>
 

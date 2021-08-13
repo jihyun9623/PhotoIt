@@ -22,17 +22,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Autowired
-   JwtInterceptor jwtInterceptor;
+    private JwtInterceptor jwtInterceptor;
 
     public WebMvcConfig(JwtInterceptor jwtInterceptor){
         this.jwtInterceptor=jwtInterceptor;
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        System.out.println("안들어감~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        registry.addInterceptor(jwtInterceptor)
-                .addPathPatterns("/**");
-               // .excludePathPatterns("/signup", "signIn");
+        public void addInterceptors(InterceptorRegistry registry) {
+        System.out.println("addInterceptors");
+        registry.addInterceptor(jwtInterceptor);
+             //   .addPathPatterns("/location");
     }
 }

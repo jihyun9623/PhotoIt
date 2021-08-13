@@ -72,7 +72,7 @@ public class JwtTokenUtil {
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         logger.debug("getAuthentication 진입");
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserInfo(token)); //여기서 에러남
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserInfo(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
@@ -89,15 +89,33 @@ public class JwtTokenUtil {
     }
 
     // 토큰의 유효성 + 만료일자 확인
-    public boolean validateToken(String jwtToken) {
-        logger.debug("validateToken 진입");
+//    public boolean validateToken(String jwtToken) {
+//        logger.debug("validateToken 진입");
+//        try {
+//            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+//            System.out.println(claims.getBody());
+//            return !claims.getBody().getExpiration().before(new Date());
+//        } catch (Exception e) {
+//            return false;
+//        }
+//
+//    }
+
+    public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             System.out.println(claims.getBody());
             return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.info("잘못된 JWT 서명입니다.");
+        } catch (ExpiredJwtException e) {
+            log.info("만료된 JWT 토큰입니다.");
+        } catch (UnsupportedJwtException e) {
+            log.info("지원되지 않는 JWT 토큰입니다.");
+        } catch (IllegalArgumentException e) {
+            log.info("JWT 토큰이 잘못되었습니다.");
         }
+        return false;
     }
 
     public boolean verifyToken(String token){

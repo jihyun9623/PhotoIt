@@ -44,7 +44,6 @@ public class MainPageController {
     public ResponseEntity<MainPageLocationRes> locationList() {
         String[] locationList = mainPageService.locationList();
         return ResponseEntity.ok(MainPageLocationRes.of(200, "Success", locationList));
-
     }
 
     @GetMapping("/tag")

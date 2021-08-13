@@ -4,11 +4,10 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.response.StudioGetPhotosResBody;
 import com.ssafy.api.response.StudioPgProfileResBody;
-import com.ssafy.db.entity.Calendar;
-import com.ssafy.db.entity.Location;
-import com.ssafy.db.entity.MyStudio;
-import com.ssafy.db.entity.Photo;
+import com.ssafy.common.util.JwtTokenUtil;
+import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +22,10 @@ public class StudioServiceImpl implements StudioService {
     private final CalendarRepository calendarRepository;
     private final PhotoRepository photoRepository;
     private final LocationRepository locationRepository;
+    @Autowired
+    JwtTokenUtil jwtTokenProvider;
+    @Autowired
+    UserRepository userRepository;
 
     public StudioServiceImpl(MyStudioRepository myStudioRepository, CalendarRepository calendarRepository, PhotoRepository photoRepository, LocationRepository locationRepository) {
         this.myStudioRepository = myStudioRepository;
@@ -75,13 +78,20 @@ public class StudioServiceImpl implements StudioService {
         return calList;
     };
 
+    // 토큰에서 닉네임 추출
+    public String getNicknameFromToken(String token){
+        String id=jwtTokenProvider.getUserInfo(token);
+        User member =userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("존재하지 않는 아이디입니다."));
+        return member.getNickname();
+    }
+
     //일정 추가
     @Override
     public boolean addCalendar(String nickname, String JWT, String[] cal_time){
         // 닉네임, JWT로 본인 확인 -> 마이스튜디오 idx 받아옴 -> 일정 추가
 
         // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
-        String jwtNickname = "";
+        String jwtNickname = getNicknameFromToken(JWT);
 
         // 닉네임으로 스튜디오 idx를 가져옴
         int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
@@ -104,7 +114,7 @@ public class StudioServiceImpl implements StudioService {
         // 닉네임, JWT로 본인 확인 -> 마이스튜디오 idx 받아옴 -> 일정 삭제
 
         // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
-        String jwtNickname = "";
+        String jwtNickname = getNicknameFromToken(JWT);
 
         if(!nickname.equals(jwtNickname)) return false;
 

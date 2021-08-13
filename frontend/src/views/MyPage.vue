@@ -21,7 +21,7 @@
     <section class="d-flex align-items-center justify-content-center pt-5 mt-5">
       <div class="container text-center">
         <form>
-          <h3 class="h3 mb-5 border">로고자리</h3>
+          <h3 class="h3 mb-5 border">프로필사진</h3>
           <hr />
           <!-- 아이디 -->
           <div class="input-group mb-4 mt-5">

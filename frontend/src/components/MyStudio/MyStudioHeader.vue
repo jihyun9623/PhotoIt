@@ -15,24 +15,21 @@
         </div>
       </div>
       <div class="headerelement col-2">
-        <MyStudioHeaderCalender class="col-4" />
-        <MyStudioHeaderChat class="col-4" />
-        <MyStudioHeaderFavorite class="col-4" />
+        <MyStudioHeaderFavorite class="col-6" />
+        <MyStudioHeaderChat class="col-6" />
       </div>
-      <div class="headerelement col-3">
+      <div class="headerelement col-4">
         <MyStudioHeaderSearchBar />
       </div>
-      <div class="headerelement col-3">
-        <div class="col-4"></div>
-        <div class="col-4">edit</div>
-        <div class="col-4">profile</div>
+      <div class="headerelement col-2">
+        <div class="col-6">edit</div>
+        <div class="col-6">profile</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import MyStudioHeaderCalender from '@/components/MyStudio/MyStudioHeaderCalendar.vue'
 import MyStudioHeaderChat from '@/components/MyStudio/MyStudioHeaderChat.vue'
 import MyStudioHeaderFavorite from '@/components/MyStudio/MyStudioHeaderFavorite.vue'
 import MyStudioHeaderSearchBar from '@/components/MyStudio/MyStudioHeaderSearchBar.vue'
@@ -40,7 +37,6 @@ import MyStudioHeaderSearchBar from '@/components/MyStudio/MyStudioHeaderSearchB
 export default {
   name: 'MyStudioHeader',
   components: {
-    MyStudioHeaderCalender,
     MyStudioHeaderChat,
     MyStudioHeaderFavorite,
     MyStudioHeaderSearchBar,

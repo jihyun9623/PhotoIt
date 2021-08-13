@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>chat</p>
+    <img src="@/assets/images/chat_icon.png" class="icon" />
   </div>
 </template>
 
@@ -8,4 +8,8 @@
 export default {}
 </script>
 
-<style></style>
+<style>
+.icon {
+  width: 30%;
+}
+</style>

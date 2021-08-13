@@ -1,6 +1,11 @@
 <template>
   <div>
-    <p>favorite</p>
+    <img src="@/assets/images/fav_red_icon.png" class="icon" />
+    <img
+      style="display: none"
+      src="@/assets/images/fav_black_icon.png"
+      class="icon"
+    />
   </div>
 </template>
 
@@ -8,4 +13,8 @@
 export default {}
 </script>
 
-<style></style>
+<style>
+.icon {
+  width: 30%;
+}
+</style>

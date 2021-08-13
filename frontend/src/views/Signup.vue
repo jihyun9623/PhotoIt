@@ -297,11 +297,11 @@ export default {
     //     url: '',
     //     data: this.credentials.id,
     //   })
-    //     .then(res => {
+    //     .then((res) => {
     //       console.log(res)
     //       this.emailDup = '200'
     //     })
-    //     .catch(res => {
+    //     .catch((err) => {
     //       console.log(err)
     //       this.emailDup = '401'
     //     })

@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import login from './modules/login'
 import search from './modules/search'
+import mystudio from './modules/mystudio'
 
 export default createStore({
   state: {},
@@ -9,5 +10,6 @@ export default createStore({
   modules: {
     login,
     search,
+    mystudio,
   },
 })

@@ -87,6 +87,7 @@ export default {
         })
         .catch((err) => {
           console.log(err)
+          alert(this.credentials.id + ' ' + this.credentials.passwd)
           alert('로그인 정보가 잘못되었습니다.')
         })
     },

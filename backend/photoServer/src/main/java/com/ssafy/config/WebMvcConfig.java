@@ -43,7 +43,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         logger.debug("addInterceptors");
           registry.addInterceptor(jwtInterceptor)
                   .excludePathPatterns(exclude_list)
-                  .addPathPatterns("/profile");
-        //   .addPathPatterns("/location");
+                  .addPathPatterns("/profile")
+                  .addPathPatterns("/user/signout");
     }
 }

@@ -31,6 +31,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 		}else {
             // request Parameter에서  Authorization으로 넘어온 녀석을 찾아봄.
             String token = request.getHeader("Authorization");
+            token=token.split(" ")[1];
 
             if (token != null && token.length() > 0) {
                 logger.debug("token 검증 interceptor 진입!");

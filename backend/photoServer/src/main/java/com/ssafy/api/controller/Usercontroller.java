@@ -79,6 +79,7 @@ public class Usercontroller {
     @ApiOperation(value="로그아웃", notes="로그아웃")
     @GetMapping("/signout")
     public BaseResponseBody signOut( @RequestHeader(value = "Authorization") String token){
+        token=token.split(" ")[1];
         logger.debug("로그아웃 메서드 진입");
         return userService.signOut(token);
     }
@@ -133,6 +134,7 @@ public class Usercontroller {
     @PostMapping("/emaildup")
     public BaseResponseBody idDuplicateCheck(
             @RequestBody @ApiParam(value="확인할 아이디(=이메일)", required = true) UserReq idInfo) {
+        logger.debug(idInfo.getId());
         Boolean isDuplicated=userService.idDuplicateCheck(idInfo.getId());    // 중복이면 true, 중복 아니면 false.
         if(!isDuplicated) {
             return BaseResponseBody.of(200, "Success");

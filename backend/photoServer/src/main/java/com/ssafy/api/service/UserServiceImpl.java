@@ -280,7 +280,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean nicknameDuplicateCheck(String nickname) {
-        if(userRepository.findUserByNickname(nickname)!=null){
+        if(userRepository.findByNickname(nickname).isPresent()){
             return true;    // null이 아니라면 중복
         }
         return false;
@@ -288,7 +288,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean idDuplicateCheck(String id) {
-        if(userRepository.findUserById(id)!=null){
+        if(userRepository.findUserById(id).isPresent()){
             return true;    // null이 아니라면 중복
         }
         return false;

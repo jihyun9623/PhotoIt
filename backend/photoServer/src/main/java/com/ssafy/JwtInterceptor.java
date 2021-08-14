@@ -24,18 +24,19 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        logger.debug("############## preHandle 진입 ################");
+        // logger.debug("############## preHandle 진입 ################");
 
 		if(request.getMethod().equals("OPTIONS")) {
 			return true;
 		}else {
             // request Parameter에서  Authorization으로 넘어온 녀석을 찾아봄.
             String token = request.getHeader("Authorization");
-            token=token.split(" ")[1];
 
             if (token != null && token.length() > 0) {
                 logger.debug("token 검증 interceptor 진입!");
-                jwtTokenProvider.validateToken(token);
+                if(!jwtTokenProvider.validateToken(token)){
+                    throw new Exception("유효하지 않은 인증 토큰입니다.");
+                }
                 return true;
             } else {
                 throw new RuntimeException("인증 토큰이 없습니다");

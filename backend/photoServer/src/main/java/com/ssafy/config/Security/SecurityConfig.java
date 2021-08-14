@@ -39,11 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .cors().and()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 역시 사용하지 않습니다.
-                .and()
-               .authorizeRequests()    // 다음에 반환되는 객체로 호출되는 메소드들은 요청 보안 수준의 세부적인 설정.
-                .antMatchers("/mypage_inter/**").authenticated()
-                .anyRequest().permitAll();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 토큰 기반 인증이므로 세션 역시 사용하지 않습니다.
+//                .and()
+//               .authorizeRequests()    // 다음에 반환되는 객체로 호출되는 메소드들은 요청 보안 수준의 세부적인 설정.
+//                .antMatchers("/mypage2/**").authenticated()
+//                .anyRequest().permitAll()
 //                .and()
 //                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 //                        UsernamePasswordAuthenticationFilter.class);

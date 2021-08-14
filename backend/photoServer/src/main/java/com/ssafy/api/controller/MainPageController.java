@@ -97,7 +97,7 @@ public class MainPageController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     public ResponseEntity<MainPageProfileRes> userProfile(HttpServletRequest req) {
-        String JWT = req.getHeader("Authorization").split(" ")[1];
+        String JWT = req.getHeader("Authorization");
         if (userService.isValidToken(JWT)) {
             UserProfile userProfile = mainPageService.userProfile(JWT);
             return ResponseEntity.ok(MainPageProfileRes.of(200, "Success", userProfile));

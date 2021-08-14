@@ -19,10 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Api(value = "스튜디오 Edit API", tags = {"edit."})
+@Api(value = "스튜디오 Edit2 API", tags = {"edit2."})
 @RestController
 @RequestMapping("/studioedit2")
-public class StudioEditController_interceptor {
+public class StudioEditController__filter {
 
     @Autowired
     StudioEditService studioEditService;
@@ -43,6 +43,10 @@ public class StudioEditController_interceptor {
             @RequestBody @ApiParam(value = "닉네임, JWT", required = true) StudioEditAuthReq authInfo) {
         String nickname = authInfo.getNickname();
         String jwt = token;
+        //String jwt = authInfo.getJWT();
+        if (!userService.isValidToken(token)) {
+            return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Token"));
+        }
 
         // 현재 JWT의 nickname과 가져온 닉네임 비고
         boolean result = studioEditService.studioAuth(jwt, nickname);
@@ -66,6 +70,9 @@ public class StudioEditController_interceptor {
             @RequestBody @ApiParam(value = "JWT", required = true) StudioEditAuthReq authInfo) {
         String jwt = token;
 
+        if (!userService.isValidToken(token)) {
+            return ResponseEntity.status(401).body(StudioEditPgProfileResponseBody.of(401, "Not Photographer", null, null));
+        }
         // JWT -> PhotoGrapher Profile
         StudioEditPgProfileResponseBody responseBody = studioEditService.getPgProfile(jwt);
 
@@ -91,7 +98,10 @@ public class StudioEditController_interceptor {
             @RequestBody @ApiParam(value = "JWT", required = true) StudioEditAuthReq authInfo) {
         String jwt = token;
 
-       /* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 베스트사진 1~3개를 불러옴*/
+        if (!userService.isValidToken(token)) {
+            return ResponseEntity.status(401).body(StudioEditPhotoResponseBody.of(401, "Invalid Token", null, null));
+        }
+        /* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 베스트사진 1~3개를 불러옴*/
         StudioEditPhotoResponseBody responseBody = studioEditService.getBestPhoto(jwt);
 
         if (responseBody != null) {
@@ -116,7 +126,10 @@ public class StudioEditController_interceptor {
             @RequestBody @ApiParam(value = "JWT", required = true) StudioEditAuthReq authInfo) {
         String jwt = token;
 
-       /* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 전체사진(섬네일) 모두를 불러옴*/
+        if (!userService.isValidToken(token)) {
+            return ResponseEntity.status(401).body(StudioEditPhotoResponseBody.of(401, "Invalid Token", null, null));
+        }
+        /* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 전체사진(섬네일) 모두를 불러옴*/
         StudioEditPhotoResponseBody responseBody = studioEditService.getPgPhoto(jwt);
 
         if (responseBody != null) {
@@ -139,7 +152,10 @@ public class StudioEditController_interceptor {
             @RequestBody @ApiParam(value = "JWT", required = true) StudioEditPhotoSelectReq photoSelectReq) {
         String jwt = token;
 
-         int add_id = Integer.parseInt(photoSelectReq.getAdd_id());
+        if (!userService.isValidToken(token)) {
+            return ResponseEntity.status(401).body(StudioEditPhotoResponseBody.of(401, "Invalid Token", null, null));
+        }
+        int add_id = Integer.parseInt(photoSelectReq.getAdd_id());
 
         /* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 삭제할 사진ID보고 삭제 후 추가할 사진ID보고 추가*/
         boolean result = studioEditService.addBestPhoto(jwt, add_id);
@@ -163,6 +179,9 @@ public class StudioEditController_interceptor {
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "JWT", required = true) StudioEditPhotoSelectReq photoSelectReq) {
         String jwt = token;
+        if (!userService.isValidToken(token)) {
+            return ResponseEntity.status(401).body(StudioEditPhotoResponseBody.of(401, "Invalid Token", null, null));
+        }
         int add_id = Integer.parseInt(photoSelectReq.getAdd_id());
         int del_id = Integer.parseInt(photoSelectReq.getDel_id());
 
@@ -189,6 +208,9 @@ public class StudioEditController_interceptor {
             @RequestBody @ApiParam(value = "JWT", required = true) StudioEditPhotoSelectReq photoSelectReq) {
         String jwt = token;
 
+        if (!userService.isValidToken(token)) {
+            return ResponseEntity.status(401).body(StudioEditPhotoResponseBody.of(401, "Invalid Token", null, null));
+        }
         int del_id = Integer.parseInt(photoSelectReq.getDel_id());
 
         /* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 삭제할 사진ID보고 삭제*/
@@ -203,7 +225,7 @@ public class StudioEditController_interceptor {
 
     // 전체사진 추가하기
     @PostMapping("/photo")
-   @ApiOperation(value = "작가 전체 사진 추가하기", notes = "작가 전체사진을 추가한다")
+    @ApiOperation(value = "작가 전체 사진 추가하기", notes = "작가 전체사진을 추가한다")
     @ApiResponses({
             @ApiResponse(code = 201, message = "추가 완료", response = BaseResponseBody.class),
             @ApiResponse(code = 401, message = "추가 실패", response = BaseResponseBody.class),
@@ -213,6 +235,10 @@ public class StudioEditController_interceptor {
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "JWT", required = true) StudioEditPhotoUploadReq uploadReq) {
         String jwt = token;
+
+        if (!userService.isValidToken(token)) {
+            return ResponseEntity.status(401).body(StudioEditPhotoResponseBody.of(401, "Invalid Token", null, null));
+        }
 
         String tag[][] = uploadReq.getData();
         List<MultipartFile> files = uploadReq.getFile();
@@ -238,6 +264,9 @@ public class StudioEditController_interceptor {
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "JWT", required = true) StudioEditPhotoSelectReq photoSelectReq) {
         String jwt = token;
+        if (!userService.isValidToken(token)) {
+            return ResponseEntity.status(401).body(StudioEditPhotoResponseBody.of(401, "Invalid Token", null, null));
+        }
 
         int del_id = Integer.parseInt(photoSelectReq.getDel_id());
 

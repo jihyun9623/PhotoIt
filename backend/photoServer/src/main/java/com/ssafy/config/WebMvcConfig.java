@@ -44,6 +44,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
           registry.addInterceptor(jwtInterceptor)
                   .excludePathPatterns(exclude_list)
                   .addPathPatterns("/profile")
-                  .addPathPatterns("/user/signout");
+                  .addPathPatterns("/user/signout")
+                  .addPathPatterns("/mypage/**")
+                  .addPathPatterns("/studioedit/**");
     }
 }

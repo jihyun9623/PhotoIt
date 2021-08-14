@@ -31,10 +31,10 @@ public interface UserService {
     Boolean isPasswordRight(String id, String passwd);
 
     // 회원정보 수정하기 put : /mypage
-    void updateProfile(UserReq updateInfo);
+    void updateProfile(String token, UserReq updateInfo);
 
     // 회원탈퇴 delete : /mypage
-    void withdrawalUser(String id);
+    void withdrawalUser(String token);
 
     // 닉네임 중복 체크
     boolean nicknameDuplicateCheck(String nickname);

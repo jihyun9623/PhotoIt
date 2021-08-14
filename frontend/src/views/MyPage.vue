@@ -48,8 +48,14 @@
               aria-label="formNickname"
               aria-describedby="formNickname"
               v-model="formNickname"
-              disabled
             />
+            <button
+              @click="checkNickname"
+              class="btn btn-lg btn-outline btn-primary"
+              type="button"
+            >
+              닉네임 중복체크
+            </button>
           </div>
           <hr />
           <!-- 비밀번호 -->
@@ -63,7 +69,18 @@
               aria-label="formPasswd"
               aria-describedby="formPasswd"
               v-model="formPasswd"
+              :class="{
+                'is-valid': isUserPasswordFocusAndValid,
+                'is-invalid': isUserPasswordFocusAndInvalid,
+              }"
+              @input="validatePassword"
+              @focus="isUserPasswordFocus = true"
             />
+            <div class="valid-feedback">사용 가능한 비밀번호입니다.</div>
+            <div class="invalid-feedback">
+              1개 이상의 대소문자, 특수문자, 숫자를 포함하고 8자리 이상이여야
+              합니다.
+            </div>
           </div>
           <!-- 비밀번호 재확인 -->
           <div class="input-group mb-5">
@@ -76,6 +93,12 @@
               aria-label="formPasswdCheck"
               aria-describedby="formPasswdCheck"
               v-model="formPasswdCheck"
+              :class="{
+                'is-valid': isSamePasswordValid,
+                'is-invalid': isSamePasswordInvalid,
+              }"
+              @input="checkSamePassword"
+              @focus="isUserPasswordCheckFocus = true"
             />
           </div>
           <hr />
@@ -89,11 +112,11 @@
               class="form-control mb-0"
               aria-label="formPgCheck"
               aria-describedby="formPgCheck"
-              v-model="formPgCheck"
+              v-model="PG"
               disabled
             />
             <button
-              @click="switchToPg"
+              @click="upgradeToPhotoGrapher"
               class="btn btn-lg btn-outline btn-primary"
               type="button"
               v-if="!formPgCheck"
@@ -102,7 +125,7 @@
             </button>
           </div>
           <!-- 작가 자기소개 -->
-          <div class="input-group mb-4">
+          <div class="input-group mb-4" v-if="formPgCheck">
             <span class="input-group-text col-4 justify-content-center"
               >작가 자기소개</span
             >
@@ -115,7 +138,7 @@
             />
           </div>
           <!-- 작가 지역 -->
-          <div class="input-group mb-5">
+          <div class="input-group mb-5" v-if="formPgCheck">
             <span class="input-group-text col-4 justify-content-center"
               >작가 지역</span
             >
@@ -133,16 +156,14 @@
               @click="deleteUser"
               class="btn btn-lg btn-outline btn-danger"
               type="button"
-              v-if="!isUpdate"
             >
               회원 탈퇴
             </button>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <button
-              @click="update"
+              @click="updateUser"
               class="btn btn-lg btn-outline btn-warning"
               type="button"
-              v-if="!isUpdate"
             >
               회원 정보 수정
             </button>
@@ -157,28 +178,151 @@
 
 <script>
 import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
+import Vue from 'vue'
+import VueAlertify from 'vue-alertify'
+
+Vue.use(VueAlertify)
 // import component from "component location"
 
 export default {
   name: 'MyPage',
+  created() {
+    this.$store.dispatch('mypage/getUserInfo')
+  },
+  mounted() {
+    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가입니다.'
+    else this.PG = '작가가 아닙니다.'
+  },
   data() {
     return {
-      isDisabled: true,
-      isUpdate: false,
+      isUserPasswordValid: false,
 
-      userSeq: '',
-      userName: '',
-      userEmail: '',
-      userPassword: '',
-      userPassword2: '',
-      userPhoneNumber: '',
-      userAddress: '',
-      userClsf: '',
-      userClsfName: '',
+      isUserPasswordFocus: false,
+      isUserPasswordCheckFocus: false,
+
+      formEmail: this.$store.state.mypage.email,
+      formNickname: this.$store.state.mypage.nickName,
+      formProfilePhoto: this.$store.state.mypage.profilePhoto,
+      formPasswd: '',
+      formPasswdCheck: '',
+      formPgCheck: this.$store.state.mypage.isPhotoGrapher,
+      formIntroduce: this.$store.state.mypage.introduce,
+      formLocation: this.$store.state.mypage.location,
+
+      PG: '',
     }
   },
+  methods: {
+    // 회원정보 수정
+    updateUser() {
+      let nickname = {
+        nickname: this.formNickname,
+      }
+      if (!this.$store.dispatch('mypage/nickNameCheck', nickname)) {
+        this.$alertify.error('이미 존재하는 닉네임입니다.')
+        return false
+      }
+      if (this.isUserPasswordFocusAndValid && this.isSamePasswordValid) {
+        this.$alertify.error(
+          '비밀번호는 영문,숫자,특수문자를 포함하여 동일하게 입력해주세요.',
+        )
+        return false
+      }
+      let data = {
+        passwd: this.formPasswd,
+        nickname: this.formNickname,
+        pg: this.formPgCheck,
+        location: this.formLocation,
+        introduce: this.formIntroduce,
+      }
+      if (this.$store.dispatch('mypage/setUserInfo', data)) {
+        this.$alertify.success('회원정보가 수정되었습니다.')
+        this.$router.push({ name: 'MyPage' })
+      } else {
+        this.$alertify.error('회원정보를 수정하지 못하였습니다.')
+      }
+    },
+    // 회원정보 삭제
+    deleteUser() {
+      this.$alertify.confirm(
+        '정말로 탈퇴하시겠습니까?',
+        () => this.$alertify.success('탈퇴'),
+        () => this.$alertify.error('취소'),
+      )
+      if (this.$store.dispatch('mypage/deleteUser')) {
+        this.$alertify.success('회원탈퇴가 완료되었습니다.')
+        this.$router.push({ name: 'MainPage' })
+      } else {
+        this.$alertify.error('회원탈퇴를 실패하였습니다.')
+      }
+    },
+    // 닉네임 중복 확인
+    checkNickname() {
+      if (this.$store.dispatch('mypage/nickNameCheck')) {
+        this.$alertify.success('사용가능한 닉네임입니다.')
+      } else {
+        this.$alertify.error('이미 존재하는 닉네임입니다.')
+      }
+    },
+    // 프로필 사진 업로드
+    uploadProfilePhoto() {
+      let data = {
+        file: this.formProfilePhoto,
+      }
+      if (this.$store.dispatch('mypage/uploadProfilePhoto', data)) {
+        this.$alertify.success('프로필 사진이 수정되었습니다.')
+      } else {
+        this.$alertify.error('프로필 사진 수정에 실패하였습니다.')
+      }
+    },
+    // 작가로 권한 상승 요청
+    upgradeToPhotoGrapher() {
+      if (this.$store.dispatch('mypage/upgradeToPg')) {
+        this.$alertify.success(
+          '지역과 한줄소개를 작성 후 수정버튼을 눌러주세요.',
+        )
+        this.formPgCheck = true
+        this.PG = '작가입니다.'
+      } else {
+        this.$alertify.error('작가로 전환에 실패하였습니다.')
+      }
+    },
+    // 패스워드 양식 확인
+    validatePassword() {
+      let patternEngAtLeastOne = new RegExp(/[a-zA-Z]+/) // + for at least one
+      let patternSpeAtLeastOne = new RegExp(/[~!@#$%^&*()_+|<>?:{}]+/) // + for at least one
+      let patternNumAtLeastOne = new RegExp(/[0-9]+/) // + for at least one
+
+      this.isUserPasswordValid =
+        patternEngAtLeastOne.test(this.formPasswd) &&
+        patternSpeAtLeastOne.test(this.formPasswd) &&
+        patternNumAtLeastOne.test(this.formPasswd) &&
+        this.formPasswd.length >= 8
+          ? true
+          : false
+    },
+  },
+  computed: {
+    // 패스워드 양식 확인 및 표시용
+    isUserPasswordFocusAndInvalid() {
+      return this.isUserPasswordFocus && !this.isUserPasswordValid
+    },
+    isUserPasswordFocusAndValid() {
+      return this.isUserPasswordFocus && this.isUserPasswordValid
+    },
+    // 패스워드 동일 확인 및 표시용
+    isSamePasswordValid() {
+      return (
+        this.isUserPasswordCheckFocus && this.formPasswd == this.formPasswdCheck
+      )
+    },
+    isSamePasswordInvalid() {
+      return (
+        this.isUserPasswordCheckFocus && this.formPasswd != this.formPasswdCheck
+      )
+    },
+  },
   components: {
-    // components
     ProfileIconMenu,
   },
 }

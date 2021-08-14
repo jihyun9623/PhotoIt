@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -174,18 +175,23 @@ public class MainPageServiceImpl implements MainPageService{
     @Override
     @Transactional
     public List<ThumbPhotoIdRes> thumbPhotoIds(String nickName, String thumbnail) {
-        int thumbPhotoIdsSize = 20;
+        int thumbPhotoIdsSize = 4;
         MyStudio myStudio = myStudioRepository.findByNickname(nickName)
                             .orElseThrow(RuntimeException::new);
         List<ThumbPhotoIdRes> thumbPhotoIds = new ArrayList<>();
-        for(Photo p : myStudio.getPhotos()) {
-            if(p.getThumbnail()==thumbnail)
-                continue;
+        Stream<Photo> photos = myStudio.getPhotos().stream().sorted(new Comparator<Photo>() {
+            @Override
+            public int compare(Photo o1, Photo o2) {
+                return o1.getIdx() - o2.getIdx();
+            }
+        });
+        photos.limit(5).forEach(p ->{
             ThumbPhotoIdRes temp = ThumbPhotoIdRes.of(p.getThumbnail(), p.getIdx());
-            thumbPhotoIds.add(temp);
-            if(thumbPhotoIds.size() == thumbPhotoIdsSize)
-                break;
-        }
+            if(p.getThumbnail()!=thumbnail)
+                thumbPhotoIds.add(temp);
+        });
+        if(thumbPhotoIds.size()==5)
+            thumbPhotoIds.remove(4);
         return thumbPhotoIds;
     }
 

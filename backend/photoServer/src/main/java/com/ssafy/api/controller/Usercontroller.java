@@ -51,6 +51,7 @@ public class Usercontroller {
     }
 
 
+
     @ApiOperation(value = "로그인", notes = "로그인 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -74,6 +75,15 @@ public class Usercontroller {
         //return UserLoginPostRes.of(200, "Success", jwt, loginInfo.getId());
     }
 
+    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
+    @ApiOperation(value="로그아웃", notes="로그아웃")
+    @GetMapping("/signout")
+    public BaseResponseBody signOut( @RequestHeader(value = "Authorization") String token){
+        token=token.split(" ")[1];
+        logger.debug("로그아웃 메서드 진입");
+        return userService.signOut(token);
+    }
+
     @ApiOperation(value = "이메일 인증", notes = "회원가입시 이메일 인증한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -92,6 +102,7 @@ public class Usercontroller {
         }
         return BaseResponseBody.of(401, "Authorization Fail");
     }
+
 
     @ApiOperation(value = "이메일 인증", notes = "회원가입시 이메일 인증한다.")
     @PostMapping("/emailAuthCheck")
@@ -123,6 +134,7 @@ public class Usercontroller {
     @PostMapping("/emaildup")
     public BaseResponseBody idDuplicateCheck(
             @RequestBody @ApiParam(value="확인할 아이디(=이메일)", required = true) UserReq idInfo) {
+        logger.debug(idInfo.getId());
         Boolean isDuplicated=userService.idDuplicateCheck(idInfo.getId());    // 중복이면 true, 중복 아니면 false.
         if(!isDuplicated) {
             return BaseResponseBody.of(200, "Success");

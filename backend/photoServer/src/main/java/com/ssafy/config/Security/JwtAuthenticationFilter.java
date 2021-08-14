@@ -20,9 +20,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         System.out.println("filter 진입!");
+
         // 헤더에서 JWT 를 받아옴
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-
+        logger.debug("받아온 토큰! : " + token);
         // 유효한 토큰인지 확인
         if (token != null && jwtTokenProvider.validateToken(token)) {
 

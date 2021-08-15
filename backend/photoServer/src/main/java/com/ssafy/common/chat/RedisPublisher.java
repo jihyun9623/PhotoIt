@@ -14,4 +14,6 @@ public class RedisPublisher {
     public void publish(ChannelTopic topic, ChatMessageDto message) {
         redisTemplate.convertAndSend(topic.getTopic(), message);
     }
+
+
 }

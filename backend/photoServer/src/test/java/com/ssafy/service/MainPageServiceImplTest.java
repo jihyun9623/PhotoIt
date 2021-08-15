@@ -2,10 +2,9 @@ package com.ssafy.service;
 
 import com.ssafy.api.service.MainPageService;
 import com.ssafy.db.entity.Tag;
+import com.ssafy.db.entity.TempChatRoom;
 import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.LocationRepository;
-import com.ssafy.db.repository.TagRepository;
-import com.ssafy.db.repository.UserRepository;
+import com.ssafy.db.repository.*;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +37,11 @@ class MainPageServiceImplTest {
     @Autowired
     MainPageService mainPageService;
 
+    @Autowired
+    ChatRoomRepository chatRoomRepository;
+
+    @Autowired
+    TempChatRoomRepository tempChatRoomRepository;
 
     @Test
     void 지역리스트() throws Exception{
@@ -77,7 +81,7 @@ class MainPageServiceImplTest {
     }
 
     @Test
-    void 유저들고오기() {
+    void da() {
 
     }
 

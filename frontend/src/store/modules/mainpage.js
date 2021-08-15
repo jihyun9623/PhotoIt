@@ -84,10 +84,15 @@ const actions = {
       })
   },
   addFavorite({ commit }, info) {
+    const jwt = localStorage.getItem('jwt')
+    const config = {
+      Authorization: jwt,
+    }
     axios({
       method: 'post',
       // url: `http://i5a108.p.ssafy.io:8080/fav/add`,
       url: `http://localhost:8080/fav/add`,
+      headers: config,
       data: info,
     })
       .then((res) => {
@@ -104,10 +109,15 @@ const actions = {
       })
   },
   deleteFavorite({ commit }, info) {
+    const jwt = localStorage.getItem('jwt')
+    const config = {
+      Authorization: jwt,
+    }
     axios({
       method: 'post',
       // url: `http://i5a108.p.ssafy.io:8080/fav/delete`,
       url: `http://localhost:8080/fav/delete`,
+      headers: config,
       data: info,
     })
       .then((res) => {

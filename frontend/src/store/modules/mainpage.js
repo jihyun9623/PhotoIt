@@ -11,6 +11,9 @@ const state = () => ({
   detailOtherPhotos: null,
   detailIsFavorite: null,
   detailTagList: null,
+  detailPhotoId: null,
+  detailProfile: null,
+  detailPgNickname: null,
 })
 
 // actions
@@ -65,7 +68,8 @@ const actions = {
     })
   },
   getDetailPhotos({ commit }, info) {
-    axios({
+    commit('GET_PG_NICKNAME', info.nickName)
+    return axios({
       method: 'post',
       // url: `http://i5a108.p.ssafy.io:8080/detail`,
       url: `http://localhost:8080/detail`,
@@ -77,6 +81,46 @@ const actions = {
       })
       .catch((err) => {
         console.log(err)
+      })
+  },
+  addFavorite({ commit }, info) {
+    axios({
+      method: 'post',
+      // url: `http://i5a108.p.ssafy.io:8080/fav/add`,
+      url: `http://localhost:8080/fav/add`,
+      data: info,
+    })
+      .then((res) => {
+        console.log(res)
+        if (res.data.statusCode === 200) {
+          commit('ADD_FAVORITE')
+        } else {
+          alert('다시 시도해 주십시오')
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        alert('다시 시도해 주십시오')
+      })
+  },
+  deleteFavorite({ commit }, info) {
+    axios({
+      method: 'post',
+      // url: `http://i5a108.p.ssafy.io:8080/fav/delete`,
+      url: `http://localhost:8080/fav/delete`,
+      data: info,
+    })
+      .then((res) => {
+        console.log(res)
+        if (res.statusCode === 200) {
+          commit('DELETE_FAVORITE')
+        } else {
+          alert('다시 시도해 주십시오')
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        alert('다시 시도해 주십시오')
       })
   },
 }
@@ -97,10 +141,21 @@ const mutations = {
     state.contents = data
   },
   GET_DETAIL_PHOTO(state, data) {
-    state.isFavorite = data.isFavorite
+    state.detailIsFavorite = data.favorite
     state.detailPhoto = data.origin
     state.detailOtherPhotos = data.thumbPhotoIds
     state.detailTagList = data.tagList
+    state.detailPhotoId = data.photoIdx
+    state.detailProfile = data.profilePhoto
+  },
+  GET_PG_NICKNAME(state, data) {
+    state.detailPgNickname = data
+  },
+  ADD_FAVORITE(state) {
+    state.detailIsFavorite = true
+  },
+  DELETE_FAVORITE(state) {
+    state.detailIsFavorite = false
   },
 }
 

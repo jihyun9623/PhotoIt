@@ -27,52 +27,14 @@
                   v-for="(item, idx) in defaultPackage"
                   :item="item"
                   :key="idx"
+                  :id="`id-${item.photoId}`"
                   class="tag-item"
-                  data-bs-toggle="modal"
-                  :data-bs-target="`#detailModal-${item.photoId}`"
-                  @click="photoDetail(item.nickName, item.thumbnail)"
+                  @click="
+                    photoDetail(item.nickName, item.thumbnail, item.photoId)
+                  "
                 />
                 <!-- 모달 -->
-                <!-- <div
-                  v-for="(item, idx) in defaultPackage"
-                  :item="item"
-                  :key="idx"
-                  class="modal fade"
-                  :id="`detailModal-${item.photoId}`"
-                  tabindex="-1"
-                  aria-labelledby="detailModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                          Modal title
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">{{ item.photoId }}</div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button type="button" class="btn btn-primary">
-                          Save changes
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-                <PhotoDetail :items="defaultPackage" />
+                <PhotoDetail />
               </div>
             </div>
             <div
@@ -84,52 +46,15 @@
                 <MainPageTagItem
                   v-for="(item, idx) in otherPackage"
                   :key="idx"
+                  :id="`id-${item.photoId}`"
                   :item="item"
                   class="tag-item"
-                  data-bs-toggle="modal"
-                  :data-bs-target="`#detailModal-${item.photoId}`"
+                  @click="
+                    photoDetail(item.nickName, item.thumbnail, item.photoId)
+                  "
                 />
                 <!-- 모달 -->
-                <div
-                  v-for="(item, idx) in otherPackage"
-                  :item="item"
-                  :key="idx"
-                  class="modal fade"
-                  :id="`detailModal-${item.photoId}`"
-                  tabindex="-1"
-                  aria-labelledby="detailModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                          Modal title
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">{{ item.photoId }}</div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button type="button" class="btn btn-primary">
-                          Save changes
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- <PhotoDetail /> -->
+                <PhotoDetail />
               </div>
             </div>
           </div>
@@ -181,6 +106,7 @@ export default {
       defaultPackage: null,
       otherPackages: [],
       carouselRotation: null,
+      modalToggle: false,
     }
   },
   methods: {
@@ -200,19 +126,30 @@ export default {
         region: 'all',
       })
     },
-    photoDetail(pgNickname, thumbnailURL) {
-      let id = ''
-      this.$store.dispatch('login/isLoginCheck')
-      if (this.$store.state.login.isLogin) {
-        id = localStorage.getItem('id')
+    async photoDetail(itemNickname, itemThumbnail, itemDetailId) {
+      if (this.modalToggle === false) {
+        let id = ''
+        this.$store.dispatch('login/isLoginCheck')
+        if (this.$store.state.login.isLogin) {
+          id = localStorage.getItem('id')
+        }
+        const nickName = itemNickname
+        const thumbnail = itemThumbnail
+        await this.$store.dispatch('mainpage/getDetailPhotos', {
+          id: id,
+          nickName: nickName,
+          thumbnail: thumbnail,
+        })
+        // axios 호출이 끝난 다음에야 DOM을 붙인다.
+        // console.log(this.$store.state.mainpage.detailPhotoId, itemDetailId)
+        const tagItem = document.querySelector(`#id-${itemDetailId}`)
+        tagItem.setAttribute('data-bs-toggle', 'modal')
+        tagItem.setAttribute('data-bs-target', `#detailModal-${itemDetailId}`)
+        this.modalToggle = true
+        tagItem.click()
+      } else {
+        this.modalToggle = false
       }
-      const nickName = pgNickname
-      const thumbnail = thumbnailURL
-      this.$store.dispatch('mainpage/getDetailPhotos', {
-        id: id,
-        nickName: nickName,
-        thumbnail: thumbnail,
-      })
     },
   },
   mounted() {

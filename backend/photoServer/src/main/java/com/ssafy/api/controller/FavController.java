@@ -26,12 +26,13 @@ public class FavController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class),
     })
-    public ResponseEntity<BaseResponseBody> addFav(@RequestBody @ApiParam(value = "유저닉네임,작가닉네임", required = true) FavReq fav){
+    public ResponseEntity<BaseResponseBody> addFav(@RequestBody @ApiParam(value = "JWT,userNick,pgNick", required = true) FavReq fav){
+        String JWT = fav.getJWT();
         String userNick = fav.getUserNick();
         String pgNick = fav.getPgNick();
 
         /* 닉네임으로 스튜디오 idx -> 없다면 추가 */
-        boolean resbody = favService.addFav(userNick,pgNick);
+        boolean resbody = favService.addFav(JWT, userNick,pgNick);
 
         if(resbody) {
             return ResponseEntity.ok(BaseResponseBody.of(200, "찜목록에 추가되었습니다."));
@@ -49,12 +50,13 @@ public class FavController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class),
     })
-    public ResponseEntity<BaseResponseBody> deleteFav(@RequestBody @ApiParam(value = "유저닉네임,작가닉네임", required = true) FavReq fav){
+    public ResponseEntity<BaseResponseBody> deleteFav(@RequestBody @ApiParam(value = "JWT,userNick,pgNick", required = true) FavReq fav){
+        String JWT = fav.getJWT();
         String userNick = fav.getUserNick();
         String pgNick = fav.getPgNick();
 
         /* 닉네임으로 스튜디오 idx -> 있다면 삭제 */
-        boolean resbody = favService.deleteFav(userNick,pgNick);
+        boolean resbody = favService.deleteFav(JWT, userNick,pgNick);
 
         if(resbody) {
             return ResponseEntity.ok(BaseResponseBody.of(200, "찜 해제 완료되었습니다."));
@@ -72,9 +74,9 @@ public class FavController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class),
     })
-    public ResponseEntity<BaseResponseBody> checkFav(@RequestBody @PathVariable("userNick") String userNick, @PathVariable("pgNick") String pgNick){
+    public ResponseEntity<BaseResponseBody> checkFav(@RequestHeader(value = "JWT") String JWT, @RequestBody @PathVariable("userNick") String userNick, @PathVariable("pgNick") String pgNick){
         /* 찜목록 조회 후 작가 확인 */
-        boolean resbody = favService.checkFav(userNick,pgNick);
+        boolean resbody = favService.checkFav(JWT, userNick,pgNick);
 
         if(resbody) {
             return ResponseEntity.ok(BaseResponseBody.of(200, "찜한 작가임"));

@@ -5,12 +5,12 @@
       <div
         class="d-flex align-items-center justify-content-lg-between ps-3 pt-2"
       >
-        <h1 class="me-auto me-lg-0">
+        <h1 class="me-auto me-lg-0 p-3">
           <router-link to="/"
             ><img
               src="../assets/images/Logo.png"
               width="75"
-              height="40"
+              height="45"
               class="d-inline-block align-text-top"
           /></router-link>
         </h1>
@@ -262,6 +262,10 @@ export default {
     },
     // 닉네임 중복 확인
     checkNickname() {
+      if (this.nicknameOrigin == this.formNickname) {
+        this.toastSuccess('닉네임이 변경되지 않았어요.')
+        return false
+      }
       this.$store.dispatch('mypage/nickNameCheck').then(() => {
         if (this.$store.state.mypage.returnNickname) {
           this.toastSuccess('사용가능한 닉네임입니다.')

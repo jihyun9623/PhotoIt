@@ -72,6 +72,9 @@ dependencies {
 
 	/* 섬네일 추출 라이브러리 */
 	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+
+	/* Redis */
+	compile('org.springframework.boot:spring-boot-starter-data-redis')
 }
 test {
 	useJUnitPlatform()

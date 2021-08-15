@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 @ApiModel("FavReq")
 public class FavReq {
+    @ApiModelProperty(name = "JWT", example = "HOTSUMMERTURNONAIRCONTROLLERTHENEARTHSICK")
+    String JWT;
     @ApiModelProperty(name = "userNickname", example = "GodHanQ")
     String userNick;
     @ApiModelProperty(name = "pgNickname", example = "IMAPHOTOGRAPHER")

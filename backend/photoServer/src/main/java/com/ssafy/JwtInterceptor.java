@@ -16,29 +16,32 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
-	private static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class);
 
-	@Autowired
-	private JwtTokenUtil jwtTokenProvider;
+    @Autowired
+    private JwtTokenUtil jwtTokenProvider;
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		System.out.println("*************핸들러제발좀들어와라****************");
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+        // logger.debug("############## preHandle 진입 ################");
 
 		if(request.getMethod().equals("OPTIONS")) {
 			return true;
 		}else {
-			// request Parameter에서  Authorization으로 넘어온 녀석을 찾아봄.
-			String token =request.getHeader("Authorization");
-			
-			if(token!=null && token.length()>0) {
-				logger.debug("token 검증 interceptor 진입!");
-				jwtTokenProvider.validateToken(token);
-				return true;
-			}else {
-				throw new RuntimeException("인증 토큰이 없습니다");
-			}
-		}
-	}
+            // request Parameter에서  Authorization으로 넘어온 녀석을 찾아봄.
+            String token = request.getHeader("Authorization");
+
+            if (token != null && token.length() > 0) {
+                logger.debug("token 검증 interceptor 진입!");
+                if(!jwtTokenProvider.validateToken(token)){
+                    throw new Exception("유효하지 않은 인증 토큰입니다.");
+                }
+                return true;
+            } else {
+                throw new RuntimeException("인증 토큰이 없습니다");
+            }
+        }
+    }
 }
+

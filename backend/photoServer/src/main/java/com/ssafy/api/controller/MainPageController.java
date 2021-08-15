@@ -32,7 +32,6 @@ public class MainPageController {
     @Autowired
     UserService userService;
 
-
     @GetMapping("/location")
     @ApiOperation(value = "지역 불러오기", notes = "저장된 지역들을 불러온다.")
     @ApiResponses({
@@ -44,7 +43,6 @@ public class MainPageController {
     public ResponseEntity<MainPageLocationRes> locationList() {
         String[] locationList = mainPageService.locationList();
         return ResponseEntity.ok(MainPageLocationRes.of(200, "Success", locationList));
-
     }
 
     @GetMapping("/tag")
@@ -99,7 +97,7 @@ public class MainPageController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     public ResponseEntity<MainPageProfileRes> userProfile(HttpServletRequest req) {
-        String JWT = req.getHeader("Authorization").split(" ")[1];
+        String JWT = req.getHeader("Authorization");
         if (userService.isValidToken(JWT)) {
             UserProfile userProfile = mainPageService.userProfile(JWT);
             return ResponseEntity.ok(MainPageProfileRes.of(200, "Success", userProfile));

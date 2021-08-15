@@ -105,5 +105,4 @@ public class MainPageController {
             return ResponseEntity.ok(MainPageProfileRes.of(401, "Invalid Token", null));
         }
     }
-
 }

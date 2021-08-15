@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-@ApiModel("SearchPageRequest")
-public class SearchPageReq {
-    @ApiModelProperty(name = "JWT", example = "NEMOBAJISPONGEBOBILOVEMONDAY")
-    String JWT;
-
+@ApiModel("DetailRequest")
+public class DetailReq {
     @ApiModelProperty(name = "userId", example = "ha@n.q")
     String id;
 
+    @ApiModelProperty(name = "사진작가 닉네임", example = "hanq")
+    String nickName;
+
+    @ApiModelProperty(name = "썸네일 경로", example = "    ")
+    String thumbnail;
 }

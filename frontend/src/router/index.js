@@ -3,6 +3,7 @@ import MainPage from '@/views/MainPage.vue'
 import Login from '@/views/Login.vue'
 import SearchResult from '@/views/SearchResult.vue'
 import MyPage from '@/views/MyPage.vue'
+import Signup from '@/views/Signup.vue'
 
 const routes = [
   {
@@ -16,7 +17,7 @@ const routes = [
     component: Login,
   },
   {
-    path: '/search',
+    path: '/search/:keyword/:region/:type',
     name: 'SearchResult',
     component: SearchResult,
   },
@@ -24,6 +25,11 @@ const routes = [
     path: '/mypage',
     name: 'MyPage',
     component: MyPage,
+  },
+  {
+    path: '/user/signup',
+    name: 'Signup',
+    component: Signup,
   },
 ]
 

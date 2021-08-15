@@ -4,10 +4,13 @@ import http from '@/common/axios.js'
 const state = () => ({
   email: 'A108@ssafy.com',
   nickName: 'Patabear',
-  profilePhoto: '',
+  profilePhoto: '../assets/images/Logo.png',
   isPhotoGrapher: false,
   location: '',
   introduce: '',
+
+  returnNickname: false,
+  return: '',
 })
 
 // mutations
@@ -23,6 +26,12 @@ const mutations = {
   SET_IS_PHOTOGRAPHER(state) {
     state.isPhotoGrapher = 'true'
   },
+  SET_RETURN_NICKNAME(state, payload) {
+    state.returnNickname = payload.return
+  },
+  SET_RETURN(state, payload) {
+    state.return = payload.return
+  },
 }
 
 // actions
@@ -36,7 +45,7 @@ const actions = {
       commit('SET_USER_INFO', {
         email: res.id,
         nickName: res.nickname,
-        profilePhoto: res.profilephoto,
+        profilePhoto: res.photo,
         isPhotoGrapher: res.pg,
         location: res.location,
         introduce: res.introduce,
@@ -44,64 +53,83 @@ const actions = {
     })
   },
   // 회원정보 수정
-  setUserInfo(data) {
-    http
+  setUserInfo({ commit }, data) {
+    return http
       .put('/mypage', JSON.stringify(data))
       .then((res) => {
         console.log(res)
-        return true
+        commit('SET_RETURN', {
+          return: true,
+        })
       })
       .catch((err) => {
         console.log(err)
-        return false
+        commit('SET_RETURN', {
+          return: false,
+        })
       })
   },
   // 회원정보 삭제
-  deleteUser() {
-    http
+  deleteUser({ commit }) {
+    return http
       .delete('/mypage')
-      .then(() => {
-        return true
+      .then((res) => {
+        console.log(res)
+        commit('SET_RETURN', {
+          return: true,
+        })
       })
       .catch((err) => {
         console.log(err)
-        return false
+        commit('SET_RETURN', {
+          return: false,
+        })
       })
   },
   // 닉네임 중복체크
-  nickNameCheck(data) {
-    http
+  nickNameCheck({ commit }, data) {
+    return http
       .post('/mypage/nicknameCheck', JSON.stringify(data))
       .then((res) => {
         console.log(res)
-        return true
+        commit('SET_RETURN_NICKNAME', {
+          return: true,
+        })
       })
       .catch((err) => {
         console.log(err)
-        return false
+        commit('SET_RETURN_NICKNAME', {
+          return: false,
+        })
       })
   },
   // 프로필 사진 업로드
-  uploadProfilePhoto(data) {
-    http
+  uploadProfilePhoto({ commit }, data) {
+    return http
       .post('/mypage/editphoto', JSON.stringify(data))
-      .then(() => {
-        return true
+      .then((res) => {
+        console.log(res)
+        commit('SET_RETURN', {
+          return: true,
+        })
       })
-      .catch(() => {
-        return false
+      .catch((err) => {
+        console.log(err)
+        commit('SET_RETURN', {
+          return: false,
+        })
       })
   },
   // 작가로 권한 상승 요청
   upgradeToPg({ commit }) {
-    http
+    return http
       .post('/mypage/pg', localStorage.getItem('nickname'))
-      .then(() => {
+      .then((res) => {
+        console.log(res)
         commit('SET_IS_PHOTOGRAPHER')
-        return true
       })
-      .catch(() => {
-        return false
+      .catch((err) => {
+        console.log(err)
       })
   },
 }

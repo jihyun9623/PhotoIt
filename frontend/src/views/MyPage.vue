@@ -21,7 +21,15 @@
     <section class="d-flex align-items-center justify-content-center pt-5 mt-5">
       <div class="container text-center">
         <form>
-          <h3 class="h3 mb-5 border">프로필사진</h3>
+          <h3 class="h3 mb-3">
+            <!-- 이미지 넣을 위치 -->
+            <img
+              :src="formProfilePhoto"
+              width="200"
+              height="200"
+              class="d-inline-block align-text-top border"
+            />
+          </h3>
           <hr />
           <!-- 아이디 -->
           <div class="input-group mb-4 mt-5">
@@ -178,10 +186,6 @@
 
 <script>
 import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
-import Vue from 'vue'
-import VueAlertify from 'vue-alertify'
-
-Vue.use(VueAlertify)
 // import component from "component location"
 
 export default {
@@ -210,23 +214,24 @@ export default {
       formLocation: this.$store.state.mypage.location,
 
       PG: '',
+      nicknameOrigin: this.$store.state.mypage.nickName,
     }
   },
   methods: {
     // 회원정보 수정
     updateUser() {
-      let nickname = {
-        nickname: this.formNickname,
-      }
-      if (!this.$store.dispatch('mypage/nickNameCheck', nickname)) {
-        this.$alertify.error('이미 존재하는 닉네임입니다.')
-        return false
-      }
-      if (this.isUserPasswordFocusAndValid && this.isSamePasswordValid) {
-        this.$alertify.error(
-          '비밀번호는 영문,숫자,특수문자를 포함하여 동일하게 입력해주세요.',
-        )
-        return false
+      if (this.nicknameOrigin != this.formNickname) {
+        if (!this.$store.state.mypage.returnNickname) {
+          this.toastDanger('닉네임 중복검사를 해주세요.')
+          return false
+        }
+      } else if (!(this.formPasswd == '')) {
+        if (!this.isUserPasswordFocusAndValid || !this.isSamePasswordValid) {
+          this.toastDanger(
+            '비밀번호는 영문,숫자,특수문자를 포함하여 동일하게 입력해주세요.',
+          )
+          return false
+        }
       }
       let data = {
         passwd: this.formPasswd,
@@ -235,57 +240,58 @@ export default {
         location: this.formLocation,
         introduce: this.formIntroduce,
       }
-      if (this.$store.dispatch('mypage/setUserInfo', data)) {
-        this.$alertify.success('회원정보가 수정되었습니다.')
-        this.$router.push({ name: 'MyPage' })
-      } else {
-        this.$alertify.error('회원정보를 수정하지 못하였습니다.')
-      }
+      this.$store.dispatch('mypage/setUserInfo', data).then(() => {
+        if (this.$store.state.mypage.return) {
+          this.toastSuccess('회원정보가 수정되었습니다.')
+          this.$router.push({ name: 'MyPage' })
+        } else {
+          this.toastDanger('회원정보를 수정하지 못하였습니다.')
+        }
+      })
     },
     // 회원정보 삭제
     deleteUser() {
-      this.$alertify.confirm(
-        '정말로 탈퇴하시겠습니까?',
-        () => this.$alertify.success('탈퇴'),
-        () => this.$alertify.error('취소'),
-      )
-      if (this.$store.dispatch('mypage/deleteUser')) {
-        this.$alertify.success('회원탈퇴가 완료되었습니다.')
-        this.$router.push({ name: 'MainPage' })
-      } else {
-        this.$alertify.error('회원탈퇴를 실패하였습니다.')
-      }
+      this.$store.dispatch('mypage/deleteUser').then(() => {
+        if (this.$store.state.mypage.return) {
+          this.toastSuccess('회원탈퇴가 완료되었습니다.')
+          this.$router.push({ name: 'MainPage' })
+        } else {
+          this.toastDanger('회원탈퇴를 실패하였습니다.')
+        }
+      })
     },
     // 닉네임 중복 확인
     checkNickname() {
-      if (this.$store.dispatch('mypage/nickNameCheck')) {
-        this.$alertify.success('사용가능한 닉네임입니다.')
-      } else {
-        this.$alertify.error('이미 존재하는 닉네임입니다.')
-      }
+      this.$store.dispatch('mypage/nickNameCheck').then(() => {
+        if (this.$store.state.mypage.returnNickname) {
+          this.toastSuccess('사용가능한 닉네임입니다.')
+        } else {
+          this.toastDanger('이미 존재하는 닉네임입니다.')
+        }
+      })
     },
     // 프로필 사진 업로드
     uploadProfilePhoto() {
-      let data = {
-        file: this.formProfilePhoto,
-      }
-      if (this.$store.dispatch('mypage/uploadProfilePhoto', data)) {
-        this.$alertify.success('프로필 사진이 수정되었습니다.')
-      } else {
-        this.$alertify.error('프로필 사진 수정에 실패하였습니다.')
-      }
+      let data = { file: this.formProfilePhoto }
+      this.$store.dispatch('mypage/uploadProfilePhoto', data).then(() => {
+        if (this.$store.state.mypage.return) {
+          this.toastSuccess('프로필 사진이 수정되었습니다.')
+        } else {
+          this.toastDanger('프로필 사진 수정에 실패했습니다.')
+        }
+      })
     },
     // 작가로 권한 상승 요청
     upgradeToPhotoGrapher() {
-      if (this.$store.dispatch('mypage/upgradeToPg')) {
-        this.$alertify.success(
-          '지역과 한줄소개를 작성 후 수정버튼을 눌러주세요.',
-        )
-        this.formPgCheck = true
-        this.PG = '작가입니다.'
-      } else {
-        this.$alertify.error('작가로 전환에 실패하였습니다.')
-      }
+      this.$store.dispatch('mypage/upgradeToPg').then(() => {
+        if (this.$store.state.mypage.isPhotoGrapher) {
+          this.toastSuccess('지역과 한줄소개를 작성 후 수정버튼을 눌러주세요.')
+          this.formPgCheck = true
+          this.PG = '작가입니다.'
+        } else {
+          this.toastDanger('작가로 전환에 실패하였습니다.')
+        }
+      })
     },
     // 패스워드 양식 확인
     validatePassword() {
@@ -300,6 +306,22 @@ export default {
         this.formPasswd.length >= 8
           ? true
           : false
+    },
+    toastSuccess(text) {
+      this.$moshaToast(text, {
+        type: 'success',
+        position: 'bottom-right',
+        timeout: 3000,
+        showIcon: true,
+      })
+    },
+    toastDanger(text) {
+      this.$moshaToast(text, {
+        type: 'danger',
+        position: 'bottom-right',
+        timeout: 3000,
+        showIcon: true,
+      })
     },
   },
   computed: {

@@ -14,7 +14,7 @@
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "vue-alertify": "^1.1.0"
+    "mosha-vue-toastify": "^1.0.18"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -4,6 +4,7 @@ import Login from '@/views/Login.vue'
 import SearchResult from '@/views/SearchResult.vue'
 import MyPage from '@/views/MyPage.vue'
 import Signup from '@/views/Signup.vue'
+import FavoriteList from '@/views/FavoriteList.vue'
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/user/signup',
     name: 'Signup',
     component: Signup,
+  },
+  {
+    path: '/favlist',
+    name: 'FavoriteList',
+    component: FavoriteList,
   },
 ]
 

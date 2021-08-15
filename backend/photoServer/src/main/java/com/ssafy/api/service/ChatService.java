@@ -49,10 +49,11 @@ public class ChatService {
     @Transactional
     public void ChatSave(String roomId, String sender, String message) {
         TempChatRoom chatRoom = roomRepository.getById(roomId);
+        User user = userRepository.findUserByNickname(sender);
         TempChatMessage chatMessage = TempChatMessage.builder()
                                       .tempChatRoom(chatRoom)
                                       .message(message)
-                                      .senderName(sender)
+                                      .senderName(user.getId())
                                       .build();
 
         messageRepository.save(chatMessage);

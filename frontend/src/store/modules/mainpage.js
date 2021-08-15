@@ -41,12 +41,12 @@ const actions = {
   getProfileNickname({ commit }) {
     const jwt = localStorage.getItem('jwt')
     const config = {
-      Authorization: `JWT ${jwt}`,
+      Authorization: jwt,
     }
     axios({
       method: 'post',
-      // url: `http://i5a108.p.ssafy.io:8080/profile`,
-      url: `http://localhost:8080/profile`,
+      url: `http://i5a108.p.ssafy.io:8080/profile`,
+      // url: `http://localhost:8080/profile`,
       headers: config,
     })
       .then((res) => {
@@ -84,10 +84,12 @@ const actions = {
       })
   },
   addFavorite({ commit }, info) {
+    console.log(info)
     const jwt = localStorage.getItem('jwt')
     const config = {
       Authorization: jwt,
     }
+    console.log(config)
     axios({
       method: 'post',
       // url: `http://i5a108.p.ssafy.io:8080/fav/add`,

@@ -27,7 +27,7 @@ export default {
     userLogout() {
       const jwt = localStorage.getItem('jwt')
       const config = {
-        Authorization: `JWT ${jwt}`,
+        Authorization: jwt,
       }
       axios({
         method: 'get',

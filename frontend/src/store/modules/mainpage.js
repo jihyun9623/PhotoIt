@@ -34,7 +34,7 @@ const actions = {
   getProfileNickname({ commit }) {
     const jwt = localStorage.getItem('jwt')
     const config = {
-      Authorization: `JWT ${jwt}`,
+      Authorization: jwt,
     }
     axios({
       method: 'post',

@@ -26,7 +26,7 @@ import java.util.UUID;
 @Component
 public class S3Uploader implements Uploader{
 
-    private final static String TEMP_FILE_PATH = "src/main/resources/static/";
+    private final static String TEMP_FILE_PATH = "classpath:";
     private final AmazonS3Client amazonS3Client;
     private final List<String> imageExt = Arrays.asList(".PNG", ".png", ".JPEG", ".jpeg", ".JPG", ".jpg", ".TIFF", ".tiff", ".BMP", ".bmp" , ".GIF", ".gif");
 

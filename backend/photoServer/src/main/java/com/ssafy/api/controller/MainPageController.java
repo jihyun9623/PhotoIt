@@ -88,7 +88,6 @@ public class MainPageController {
     }
 
     @PostMapping("/profile")
-    @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "JWT token", required = true, dataType = "string", paramType = "header")})
     @ApiOperation(value = "프로필 가져오기", notes = "프로필 사진, 닉네임을 가져온다")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success", response = MainPageProfileRes.class),
@@ -98,11 +97,7 @@ public class MainPageController {
     })
     public ResponseEntity<MainPageProfileRes> userProfile(HttpServletRequest req) {
         String JWT = req.getHeader("Authorization");
-        if (userService.isValidToken(JWT)) {
-            UserProfile userProfile = mainPageService.userProfile(JWT);
+           UserProfile userProfile = mainPageService.userProfile(JWT);
             return ResponseEntity.ok(MainPageProfileRes.of(200, "Success", userProfile));
-        } else {
-            return ResponseEntity.ok(MainPageProfileRes.of(401, "Invalid Token", null));
-        }
     }
 }

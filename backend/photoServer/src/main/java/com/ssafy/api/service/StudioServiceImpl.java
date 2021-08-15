@@ -92,7 +92,7 @@ public class StudioServiceImpl implements StudioService {
         // 닉네임, JWT로 본인 확인 -> 마이스튜디오 idx 받아옴 -> 일정 추가
 
         // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
-        String jwtNickname = "qwe";//getNicknameFromToken(JWT);
+        String jwtNickname = getNicknameFromToken(JWT);
 
         // 닉네임으로 스튜디오 idx를 가져옴
         int studioIdx = myStudioRepository.findByUser_Nickname(nickname).getIdx();
@@ -118,7 +118,7 @@ public class StudioServiceImpl implements StudioService {
         // 닉네임, JWT로 본인 확인 -> 마이스튜디오 idx 받아옴 -> 일정 삭제
 
         // JWT를 보고 닉네임 받아오는 부분 구현 필요!!! //
-        String jwtNickname = "qwe";//getNicknameFromToken(JWT);
+        String jwtNickname = getNicknameFromToken(JWT);
 
         if(!nickname.equals(jwtNickname)) return false;
 

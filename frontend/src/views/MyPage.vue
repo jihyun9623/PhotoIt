@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- NavBar 위치에 해당하는 헤더 -->
-    <header id="header" class="fixed-top">
+    <!-- <header id="header" class="fixed-top">
       <div
         class="d-flex align-items-center justify-content-lg-between ps-3 pt-2"
       >
@@ -13,10 +13,18 @@
               height="45"
               class="d-inline-block align-text-top"
           /></router-link>
+<<<<<<< HEAD
         </h1>
         <ProfileIconMenu />
       </div>
     </header> 
+=======
+        </h1> -->
+    <SearchRegion />
+    <div class="empty-box"></div>
+    <!-- </div>
+    </header> -->
+    >>>>>>> 13561848fb3f84424c1ab1eeeb1d5f569e6ecd68
     <!-- 메인 컨테이너 -->
     <section class="d-flex align-items-center justify-content-center pt-5 mt-5">
       <div class="container text-center">
@@ -185,25 +193,18 @@
 </template>
 
 <script>
-import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
-// import component from "component location"
+import SearchRegion from '@/components/Common/SearchRegion'
 
 export default {
   name: 'MyPage',
-  created() {
-    this.$store.dispatch('mypage/getUserInfo')
-  },
-  mounted() {
-    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가입니다.'
-    else this.PG = '작가가 아닙니다.'
+  components: {
+    SearchRegion,
   },
   data() {
     return {
       isUserPasswordValid: false,
-
       isUserPasswordFocus: false,
       isUserPasswordCheckFocus: false,
-
       formEmail: this.$store.state.mypage.email,
       formNickname: this.$store.state.mypage.nickName,
       formProfilePhoto: this.$store.state.mypage.profilePhoto,
@@ -212,10 +213,29 @@ export default {
       formPgCheck: this.$store.state.mypage.isPhotoGrapher,
       formIntroduce: this.$store.state.mypage.introduce,
       formLocation: this.$store.state.mypage.location,
-
       PG: '',
       nicknameOrigin: this.$store.state.mypage.nickName,
     }
+  },
+  computed: {
+    // 패스워드 양식 확인 및 표시용
+    isUserPasswordFocusAndInvalid() {
+      return this.isUserPasswordFocus && !this.isUserPasswordValid
+    },
+    isUserPasswordFocusAndValid() {
+      return this.isUserPasswordFocus && this.isUserPasswordValid
+    },
+    // 패스워드 동일 확인 및 표시용
+    isSamePasswordValid() {
+      return (
+        this.isUserPasswordCheckFocus && this.formPasswd == this.formPasswdCheck
+      )
+    },
+    isSamePasswordInvalid() {
+      return (
+        this.isUserPasswordCheckFocus && this.formPasswd != this.formPasswdCheck
+      )
+    },
   },
   methods: {
     // 회원정보 수정
@@ -328,28 +348,21 @@ export default {
       })
     },
   },
-  computed: {
-    // 패스워드 양식 확인 및 표시용
-    isUserPasswordFocusAndInvalid() {
-      return this.isUserPasswordFocus && !this.isUserPasswordValid
-    },
-    isUserPasswordFocusAndValid() {
-      return this.isUserPasswordFocus && this.isUserPasswordValid
-    },
-    // 패스워드 동일 확인 및 표시용
-    isSamePasswordValid() {
-      return (
-        this.isUserPasswordCheckFocus && this.formPasswd == this.formPasswdCheck
-      )
-    },
-    isSamePasswordInvalid() {
-      return (
-        this.isUserPasswordCheckFocus && this.formPasswd != this.formPasswdCheck
-      )
-    },
+  created() {
+    this.$store.dispatch('mypage/getUserInfo')
   },
-  components: {
-    ProfileIconMenu,
+  mounted() {
+    // 검색바가 보이도록 설정
+    this.$store.state.search.isSearchHeaderShow = true
+    // 작가 여부 판별
+    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가입니다.'
+    else this.PG = '작가가 아닙니다.'
   },
 }
 </script>
+<style scoped>
+/* nav 태그의 position이 'fixed' 이기 때문에 공간을 먹어버리는 문제 해결 */
+.empty-box {
+  height: 15vh;
+}
+</style>

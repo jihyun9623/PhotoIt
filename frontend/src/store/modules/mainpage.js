@@ -45,8 +45,8 @@ const actions = {
     }
     axios({
       method: 'post',
-      url: `http://i5a108.p.ssafy.io:8080/profile`,
-      // url: `http://localhost:8080/profile`,
+      // url: `http://i5a108.p.ssafy.io:8080/profile`,
+      url: `http://localhost:8080/profile`,
       headers: config,
     })
       .then((res) => {

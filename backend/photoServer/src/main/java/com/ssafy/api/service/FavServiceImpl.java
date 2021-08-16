@@ -2,6 +2,7 @@
 
 package com.ssafy.api.service;
 
+import com.ssafy.api.controller.Usercontroller;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.Favorite;
 import com.ssafy.db.entity.MyStudio;
@@ -9,6 +10,8 @@ import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.FavRepository;
 import com.ssafy.db.repository.MyStudioRepository;
 import com.ssafy.db.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +29,17 @@ public class FavServiceImpl implements FavService{
     @Autowired
     JwtTokenUtil jwtTokenProvider;
 
+    private static final Logger logger = LoggerFactory.getLogger(FavServiceImpl.class);
+
     // 토큰에서 닉네임 추출
     public String getNicknameFromToken(String token){
-        String id=jwtTokenProvider.getUserInfo(token);
+        String token2=token.replace("{", "").replace("}","");
+        String token3=token.replace("\"", "");
+        System.out.println(token.equals(token2)?"토큰 = 토큰2":"토큰 != 토큰2");
+        System.out.println(token.equals(token2)?"토큰 = 토큰3":"토큰 != 토큰3");
+
+        String id = jwtTokenProvider.getUserInfo(token);
+        logger.debug(id!=null?id:"null");
         User member =userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("존재하지 않는 아이디입니다."));
         return member.getNickname();
     }

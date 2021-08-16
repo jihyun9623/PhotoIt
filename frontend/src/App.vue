@@ -9,6 +9,24 @@
 </template>
 
 <script>
+import axios from 'axios'
+export default {
+  name: 'App',
+  created: function () {
+    axios({
+      method: 'get',
+      url: 'http://localhost:8080/user/location',
+    })
+      .then((res) => {
+        console.log(res)
+        this.$store.dispatch('getLocations', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+}
+</script>
 import Footer from '@/views/Footer.vue'
 
 export default {

@@ -7,12 +7,6 @@
     </div>
     <SearchBar />
     <ProfileIconMenu />
-    <router-link :to="{ path: '/login' }"> 로그인 </router-link>
-    <router-link :to="{ path: '/signup' }"> 회원가입_임시 </router-link>
-    <!--아래 버튼 삭제 가능-->
-    <button class="btn login-form-btn mb-2" @click="userLogout">
-      로그아웃
-    </button>
   </nav>
 </template>
 
@@ -29,32 +23,29 @@ export default {
     Logo,
     ProfileIconMenu,
   },
-  // --------여기부터 삭제 가능...!------
   methods: {
     userLogout() {
       const jwt = localStorage.getItem('jwt')
       const config = {
-        Authorization: `JWT ${jwt}`,
+        Authorization: jwt,
       }
       axios({
         method: 'get',
         url: 'http://i5a108.p.ssafy.io:8080/user/signout',
-        data: this.credentials,
         headers: config,
       })
         .then(() => {
-          alert('로그아웃!')
+          alert('로그아웃 되었습니다.')
           localStorage.removeItem('jwt')
           localStorage.removeItem('id')
           this.$router.push({ name: 'MainPage' })
         })
         .catch((err) => {
           console.log(err)
-          alert('로그인 정보가 잘못되었습니다.')
+          alert('다시 시도해 주세요.')
         })
     },
   },
-  //-------------------------------------
 }
 </script>
 

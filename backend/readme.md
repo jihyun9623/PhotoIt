@@ -155,46 +155,46 @@
 > jar파일을 server.jar라는 이름으로 컨테이너 안으로 복사하며,  
 > 추후 이 컨테이너가 실행될때 항상 'java -jar server.jar' 라는 명령이 실행된다는 뜻을 가진다.  
 
-    docker build -f ../Dockerfile -t spring .
+    docker build -f ../Dockerfile -t spring .  
     
-> -f 는 Dockerfile 위치, -t는 이미지이름
-> 이렇게 하면 docker는 자동으로 zulu jdk 8을 다운받고 jar파일을 이미지로 만들어 준다.
+> -f 는 Dockerfile 위치, -t는 이미지이름  
+> 이렇게 하면 docker는 자동으로 zulu jdk 8을 다운받고 jar파일을 이미지로 만들어 준다.  
 
 ##### 7. Docker container 실행
-    docker run -d -p 8080:8080 --name springServer spring
-    -d : detach 현재 보고있는 커맨드창에 실행되는 컨테이너의 입출력을 붙이지 않는다. (뗀다)
-    -p : port 바깥쪽:안쪽  ex. 9090:8080 밖에서 9090포트로 연결하면 컨테이너에게는 8080포트로 연결된다.
-    --name : container의 이름을 설정
-    마지막은 실행할 이미지 이름으로 이루어져 있다.
+    docker run -d -p 8080:8080 --name springServer spring  
+> -d : detach 현재 보고있는 커맨드창에 실행되는 컨테이너의 입출력을 붙이지 않는다. (뗀다)  
+> -p : port 바깥쪽:안쪽  ex. 9090:8080 밖에서 9090포트로 연결하면 컨테이너에게는 8080포트로 연결된다.  
+> --name : container의 이름을 설정  
+> 마지막은 실행할 이미지 이름으로 이루어져 있다.  
 
-    만약 컨테이너의 실행상태를 보고싶다면(spring의 로그를 보고싶다) -d를 빼고 실행하거나
-    실행 후 docker attach springServer 를 통해 붙일 수 있다.
+> 만약 컨테이너의 실행상태를 보고싶다면(spring의 로그를 보고싶다) -d를 빼고 실행하거나  
+> 실행 후 docker attach springServer 를 통해 붙일 수 있다.  
 
 ##### 8. Nginx 설치 및 설정
-    docker run --name nginx -d -p 80:80 -v /home/user/nginx/:/usr/share/nginx/html nginx
-    --name : 컨테이너 이름
-    -d detach : 현재 커맨드창과 입출력을 붙이지 않는다 (뗀다)
-    -p port : 바깥쪽:안쪽  ex. 9090:8080 밖에서 9090포트로 연결하면 컨테이너에게는 8080포트로 연결된다.
-    -v vind : 현재 내가 사용하는 환경을 폴더와 컨테이너 내부의 폴더 하나씩 1대1로 바인딩한다.
-    바인딩이되면 파일을 올리면 컨테이너안에도 파일이 생기고 컨테이너가 파일을 지우면 사용자쪽에서도 지워진다. 말그대로 같은폴더가 된다고 보면 된다.
-    이를 통해 쉽게 컨테이너 안으로 파일을 옮겨 보낼 수 있다.
-    ex) 사용자폴더:컨테이너폴더 = /home/user/nginx/:/usr/share/nginx/html
-    마지막은 이미지의 이름으로 이루어져 있다.
+    docker run --name nginx -d -p 80:80 -v /home/user/nginx/:/usr/share/nginx/html nginx  
+> --name : 컨테이너 이름  
+> -d detach : 현재 커맨드창과 입출력을 붙이지 않는다 (뗀다)  
+> -p port : 바깥쪽:안쪽  ex. 9090:8080 밖에서 9090포트로 연결하면 컨테이너에게는 8080포트로 연결된다.  
+> -v vind : 현재 내가 사용하는 환경을 폴더와 컨테이너 내부의 폴더 하나씩 1대1로 바인딩한다.  
+> 바인딩이되면 파일을 올리면 컨테이너안에도 파일이 생기고 컨테이너가 파일을 지우면 사용자쪽에서도 지워진다. 말그대로 같은폴더가 된다고 보면 된다.  
+> 이를 통해 쉽게 컨테이너 안으로 파일을 옮겨 보낼 수 있다.  
+> ex) 사용자폴더:컨테이너폴더 = /home/user/nginx/:/usr/share/nginx/html  
+> 마지막은 이미지의 이름으로 이루어져 있다.  
 
-    Nginx는 기본적으로 /usr/share/nginx/html/ 폴더에 html파일이 있으면 80포트를 통해 서비스를 제공한다.
-    이는 아주 기본적인 제공이며, 추가적인 부분을 아직 진행하지 않았다.
+> Nginx는 기본적으로 /usr/share/nginx/html/ 폴더에 html파일이 있으면 80포트를 통해 서비스를 제공한다.  
+> 이는 아주 기본적인 제공이며, 추가적인 부분을 아직 진행하지 않았다.  
 
 ##### 9. Nginx 활용 (미진행 부분)
-    Nginx의 proxy_pass 설정을 하여 FE <-> BE 요청 및 응답을 설정해야한다.
-    Nginx의 설정과 spring의 application.properties의 URL,port를 맞춰주면 된다.
-    현재 Nginx, springServer 모두 docker에 올려져 있으므로 도커 컨테이너간 네트워크를 열어줘야하는 작업이 필요하다.(확실치 않음 아마 필요할 것)
+> Nginx의 proxy_pass 설정을 하여 FE <-> BE 요청 및 응답을 설정해야한다.  
+> Nginx의 설정과 spring의 application.properties의 URL,port를 맞춰주면 된다.  
+> 현재 Nginx, springServer 모두 docker에 올려져 있으므로 도커 컨테이너간 네트워크를 열어줘야하는 작업이 필요하다.(확실치 않음 아마 필요할 것)  
 
-    위와같이 된다면
-    FE = 사이트주소:80/
-    BE = 사이트주소:80/api/
-    의 형태가 되며 사이트주소:80/api/ 에 요청이 들어오면 proxy_pass 를 통해 타 포트로 nginx가 연결해 데이터를 전달하는 방식이 된다.
-    (서버에대한 접근이 nginx만 함으로써 사용자에게는 보이지 않게 된다.)
-    (위의 방법으로 cors 문제 해결가능)
+> 위와같이 된다면  
+    FE = 사이트주소:80/  
+    BE = 사이트주소:80/api/  
+> 의 형태가 되며 사이트주소:80/api/ 에 요청이 들어오면 proxy_pass 를 통해 타 포트로 nginx가 연결해 데이터를 전달하는 방식이 된다.  
+> (서버에대한 접근이 nginx만 함으로써 사용자에게는 보이지 않게 된다.)  
+> (위의 방법으로 cors 문제 해결가능)  
 
-    Https 설정도 Nginx에서 설정이 가능하며, 인증서의 경우 certbot을 활용하여 인증서 발급이 필요하다.
-    진행된다면 80포트가 아닌 443포트(https포트) 로 바뀌게 된다.
+> Https 설정도 Nginx에서 설정이 가능하며, 인증서의 경우 certbot을 활용하여 인증서 발급이 필요하다.  
+> 진행된다면 80포트가 아닌 443포트(https포트) 로 바뀌게 된다.  

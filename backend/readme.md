@@ -26,15 +26,20 @@
     설치가 완료되면 먼저 Gitlab연결 및 Gitlab용 Credentials를 생성한다  
 
 ##### 2. Jenkins 설정
-    Gitlab 설정은 Jenkins의 시스템설정으로 가면 있다. host URL에 https://lab.ssafy.com/ 를 추가하고 밑에 Credentials에 새로 추가한다.
-    Credentials는 API토큰을 사용하며 이 토큰은 Gitlab계정(중요. 프로젝트가 아님)의 설정에서 발급받을 수 있다. 발급시 API에 꼭 체크하고 발급한다.
-    설정을 마치고 Test Connection이 확인되면 Gitlab설정 끝
-    이 외에 Git이나 NodeJS의 설정을 잡아준다.
 
-    다음은 파이프라인에서 사용할 Credentials을 등록하는 것이다. 프로젝트에서 Git을 Pull 받아오는 것은 Gitlab API Token에 추가하지 않았기도 하고,
-    정상적으로 작동하지 않는 경우가 발생하여 Gitlab 아이디/비번으로 Credentials를 하나 추가한다.
-    Manage Credentials로 가서 새로운 일반 Credentials를 추가하고 Gitlab의 아이디 비번을 넣어주면 된다. 이름은 비워두면 자동생성된다.
-    85366c56-6c... 같은 형태로 생성되며 Name부분에 아이디/**** 와 같이 표시된다면 완료이다.
+    Gitlab 설정  
+
+    Jenkins의 시스템설정 -> host URL = https://lab.ssafy.com/  
+    -> Credentials는 Gitlab API토큰을 사용  
+    (Token 발급 : Gitlab계정(중요. 프로젝트가 아님)의 설정에서 API에 꼭 체크하고 발급  
+    -> Test Connection 확인  
+
+    이 외에 Git이나 NodeJS의 설정을 잡아준다.  
+
+    파이프라인에서 사용할 Credentials을 미리 등록 (Git pull을 위한 Credentials)  
+    Jenkins의 Manage Credentials -> 새로운 일반 Credentials를 추가  
+    -> Gitlab의 아이디/비번 입력 (이름은 비워두면 자동생성)  
+    -> 85366c56-6c... 같은 형태로 생성되며 Name부분에 아이디/**** 와 같이 표시된다면 완료  
 
 ##### 3. Jenkins 파이프 라인 설정
     파이프라인은 자동으로 실행될 명령어들의 모음이며, 시작은 사용자에 의해 수동으로 시작할 수 있지만 대표적으로 Git의 Push Event발생을 받아와

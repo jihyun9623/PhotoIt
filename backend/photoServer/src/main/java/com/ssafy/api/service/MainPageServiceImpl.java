@@ -61,7 +61,7 @@ public class MainPageServiceImpl implements MainPageService{
     @Override
     @Transactional
     public List<TagThumbNickNameRes> getMainContents() {
-        int viewsTag = 3, randTag = 3, photoCnt = 20;  //view수 기반 태그, 랜덤 태그 수, 태그 별 사진 수
+        int viewsTag = 2, randTag = 2, photoCnt = 20;  //view수 기반 태그, 랜덤 태그 수, 태그 별 사진 수
         List<Tag> mainTags = new ArrayList<>();
         List<Photo> photos = photoRepository.findAll();
         List<Tag> tagList = tagRepository.findAll();
@@ -106,7 +106,7 @@ public class MainPageServiceImpl implements MainPageService{
         }
 
         // tag viewTags + randTag 만큼 넘겨주기!
-
+        int cnt_=0;
         List<TagThumbNickNameRes> tagPhotoList = new ArrayList<>();
         for(Tag t : tagList) {
             String tempTag = t.getName();
@@ -123,6 +123,8 @@ public class MainPageServiceImpl implements MainPageService{
                     break;
             }
             tagPhotoList.add(TagThumbNickNameRes.of(tempTag, temp));
+            if(++cnt_==viewsTag+randTag)
+                break;
         }
 
 
@@ -182,7 +184,7 @@ public class MainPageServiceImpl implements MainPageService{
         Stream<Photo> photos = myStudio.getPhotos().stream().sorted(new Comparator<Photo>() {
             @Override
             public int compare(Photo o1, Photo o2) {
-                return o1.getIdx() - o2.getIdx();
+                return o2.getIdx() - o1.getIdx();
             }
         });
         photos.limit(5).forEach(p ->{

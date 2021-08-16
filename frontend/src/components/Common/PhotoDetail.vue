@@ -82,6 +82,7 @@
                       )
                     "
                   />
+                  <PhotoDetail v-if="modalToggle" />
                 </div>
               </div>
             </div>
@@ -102,6 +103,7 @@ export default {
   },
   methods: {
     async photoDetail(itemNickname, itemThumbnail, itemDetailId) {
+      this.modalToggle = false
       if (this.modalToggle === false) {
         let id = ''
         this.$store.dispatch('login/isLoginCheck')
@@ -121,9 +123,6 @@ export default {
         tagItem.setAttribute('data-bs-toggle', 'modal')
         tagItem.setAttribute('data-bs-target', `#detailModal-${itemDetailId}`)
         this.modalToggle = true
-        tagItem.click()
-      } else {
-        this.modalToggle = false
       }
     },
     addFavorite() {
@@ -190,9 +189,14 @@ export default {
 }
 .card-img {
   width: 100%;
-  /* height: 10vh; */
+  height: 10vh;
   object-fit: cover;
+}
+.card-img:hover {
   cursor: pointer;
+  transform: scale(1.1);
+  opacity: 0.7;
+  overflow: hidden;
 }
 .card {
   border-style: none;

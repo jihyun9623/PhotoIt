@@ -24,14 +24,15 @@ export default {
     ProfileIconMenu,
   },
   methods: {
-    userLogout() {
+    user() {
       const jwt = localStorage.getItem('jwt')
       const config = {
         Authorization: jwt,
       }
       axios({
         method: 'get',
-        url: 'http://i5a108.p.ssafy.io:8080/user/signout',
+        url: 'http://localhost:8080/user/signout',
+        //url: 'http://i5a108.p.ssafy.io:8080/user/signout',
         headers: config,
       })
         .then(() => {

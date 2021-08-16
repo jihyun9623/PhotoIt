@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "Fav API")
 @RestController
 @RequestMapping("/fav")
+@CrossOrigin("*")
 public class FavController {
 
     @Autowired

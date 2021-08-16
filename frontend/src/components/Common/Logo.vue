@@ -9,7 +9,7 @@
       align-items-center
     "
   >
-    <img src="../../assets/images/Logo.png" alt="" class="logo" />
+    <img src="../../assets/images/Logo_ver2.png" alt="" class="logo" />
   </router-link>
 </template>
 

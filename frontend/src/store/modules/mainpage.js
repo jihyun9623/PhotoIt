@@ -7,6 +7,13 @@ const state = () => ({
   profilePicture: null,
   nickname: null,
   contents: null,
+  detailPhoto: null,
+  detailOtherPhotos: null,
+  detailIsFavorite: null,
+  detailTagList: null,
+  detailPhotoId: null,
+  detailProfile: null,
+  detailPgNickname: null,
 })
 
 // actions
@@ -44,7 +51,7 @@ const actions = {
     })
       .then((res) => {
         console.log(res)
-        commit('GET_ProfileNickname', res.data.userProfile)
+        commit('GET_PROFILE_NICKNAME', res.data.userProfile)
       })
       .catch((err) => {
         console.log(err)
@@ -60,6 +67,74 @@ const actions = {
       commit('GET_MAIN_CONTENTS', res.data.tagPhotoList)
     })
   },
+  getDetailPhotos({ commit }, info) {
+    commit('GET_PG_NICKNAME', info.nickName)
+    return axios({
+      method: 'post',
+      // url: `http://i5a108.p.ssafy.io:8080/detail`,
+      url: `http://localhost:8080/detail`,
+      data: info,
+    })
+      .then((res) => {
+        console.log(res)
+        commit('GET_DETAIL_PHOTO', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  addFavorite({ commit }, info) {
+    console.log(info)
+    const jwt = localStorage.getItem('jwt')
+    const config = {
+      Authorization: jwt,
+    }
+    console.log(config)
+    axios({
+      method: 'post',
+      // url: `http://i5a108.p.ssafy.io:8080/fav/add`,
+      url: `http://localhost:8080/fav/add`,
+      headers: config,
+      data: info,
+    })
+      .then((res) => {
+        console.log(res)
+        if (res.data.statusCode === 200) {
+          commit('ADD_FAVORITE')
+        } else {
+          alert('다시 시도해 주십시오')
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        alert('다시 시도해 주십시오')
+      })
+  },
+  deleteFavorite({ commit }, info) {
+    const jwt = localStorage.getItem('jwt')
+    const config = {
+      Authorization: jwt,
+    }
+    axios({
+      method: 'post',
+      // url: `http://i5a108.p.ssafy.io:8080/fav/delete`,
+      url: `http://localhost:8080/fav/delete`,
+      headers: config,
+      data: info,
+    })
+      .then((res) => {
+        console.log(res)
+        if (res.statusCode === 200) {
+          commit('DELETE_FAVORITE')
+        } else {
+          alert('다시 시도해 주십시오')
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        alert('다시 시도해 주십시오')
+      })
+  },
 }
 
 const mutations = {
@@ -69,15 +144,30 @@ const mutations = {
   GET_TAGS(state, data) {
     state.tags = data
   },
-  GET_ProfileNickname(state, data) {
-    // 확인 필요
+  GET_PROFILE_NICKNAME(state, data) {
     state.profilePicture = data.photo
-    // 확인 필요
     state.nickname = data.nickName
   },
   GET_MAIN_CONTENTS(state, data) {
     // 어떤 데이터를 어떻게 나누어 저장할지 추후 수정
     state.contents = data
+  },
+  GET_DETAIL_PHOTO(state, data) {
+    state.detailIsFavorite = data.favorite
+    state.detailPhoto = data.origin
+    state.detailOtherPhotos = data.thumbPhotoIds
+    state.detailTagList = data.tagList
+    state.detailPhotoId = data.photoIdx
+    state.detailProfile = data.profilePhoto
+  },
+  GET_PG_NICKNAME(state, data) {
+    state.detailPgNickname = data
+  },
+  ADD_FAVORITE(state) {
+    state.detailIsFavorite = true
+  },
+  DELETE_FAVORITE(state) {
+    state.detailIsFavorite = false
   },
 }
 

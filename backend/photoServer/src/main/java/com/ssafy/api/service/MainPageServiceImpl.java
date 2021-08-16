@@ -159,13 +159,13 @@ public class MainPageServiceImpl implements MainPageService{
     @Transactional
     public boolean isFavorite(String nickName, String userId) {
         Boolean isFav = false;
-
+        
         if(userId=="")
             return false;
         User user = userRepository.findUserById(userId)
                     .orElseThrow(RuntimeException::new);
         for(Favorite f : user.getFavorites()) {
-            if(f.getMyStudio().getNickname() == nickName) {
+            if(f.getMyStudio().getNickname().equals(nickName)) {
                 isFav = true;
                 break;
             }

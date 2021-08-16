@@ -13,11 +13,18 @@
               height="45"
               class="d-inline-block align-text-top"
           /></router-link>
+<<<<<<< HEAD
+        </h1>
+        <ProfileIconMenu />
+      </div>
+    </header> 
+=======
         </h1> -->
     <SearchRegion />
     <div class="empty-box"></div>
     <!-- </div>
     </header> -->
+    >>>>>>> 13561848fb3f84424c1ab1eeeb1d5f569e6ecd68
     <!-- 메인 컨테이너 -->
     <section class="d-flex align-items-center justify-content-center pt-5 mt-5">
       <div class="container text-center">

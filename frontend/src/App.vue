@@ -3,9 +3,14 @@
     <!-- <div id="nav"><router-link to="/">Mainpage</router-link> |</div> -->
     <router-view />
   </div>
+  <div id="footer">
+    <main-footer />
+  </div>
 </template>
 
 <script>
+import Footer from '@/views/Footer.vue'
+
 export default {
   name: 'App',
   computed: {
@@ -20,6 +25,9 @@ export default {
     if (this.$store.state.login.isLogin) {
       this.$store.dispatch('mainpage/getProfileNickname')
     }
+  },
+  components: {
+    'main-footer': Footer,
   },
 }
 </script>

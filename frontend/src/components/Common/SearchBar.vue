@@ -32,6 +32,14 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapState({
+      isSearchHeaderShow: (state) => state.search.isSearchHeaderShow,
+    }),
+    regions() {
+      return this.$store.state.mainpage.regions
+    },
+  },
   methods: {
     integratedSearch() {
       // something이 태그인 경우
@@ -52,14 +60,6 @@ export default {
           `/search/${this.info.keyword}/${this.info.region}/photographer`,
         )
       }
-    },
-  },
-  computed: {
-    ...mapState({
-      isSearchHeaderShow: (state) => state.search.isSearchHeaderShow,
-    }),
-    regions() {
-      return this.$store.state.mainpage.regions
     },
   },
 }

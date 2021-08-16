@@ -26,8 +26,8 @@ public class FavController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class),
     })
-    public ResponseEntity<BaseResponseBody> addFav(@RequestBody @ApiParam(value = "JWT,userNick,pgNick", required = true) FavReq fav){
-        String JWT = fav.getJWT();
+    public ResponseEntity<BaseResponseBody> addFav(@RequestHeader(value = "Authorization") String JWT, @RequestBody @ApiParam(value = "JWT,userNick,pgNick", required = true) FavReq fav){
+       // String JWT = fav.getJWT();
         String userNick = fav.getUserNick();
         String pgNick = fav.getPgNick();
 
@@ -37,7 +37,6 @@ public class FavController {
         if(resbody) {
             return ResponseEntity.ok(BaseResponseBody.of(200, "찜목록에 추가되었습니다."));
         }
-
         return ResponseEntity.status(401).body(BaseResponseBody.of(401, "이미 찜한 작가입니다."));
     }
 
@@ -50,8 +49,8 @@ public class FavController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class),
     })
-    public ResponseEntity<BaseResponseBody> deleteFav(@RequestBody @ApiParam(value = "JWT,userNick,pgNick", required = true) FavReq fav){
-        String JWT = fav.getJWT();
+    public ResponseEntity<BaseResponseBody> deleteFav(@RequestHeader(value = "Authorization") String JWT, @RequestBody @ApiParam(value = "JWT,userNick,pgNick", required = true) FavReq fav){
+        // String JWT = fav.getJWT();
         String userNick = fav.getUserNick();
         String pgNick = fav.getPgNick();
 
@@ -74,7 +73,7 @@ public class FavController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class),
     })
-    public ResponseEntity<BaseResponseBody> checkFav(@RequestHeader(value = "JWT") String JWT, @RequestBody @PathVariable("userNick") String userNick, @PathVariable("pgNick") String pgNick){
+    public ResponseEntity<BaseResponseBody> checkFav(@RequestHeader(value = "Authorization") String JWT, @RequestBody @PathVariable("userNick") String userNick, @PathVariable("pgNick") String pgNick){
         /* 찜목록 조회 후 작가 확인 */
         boolean resbody = favService.checkFav(JWT, userNick,pgNick);
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "Fav API")
 @RestController
 @RequestMapping("/fav")
+@CrossOrigin("*")
 public class FavController {
 
     @Autowired
@@ -68,7 +69,7 @@ public class FavController {
     @GetMapping("/check/{userNick}/{pgNick}")
     @ApiOperation(value = "찜 확인")
     @ApiResponses({
-            @ApiResponse(code = 201,message = "확인 성공", response = BaseResponseBody.class),
+            @ApiResponse(code = 201,message = "확    인 성공", response = BaseResponseBody.class),
             @ApiResponse(code = 401, message = "확인 실패", response = BaseResponseBody.class),
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class),

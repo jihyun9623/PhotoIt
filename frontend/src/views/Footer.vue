@@ -2,7 +2,7 @@
   <footer id="footer">
     <div class="footer-top">
       <div class="container">
-        <div class="row">
+        <div class="row d-flex justify-content-between">
           <div class="col-lg-3 col-md-6">
             <div class="footer-info">
               <h3>Photo it.</h3>
@@ -24,20 +24,23 @@
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-6 footer-links">
+          <!-- <div class="col-lg-4 col-md-6 footer-links">
             <h4>Quick Menu</h4>
             <ul>
               <li>
                 <a href="#">Main Page</a>
               </li>
               <li>
-                <a href="#">Login</a>
+                <router-link :to="{ path: '/login' }">로그인</router-link>
               </li>
               <li>
-                <a href="#">Sign up</a>
+                <router-link :to="{ path: '/signup' }">회원가입</router-link>
+              </li>
+              <li>
+                <router-link :to="{ path: '/mypage' }">마이페이지</router-link>
               </li>
             </ul>
-          </div>
+          </div> -->
 
           <div class="col-lg-5 col-md-6 footer-newsletter">
             <h4>한규와 뚝딱이들 (QHD 4K)</h4>

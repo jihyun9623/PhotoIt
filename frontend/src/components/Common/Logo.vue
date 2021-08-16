@@ -5,7 +5,7 @@
       router-link-style
       d-flex
       justify-content-start
-      ps-4
+      ms-4
       align-items-center
     "
   >

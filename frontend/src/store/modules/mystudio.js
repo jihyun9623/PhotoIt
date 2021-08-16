@@ -38,6 +38,8 @@ const state = () => ({
   ],
   nickname: null,
   pg_profile: null,
+  best3: null,
+  photo_all: null,
 })
 
 // actions
@@ -48,8 +50,35 @@ const actions = {
       url: `${SERVER_URL}/pgprofile/${nickname}`,
     })
       .then((res) => {
-        console.log(res)
         commit('PG_PROFILE', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  best3: function ({ commit }, nickname) {
+    console.log('best3 actions')
+    axios({
+      method: 'get',
+      url: `${SERVER_URL}/bestphotos/${nickname}`,
+    })
+      .then((res) => {
+        console.log(res)
+        commit('BEST3', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  photoAll: function ({ commit }, nickname) {
+    console.log('photoAll actions')
+    axios({
+      method: 'get',
+      url: `${SERVER_URL}/pgphoto/${nickname}`,
+    })
+      .then((res) => {
+        console.log(res.data.origin)
+        commit('PHOTO_ALL', res.data.origin)
       })
       .catch((err) => {
         console.log(err)
@@ -62,6 +91,12 @@ const mutations = {
     state.pg_profile = data
     console.log(state.pg_profile.introduce)
     console.log(state.pg_profile.location)
+  },
+  BEST3: function (state, data) {
+    state.best3 = data
+  },
+  PHOTO_ALL: function (state, data) {
+    state.photo_all = data
   },
 }
 

@@ -17,7 +17,6 @@ const actions = {
       // url: `http://i5a108.p.ssafy.io:8080/location`,
       url: `http://localhost:8080/location`,
     }).then((res) => {
-      console.log(res)
       commit('GET_REGIONS', res.data.locationList)
     })
   },

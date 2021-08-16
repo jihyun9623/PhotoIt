@@ -28,6 +28,11 @@ export default {
       'mystudio/pgProfile',
       this.$store.state.mystudio.nickname,
     )
+    this.$store.dispatch('mystudio/best3', this.$store.state.mystudio.nickname)
+    this.$store.dispatch(
+      'mystudio/photoAll',
+      this.$store.state.mystudio.nickname,
+    )
   },
 }
 </script>

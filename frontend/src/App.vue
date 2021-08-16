@@ -20,6 +20,9 @@ export default {
     isLoginCheck() {
       return this.$store.state.login.isLogin
     },
+    nickname() {
+      return this.$store.state.mainpage.nickname
+    },
   },
   created: function () {
     this.$store.dispatch('mainpage/getRegions')

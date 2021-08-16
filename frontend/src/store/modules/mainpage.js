@@ -99,11 +99,7 @@ const actions = {
     })
       .then((res) => {
         console.log(res)
-        if (res.data.statusCode === 200) {
-          commit('ADD_FAVORITE')
-        } else {
-          alert('다시 시도해 주십시오')
-        }
+        commit('ADD_FAVORITE')
       })
       .catch((err) => {
         console.log(err)

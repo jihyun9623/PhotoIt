@@ -1,44 +1,38 @@
-import axios from 'axios'
-
-// state
-const state = () => ({
-  TOKEN: null,
-})
+// import axios from 'axios'
+const state = {
+  isLogin: false,
+}
 
 // actions
 const actions = {
-  saveToken({ commit }, credentials) {
-    axios({
-      method: 'post',
-      url: 'http:어쩌고/user/signiin',
-      data: credentials,
-    })
-      .then((res) => {
-        console.log(res)
-        commit('SAVE_TOKEN', res.data.token)
-        this.$emit('login')
-        this.$router.push({ name: 'MainPage' })
-      })
-      .catch((err) => {
-        console.log(err)
-        alert('로그인 정보가 잘못되었습니다.')
-      })
+  isLoginCheck({ commit }) {
+    const jwt = localStorage.getItem('jwt')
+    if (jwt) {
+      commit('IS_LOGIN')
+    } else {
+      commit('IS_LOGOUT')
+    }
   },
   deleteToken({ commit }) {
-    commit('DELETE_TOKEN')
+    localStorage.removeItem('jwt')
+    localStorage.removeItem('id')
+    commit('IS_LOGOUT')
+    this.$router.push({ name: 'MainPage' })
   },
 }
 
+// mutations
 const mutations = {
-  SAVE_TOKEN(state, token) {
-    state.TOKEN = token
+  IS_LOGIN(state) {
+    state.isLogin = true
   },
-  DELETE_TOKEN(state) {
-    state.TOKEN = null
+  IS_LOGOUT(state) {
+    state.isLogin = false
   },
 }
 
 export default {
+  namespaced: true,
   state,
   actions,
   mutations,

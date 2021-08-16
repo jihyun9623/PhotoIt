@@ -2,6 +2,8 @@ import { createStore } from 'vuex'
 import login from './modules/login'
 import search from './modules/search'
 import mystudio from './modules/mystudio'
+import mainpage from './modules/mainpage'
+import mypage from './modules/mypage'
 
 export default createStore({
   state: {
@@ -22,5 +24,7 @@ export default createStore({
     login,
     search,
     mystudio,
+    mainpage,
+    mypage,
   },
 })

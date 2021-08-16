@@ -1,11 +1,11 @@
 <template>
   <section>
     <div class="login-form container mt-5">
-      <form class="row">
+      <div class="row">
         <!-- Logo 자리 -->
         <div class="logo-box mb-5">로고 자리</div>
         <div class="mb-3">
-          <label for="email" class="form-label d-flex justify-content-start"
+          <label for="id" class="form-label d-flex justify-content-start"
             >이메일(아이디)</label
           >
           <input
@@ -13,8 +13,8 @@
             class="form-control"
             id="email"
             placeholder="user@example.com"
-            v-model="credentials.email"
-            @keyup.enter="login"
+            v-model="credentials.id"
+            @keyup.enter="userLogin"
           />
         </div>
         <div class="mb-3">
@@ -26,53 +26,74 @@
             class="form-control"
             id="password"
             placeholder="비밀번호"
-            v-model="credentials.password"
-            @keyup.enter="login"
+            v-model="credentials.passwd"
+            @keyup.enter="userLogin"
           />
         </div>
         <div class="align-items-center mb-4 mt-2">
-          <button class="btn login-form-btn mb-2" @click="login">로그인</button>
-          <button type="button" class="btn login-form-btn mb-2">
-            <!-- <router-link :to="{ name: Signup }"> -->
-            <span>회원가입</span>
-            <!-- </router-link> -->
+          <button class="btn login-form-btn mb-2" @click="userLogin">
+            로그인
+          </button>
+          <button type="button" class="btn login-form-btn mb-2 signup-btn">
+            <router-link :to="{ name: 'Signup' }"> 회원가입 </router-link>
           </button>
         </div>
-      </form>
-      <div class="mt-4 d-flex justify-content-evenly">
-        <button class="btn login-find-btn">
-          <!-- <router-link :to="{ name: 어딘가 }"> -->
-          <span>아이디 찾기</span>
-          <!-- </router-link> -->
-        </button>
-        <button class="btn login-find-btn">
-          <!-- <router-link :to="{ name: 어딘가 }"> -->
-          <span>비밀번호 찾기</span>
-          <!-- </router-link> -->
-        </button>
       </div>
+      <!-- <div class="mt-4 d-flex justify-content-evenly">
+        <button class="btn login-find-btn">
+          <router-link :to="{ name: 어딘가 }">
+            <span>아이디 찾기</span>
+          </router-link>
+        </button>
+        <button class="btn login-find-btn">
+          <router-link :to="{ name: 어딘가 }">
+            <span>비밀번호 찾기</span>
+          </router-link>
+        </button>
+      </div> -->
     </div>
   </section>
 </template>
 
 <script>
-// import component from "component location"
+import axios from 'axios'
 
 export default {
   name: 'Login',
   data() {
     return {
       credentials: {
-        email: null,
-        password: null,
+        id: null,
+        passwd: null,
       },
     }
   },
-  method: {
-    login() {
-      // store의 login 모듈의 saveToken 실행
-      this.$store.dispatch('login/saveToken', this.credentials)
+  methods: {
+    userLogin() {
+      axios({
+        method: 'post',
+        url: 'http://i5a108.p.ssafy.io:8080/user/signin',
+        data: this.credentials,
+      })
+        .then((res) => {
+          console.log(res)
+          localStorage.setItem('jwt', res.data.jwt)
+          localStorage.setItem('id', res.data.id)
+          this.$emit('login')
+          this.$store.dispatch('login/isLoginCheck')
+          this.$router.push({ name: 'MainPage' })
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('로그인 정보가 잘못되었습니다.')
+        })
     },
+  },
+  created() {
+    this.$store.dispatch('login/isLoginCheck')
+    if (this.$store.state.login.isLogin) {
+      this.$router.push({ name: 'MainPage' })
+    }
   },
 }
 </script>
@@ -110,5 +131,9 @@ input {
 .form-control:focus {
   border-color: #c4c4c4;
   box-shadow: inset 0px 0px rgba(255, 255, 255, 0);
+}
+.signup-btn a {
+  text-decoration: none;
+  color: black;
 }
 </style>

@@ -19,7 +19,7 @@ public interface MainPageService {
 
     String[] tagList();
 
-    UserProfile userProfile(String JWT, String id);
+    UserProfile userProfile(String JWT);
 
     List<TagThumbNickNameRes> getMainContents();
 
@@ -32,4 +32,8 @@ public interface MainPageService {
     List<ThumbPhotoIdRes> thumbPhotoIds(String nickName, String thumbnail);
 
     void photoViewCnt(String thumbnail);
+
+    int photoIdx(String thumbnail);
+
+    String profilePhoto(String thumbnail);
 }

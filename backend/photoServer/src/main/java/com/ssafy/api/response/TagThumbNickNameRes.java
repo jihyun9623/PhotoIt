@@ -11,7 +11,7 @@ public class TagThumbNickNameRes {
     @ApiModelProperty(name = "태그", example = "야외")
     String tag;
 
-    @ApiModelProperty(name = "썸네일, 사진작가 닉네임 리스트", example = "thumbnail : \"src/~\", nickName : \"HanQ\"")
+    @ApiModelProperty(name = "썸네일, 사진 ID ,사진작가 닉네임 리스트", example = "thumbnail : \"src/~\", nickName : \"HanQ\"")
     List<ThumbNickNameRes> thumbNickNameList;
 
     public static TagThumbNickNameRes of(String tag, List<ThumbNickNameRes> thumbNickNameList) {

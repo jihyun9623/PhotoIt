@@ -15,9 +15,9 @@
 
 ### 서버 배포 절차
  - 개요
-    서버배포에 필요한 기술스택은 크게 Ubuntu활용, Docker, Nginx이며, Jenkins는 자동빌드 및 배포를 위한 CI/CD용 앱이다.
-    우분투 서버 위에 젠킨스를 통해 빌드된 FE,BE 파일들을 Docker에 올려 각각 Nginx와 Spring서버로 올리는 일을 한다.
-    이를 통해 FE는 Nginx를 통해, BE는 springServer라는 이름으로 Docker의 컨테이너가 담당을 하게된다.
+> 서버배포에 필요한 기술스택은 크게 Ubuntu활용, Docker, Nginx이며, Jenkins는 자동빌드 및 배포를 위한 CI/CD용 앱이다.
+> 우분투 서버 위에 젠킨스를 통해 빌드된 FE,BE 파일들을 Docker에 올려 각각 Nginx와 Spring서버로 올리는 일을 한다.
+> 이를 통해 FE는 Nginx를 통해, BE는 springServer라는 이름으로 Docker의 컨테이너가 담당을 하게된다.
 
 #### 과정
 1. Jenkins 설치

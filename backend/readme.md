@@ -1,4 +1,4 @@
-// 자유롭게 작성해주세요
+    // 자유롭게 작성해주세요
 
 # Backend Readme File
 
@@ -124,27 +124,26 @@
     }
 
 ##### 4. Docker 설치
-    Docker 자체의 설치도 Google을 참조하면 쉽게 설치가 가능하다. Docker Hub도 이용한다면 자동배포에 좀 더 쉬운면이 있다.
-    Docker Hub는 마치 Github처럼 이미지를 인터넷에 올리고 쉽게 다시 내려받을 수 있는 서비스이다.
+> Docker 자체의 설치도 Google을 참조하면 쉽게 설치가 가능하다. Docker Hub도 이용한다면 자동배포에 좀 더 쉬운면이 있다.  
+> Docker Hub는 마치 Github처럼 이미지를 인터넷에 올리고 쉽게 다시 내려받을 수 있는 서비스이다.  
 
 ##### 5. Docker 기능 설명
-    Docker는 Linux기반 굉장히 가벼운 가상머신이라고 생각하면 쉽다.
-    Image라는 설치 파일을 갖고 설치를 빠르게 할 수 있으며 이를 설치하면 Container라고 부르는 프로그램이 생성된다고 보면 된다.
-    Container는 프로그램처럼 껐다 켰다 할 수 있고 물론 삭제도 가능하다.
-    우리는 이제 Nginx와 BE개발을 통해 만든 springServer, 두개의 이미지로 서비스를 할 예정이다.
+> Docker는 Linux기반 굉장히 가벼운 가상머신이라고 생각하면 쉽다.  
+> Image라는 설치 파일을 갖고 설치를 빠르게 할 수 있으며 이를 설치하면 Container라고 부르는 프로그램이 생성된다고 보면 된다.  
+> Container는 프로그램처럼 껐다 켰다 할 수 있고 물론 삭제도 가능하다.  
+> 우리는 이제 Nginx와 BE개발을 통해 만든 springServer, 두개의 이미지로 서비스를 할 예정이다.  
 
 ##### 6. Docker Image 생성
     Nginx는 docker run --name nginx -d -p 80:80 -v /home/user/nginx/:/usr/share/nginx/html nginx
-    와 같이 이미지 다운로드 및 컨테이너 생성, 실행까지 쉽게 진행 가능하다.
-    이는 Docker에서 Nginx 정식 Image파일을 제공하기 때문에 자동으로 모두 진행된다.
-    위의 명령에 옵션이 많은데 자주 사용하는 옵션들은 아래에 설명하겠다.
+> 와 같이 이미지 다운로드 및 컨테이너 생성, 실행까지 쉽게 진행 가능하다.  
+> 이는 Docker에서 Nginx 정식 Image파일을 제공하기 때문에 자동으로 모두 진행된다.  
+> 위의 명령에 옵션이 많은데 자주 사용하는 옵션들은 아래에 설명하겠다.  
 
-    우리가 개발한 springServer같은 경우 위와 같은 형식으로 진행할 수 없다. 하려면 Docker Hub를 사용하면 받아와 설치하는 과정을 할 수는 있지만 하지않았다.
-    우리는 Jar파일을 만들어 이미지를 생성하여 바로 사용하는 방식을 택했다.
-    Jar파일은 Java환경 위에 설치하여 실행이 가능하다.
-    그렇기 때문에 약간의 기초설정이 필요한데 이를 Dockerfile이라는 파일을 제작하여 이미지를 만들때 활용한다.
-    Dockerfile 내용은 아래와 같다.
-
+> 우리가 개발한 springServer같은 경우 위와 같은 형식으로 진행할 수 없다. 하려면 Docker Hub를 사용하면 받아와 설치하는 과정을 할 수는 있지만 하지않았다.  
+> 우리는 Jar파일을 만들어 이미지를 생성하여 바로 사용하는 방식을 택했다.  
+> Jar파일은 Java환경 위에 설치하여 실행이 가능하다.  
+> 그렇기 때문에 약간의 기초설정이 필요한데 이를 Dockerfile이라는 파일을 제작하여 이미지를 만들때 활용한다.  
+    // Dockerfile
     FROM azul/zulu-openjdk:8
     EXPOSE 8080
     COPY ./*.jar server.jar

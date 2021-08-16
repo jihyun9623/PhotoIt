@@ -6,8 +6,6 @@ import com.ssafy.api.response.StudioGetPhotosResBody;
 import com.ssafy.api.response.StudioPgProfileResBody;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 public interface StudioService {
     public StudioPgProfileResBody getPgProfile(String nickname);

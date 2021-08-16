@@ -2,6 +2,7 @@
 
 package com.ssafy.api.service;
 
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.Favorite;
 import com.ssafy.db.entity.MyStudio;
 import com.ssafy.db.entity.User;
@@ -22,12 +23,25 @@ public class FavServiceImpl implements FavService{
     MyStudioRepository myStudioRepository;
     @Autowired
     FavRepository favRepository;
+    @Autowired
+    JwtTokenUtil jwtTokenProvider;
+
+    // 토큰에서 닉네임 추출
+    public String getNicknameFromToken(String token){
+        String id=jwtTokenProvider.getUserInfo(token);
+        User member =userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("존재하지 않는 아이디입니다."));
+        return member.getNickname();
+    }
 
     // 찜 추가
     @Override
-    public boolean addFav(String userNick, String pgNick){
+    public boolean addFav(String JWT, String userNick, String pgNick){
+        // jwt, 닉네임으로 본인확인
+        String jwtNickname = getNicknameFromToken(JWT);
+        if(!userNick.equals(jwtNickname)) return false;
+
         // 유저, 마이스튜디오
-        User user = userRepository.findUserByNickname(userNick);
+        User user = userRepository.findUserByNickname(jwtNickname);
         MyStudio myStudio = myStudioRepository.findByUser_Nickname(pgNick);
         // nickname으로 user idx 리턴
         int userIdx = user.getIdx();
@@ -54,7 +68,11 @@ public class FavServiceImpl implements FavService{
 
     // 찜 삭제
     @Override
-    public boolean deleteFav(String userNick, String pgNick){
+    public boolean deleteFav(String JWT, String userNick, String pgNick){
+        // jwt, 닉네임으로 본인확인
+        String jwtNickname = getNicknameFromToken(JWT);
+        if(!userNick.equals(jwtNickname)) return false;
+
         // 유저, 마이스튜디오
         User user = userRepository.findUserByNickname(userNick);
         MyStudio myStudio = myStudioRepository.findByUser_Nickname(pgNick);
@@ -80,7 +98,11 @@ public class FavServiceImpl implements FavService{
 
     // 찜 확인
     @Override
-    public boolean checkFav(String userNick, String pgNick){
+    public boolean checkFav(String JWT, String userNick, String pgNick){
+        // jwt, 닉네임으로 본인확인
+        String jwtNickname = getNicknameFromToken(JWT);
+        if(!userNick.equals(jwtNickname)) return false;
+
         // nickname으로 user idx 리턴
         int userIdx = userRepository.findUserByNickname(userNick).getIdx();
 

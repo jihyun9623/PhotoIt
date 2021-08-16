@@ -43,11 +43,11 @@
 ##### 3. Jenkins 파이프 라인 설정
 > 파이프라인은 자동으로 실행될 명령어들의 모음이며, 시작은 사용자에 의해 수동으로 시작할 수 있지만  
 > 대표적으로 Git의 Push Event발생을 받아와 실행하는 것이 대표적이다.  
-> 파이프라인을 생성하고 Build Triggers에 여러 트리거 중 Gitlab의 Push Event로 반응하는 것에 체크한다.  
-> URL은 Jenkins의 URL이 자동생성되며, 아래에 고급을 누르면 Secret Key를 발급받을 수 있다.  
-> 이 두개를 들고 Gitlab의 프로젝트, 설정의 Webhook으로 이동하면 Webhook을 추가할 수 있다.  
-> 어떤 브랜치가 Push됐을때 트리거를 줄것인지도 설정할 수 있다.  
-> 파이프라인 내용은 아래에 추가한다.
+
+> 파이프라인을 생성 -> Build Triggers -> Gitlab의 Push Event
+> -> Jenkins의 URL이 자동생성, 고급을 눌러 Secret Key탭에서 Key 발급
+> -> Gitlab의 프로젝트 -> 설정 -> Webhook -> 추가(URL, Secret Key)
+> -> push Event를 보낼 브랜치 설정
 
     > 파이프라인 내용
     pipeline {

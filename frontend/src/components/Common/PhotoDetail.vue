@@ -162,13 +162,13 @@ export default {
 
 <style scoped>
 .modal-img {
-  max-width: 50vw;
+  max-width: 40vw;
   max-height: 50vh;
   object-fit: contain;
 }
 .modal-dialog {
+  max-width: 45vw;
   max-height: 50vh;
-  max-width: 55vw;
 }
 /* .modal-body {
   margin: 0.25rem;

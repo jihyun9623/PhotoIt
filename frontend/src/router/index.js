@@ -4,6 +4,7 @@ import Login from '@/views/Login.vue'
 import SearchResult from '@/views/SearchResult.vue'
 import MyPage from '@/views/MyPage.vue'
 import Signup from '@/views/Signup.vue'
+import MyStudio from '@/views/MyStudio.vue'
 
 const routes = [
   {
@@ -30,6 +31,12 @@ const routes = [
     path: '/signup',
     name: 'Signup',
     component: Signup,
+  },
+  {
+    path: '/mystudio/:nickname',
+    name: 'MyStudio',
+    component: MyStudio,
+    props: true,
   },
 ]
 

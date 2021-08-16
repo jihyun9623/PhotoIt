@@ -134,8 +134,8 @@
 > 우리는 이제 Nginx와 BE개발을 통해 만든 springServer, 두개의 이미지로 서비스를 할 예정이다.  
 
 ##### 6. Docker Image 생성
-    Nginx는 docker run --name nginx -d -p 80:80 -v /home/user/nginx/:/usr/share/nginx/html nginx
-> 와 같이 이미지 다운로드 및 컨테이너 생성, 실행까지 쉽게 진행 가능하다.  
+    docker run --name nginx -d -p 80:80 -v /home/user/nginx/:/usr/share/nginx/html nginx
+> 위와 같이 이미지 다운로드 및 컨테이너 생성, 실행까지 쉽게 진행 가능하다.  
 > 이는 Docker에서 Nginx 정식 Image파일을 제공하기 때문에 자동으로 모두 진행된다.  
 > 위의 명령에 옵션이 많은데 자주 사용하는 옵션들은 아래에 설명하겠다.  
 
@@ -143,20 +143,22 @@
 > 우리는 Jar파일을 만들어 이미지를 생성하여 바로 사용하는 방식을 택했다.  
 > Jar파일은 Java환경 위에 설치하여 실행이 가능하다.  
 > 그렇기 때문에 약간의 기초설정이 필요한데 이를 Dockerfile이라는 파일을 제작하여 이미지를 만들때 활용한다.  
-    // Dockerfile
-    FROM azul/zulu-openjdk:8
-    EXPOSE 8080
-    COPY ./*.jar server.jar
-    ENTRYPOINT ["java","-jar","server.jar"]
 
-    azul/zulu-openjdk:8 환경에서 실행할 것이며, 8080포트를 컨테이너에게 접근이 가능하도록 하고 (컨테이너 안에서 접근 가능하다는 얘기 밖까지 열어준 것은 아님)
-    jar파일을 server.jar라는 이름으로 컨테이너 안으로 복사하며, 추후 이 컨테이너가 실행될때 항상 'java -jar server.jar' 라는 명령이
-    실행된다는 뜻을 가진다. 이렇게 Docker파일을 만든뒤
-    
+    // Dockerfile  
+    FROM azul/zulu-openjdk:8  
+    EXPOSE 8080  
+    COPY ./*.jar server.jar  
+    ENTRYPOINT ["java","-jar","server.jar"]  
+
+> azul/zulu-openjdk:8 환경에서 실행할 것이며,  
+> 8080포트를 컨테이너에게 접근이 가능하도록 하고 (컨테이너 안에서 접근 가능하다는 얘기 밖까지 열어준 것은 아님)  
+> jar파일을 server.jar라는 이름으로 컨테이너 안으로 복사하며,  
+> 추후 이 컨테이너가 실행될때 항상 'java -jar server.jar' 라는 명령이 실행된다는 뜻을 가진다.  
+
     docker build -f ../Dockerfile -t spring .
     
-    -f 는 Dockerfile 위치, -t는 이미지이름
-    이렇게 하면 docker는 자동으로 zulu jdk 8을 다운받고 jar파일을 이미지로 만들어 준다.
+> -f 는 Dockerfile 위치, -t는 이미지이름
+> 이렇게 하면 docker는 자동으로 zulu jdk 8을 다운받고 jar파일을 이미지로 만들어 준다.
 
 ##### 7. Docker container 실행
     docker run -d -p 8080:8080 --name springServer spring

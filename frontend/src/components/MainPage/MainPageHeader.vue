@@ -6,7 +6,7 @@
       <Logo />
     </div>
     <SearchBar />
-    <ProfileIconMenu />
+    <ProfileIconMenu @user-logout="userLogout" />
   </nav>
 </template>
 
@@ -14,7 +14,7 @@
 import SearchBar from '@/components/Common/SearchBar'
 import Logo from '@/components/Common/Logo'
 import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
-import axios from 'axios' // 이거도 삭제 가능...!
+import axios from 'axios'
 
 export default {
   name: 'MainPageHeader',
@@ -31,7 +31,8 @@ export default {
       }
       axios({
         method: 'get',
-        url: 'http://i5a108.p.ssafy.io:8080/user/signout',
+        // url: 'http://i5a108.p.ssafy.io:8080/user/signout',
+        url: 'http://localhost:8080/user/signout',
         headers: config,
       })
         .then(() => {
@@ -39,6 +40,7 @@ export default {
           localStorage.removeItem('jwt')
           localStorage.removeItem('id')
           this.$router.push({ name: 'MainPage' })
+          window.location.reload()
         })
         .catch((err) => {
           console.log(err)
@@ -54,7 +56,7 @@ export default {
   position: fixed;
   width: 100%;
   background-color: transparent;
-  z-index: 1;
+  z-index: 10;
   height: 10%;
 }
 .logo-box {

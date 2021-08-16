@@ -6,7 +6,7 @@
       <Logo />
     </div>
     <SearchBar />
-    <ProfileIconMenu />
+    <ProfileIconMenu @user-logout="userLogout" />
   </nav>
 </template>
 
@@ -14,6 +14,7 @@
 import SearchBar from '@/components/Common/SearchBar'
 import Logo from '@/components/Common/Logo'
 import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
+import axios from 'axios'
 
 export default {
   name: 'SearchRegion',
@@ -21,6 +22,33 @@ export default {
     SearchBar,
     Logo,
     ProfileIconMenu,
+  },
+  methods: {
+    userLogout() {
+      const jwt = localStorage.getItem('jwt')
+      const config = {
+        Authorization: jwt,
+      }
+      axios({
+        method: 'get',
+        // url: 'http://i5a108.p.ssafy.io:8080/user/signout',
+        url: 'http://localhost:8080/user/signout',
+        headers: config,
+      })
+        .then(() => {
+          alert('로그아웃 되었습니다.')
+          localStorage.removeItem('jwt')
+          localStorage.removeItem('id')
+          this.$router.push({ name: 'MainPage' })
+          if (this.$route.name === 'MainPage') {
+            window.location.reload()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('다시 시도해 주세요.')
+        })
+    },
   },
 }
 </script>

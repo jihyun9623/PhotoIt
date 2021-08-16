@@ -6,6 +6,7 @@ import com.ssafy.api.response.ProfileNickNameRes;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,11 +76,12 @@ public class SearchServiceImpl implements SearchService{
         return profileList;
     }
 
+
     @Override
     @Transactional
-    public List<PhotoIdPhotoRes> myStudioPhotoList(String tag, Integer id) {
+    public List<PhotoIdPhotoRes> myStudioPhotoList(String tag, String nickName) {
         List<PhotoIdPhotoRes> retPhotoList = new ArrayList<>();   //원본사진, 사진ID
-        List<Photo> photos = myStudioRepository.findById(id)
+        List<Photo> photos = myStudioRepository.findByNickname(nickName)
                 .orElseThrow(RuntimeException::new).getPhotos();
 
         for(Photo p : photos) {

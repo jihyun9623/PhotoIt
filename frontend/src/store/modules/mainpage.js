@@ -120,11 +120,7 @@ const actions = {
     })
       .then((res) => {
         console.log(res)
-        if (res.statusCode === 200) {
-          commit('DELETE_FAVORITE')
-        } else {
-          alert('다시 시도해 주십시오')
-        }
+        commit('DELETE_FAVORITE')
       })
       .catch((err) => {
         console.log(err)

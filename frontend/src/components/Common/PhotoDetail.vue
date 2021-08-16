@@ -74,13 +74,7 @@
                     alt="other photo"
                     :src="item.thumbnail"
                     :id="`id-${item.photoId}`"
-                    @click="
-                      photoDetail(
-                        detailPgNickname,
-                        item.thumbnail,
-                        item.photoId,
-                      )
-                    "
+                    @click="photoDetail(detailPgNickname, item.thumbnail)"
                   />
                   <PhotoDetail v-if="modalToggle" />
                 </div>
@@ -100,43 +94,6 @@ export default {
     return {
       modalToggle: false,
     }
-  },
-  methods: {
-    async photoDetail(itemNickname, itemThumbnail, itemDetailId) {
-      this.modalToggle = false
-      if (this.modalToggle === false) {
-        let id = ''
-        this.$store.dispatch('login/isLoginCheck')
-        if (this.$store.state.login.isLogin) {
-          id = localStorage.getItem('id')
-        }
-        const nickName = itemNickname
-        const thumbnail = itemThumbnail
-        await this.$store.dispatch('mainpage/getDetailPhotos', {
-          id: id,
-          nickName: nickName,
-          thumbnail: thumbnail,
-        })
-        // axios 호출이 끝난 다음에야 DOM을 붙인다.
-        // console.log(this.$store.state.mainpage.detailPhotoId, itemDetailId)
-        const tagItem = document.querySelector(`#id-${itemDetailId}`)
-        tagItem.setAttribute('data-bs-toggle', 'modal')
-        tagItem.setAttribute('data-bs-target', `#detailModal-${itemDetailId}`)
-        this.modalToggle = true
-      }
-    },
-    addFavorite() {
-      this.$store.dispatch('mainpage/addFavorite', {
-        pgNick: this.detailPgNickname,
-        userNick: this.$store.state.mainpage.nickname,
-      })
-    },
-    deleteFavorite() {
-      this.$store.dispatch('mainpage/deleteFavorite', {
-        pgNick: this.detailPgNickname,
-        userNick: this.$store.state.mainpage.nickname,
-      })
-    },
   },
   computed: {
     detailPhoto() {
@@ -163,6 +120,42 @@ export default {
     isLogin() {
       return this.$store.state.login.isLogin
     },
+  },
+  methods: {
+    async photoDetail(itemNickname, itemThumbnail) {
+      this.modalToggle = false
+      if (this.modalToggle === false) {
+        let id = ''
+        this.$store.dispatch('login/isLoginCheck')
+        if (this.$store.state.login.isLogin) {
+          id = localStorage.getItem('id')
+        }
+        const nickName = itemNickname
+        const thumbnail = itemThumbnail
+        await this.$store.dispatch('mainpage/getDetailPhotos', {
+          id: id,
+          nickName: nickName,
+          thumbnail: thumbnail,
+        })
+        this.modalToggle = true
+      }
+    },
+    addFavorite() {
+      this.$store.dispatch('mainpage/addFavorite', {
+        pgNick: this.detailPgNickname,
+        userNick: this.$store.state.mainpage.nickname,
+      })
+    },
+    deleteFavorite() {
+      this.$store.dispatch('mainpage/deleteFavorite', {
+        pgNick: this.detailPgNickname,
+        userNick: this.$store.state.mainpage.nickname,
+      })
+    },
+  },
+  created() {
+    // 로그인 여부 확인
+    this.$store.dispatch('login/isLoginCheck')
   },
 }
 </script>

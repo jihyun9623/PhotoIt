@@ -31,10 +31,13 @@
                 <a href="#">Main Page</a>
               </li>
               <li>
-                <a href="#">Login</a>
+                <router-link :to="{ path: '/login' }">로그인</router-link>
               </li>
               <li>
-                <a href="#">Sign up</a>
+                <router-link :to="{ path: '/signup' }">회원가입</router-link>
+              </li>
+              <li>
+                <router-link :to="{ path: '/mypage' }">마이페이지</router-link>
               </li>
             </ul>
           </div>

@@ -1,15 +1,17 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.MailAuthPostReq;
 import com.ssafy.api.request.MailPostReq;
-import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.common.model.response.BaseResponseBody;
+
+import javax.mail.AuthenticationFailedException;
 
 public interface MailService {
+    // 이메일 인증
     boolean emailAuth(MailPostReq authinfo);
 
-    boolean emailAuthCheck(MailAuthPostReq authinfo);
-    // 이메일 인증
-    // 이메일 중복 확인
     // 이메일 코드 확인
+    void emailAuthCheck(MailPostReq authinfo) throws AuthenticationFailedException;
+
+    // 코드 검증
+    boolean isVerify(MailPostReq authInfo);
+    // 이메일 중복 확인
 }

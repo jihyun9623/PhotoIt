@@ -23,7 +23,7 @@
             </p>
             <p>만나보세요</p>
           </span>
-          <SearchBar class="search-bar" />
+          <MainPageSearchBar class="search-bar" />
         </div>
       </div>
     </section>
@@ -32,11 +32,11 @@
 </template>
 
 <script>
-import SearchBar from '@/components/Common/SearchBar'
+import MainPageSearchBar from './MainPageSearchBar'
 
 export default {
   name: 'MainPageIntroduction',
-  components: { SearchBar },
+  components: { MainPageSearchBar },
   data() {
     return {
       baseBgTop: 0,
@@ -44,6 +44,18 @@ export default {
     }
   },
   methods: {
+    stickySearchBar() {
+      const searchBar = document.querySelector('.search-style')
+      const sticky = searchBar.getBoundingClientRect().top
+      // console.log(sticky, this.$store.state.search.isSearchHeaderShow)
+      if (0 >= sticky) {
+        searchBar.style.opacity = '0'
+        this.$store.dispatch('search/searchBarViewTrue')
+      } else {
+        searchBar.style.opacity = '1'
+        this.$store.dispatch('search/searchBarViewFalse')
+      }
+    },
     scrollEffect() {
       const bgSection = document.querySelector('.background-wrap')
       const textPg = document.querySelector('.text-pg')
@@ -102,6 +114,12 @@ export default {
   },
   mounted() {
     addEventListener('scroll', this.scrollEffect)
+    addEventListener('scroll', this.stickySearchBar)
+  },
+  unmounted() {
+    removeEventListener('scroll', this.stickySearchBar)
+    removeEventListener('scroll', this.scrollEffect)
+    this.$store.state.search.isSearchHeaderShow = true
   },
 }
 </script>
@@ -145,8 +163,7 @@ export default {
   transition: opacity 3s;
 }
 .empty-box {
-  width: 100%;
-  height: 200px;
+  height: 10vh;
 }
 .text-pg {
   position: absolute;
@@ -179,5 +196,8 @@ export default {
   opacity: 0;
   /* 가로 화면이 줄어들었을 때 글자가 깨지지 않도록 */
   word-wrap: normal;
+}
+.search-bar {
+  opacity: 0;
 }
 </style>

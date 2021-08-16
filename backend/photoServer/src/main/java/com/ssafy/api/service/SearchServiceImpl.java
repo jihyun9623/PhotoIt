@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService{
     private final PhotoRepository photoRepository;

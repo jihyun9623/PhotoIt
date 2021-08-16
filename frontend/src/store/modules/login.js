@@ -1,6 +1,7 @@
 // import axios from 'axios'
 const state = {
   isLogin: false,
+  role: '',
 }
 
 // actions
@@ -11,6 +12,12 @@ const actions = {
       commit('IS_LOGIN')
     } else {
       commit('IS_LOGOUT')
+    }
+  },
+  isRole({ commit }) {
+    const role = localStorage.getItem('role')
+    if (role) {
+      commit('IS_ROLE', role)
     }
   },
   deleteToken({ commit }) {
@@ -28,6 +35,9 @@ const mutations = {
   },
   IS_LOGOUT(state) {
     state.isLogin = false
+  },
+  IS_ROLE(state, role) {
+    state.role = role
   },
 }
 

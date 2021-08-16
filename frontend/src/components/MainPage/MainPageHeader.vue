@@ -24,7 +24,7 @@ export default {
     ProfileIconMenu,
   },
   methods: {
-    user() {
+    userLogout() {
       const jwt = localStorage.getItem('jwt')
       const config = {
         Authorization: jwt,
@@ -39,6 +39,7 @@ export default {
           alert('로그아웃 되었습니다.')
           localStorage.removeItem('jwt')
           localStorage.removeItem('id')
+          localStorage.removeItem('role')
           this.$router.push({ name: 'MainPage' })
           window.location.reload()
         })

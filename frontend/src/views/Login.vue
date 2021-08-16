@@ -80,8 +80,10 @@ export default {
           console.log(res)
           localStorage.setItem('jwt', res.data.jwt)
           localStorage.setItem('id', res.data.id)
+          localStorage.setItem('role', res.data.role)
           this.$emit('login')
           this.$store.dispatch('login/isLoginCheck')
+          this.$store.dispatch('login/isRole')
           this.$router.push({ name: 'MainPage' })
         })
         .catch((err) => {

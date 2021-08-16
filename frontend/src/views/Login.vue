@@ -3,7 +3,7 @@
     <div class="login-form container mt-5">
       <div class="row">
         <!-- Logo 자리 -->
-        <div class="logo-box mb-5">로고 자리</div>
+        <img src="@/assets/images/Logo_ver2.png" alt="logl" class="logo-box" />
         <div class="mb-3">
           <label for="id" class="form-label d-flex justify-content-start"
             >이메일(아이디)</label
@@ -72,7 +72,8 @@ export default {
     userLogin() {
       axios({
         method: 'post',
-        url: 'http://i5a108.p.ssafy.io:8080/user/signin',
+        // url: 'http://i5a108.p.ssafy.io:8080/user/signin',
+        url: 'http://localhost:8080/user/signin',
         data: this.credentials,
       })
         .then((res) => {
@@ -123,10 +124,10 @@ input {
 }
 .logo-box {
   box-sizing: content-box;
-  width: 90%;
-  height: 100px;
-  background-color: #c4c4c4;
-  margin: 0px auto;
+  width: 30%;
+  /* height: 100px; */
+  /* background-color: #c4c4c4; */
+  margin: 5% auto;
 }
 .form-control:focus {
   border-color: #c4c4c4;

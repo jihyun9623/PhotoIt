@@ -21,8 +21,8 @@
 
 #### 과정
 ##### 1. Jenkins 설치
-> Jenkins설치는 Google검색을 통해 쉽게 설치가 가능하다. 설치 중 필요한 플러그인은 기본 플러그인들에 Gitlab, NodeJS를 추가하여 설치한다.  
-> 설치가 완료되면 먼저 Gitlab연결 및 Gitlab용 Credentials를 생성한다  
+    Jenkins설치는 Google검색을 통해 쉽게 설치가 가능하다. 설치 중 필요한 플러그인은 기본 플러그인들에 Gitlab, NodeJS를 추가하여 설치한다.  
+    설치가 완료되면 먼저 Gitlab연결 및 Gitlab용 Credentials를 생성한다  
 
 ##### 2. Jenkins 설정
     Gitlab 설정은 Jenkins의 시스템설정으로 가면 있다. host URL에 https://lab.ssafy.com/ 를 추가하고 밑에 Credentials에 새로 추가한다.

@@ -10,11 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 @Api(value = "검색 api", tags = {"Search"})
 @RestController
@@ -46,13 +43,13 @@ public class SearchController {
         return ResponseEntity.ok(SearchPgLocationRes.of(200,"Success", profileList));
     }
 
-    @GetMapping("/studiotag/{idx}/{tag}")
+    @GetMapping("/studiotag/{nickName}/{tag}")
     @ApiOperation(value = "마이스튜디오 내 태그검색", notes = "현재 마이스튜디오에서 태그검색해서 그 스튜디오의 사진리스트 출력")
-    public ResponseEntity<SearchMyStudioTagRes> searchMyStudioTag(@PathVariable("idx") int id,
+    public ResponseEntity<SearchMyStudioTagRes> searchMyStudioTag(@PathVariable("nickName") String nickName,
                                                                   @PathVariable("tag") String tag) {
 
         List<PhotoIdPhotoRes> photoList = new ArrayList<>();       //원본사진, 사진ID
-        photoList = searchService.myStudioPhotoList(tag, id);
+        photoList = searchService.myStudioPhotoList(tag, nickName);
         return ResponseEntity.ok(SearchMyStudioTagRes.of(200,"Success", photoList));
     }
 

@@ -20,7 +20,7 @@
 > 이를 통해 FE는 Nginx를 통해, BE는 springServer라는 이름으로 Docker의 컨테이너가 담당을 하게된다.  
 
 #### 과정
-1. Jenkins 설치
+##### 1. Jenkins 설치
 > Jenkins설치는 Google검색을 통해 쉽게 설치가 가능하다. 설치 중 필요한 플러그인은 기본 플러그인들에 Gitlab, NodeJS를 추가하여 설치한다.  
 > 설치가 완료되면 먼저 Gitlab연결 및 Gitlab용 Credentials를 생성한다  
 

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -35,8 +36,9 @@ public class ChatService {
         List<ChatRes> listChatRes = new ArrayList<>();
         TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
                                      .orElseThrow(RuntimeException::new);
-
-        for(TempChatMessage t : tempChatRoom.getTempChatMessages()) {
+        List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
+        a.sort((o1, o2) -> o2.getIdx()-o1.getIdx());
+        for(TempChatMessage t : a) {
             ChatRes chatRes = ChatRes.of(t.getSenderName(), t.getMessage());
             listChatRes.add(chatRes);
         }

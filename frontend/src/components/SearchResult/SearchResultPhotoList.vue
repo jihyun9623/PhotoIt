@@ -4,64 +4,60 @@
       <SearchResultPhotoItem
         v-for="(photo, idx) in photoList"
         :key="idx"
+        :id="`id-${photo.photoId}`"
         :photo="photo"
-        data-bs-toggle="modal"
-        :data-bs-target="`#detailModal-${photo.photoId}`"
+        @click="photoDetail(photo.nickName, photo.thumb, photo.photoId)"
       />
       <!-- 모달 -->
-      <div
-        v-for="(photo, idx) in photoList"
-        :key="idx"
-        :photo="photo"
-        class="modal fade"
-        :id="`detailModal-${photo.photoId}`"
-        tabindex="-1"
-        aria-labelledby="detailModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">{{ photo.photoId }}</div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <PhotoDetail /> -->
-      <!-- </div> -->
+      <PhotoDetail />
     </div>
   </div>
 </template>
 
 <script>
 import SearchResultPhotoItem from '@/components/SearchResult/SearchResultPhotoItem'
+import PhotoDetail from '@/components/Common/PhotoDetail'
 export default {
   name: 'SearchResultPhotoList',
   components: {
     SearchResultPhotoItem,
+    PhotoDetail,
   },
   props: {
     photoList: {
       type: Array,
+    },
+  },
+  data() {
+    return {
+      modalToggle: false,
+    }
+  },
+  methods: {
+    async photoDetail(photoNickname, photoThumbnail, photoDetailId) {
+      if (this.modalToggle === false) {
+        let id = ''
+        this.$store.dispatch('login/isLoginCheck')
+        if (this.$store.state.login.isLogin) {
+          id = localStorage.getItem('id')
+        }
+        const nickName = photoNickname
+        const thumbnail = photoThumbnail
+        await this.$store.dispatch('mainpage/getDetailPhotos', {
+          id: id,
+          nickName: nickName,
+          thumbnail: thumbnail,
+        })
+        // axios 호출이 끝난 다음에야 DOM을 붙인다.
+        // console.log(this.$store.state.mainpage.detailPhotoId, photoDetailId)
+        const tagItem = document.querySelector(`#id-${photoDetailId}`)
+        tagItem.setAttribute('data-bs-toggle', 'modal')
+        tagItem.setAttribute('data-bs-target', `#detailModal-${photoDetailId}`)
+        this.modalToggle = true
+        tagItem.click()
+      } else {
+        this.modalToggle = false
+      }
     },
   },
 }

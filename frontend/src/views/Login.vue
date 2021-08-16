@@ -70,12 +70,10 @@ export default {
   },
   methods: {
     userLogin() {
-      // store의 login 모듈의 saveToken 실행
-      // this.$store.dispatch('login/saveToken', this.credentials)
       axios({
         method: 'post',
-        // url: 'http://i5a108.p.ssafy.io:8080/user/signin',
         url: 'http://localhost:8080/user/signin',
+        //url: 'http://i5a108.p.ssafy.io:8080/user/signin',
         data: this.credentials,
       })
         .then((res) => {

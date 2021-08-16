@@ -5,6 +5,7 @@ import SearchResult from '@/views/SearchResult.vue'
 import MyPage from '@/views/MyPage.vue'
 import Signup from '@/views/Signup.vue'
 import FavoriteList from '@/views/FavoriteList.vue'
+import MyStudio from '@/views/MyStudio.vue'
 
 const routes = [
   {
@@ -28,7 +29,7 @@ const routes = [
     component: MyPage,
   },
   {
-    path: '/user/signup',
+    path: '/signup',
     name: 'Signup',
     component: Signup,
   },
@@ -36,6 +37,12 @@ const routes = [
     path: '/favlist',
     name: 'FavoriteList',
     component: FavoriteList,
+  },
+  {
+    path: '/mystudio/:nickname',
+    name: 'MyStudio',
+    component: MyStudio,
+    props: true,
   },
 ]
 

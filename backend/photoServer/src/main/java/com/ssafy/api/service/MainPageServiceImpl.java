@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -52,7 +53,7 @@ public class MainPageServiceImpl implements MainPageService{
     @Transactional
     public UserProfile userProfile(String JWT) {
 
-        User user = userRepository.findUserById(jwtTokenUtil.getUserPk(JWT)).orElseThrow(RuntimeException::new);
+        User user = userRepository.findUserById(jwtTokenUtil.getUserInfo(JWT)).orElseThrow(RuntimeException::new);
         UserProfile userProfile = UserProfile.of(user.getNickname(), user.getPhoto());
         return userProfile;
     }
@@ -60,7 +61,7 @@ public class MainPageServiceImpl implements MainPageService{
     @Override
     @Transactional
     public List<TagThumbNickNameRes> getMainContents() {
-        int viewsTag = 3, randTag = 3, photoCnt = 20;  //view수 기반 태그, 랜덤 태그 수, 태그 별 사진 수
+        int viewsTag = 2, randTag = 2, photoCnt = 20;  //view수 기반 태그, 랜덤 태그 수, 태그 별 사진 수
         List<Tag> mainTags = new ArrayList<>();
         List<Photo> photos = photoRepository.findAll();
         List<Tag> tagList = tagRepository.findAll();
@@ -105,7 +106,7 @@ public class MainPageServiceImpl implements MainPageService{
         }
 
         // tag viewTags + randTag 만큼 넘겨주기!
-
+        int cnt_=0;
         List<TagThumbNickNameRes> tagPhotoList = new ArrayList<>();
         for(Tag t : tagList) {
             String tempTag = t.getName();
@@ -122,6 +123,8 @@ public class MainPageServiceImpl implements MainPageService{
                     break;
             }
             tagPhotoList.add(TagThumbNickNameRes.of(tempTag, temp));
+            if(++cnt_==viewsTag+randTag)
+                break;
         }
 
 
@@ -156,8 +159,7 @@ public class MainPageServiceImpl implements MainPageService{
     @Transactional
     public boolean isFavorite(String nickName, String userId) {
         Boolean isFav = false;
-        MyStudio myStudio = myStudioRepository.findByNickname(nickName)
-                            .orElseThrow(RuntimeException::new);
+
         if(userId=="")
             return false;
         User user = userRepository.findUserById(userId)
@@ -174,18 +176,23 @@ public class MainPageServiceImpl implements MainPageService{
     @Override
     @Transactional
     public List<ThumbPhotoIdRes> thumbPhotoIds(String nickName, String thumbnail) {
-        int thumbPhotoIdsSize = 20;
+        int thumbPhotoIdsSize = 4;
         MyStudio myStudio = myStudioRepository.findByNickname(nickName)
                             .orElseThrow(RuntimeException::new);
         List<ThumbPhotoIdRes> thumbPhotoIds = new ArrayList<>();
-        for(Photo p : myStudio.getPhotos()) {
-            if(p.getThumbnail()==thumbnail)
-                continue;
+        Stream<Photo> photos = myStudio.getPhotos().stream().sorted(new Comparator<Photo>() {
+            @Override
+            public int compare(Photo o1, Photo o2) {
+                return o2.getIdx() - o1.getIdx();
+            }
+        });
+        photos.limit(5).forEach(p ->{
             ThumbPhotoIdRes temp = ThumbPhotoIdRes.of(p.getThumbnail(), p.getIdx());
-            thumbPhotoIds.add(temp);
-            if(thumbPhotoIds.size() == thumbPhotoIdsSize)
-                break;
-        }
+            if(p.getThumbnail()!=thumbnail)
+                thumbPhotoIds.add(temp);
+        });
+        if(thumbPhotoIds.size()==5)
+            thumbPhotoIds.remove(4);
         return thumbPhotoIds;
     }
 
@@ -207,5 +214,22 @@ public class MainPageServiceImpl implements MainPageService{
 
         photoRepository.save(newPhoto);
 
+    }
+
+    @Override
+    @Transactional
+    public int photoIdx(String thumbnail) {
+        int photoIdx = photoRepository.findByThumbnail(thumbnail)
+                       .orElseThrow(RuntimeException::new).getIdx();
+
+        return photoIdx;
+    }
+
+    @Override
+    @Transactional
+    public String profilePhoto(String thumbnail) {
+        String profilePhoto = photoRepository.findByThumbnail(thumbnail)
+                        .orElseThrow(RuntimeException::new).getMyStudio().getUser().getPhoto();
+        return profilePhoto;
     }
 }

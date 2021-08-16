@@ -5,10 +5,12 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.response.StudioEditPgProfileResponseBody;
 import com.ssafy.api.response.StudioEditPhotoResponseBody;
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.common.util.Uploader;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import org.imgscalr.Scalr;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,10 +31,13 @@ public class StudioEditServiceImpl implements StudioEditService {
     private final PhotoRepository photoRepository;
     private final PhotoTagRepository photoTagRepository;
     private final TagRepository tagRepository;
+    @Autowired
+    JwtTokenUtil jwtTokenProvider;
+
     private final Uploader uploader;
     private final String DirNameOrigin = "origin";
     private final String DirNameThumbnail = "thumbnail";
-    private final static String TEMP_FILE_PATH = "src/main/resources/static/";
+    private final static String TEMP_FILE_PATH = "classpath:";
 
     public StudioEditServiceImpl(UserRepository userRepository, LocationRepository locationRepository, MyStudioRepository myStudioRepository, PhotoRepository photoRepository, PhotoTagRepository photoTagRepository, TagRepository tagRepository, Uploader uploader) {
         this.userRepository = userRepository;
@@ -268,7 +273,8 @@ public class StudioEditServiceImpl implements StudioEditService {
     // JWT -> user_id
     private String utilCheckUserId(String JWT) {
         // TO-DO : JWT를 보고 id를 리턴하는 함수 구현 필요
-        return "user_id";
+        String id=jwtTokenProvider.getUserInfo(JWT);
+        return id;
     }
 
     // 본인사진인지 체크

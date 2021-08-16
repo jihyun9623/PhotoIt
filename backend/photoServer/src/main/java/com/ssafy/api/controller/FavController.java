@@ -36,7 +36,6 @@ public class FavController {
         if(resbody) {
             return ResponseEntity.ok(BaseResponseBody.of(200, "찜목록에 추가되었습니다."));
         }
-
         return ResponseEntity.status(401).body(BaseResponseBody.of(401, "이미 찜한 작가입니다."));
     }
 

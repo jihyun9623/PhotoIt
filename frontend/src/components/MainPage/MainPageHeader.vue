@@ -24,7 +24,7 @@ export default {
     ProfileIconMenu,
   },
   methods: {
-    userLogout() {
+    user() {
       const jwt = localStorage.getItem('jwt')
       const config = {
         Authorization: jwt,

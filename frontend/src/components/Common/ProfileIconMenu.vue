@@ -2,7 +2,11 @@
   <!-- 클릭 시 드롭다운 -->
   <span class="dropdown me-4">
     <img
-      v-if="profilePicture === 'string' || profilePicture === null"
+      v-if="
+        profilePicture === 'string' ||
+        profilePicture === null ||
+        profilePicture === ''
+      "
       src="@/assets/images/profile_default.png"
       alt="default profile"
       class="inline-block profile dropdown-toggle"
@@ -32,7 +36,10 @@
       </li>
       <!-- 비작가는 마이스튜디오 메뉴가 보이면 안된다. -->
       <li class="mb-2">
-        <router-link :to="{ path: `/mystudio/${nickname}` }">
+        <router-link
+          v-if="role === 'PG'"
+          :to="{ path: `/mystudio/${nickname}` }"
+        >
           마이스튜디오
         </router-link>
       </li>
@@ -54,6 +61,9 @@ export default {
     nickname() {
       return this.$store.state.mainpage.nickname
     },
+    role() {
+      return this.$store.state.login.role
+    },
   },
   methods: {
     userLogout(event) {
@@ -63,6 +73,7 @@ export default {
   created() {
     this.$store.dispatch('mainpage/getProfileNickname')
     this.$store.dispatch('login/isLoginCheck')
+    this.$store.dispatch('login/isRole')
   },
 }
 </script>

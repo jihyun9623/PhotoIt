@@ -24,7 +24,7 @@
 > Jenkins설치는 Google검색을 통해 쉽게 설치가 가능하다. 설치 중 필요한 플러그인은 기본 플러그인들에 Gitlab, NodeJS를 추가하여 설치한다.  
 > 설치가 완료되면 먼저 Gitlab연결 및 Gitlab용 Credentials를 생성한다  
 
-2. Jenkins 설정
+##### 2. Jenkins 설정
     Gitlab 설정은 Jenkins의 시스템설정으로 가면 있다. host URL에 https://lab.ssafy.com/ 를 추가하고 밑에 Credentials에 새로 추가한다.
     Credentials는 API토큰을 사용하며 이 토큰은 Gitlab계정(중요. 프로젝트가 아님)의 설정에서 발급받을 수 있다. 발급시 API에 꼭 체크하고 발급한다.
     설정을 마치고 Test Connection이 확인되면 Gitlab설정 끝
@@ -35,7 +35,7 @@
     Manage Credentials로 가서 새로운 일반 Credentials를 추가하고 Gitlab의 아이디 비번을 넣어주면 된다. 이름은 비워두면 자동생성된다.
     85366c56-6c... 같은 형태로 생성되며 Name부분에 아이디/**** 와 같이 표시된다면 완료이다.
 
-3. Jenkins 파이프 라인 설정
+##### 3. Jenkins 파이프 라인 설정
     파이프라인은 자동으로 실행될 명령어들의 모음이며, 시작은 사용자에 의해 수동으로 시작할 수 있지만 대표적으로 Git의 Push Event발생을 받아와
     실행하는 것이 대표적이다. 파이프라인을 생성하고 Build Triggers에 여러 트리거 중 Gitlab의 Push Event로 반응하는 것에 체크한다.
     URL은 Jenkins의 URL이 자동생성되며, 아래에 고급을 누르면 Secret Key를 발급받을 수 있다. 이 두개를 들고 Gitlab의 프로젝트, 설정의 Webhook으로
@@ -116,17 +116,17 @@
         }
     }
 
-4. Docker 설치
+##### 4. Docker 설치
     Docker 자체의 설치도 Google을 참조하면 쉽게 설치가 가능하다. Docker Hub도 이용한다면 자동배포에 좀 더 쉬운면이 있다.
     Docker Hub는 마치 Github처럼 이미지를 인터넷에 올리고 쉽게 다시 내려받을 수 있는 서비스이다.
 
-5. Docker 기능 설명
+##### 5. Docker 기능 설명
     Docker는 Linux기반 굉장히 가벼운 가상머신이라고 생각하면 쉽다.
     Image라는 설치 파일을 갖고 설치를 빠르게 할 수 있으며 이를 설치하면 Container라고 부르는 프로그램이 생성된다고 보면 된다.
     Container는 프로그램처럼 껐다 켰다 할 수 있고 물론 삭제도 가능하다.
     우리는 이제 Nginx와 BE개발을 통해 만든 springServer, 두개의 이미지로 서비스를 할 예정이다.
 
-6. Docker Image 생성
+##### 6. Docker Image 생성
     Nginx는 docker run --name nginx -d -p 80:80 -v /home/user/nginx/:/usr/share/nginx/html nginx
     와 같이 이미지 다운로드 및 컨테이너 생성, 실행까지 쉽게 진행 가능하다.
     이는 Docker에서 Nginx 정식 Image파일을 제공하기 때문에 자동으로 모두 진행된다.
@@ -152,7 +152,7 @@
     -f 는 Dockerfile 위치, -t는 이미지이름
     이렇게 하면 docker는 자동으로 zulu jdk 8을 다운받고 jar파일을 이미지로 만들어 준다.
 
-7. Docker container 실행
+##### 7. Docker container 실행
     docker run -d -p 8080:8080 --name springServer spring
     -d : detach 현재 보고있는 커맨드창에 실행되는 컨테이너의 입출력을 붙이지 않는다. (뗀다)
     -p : port 바깥쪽:안쪽  ex. 9090:8080 밖에서 9090포트로 연결하면 컨테이너에게는 8080포트로 연결된다.
@@ -162,7 +162,7 @@
     만약 컨테이너의 실행상태를 보고싶다면(spring의 로그를 보고싶다) -d를 빼고 실행하거나
     실행 후 docker attach springServer 를 통해 붙일 수 있다.
 
-8. Nginx 설치 및 설정
+##### 8. Nginx 설치 및 설정
     docker run --name nginx -d -p 80:80 -v /home/user/nginx/:/usr/share/nginx/html nginx
     --name : 컨테이너 이름
     -d detach : 현재 커맨드창과 입출력을 붙이지 않는다 (뗀다)
@@ -176,7 +176,7 @@
     Nginx는 기본적으로 /usr/share/nginx/html/ 폴더에 html파일이 있으면 80포트를 통해 서비스를 제공한다.
     이는 아주 기본적인 제공이며, 추가적인 부분을 아직 진행하지 않았다.
 
-9. Nginx 활용 (미진행 부분)
+##### 9. Nginx 활용 (미진행 부분)
     Nginx의 proxy_pass 설정을 하여 FE <-> BE 요청 및 응답을 설정해야한다.
     Nginx의 설정과 spring의 application.properties의 URL,port를 맞춰주면 된다.
     현재 Nginx, springServer 모두 docker에 올려져 있으므로 도커 컨테이너간 네트워크를 열어줘야하는 작업이 필요하다.(확실치 않음 아마 필요할 것)

@@ -21,6 +21,4 @@ public class StudioEditPhotoUploadReq {
 	String[][] data;
 	@ApiModelProperty(name="file", example="업로드 사진")
 	List<MultipartFile> file;
-	@ApiModelProperty(name="JWT", example ="NEMOBAJISPONGEBOBILOVEMONDAY")
-	String JWT;
 }

@@ -4,7 +4,8 @@ import axios from 'axios'
 export default axios.create({
   baseURL: 'http://localhost:8080',
   headers: {
-    Authorization: '${jwt}',
+    'Access-Control-Allow-Origin': '*',
+    Authorization: localStorage.getItem('jwt'),
   },
   withCredentials: true,
 })

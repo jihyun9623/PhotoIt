@@ -14,5 +14,5 @@ public interface SearchService {
 
     List<ProfileNickNameRes> profileList(String nickname, String location);
 
-    List<PhotoIdPhotoRes> myStudioPhotoList(String tag, Integer id);
+    List<PhotoIdPhotoRes> myStudioPhotoList(String tag, String nickName);
 }

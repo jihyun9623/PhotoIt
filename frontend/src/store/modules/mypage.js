@@ -1,10 +1,10 @@
-import http from '@/common/axios.js'
+import http from '@/assets/js/axios.js'
 
 // mypage_info
 const state = () => ({
   email: 'A108@ssafy.com',
   nickName: 'Patabear',
-  profilePhoto: '../assets/images/Logo.png',
+  profilePhoto: '../assets/images/profile_default.png',
   isPhotoGrapher: false,
   location: '',
   introduce: '',
@@ -39,23 +39,23 @@ const actions = {
   getUserInfo({ commit }) {
     // TO-DO : 로컬스토리지 확인후 아래 보낼내용 수정하기
     //http.get('/mypage/' + localStorage.getItem('nickName')).then((res) => {
-    http.get('/mypage/' + 'user').then((res) => {
+    http.get('/mypage').then((res) => {
       console.log('UserInfoData :')
       console.log(res)
       commit('SET_USER_INFO', {
-        email: res.id,
-        nickName: res.nickname,
-        profilePhoto: res.photo,
-        isPhotoGrapher: res.pg,
-        location: res.location,
-        introduce: res.introduce,
+        email: res.data.id,
+        nickName: res.data.nickname,
+        profilePhoto: res.data.photo,
+        isPhotoGrapher: res.data.pg,
+        location: res.data.location,
+        introduce: res.data.introduce,
       })
     })
   },
   // 회원정보 수정
   setUserInfo({ commit }, data) {
     return http
-      .put('/mypage', JSON.stringify(data))
+      .put('/mypage', data)
       .then((res) => {
         console.log(res)
         commit('SET_RETURN', {
@@ -89,7 +89,7 @@ const actions = {
   // 닉네임 중복체크
   nickNameCheck({ commit }, data) {
     return http
-      .post('/mypage/nicknameCheck', JSON.stringify(data))
+      .post('/mypage/nicknameCheck', data)
       .then((res) => {
         console.log(res)
         commit('SET_RETURN_NICKNAME', {
@@ -106,7 +106,7 @@ const actions = {
   // 프로필 사진 업로드
   uploadProfilePhoto({ commit }, data) {
     return http
-      .post('/mypage/editphoto', JSON.stringify(data))
+      .post('/mypage/editphoto', data)
       .then((res) => {
         console.log(res)
         commit('SET_RETURN', {

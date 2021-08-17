@@ -5,11 +5,11 @@
       router-link-style
       d-flex
       justify-content-start
-      ps-4
+      ms-4
       align-items-center
     "
   >
-    <img src="../../assets/images/Logo.png" alt="" class="logo" />
+    <img src="../../assets/images/Logo_ver2.png" alt="" class="logo" />
   </router-link>
 </template>
 

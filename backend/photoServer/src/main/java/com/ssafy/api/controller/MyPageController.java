@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/mypage")
 @Api("MyPage Controller API V1")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*", allowCredentials = "true")
 public class MyPageController {
     private static final Logger logger = LoggerFactory.getLogger(MyPageController.class);
 
@@ -30,10 +30,10 @@ public class MyPageController {
 
     @ApiOperation(value = "마이페이지 회원정보 조회", notes = "마이페이지 진입시 해당 회원의 정보를 모두 불러온다")
     @GetMapping
-    public BaseResponseBody getProfile(@RequestHeader(value = "Authorization") String token) {
+    public MyPageGetRes getProfile(@RequestHeader(value = "Authorization") String token) {
         MyPageGetRes res = userService.getProfile(token);
         logger.debug(res.toString());
-        return BaseResponseBody.of(200, "Success");
+        return res;
     }
 
     @ApiOperation(value = "회원정보 수정", notes = "회원정보를 업데이트한다")

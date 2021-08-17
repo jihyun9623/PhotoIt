@@ -17,8 +17,12 @@ public class UserLoginPostRes extends  BaseResponseBody{
 	String jwt;
 	@ApiModelProperty(name="유저 아이디", example = "sr5871@naver.com")
 	String id;
+	@ApiModelProperty(name="유저 닉네임", example = "한뀨")
+	String nickname;
+	@ApiModelProperty(name="유저 작가여부", example = "PG")
+	String role;
 
-	public static UserLoginPostRes of(Integer statusCode, String message, String JWT, String id){
+	public static UserLoginPostRes of(Integer statusCode, String message, String JWT, String id, String nickname, String role){
 		// 1. ResponseBody 객체 res 하나 만들어서
 		UserLoginPostRes res=new UserLoginPostRes();
 
@@ -31,6 +35,14 @@ public class UserLoginPostRes extends  BaseResponseBody{
 
 		// 4. 유저 아이디도 넣어주기
 		res.setId(id);
+
+		// 5. 유저 닉네임 넣어주기
+		res.setNickname(nickname);
+
+		// 6. 유저 자격정보 넣어주기
+		res.setRole(role);
+
+
 		return res;
 	}
 

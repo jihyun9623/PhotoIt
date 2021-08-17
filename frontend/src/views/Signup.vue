@@ -369,7 +369,7 @@ export default {
     emailDupCheck: function () {
       axios({
         method: 'post',
-        url: 'http://localhost:8080/user/emaildup',
+        url: 'http://i5a108.p.ssafy.io:8080/user/emaildup',
         data: this.credentials,
       })
         .then((res) => {
@@ -392,20 +392,20 @@ export default {
     },
     //
     // emailAuthSend : 인증 버튼 클릭 시, 서버에 코드를 인증메일로 보내줄 것을 요청
-    // emailAuthSend: function () {
-    //   this.emailSend = 'true' // 전송 보내지면 인증 입력창 띄워야 함
-    //   axios({
-    //     method: 'post',
-    //     url: 'localhost:8080/user/emailauth',
-    //     data: this.credentials.id,
-    //   })
-    //     .then(res => {
-    //       console.log(res)
-    //     })
-    //     .catch(res => {
-    //       console.log(err)
-    //     })
-    // },
+    emailAuthSend: function () {
+      this.emailSend = 'true' // 전송 보내지면 인증 입력창 띄워야 함
+      axios({
+        method: 'post',
+        url: 'http://i5a108.p.ssafy.io:8080/user/emailauth',
+        data: this.credentials.id,
+      })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     //
     // // emailAuthCheck : 입력한 코드 확인 요청
     // emailAuthCheck: function () {
@@ -432,7 +432,7 @@ export default {
     nicknameDupCheck: function () {
       axios({
         method: 'post',
-        url: 'http://localhost:8080/user/nicknameCheck',
+        url: 'http://i5a108.p.ssafy.io:8080/user/nicknameCheck',
         data: this.credentials,
       })
         .then((res) => {
@@ -464,7 +464,7 @@ export default {
         this.signupstate = 'success'
         axios({
           method: 'post',
-          url: 'http://localhost:8080/user/signup',
+          url: 'http://i5a108.p.ssafy.io:8080/user/signup',
           data: this.credentials,
         })
           .then((res) => {

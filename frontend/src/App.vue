@@ -10,7 +10,7 @@
 
 <script>
 import Footer from '@/views/Footer.vue'
-import axios from 'axios'
+import httpNoJWT from '@/assets/js/axiosNotJWT.js'
 export default {
   name: 'App',
   components: {
@@ -31,10 +31,8 @@ export default {
     this.$store.dispatch('mainpage/getProfileNickname')
     this.$store.dispatch('login/getProfile')
     this.$store.dispatch('login/getNickname')
-    axios({
-      method: 'get',
-      url: 'http://i5a108.p.ssafy.io:8080/user/location',
-    })
+    httpNoJWT
+      .get('/user/location')
       .then((res) => {
         this.$store.dispatch('getLocations', res.data)
       })

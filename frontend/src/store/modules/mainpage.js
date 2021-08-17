@@ -84,12 +84,11 @@ const actions = {
       })
   },
   addFavorite({ commit }, info) {
-    console.log(info)
     const jwt = localStorage.getItem('jwt')
     const config = {
       Authorization: jwt,
     }
-    console.log(config)
+    // console.log(info, config)
     axios({
       method: 'post',
       // url: `http://i5a108.p.ssafy.io:8080/fav/add`,
@@ -99,11 +98,7 @@ const actions = {
     })
       .then((res) => {
         console.log(res)
-        if (res.data.statusCode === 200) {
-          commit('ADD_FAVORITE')
-        } else {
-          alert('다시 시도해 주십시오')
-        }
+        commit('ADD_FAVORITE')
       })
       .catch((err) => {
         console.log(err)
@@ -115,6 +110,7 @@ const actions = {
     const config = {
       Authorization: jwt,
     }
+    // console.log(info, config)
     axios({
       method: 'post',
       // url: `http://i5a108.p.ssafy.io:8080/fav/delete`,
@@ -124,11 +120,7 @@ const actions = {
     })
       .then((res) => {
         console.log(res)
-        if (res.statusCode === 200) {
-          commit('DELETE_FAVORITE')
-        } else {
-          alert('다시 시도해 주십시오')
-        }
+        commit('DELETE_FAVORITE')
       })
       .catch((err) => {
         console.log(err)
@@ -149,7 +141,6 @@ const mutations = {
     state.nickname = data.nickName
   },
   GET_MAIN_CONTENTS(state, data) {
-    // 어떤 데이터를 어떻게 나누어 저장할지 추후 수정
     state.contents = data
   },
   GET_DETAIL_PHOTO(state, data) {

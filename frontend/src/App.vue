@@ -20,6 +20,9 @@ export default {
     isLoginCheck() {
       return this.$store.state.login.isLogin
     },
+    nickname() {
+      return this.$store.state.mainpage.nickname
+    },
   },
   created: function () {
     this.$store.dispatch('mainpage/getRegions')
@@ -64,5 +67,8 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+#footer {
+  margin-top: 30vh;
 }
 </style>

@@ -5,8 +5,14 @@
       style="border: 0.1em solid; margin-top: 20vh"
     >
       <div class="row">
-        <!-- Logo 자리 -->
-        <img src="@/assets/images/Logo_ver2.png" alt="logo" class="logo-box" />
+        <!-- Logo-->
+        <router-link :to="{ name: 'MainPage' }">
+          <img
+            src="@/assets/images/Logo_ver2.png"
+            alt="logo"
+            class="logo-box pb-4"
+          />
+        </router-link>
         <div class="mb-3">
           <label for="id" class="form-label d-flex justify-content-start"
             >이메일(아이디)</label
@@ -33,8 +39,8 @@
             @keyup.enter="userLogin"
           />
         </div>
-        <div class="align-items-center mb-4 mt-2">
-          <button class="btn login-form-btn mb-2" @click="userLogin">
+        <div class="align-items-center mb-4 mt-5">
+          <button class="btn login-form-btn mb-2 login-btn" @click="userLogin">
             로그인
           </button>
           <button type="button" class="btn login-form-btn mb-2 signup-btn">
@@ -122,9 +128,15 @@ input {
   border-width: 2px;
 }
 .login-form-btn {
-  background-color: #c4c4c4;
+  /* background-color: #c4c4c4; */
   width: 95%;
   box-shadow: inset 0px 0px rgba(255, 255, 255, 0);
+}
+.login-btn {
+  border: 0.15rem solid rgb(16, 16, 119);
+}
+.signup-btn {
+  background-color: rgb(16, 16, 119);
 }
 .login-find-btn {
   background-color: #ffffff;
@@ -144,6 +156,6 @@ input {
 }
 .signup-btn a {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 </style>

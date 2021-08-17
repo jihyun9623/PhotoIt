@@ -26,15 +26,15 @@
         aria-label="Slide 3"
       ></button>
     </div>
-    <div class="carousel-inner">
+    <div class="carousel-inner best3-all">
       <div class="carousel-item active">
-        <img src="@/assets/images/customer.png" class="d-block w-100" />
+        <img :src="best1" class="d-block best3" />
       </div>
       <div class="carousel-item">
-        <img src="@/assets/images/photographer.png" class="d-block w-100" />
+        <img :src="best2" class="d-block best3" />
       </div>
       <div class="carousel-item">
-        <img src="@/assets/images/customer.png" class="d-block w-100" />
+        <img :src="best3" class="d-block best3" />
       </div>
     </div>
     <button
@@ -59,7 +59,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data: function () {
+    return {
+      best1: this.$store.state.mystudio.best3[0],
+      best2: this.$store.state.mystudio.best3[1],
+      best3: this.$store.state.mystudio.best3[2],
+    }
+  },
+}
 </script>
 
-<style></style>
+<style>
+.best3-all {
+  max-width: 100%;
+  max-width: 1920px;
+  max-height: 1080px;
+}
+.best3-all .best3 {
+  max-width: 100%;
+  max-height: 1080px;
+  object-fit: contain;
+  margin: auto;
+}
+</style>

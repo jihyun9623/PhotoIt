@@ -6,9 +6,9 @@
 // import component from "component location"
 
 export default {
-  name: "FavoriteList",
+  name: 'FavoriteList',
   components: {
     // components
   },
-};
+}
 </script>

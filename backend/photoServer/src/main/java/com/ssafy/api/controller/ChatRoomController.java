@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.ChatUsersReq;
 import com.ssafy.api.response.ChatRoomRes;
 import com.ssafy.api.response.ChatRoomsRes;
 import com.ssafy.api.service.ChatService;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/chat")
+@CrossOrigin("*")
 public class ChatRoomController {
 
     private final ChatRoomRepository chatRoomRepository;
@@ -27,8 +29,8 @@ public class ChatRoomController {
     @ApiOperation(value = "채팅 roomId, 내용 받기 처음들어가면 내용 x")
     @PostMapping("/room")
     @ResponseBody
-    public ResponseEntity<ChatRoomRes> createRoom(@RequestParam String user1, String user2) {
-        ChatRoomDto chatRoomDto = chatRoomRepository.createChatRoom(user1, user2);
+    public ResponseEntity<ChatRoomRes> createRoom(@RequestBody ChatUsersReq chatUsersReq) {
+        ChatRoomDto chatRoomDto = chatRoomRepository.createChatRoom(chatUsersReq.getUser1(), chatUsersReq.getUser2());
         ChatRoomRes chatRoomRes = chatService.chatList(chatRoomDto);
         return ResponseEntity.ok(chatRoomRes);
     }

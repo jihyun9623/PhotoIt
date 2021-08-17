@@ -77,7 +77,7 @@ export default {
       this.isShow = !this.isShow
     },
     selectTag(tag) {
-      this.something = '#' + tag
+      this.something = ''
       this.info.keyword = tag
       this.isShow = false
       this.$store.dispatch('search/tagSearch', this.info)

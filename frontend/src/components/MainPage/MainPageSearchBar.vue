@@ -80,7 +80,7 @@ export default {
       this.isShow = !this.isShow
     },
     selectTag(tag) {
-      this.something = '#' + tag
+      this.something = ''
       this.info.keyword = tag
       this.isShow = false
       this.$store.dispatch('search/tagSearch', this.info)
@@ -155,7 +155,7 @@ select {
 .auto-complete {
   list-style: none;
   width: 77%;
-  height: 20vh;
+  max-height: 20vh;
   background-color: white;
   margin-right: 6%;
   border: 0.1rem solid #c7c7c7;

@@ -4,6 +4,7 @@
     <img
       v-if="
         profilePicture === 'string' ||
+        profilePicture === 'null' ||
         profilePicture === null ||
         profilePicture === ''
       "

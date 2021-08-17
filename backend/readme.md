@@ -216,7 +216,9 @@
 default config 파일 제작  
 
     upstream spring {
+        // 주소설정
         server 172.17.0.3:8080;
+        // 100개의 Connection을 항상 유지함으로 빠른 반응
         keepalive 100;
     }
     server {

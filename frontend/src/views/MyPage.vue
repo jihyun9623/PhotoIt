@@ -182,19 +182,37 @@ export default {
       isUserPasswordValid: false,
       isUserPasswordFocus: false,
       isUserPasswordCheckFocus: false,
-      formEmail: this.$store.state.mypage.email,
-      formNickname: this.$store.state.mypage.nickName,
-      formProfilePhoto: this.$store.state.mypage.profilePhoto,
+      //formEmail: this.$store.state.mypage.email,
+      //formNickname: this.$store.state.mypage.nickName,
+      //formProfilePhoto: this.$store.state.mypage.profilePhoto,
       formPasswd: '',
       formPasswdCheck: '',
-      formPgCheck: this.$store.state.mypage.isPhotoGrapher,
-      formIntroduce: this.$store.state.mypage.introduce,
-      formLocation: this.$store.state.mypage.location,
+      //formPgCheck: this.$store.state.mypage.isPhotoGrapher,
+      //formIntroduce: this.$store.state.mypage.introduce,
+      //formLocation: this.$store.state.mypage.location,
       PG: '',
       nicknameOrigin: this.$store.state.mypage.nickName,
     }
   },
   computed: {
+    formEmail() {
+      return this.$store.state.mypage.email
+    },
+    formNickname() {
+      return this.$store.state.mypage.nickName
+    },
+    formProfilePhoto() {
+      return this.$store.state.mypage.profilePhoto
+    },
+    formPgCheck() {
+      return this.$store.state.mypage.isPhotoGrapher
+    },
+    formIntroduce() {
+      return this.$store.state.mypage.introduce
+    },
+    formLocation() {
+      return this.$store.state.mypage.location
+    },
     // 패스워드 양식 확인 및 표시용
     isUserPasswordFocusAndInvalid() {
       return this.isUserPasswordFocus && !this.isUserPasswordValid

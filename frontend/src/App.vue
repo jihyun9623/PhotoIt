@@ -34,7 +34,6 @@ export default {
       url: 'http://localhost:8080/user/location',
     })
       .then((res) => {
-        console.log(res)
         this.$store.dispatch('getLocations', res.data)
       })
       .catch((err) => {

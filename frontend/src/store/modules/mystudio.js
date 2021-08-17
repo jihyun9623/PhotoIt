@@ -65,8 +65,7 @@ const actions = {
       url: `${SERVER_URL}/bestphotos/${nickname}`,
     })
       .then((res) => {
-        console.log(res)
-        commit('BEST3', res.data)
+        commit('BEST3', res.data.origin)
       })
       .catch((err) => {
         console.log(err)
@@ -93,11 +92,10 @@ const actions = {
 const mutations = {
   PG_PROFILE: function (state, data) {
     state.pg_profile = data
-    console.log(state.pg_profile.introduce)
-    console.log(state.pg_profile.location)
   },
   BEST3: function (state, data) {
     state.best3 = data
+    console.log(state.best3)
   },
   PHOTO_ALL: function (state, data) {
     state.photo_all = data
@@ -115,8 +113,6 @@ const mutations = {
         data: [data[step_1], data[step_1 + 2], data[step_1 + 4]],
       })
     }
-    console.log(state.photo_2n_0)
-    console.log(state.photo_2n_1)
   },
 }
 

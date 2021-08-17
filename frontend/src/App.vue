@@ -17,21 +17,12 @@ export default {
     'main-footer': Footer,
   },
   computed: {
-    isLoginCheck() {
-      return this.$store.state.login.isLogin
-    },
     nickname() {
       return this.$store.state.mainpage.nickname
     },
   },
   created: function () {
     this.$store.dispatch('mainpage/getRegions')
-    // 로그인 여부 확인, 로그인 했을 때만 프로필과 닉네임을 요청한다.
-    this.$store.dispatch('login/isLoginCheck')
-    if (this.$store.state.login.isLogin) {
-      this.$store.dispatch('mainpage/getProfileNickname')
-    }
-
     axios({
       method: 'get',
       url: 'http://i5a108.p.ssafy.io:8080/user/location',

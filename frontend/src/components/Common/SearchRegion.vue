@@ -40,6 +40,8 @@ export default {
           localStorage.removeItem('jwt')
           localStorage.removeItem('id')
           localStorage.removeItem('role')
+          localStorage.removeItem('profile')
+          localStorage.removeItem('nickname')
           this.$router.push({ name: 'MainPage' })
           if (this.$route.name === 'MainPage') {
             window.location.reload()
@@ -59,7 +61,7 @@ export default {
   position: fixed;
   width: 100%;
   background-color: transparent;
-  z-index: 100;
+  z-index: 10;
   height: 10%;
 }
 .logo-box {

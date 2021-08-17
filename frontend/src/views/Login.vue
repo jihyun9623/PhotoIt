@@ -90,6 +90,7 @@ export default {
           this.$emit('login')
           this.$store.dispatch('login/isLoginCheck')
           this.$store.dispatch('login/isRole')
+          window.location.reload()
           this.$router.push({ name: 'MainPage' })
         })
         .catch((err) => {

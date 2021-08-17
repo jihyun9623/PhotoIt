@@ -1,4 +1,4 @@
-import http from '@/common/axios.js'
+import http from '@/assets/js/axios.js'
 
 // mypage_info
 const state = () => ({

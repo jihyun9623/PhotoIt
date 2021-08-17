@@ -4,9 +4,11 @@
       type="text"
       id="integrated-search-main"
       v-model="something"
-      placeholder="#태그(ex: #웨딩)"
+      class="fontCafe"
+      style="height: 5vh; width: 15vw"
+      placeholder="  #태그 (ex: #웨딩) "
       @keyup.enter="mystudioSearch"
-    />
+    /><span>&nbsp;&nbsp;&nbsp;</span>
     <button @click="mystudioSearch"><i class="fas fa-search"></i></button>
   </div>
 </template>

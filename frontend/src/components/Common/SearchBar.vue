@@ -9,7 +9,7 @@
       class="me-2 selectpicker"
       v-model="info.region"
     >
-      <option value="all">전체</option>
+      <option value="all">&nbsp;&nbsp;전체</option>
       <option v-for="(region, idx) in regions" :key="idx" :value="region">
         {{ region }}
       </option>
@@ -21,6 +21,7 @@
       @input="onInputChange"
       @click="onShow"
       placeholder="닉네임(ex: 김작가),  #태그(ex: #웨딩)"
+      class="fontS"
       @keyup.enter="integratedSearch"
     />
     <button @click="integratedSearch"><i class="fas fa-search"></i></button>
@@ -120,9 +121,10 @@ export default {
 </script>
 
 <style scoped>
+@import '../../assets/css/style.css';
 .search-style-header {
   width: 60%;
-  height: 35px;
+  height: 40px;
   /* position: absolute; */
 }
 input {

@@ -69,7 +69,8 @@ public class Usercontroller {
         String jwt = userService.signin(loginInfo); // 생성한 jwt
         MyPageGetRes user = userService.getProfile(jwt);
         String role = user.getPg() ? "PG" : "USER"; // 로그인한 회원의 작가여부. 작가면 PG, 일반인이면 USER
-        UserLoginPostRes res = UserLoginPostRes.of(200, "Success", jwt, loginInfo.getId(), role);
+        String nickname=user.getNickname();
+        UserLoginPostRes res = UserLoginPostRes.of(200, "Success", jwt, loginInfo.getId(), nickname, role);
         response.setHeader("Authorization", jwt);
         return new ResponseEntity<UserLoginPostRes>(res, HttpStatus.OK);
     }

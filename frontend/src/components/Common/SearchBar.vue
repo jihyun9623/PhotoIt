@@ -1,7 +1,15 @@
 <template>
   <!-- <div class="d-flex justify-content-center"> -->
-  <div class="search-style-header inline-block" v-show="isSearchHeaderShow">
-    <select name="region" id="searchRegion" class="me-2" v-model="info.region">
+  <div
+    class="search-style-header inline-block fontCafe"
+    v-show="isSearchHeaderShow"
+  >
+    <select
+      name="region"
+      id="searchRegion"
+      class="me-2 selectpicker"
+      v-model="info.region"
+    >
       <option value="all">전체</option>
       <option v-for="(region, idx) in regions" :key="idx" :value="region">
         {{ region }}

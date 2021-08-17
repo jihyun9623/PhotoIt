@@ -4,21 +4,22 @@
   margin-right: 5vmax;
 }
 
-.logoSize{
-  width: auto;
-  height: 40vh;
+.angled-gradient {
+  background-color: linear-gradient(70deg, blue, pink);
+  
 }
+
+
 
 .center{
   display: flex;
   justify-content: center;
   align-content: center;
-  align-items: center;
 }
 
 .footerMargin{
-  margin-left: 20vw;
-  margin-right: 20vw;
+  margin-left: 15vw;
+  margin-right: 15vw;
 }
 
 .dotLine{
@@ -30,7 +31,7 @@
   font-family: "Cafe24SsurroundAir";
 }
 
-.infoFont{
+.fontS{
   font-size: small;
   font-family: "Cafe24SsurroundAir";
 }

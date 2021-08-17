@@ -1,9 +1,12 @@
 <template>
   <section>
-    <div class="login-form container mt-5">
+    <div
+      class="login-form container"
+      style="border: 0.1em solid; margin-top: 20vh"
+    >
       <div class="row">
         <!-- Logo 자리 -->
-        <img src="@/assets/images/Logo_ver2.png" alt="logl" class="logo-box" />
+        <img src="@/assets/images/Logo_ver2.png" alt="logo" class="logo-box" />
         <div class="mb-3">
           <label for="id" class="form-label d-flex justify-content-start"
             >이메일(아이디)</label
@@ -108,6 +111,10 @@ export default {
   padding: 20px;
   color: #000000;
   font-weight: bold;
+}
+
+.loginBox {
+  position: absolute;
 }
 
 input {

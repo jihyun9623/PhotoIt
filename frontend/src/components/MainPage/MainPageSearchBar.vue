@@ -4,10 +4,10 @@
       <select
         name="region"
         id="searchRegion"
-        class="me-2"
+        class="me-2 fontCafe"
         v-model="info.region"
       >
-        <option value="all">전체</option>
+        <option value="all">&nbsp;&nbsp;전체</option>
         <option v-for="(region, idx) in regions" :key="idx" :value="region">
           {{ region }}
         </option>
@@ -17,6 +17,7 @@
         id="integrated-search-main"
         v-model="something"
         placeholder="닉네임(ex: 김작가),  #태그(ex: #웨딩)"
+        class="fontCafe"
         @keyup.enter="integratedSearch"
       />
       <button @click="integratedSearch"><i class="fas fa-search"></i></button>

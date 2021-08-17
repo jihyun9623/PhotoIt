@@ -1,5 +1,6 @@
 <template>
   <div class="headerwrapper">
+    <div>&nbsp;</div>
     <div class="headercontainer row">
       <div class="headerelement col-4">
         <router-link

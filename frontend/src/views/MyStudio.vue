@@ -36,9 +36,8 @@
     </div>
   </div>
   <!-- <MyStudioHeader /> -->
-  <MyStudioPhotoList />
-  <p>확인</p>
   <MyStudioBest />
+  <MyStudioPhotoList />
 </template>
 
 <script>

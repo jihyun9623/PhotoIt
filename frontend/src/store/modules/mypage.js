@@ -4,7 +4,7 @@ import http from '@/assets/js/axios.js'
 const state = () => ({
   email: 'A108@ssafy.com',
   nickName: 'Patabear',
-  profilePhoto: '../assets/images/Logo.png',
+  profilePhoto: '../assets/images/profile_default.png',
   isPhotoGrapher: false,
   location: '',
   introduce: '',

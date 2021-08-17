@@ -53,13 +53,13 @@ export default {
   name: 'ProfileIconMenu',
   computed: {
     profilePicture() {
-      return this.$store.state.mainpage.profilePicture
+      return this.$store.state.login.profile
     },
     isLogin() {
       return this.$store.state.login.isLogin
     },
     nickname() {
-      return this.$store.state.mainpage.nickname
+      return this.$store.state.login.myNickname
     },
     role() {
       return this.$store.state.login.role
@@ -74,6 +74,8 @@ export default {
     this.$store.dispatch('mainpage/getProfileNickname')
     this.$store.dispatch('login/isLoginCheck')
     this.$store.dispatch('login/isRole')
+    this.$store.dispatch('login/getProfile')
+    this.$store.dispatch('login/getNickname')
   },
 }
 </script>

@@ -40,8 +40,12 @@ export default {
           localStorage.removeItem('jwt')
           localStorage.removeItem('id')
           localStorage.removeItem('role')
+          localStorage.removeItem('profile')
+          localStorage.removeItem('nickname')
           this.$router.push({ name: 'MainPage' })
-          window.location.reload()
+          if (this.$route.name === 'MainPage') {
+            window.location.reload()
+          }
         })
         .catch((err) => {
           console.log(err)

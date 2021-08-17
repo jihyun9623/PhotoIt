@@ -51,6 +51,8 @@ const actions = {
     })
       .then((res) => {
         console.log(res)
+        localStorage.setItem('profile', res.data.userProfile.photo)
+        localStorage.setItem('nickname', res.data.userProfile.nickName)
         commit('GET_PROFILE_NICKNAME', res.data.userProfile)
       })
       .catch((err) => {

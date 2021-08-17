@@ -37,7 +37,7 @@ public class StudioEditServiceImpl implements StudioEditService {
     private final Uploader uploader;
     private final String DirNameOrigin = "origin";
     private final String DirNameThumbnail = "thumbnail";
-    private final static String TEMP_FILE_PATH = "src/main/resources/static/";
+    private final static String TEMP_FILE_PATH = "classpath:";
 
     public StudioEditServiceImpl(UserRepository userRepository, LocationRepository locationRepository, MyStudioRepository myStudioRepository, PhotoRepository photoRepository, PhotoTagRepository photoTagRepository, TagRepository tagRepository, Uploader uploader) {
         this.userRepository = userRepository;

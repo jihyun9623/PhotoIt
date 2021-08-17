@@ -29,6 +29,9 @@ export default {
     contents() {
       return this.$store.state.mainpage.contents
     },
+    isLoginCheck() {
+      return this.$store.state.login.isLogin
+    },
   },
   created() {
     // this.$store.dispatch('mainpage/getRegions')

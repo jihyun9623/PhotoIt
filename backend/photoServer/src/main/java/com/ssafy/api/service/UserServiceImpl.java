@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -125,20 +126,23 @@ public class UserServiceImpl implements UserService {
         myStudioRepository.save(myStudio);
 
         /** 지역부터 Location에 추가해준다.*/
-        for (String s : info.getLocation()) {
-            // 이미 있는 지역이 아니라면 location 테이블에 추가.
-            if (locationRepository.findLocationByName(s) == null) {
-                Location loc = Location.builder().name(s).build();
-                locationRepository.save(loc);
+        if (info.getLocation() != null) {
+            for (String s : info.getLocation()) {
+                // 이미 있는 지역이 아니라면 location 테이블에 추가.
+                if (locationRepository.findLocationByName(s) == null) {
+                    Location loc = Location.builder().name(s).build();
+                    locationRepository.save(loc);
+                }
+                Location loc = locationRepository.findLocationByName(s);
+                AuthorLocation authLoc = AuthorLocation.builder()
+                        .location(loc)
+                        .myStudio(myStudio)
+                        .build();
+                authorLocationRepository.save(authLoc);
             }
-            Location loc = locationRepository.findLocationByName(s);
-            AuthorLocation authLoc = AuthorLocation.builder()
-                    .location(loc)
-                    .myStudio(myStudio)
-                    .build();
-            authorLocationRepository.save(authLoc);
         }
     }
+
 
     @Override
     /* 로그인 */
@@ -170,12 +174,12 @@ public class UserServiceImpl implements UserService {
      * */
     public MyPageGetRes getProfile(String token) {
         String id = jwtTokenProvider.getUserInfo(token);
-        logger.debug("토큰에서 뽑아낸 user id : " + id);
         User member = userRepository.findUserById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
         MyPageGetRes res;
         if (member.getPg() == true) {   // 작가면
             MyStudio memberStudio = myStudioRepository.findByUserIdx(member.getIdx());
             List<AuthorLocation> list = authorLocationRepository.findAuthorLocationByMyStudio(memberStudio);
+            logger.debug("getProfile - list : " + String.valueOf(list));
             List<String> memberList = new ArrayList<>();
             for (AuthorLocation loc : list) {
                 Location l = loc.getLocation();
@@ -185,17 +189,18 @@ public class UserServiceImpl implements UserService {
                     .id(member.getId())
                     .nickname(member.getNickname())
                     .pg(member.getPg())
-                    .photo(member.getPhoto())
-                    .introduce(memberStudio.getProfile())
+                    .photo(member.getPhoto() != null ? member.getPhoto() : "")
+                    .introduce(memberStudio.getProfile() != null ? memberStudio.getProfile() : "")
                     .Location(memberList).build();
         } else {
             res = MyPageGetRes.builder()
                     .id(member.getId())
                     .nickname(member.getNickname())
                     .pg(member.getPg())
-                    .photo(member.getPhoto())
+                    .photo(member.getPhoto() != null ? member.getPhoto() : "")
                     .build();
         }
+        logger.debug(res.getPhoto());
         return res;
     }
 

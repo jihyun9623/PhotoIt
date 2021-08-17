@@ -9,9 +9,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Footer from '@/views/Footer.vue'
-
+import axios from 'axios'
 export default {
   name: 'App',
   components: {
@@ -21,17 +20,17 @@ export default {
     isLoginCheck() {
       return this.$store.state.login.isLogin
     },
+    nickname() {
+      return this.$store.state.mainpage.nickname
+    },
   },
   created: function () {
     this.$store.dispatch('mainpage/getRegions')
-    // 로그인 여부 확인, 로그인 했을 때만 프로필과 닉네임을 요청한다.
     this.$store.dispatch('login/isLoginCheck')
-    if (this.$store.state.login.isLogin) {
-      this.$store.dispatch('mainpage/getProfileNickname')
-    }
+    this.$store.dispatch('mainpage/getProfileNickname')
     axios({
       method: 'get',
-      url: 'http://localhost:8080/user/location',
+      url: 'http://i5a108.p.ssafy.io:8080/user/location',
     })
       .then((res) => {
         console.log(res)
@@ -45,6 +44,8 @@ export default {
 </script>
 
 <style>
+@import './assets/css/style.css';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -64,5 +65,8 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+#footer {
+  margin-top: 30vh;
 }
 </style>

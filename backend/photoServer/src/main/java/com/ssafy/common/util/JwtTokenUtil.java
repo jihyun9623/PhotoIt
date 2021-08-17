@@ -21,6 +21,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.Charset;
 import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -34,7 +35,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class JwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static String secretKey = "secretKey-test-authorization-jwt-manage-token-photo-it";
-    private static Long tokenValidTime = 300 * 60 * 1000L;       // 토큰 유효 시간 나중에 바꾸기
+    private static Long tokenValidTime = 3000 * 60 * 1000L;       // 토큰 유효 시간 나중에 바꾸기
     private final UserDetailsService userDetailsService;
     private final StringRedisTemplate redisTemplate;
 
@@ -65,10 +66,24 @@ public class JwtTokenUtil {
                 .claim("role", role)
                 .setIssuedAt(now) // 토큰 발행 시간 정보
                 .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
-                //.signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘과
-                // signature 에 들어갈 secret값 세팅
                 .signWith(Keys.hmacShaKeyFor(secretKeyBytes), SignatureAlgorithm.HS256)
                 .compact();
+
+//        return Jwts.builder()
+//                .setHeaderParam("typ", "JWT")
+//                //.setClaims(claims) // 정보 저장
+//                .setSubject(id)
+//                .claim("id", id)
+//                .claim("role", role)
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis() + tokenValidTime))
+//                .signWith(SignatureAlgorithm.HS512, secretKey.getBytes(Charset.forName("UTF-8")))
+//                .compact();
+    }
+    private Jws<Claims> decodeToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey.getBytes(Charset.forName("UTF-8")))
+                .parseClaimsJws(token);
     }
 
 
@@ -83,7 +98,11 @@ public class JwtTokenUtil {
     public String getUserInfo(String token) {
         logger.debug("getUserInfo : 들어온 토큰 = " + token);
         try {
-            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+                return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+//        return Jwts.parser()
+//                .setSigningKey(secretKey.getBytes(Charset.forName("UTF-8")))
+//                .parseClaimsJws(token).getBody().getSubject();
+       // return Jwts.parser().setSigningKey(secretKey.getBytes(Charset.forName("UTF-8"))).parseClaimsJws(token.replace("{", "").replace("}","")).getBody().getSubject();
         } catch (io.jsonwebtoken.security.SignatureException e) {
             log.info("잘못된 JWT 서명입니다.");
         } catch (Exception e){

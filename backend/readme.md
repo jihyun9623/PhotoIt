@@ -215,37 +215,41 @@
 
 default config 파일 제작  
 
+    upstream spring {
+        server 172.17.0.3:8080;
+        keepalive 100;
+    }
     server {
-            // FE dist파일 위치
-            root /var/www/html;
-            index index.html index.htm;
+        // FE dist파일 위치
+        root /var/www/html;
+        index index.html index.htm;
 
-            server_name i5a108.p.ssafy.io;
+        server_name i5a108.p.ssafy.io;
 
-            // '/' 접근시 FE 파일 제공
-            location / {
-                    try_files $uri $uri/ /index.html;
-            }
+        // '/' 접근시 FE 파일 제공
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
 
-            // '/api'로 접근시 BE서버 제공
-            location /api {
-                    // docker network link를 통해 연결해야하나  
-                    // 잘 안되어서 springServer의 docker 내부 ip주소를 하드코딩하였다.  
-                    // 이 방법을 쓸 바에는 springServer의 docker network할당을 nginx와 붙여  
-                    // localhost의 포트로만 연결하는 것이 더 좋아보이는 방법이다.  
-                    // 추후 시간이 되면 수정하겠음  
+        // '/api'로 접근시 BE서버 제공
+        location /api {
+            // docker network link를 통해 연결해야하나  
+            // 잘 안되어서 springServer의 docker 내부 ip주소를 하드코딩하였다.  
+            // 이 방법을 쓸 바에는 springServer의 docker network할당을 nginx와 붙여  
+            // localhost의 포트로만 연결하는 것이 더 좋아보이는 방법이다.  
+            // 추후 시간이 되면 수정하겠음  
 
-                    // api글자를 떼고 서버에 전달
-                    rewrite /api/(.*) /$1 break;
-                    proxy_pass http://172.17.0.3:8080;
-                    proxy_redirect off;
-                    charset utf-8;
+            // api글자를 떼고 서버에 전달
+            rewrite /api/(.*) /$1 break;
+            proxy_pass http://spring;
+            proxy_redirect off;
+            charset utf-8;
 
-                    proxy_set_header X-Real-IP $remote_addr;
-                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto $scheme;
-                    proxy_set_header X-Nginx-Proxy true;
-            }
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Nginx-Proxy true;
+        }
     }
 
 > nginx.config 파일에 해당 파일 include  

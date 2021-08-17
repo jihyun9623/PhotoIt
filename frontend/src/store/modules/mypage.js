@@ -4,7 +4,7 @@ import http from '@/assets/js/axios.js'
 const state = () => ({
   email: 'A108@ssafy.com',
   nickName: 'Patabear',
-  profilePhoto: '../assets/images/Logo.png',
+  profilePhoto: '../assets/images/profile_default.png',
   isPhotoGrapher: false,
   location: '',
   introduce: '',
@@ -39,7 +39,7 @@ const actions = {
   getUserInfo({ commit }) {
     // TO-DO : 로컬스토리지 확인후 아래 보낼내용 수정하기
     //http.get('/mypage/' + localStorage.getItem('nickName')).then((res) => {
-    http.get('/mypage/' + 'user').then((res) => {
+    http.get('/mypage/' + localStorage.getItem('nickName')).then((res) => {
       console.log('UserInfoData :')
       console.log(res)
       commit('SET_USER_INFO', {

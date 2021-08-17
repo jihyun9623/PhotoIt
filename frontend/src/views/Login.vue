@@ -1,6 +1,9 @@
 <template>
   <section>
-    <div class="login-form container mt-5">
+    <div
+      class="login-form container"
+      style="border: 0.1em solid; margin-top: 20vh"
+    >
       <div class="row">
         <!-- Logo-->
         <router-link :to="{ name: 'MainPage' }">
@@ -115,6 +118,10 @@ export default {
   padding: 20px;
   color: #000000;
   font-weight: bold;
+}
+
+.loginBox {
+  position: absolute;
 }
 
 input {

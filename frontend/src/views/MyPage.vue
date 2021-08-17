@@ -28,15 +28,6 @@
           <h3 class="h3 mt-3 mb-5">
             <!-- 이미지 넣을 위치 -->
             <img
-              v-if="formProfilePhoto"
-              src="@/assets/images/profile_default.png"
-              alt="default profile"
-              width="200"
-              height="200"
-              class="d-inline-block align-text-top"
-            />
-            <img
-              v-else
               :src="formProfilePhoto"
               alt="profile"
               width="200"
@@ -105,10 +96,10 @@
               @focus="isUserPasswordFocus = true"
             />
             <span class="col-4"></span>
-            <div class="pt-1 valid-feedback infoFont">
+            <div class="pt-1 valid-feedback fontS">
               사용 가능한 비밀번호입니다.
             </div>
-            <div class="pt-1 invalid-feedback infoFont">
+            <div class="pt-1 invalid-feedback fontS">
               1개 이상의 대소문자, 특수문자, 숫자를 포함하고 8자리 이상이여야
               합니다.
             </div>
@@ -160,7 +151,7 @@
               v-model="PG"
               disabled
             />
-            <span class="col-1"></span>
+            <span class="col-3"></span>
             <button
               @click="upgradeToPhotoGrapher"
               class="btn btn-lg btn-outline-primary fontCafe col-2"
@@ -174,8 +165,9 @@
           </div>
           <!-- 작가 자기소개 -->
           <div class="input-group mb-4" v-if="formPgCheck">
-            <span class="input-group-text col-4 justify-content-center"
-              >작가 자기소개</span
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
+              >작가 한 줄 소개</span
             >
             <input
               type="text"
@@ -184,11 +176,13 @@
               aria-describedby="formIntroduce"
               v-model="formIntroduce"
             />
+            <span class="col-4"></span>
           </div>
           <!-- 작가 지역 -->
           <div class="input-group mb-5" v-if="formPgCheck">
-            <span class="input-group-text col-4 justify-content-center"
-              >작가 지역</span
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
+              >작가 활동 지역</span
             >
             <input
               type="text"
@@ -197,6 +191,7 @@
               aria-describedby="formLocation"
               v-model="formLocation"
             />
+            <span class="col-4"></span>
           </div>
           <hr />
           <div class="d-flex justify-content-end mt-5">
@@ -220,7 +215,6 @@
             <span class="col-2"></span>
           </div>
           <br />
-          <p class="mt-4 mb-3 text-muted">&copy; PHOTO-IT 2021</p>
         </form>
       </div>
     </section>
@@ -412,6 +406,7 @@ export default {
     // 작가 여부 판별
     if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가회원입니다.'
     else this.PG = '일반회원입니다.'
+    window.scrollTo(0, 0)
   },
 }
 </script>

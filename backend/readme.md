@@ -202,17 +202,18 @@
 > 진행된다면 80포트가 아닌 443포트(https포트) 로 바뀌게 된다.  
 
 ### 10. Nginx https 설정 및 springServer와의 proxy연결
-docker run -d -p 80:80 -p 443:443 -v /var/lib/jenkins/workspace/dist/:/var/www/html/ --name nginxTLS --link springServer: nginx
-포트 80, 443 개방
-배포를 위한 폴더 바인딩
-springServer와 링크
+> docker run -d -p 80:80 -p 443:443 -v /var/lib/jenkins/workspace/dist/:/var/www/html/ --name nginxTLS --link springServer: nginx  
+> 포트 80, 443 개방  
+> 배포를 위한 폴더 바인딩  
+> springServer와 링크  
 
-docker exec -it nginxTLS /bin/bash로 컨테이너sh 진입 후
-편집기, certbot 설치
-sudo apt install vim
-sudo apt install certbot python3-certbot-nginx
+> docker exec -it nginxTLS /bin/bash로 컨테이너sh 진입 후  
+> 편집기, certbot 설치  
+> sudo apt install vim  
+> sudo apt install certbot python3-certbot-nginx  
 
-default config 파일 제작
+default config 파일 제작  
+
     server {
             root /var/www/html;
             index index.html index.htm;
@@ -236,5 +237,5 @@ default config 파일 제작
     }
 
 
-sudo certbot --nginx -d i5a108.p.ssafy.io
+sudo certbot --nginx -d i5a108.p.ssafy.io  
 

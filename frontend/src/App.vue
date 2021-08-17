@@ -24,7 +24,7 @@ export default {
       return this.$store.state.mainpage.nickname
     },
   },
-  created: function () {
+  created() {
     this.$store.dispatch('mainpage/getRegions')
     this.$store.dispatch('mainpage/getTags')
     this.$store.dispatch('login/isLoginCheck')

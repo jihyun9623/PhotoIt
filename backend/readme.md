@@ -200,3 +200,41 @@
 
 > Https 설정도 Nginx에서 설정이 가능하며, 인증서의 경우 certbot을 활용하여 인증서 발급이 필요하다.  
 > 진행된다면 80포트가 아닌 443포트(https포트) 로 바뀌게 된다.  
+
+### 10. Nginx https 설정 및 springServer와의 proxy연결
+docker run -d -p 80:80 -p 443:443 -v /var/lib/jenkins/workspace/dist/:/var/www/html/ --name nginxTLS --link springServer: nginx
+포트 80, 443 개방
+배포를 위한 폴더 바인딩
+springServer와 링크
+
+docker exec -it nginxTLS /bin/bash로 컨테이너sh 진입 후
+편집기, certbot 설치
+sudo apt install vim
+sudo apt install certbot python3-certbot-nginx
+
+default config 파일 제작
+    server {
+            root /var/www/html;
+            index index.html index.htm;
+
+            server_name i5a108.p.ssafy.io;
+
+            location / {
+                    try_files $uri $uri/ /index.html;
+            }
+
+            location /api {
+                    proxy_pass http://0.0.0.0:8080/;
+                    proxy_redirect off;
+                    charset utf-8;
+
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto $scheme;
+                    proxy_set_header X-Nginx-Proxy true;
+            }
+    }
+
+
+sudo certbot --nginx -d i5a108.p.ssafy.io
+

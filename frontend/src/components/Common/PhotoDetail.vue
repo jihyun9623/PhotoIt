@@ -143,19 +143,20 @@ export default {
     addFavorite() {
       this.$store.dispatch('mainpage/addFavorite', {
         pgNick: this.detailPgNickname,
-        userNick: this.$store.state.mainpage.nickname,
+        userNick: this.$store.state.login.myNickname,
       })
     },
     deleteFavorite() {
       this.$store.dispatch('mainpage/deleteFavorite', {
         pgNick: this.detailPgNickname,
-        userNick: this.$store.state.mainpage.nickname,
+        userNick: this.$store.state.login.myNickname,
       })
     },
   },
   created() {
     // 로그인 여부 확인
     this.$store.dispatch('login/isLoginCheck')
+    this.$store.dispatch('login/getNickname')
   },
 }
 </script>

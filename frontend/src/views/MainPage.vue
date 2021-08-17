@@ -37,11 +37,6 @@ export default {
     // this.$store.dispatch('mainpage/getRegions')
     this.$store.dispatch('mainpage/getTags')
     this.$store.dispatch('mainpage/getMainContents')
-    // 로그인 여부 확인, 로그인 했을 때만 프로필과 닉네임을 요청한다.
-    this.$store.dispatch('login/isLoginCheck')
-    if (this.isLoginCheck === true) {
-      this.$store.dispatch('mainpage/getProfileNickname')
-    }
   },
 }
 </script>

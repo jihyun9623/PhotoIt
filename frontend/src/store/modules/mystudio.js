@@ -40,6 +40,8 @@ const state = () => ({
   pg_profile: null,
   best3: null,
   photo_all: null,
+  photo_2n_0: [],
+  photo_2n_1: [],
 })
 
 // actions
@@ -77,13 +79,15 @@ const actions = {
       url: `${SERVER_URL}/pgphoto/${nickname}`,
     })
       .then((res) => {
-        console.log(res.data.origin)
         commit('PHOTO_ALL', res.data.origin)
       })
       .catch((err) => {
         console.log(err)
       })
   },
+  // pgSearch: function ({ commit }, info) {
+
+  // }
 }
 
 const mutations = {
@@ -97,6 +101,22 @@ const mutations = {
   },
   PHOTO_ALL: function (state, data) {
     state.photo_all = data
+    for (var step_0 = 0; step_0 < data.length; step_0 = step_0 + 6) {
+      // left push
+      state.photo_2n_0.push({
+        id: parseInt(step_0 / 6),
+        data: [data[step_0], data[step_0 + 2], data[step_0 + 4]],
+      })
+    }
+    for (var step_1 = 1; step_1 < data.length; step_1 = step_1 + 6) {
+      // right push
+      state.photo_2n_1.push({
+        id: parseInt(step_1 / 6),
+        data: [data[step_1], data[step_1 + 2], data[step_1 + 4]],
+      })
+    }
+    console.log(state.photo_2n_0)
+    console.log(state.photo_2n_1)
   },
 }
 

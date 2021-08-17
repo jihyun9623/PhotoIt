@@ -26,13 +26,15 @@
 ### 2. Jenkins 설정
 
 > Gitlab 설정  
-> Jenkins의 시스템설정 -> host URL = https://lab.ssafy.com/  
-> -> Credentials는 Gitlab API토큰을 사용  
+> Jenkins의 시스템설정
+> -> host URL = https://lab.ssafy.com/  
+> -> Credentials는 Gitlab API토큰을 사용    
 > (Token 발급 : Gitlab계정(중요. 프로젝트가 아님)의 설정에서 API에 꼭 체크하고 발급  
 > -> Test Connection 확인  
 
 > 파이프라인에서 사용할 Credentials을 미리 등록 (Git pull을 위한 Credentials)  
-> Jenkins의 Manage Credentials -> 새로운 일반 Credentials를 추가  
+> Jenkins의 Manage Credentials  
+> -> 새로운 일반 Credentials를 추가  
 > -> Gitlab의 아이디/비번 입력 (이름은 비워두면 자동생성)  
 > -> 85366c56-6c... 같은 형태로 생성되며 Name부분에 아이디/**** 와 같이 표시된다면 완료  
 
@@ -42,7 +44,9 @@
 > 파이프라인은 자동으로 실행될 명령어들의 모음이며, 시작은 사용자에 의해 수동으로 시작할 수 있지만  
 > 대표적으로 Git의 Push Event발생을 받아와 실행하는 것이 대표적이다.  
 
-> 파이프라인을 생성 -> Build Triggers -> Gitlab의 Push Event  
+> 파이프라인을 생성  
+> -> Build Triggers  
+> -> Gitlab의 Push Event  
 > -> Jenkins의 URL이 자동생성, 고급을 눌러 Secret Key탭에서 Key 발급  
 > -> Gitlab의 프로젝트 -> 설정 -> Webhook -> 추가(URL, Secret Key)  
 > -> push Event를 보낼 브랜치 설정  

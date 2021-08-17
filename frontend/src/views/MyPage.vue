@@ -345,7 +345,19 @@ export default {
     },
     // 프로필 사진 업로드
     uploadProfilePhoto() {
-      let data = { file: this.formProfilePhoto }
+      let data = new FormData()
+
+      // file upload
+      let attachFiles = document.querySelector('#inputFileUploadInsert')
+      console.log('attachFiles : ')
+      console.log(attachFiles)
+
+      if (attachFiles.files.length > 0) {
+        data.append('file', attachFiles.files[0])
+      } else {
+        this.toastDanger('프로필 사진 수정에 실패했습니다.')
+        return false
+      }
       this.$store.dispatch('mypage/uploadProfilePhoto', data).then(() => {
         if (this.$store.state.mypage.return) {
           this.toastSuccess('프로필 사진이 수정되었습니다.')
@@ -398,14 +410,22 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('mypage/getUserInfo')
+    this.$store.dispatch('mypage/getUserInfo').then(() => {
+      this.formEmail = this.$store.state.mypage.email
+      this.formNickname = this.$store.state.mypage.nickName
+      this.formProfilePhoto = this.$store.state.mypage.profilePhoto
+      this.formPgCheck = this.$store.state.mypage.isPhotoGrapher
+      this.formIntroduce = this.$store.state.mypage.introduce
+      this.formLocation = this.$store.state.mypage.location
+      this.nicknameOrigin = this.$store.state.mypage.nickName
+    })
   },
   mounted() {
     // 검색바가 보이도록 설정
     this.$store.state.search.isSearchHeaderShow = true
     // 작가 여부 판별
-    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가회원입니다.'
-    else this.PG = '일반회원입니다.'
+    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가입니다.'
+    else this.PG = '작가가 아닙니다.'
     window.scrollTo(0, 0)
   },
 }

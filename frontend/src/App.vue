@@ -36,7 +36,6 @@ export default {
       url: 'http://i5a108.p.ssafy.io:8080/user/location',
     })
       .then((res) => {
-        console.log(res)
         this.$store.dispatch('getLocations', res.data)
       })
       .catch((err) => {
@@ -47,6 +46,8 @@ export default {
 </script>
 
 <style>
+@import './assets/css/style.css';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

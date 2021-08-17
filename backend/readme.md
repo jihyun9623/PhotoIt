@@ -202,30 +202,42 @@
 > 진행된다면 80포트가 아닌 443포트(https포트) 로 바뀌게 된다.  
 
 ### 10. Nginx https 설정 및 springServer와의 proxy연결
+> Nginx를 통해 https를 제공하고 배포 및 백엔드 서버와 연결하기위해 새로 컨테이너를 만들었다.  
 > docker run -d -p 80:80 -p 443:443 -v /var/lib/jenkins/workspace/dist/:/var/www/html/ --name nginxTLS --link springServer: nginx  
 > 포트 80, 443 개방  
 > 배포를 위한 폴더 바인딩  
-> springServer와 링크  
+> springServer와 링크(하지만 링크되지않음 이유를 모르겠음)  
 
 > docker exec -it nginxTLS /bin/bash로 컨테이너sh 진입 후  
-> 편집기, certbot 설치  
+> 편집기(VI), certbot 설치  
 > sudo apt install vim  
 > sudo apt install certbot python3-certbot-nginx  
 
 default config 파일 제작  
 
     server {
+            // FE dist파일 위치
             root /var/www/html;
             index index.html index.htm;
 
             server_name i5a108.p.ssafy.io;
 
+            // '/' 접근시 FE 파일 제공
             location / {
                     try_files $uri $uri/ /index.html;
             }
 
+            // '/api'로 접근시 BE서버 제공
             location /api {
-                    proxy_pass http://0.0.0.0:8080/;
+                    // docker network link를 통해 연결해야하나  
+                    // 잘 안되어서 springServer의 docker 내부 ip주소를 하드코딩하였다.  
+                    // 이 방법을 쓸 바에는 springServer의 docker network할당을 nginx와 붙여  
+                    // localhost의 포트로만 연결하는 것이 더 좋아보이는 방법이다.  
+                    // 추후 시간이 되면 수정하겠음  
+
+                    // api글자를 떼고 서버에 전달
+                    rewrite /api/(.*) /$1 break;
+                    proxy_pass http://172.17.0.3:8080;
                     proxy_redirect off;
                     charset utf-8;
 
@@ -236,6 +248,7 @@ default config 파일 제작
             }
     }
 
+> nginx.config 파일에 해당 파일 include  
+> sudo certbot --nginx -d i5a108.p.ssafy.io  
 
-sudo certbot --nginx -d i5a108.p.ssafy.io  
 

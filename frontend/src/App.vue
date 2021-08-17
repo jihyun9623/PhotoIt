@@ -26,8 +26,11 @@ export default {
   },
   created: function () {
     this.$store.dispatch('mainpage/getRegions')
+    this.$store.dispatch('mainpage/getTags')
     this.$store.dispatch('login/isLoginCheck')
     this.$store.dispatch('mainpage/getProfileNickname')
+    this.$store.dispatch('login/getProfile')
+    this.$store.dispatch('login/getNickname')
     axios({
       method: 'get',
       url: 'http://i5a108.p.ssafy.io:8080/user/location',

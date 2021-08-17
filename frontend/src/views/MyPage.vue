@@ -1,7 +1,7 @@
 <template>
-  <div id="bg">
+  <div>
     <SearchRegion />
-    <div class="empty-box fontCafe"></div>
+    <div id="bg" class="empty-box fontCafe"></div>
     <h1 class="mypageTitle">마이페이지</h1>
     <hr
       align="left"
@@ -339,13 +339,15 @@ export default {
         this.toastSuccess('닉네임이 변경되지 않았어요.')
         return false
       }
-      this.$store.dispatch('mypage/nickNameCheck').then(() => {
-        if (this.$store.state.mypage.returnNickname) {
-          this.toastSuccess('사용가능한 닉네임입니다.')
-        } else {
-          this.toastDanger('이미 존재하는 닉네임입니다.')
-        }
-      })
+      this.$store
+        .dispatch('mypage/nickNameCheck', this.data.formNickname)
+        .then(() => {
+          if (this.$store.state.mypage.returnNickname) {
+            this.toastSuccess('사용가능한 닉네임입니다.')
+          } else {
+            this.toastDanger('이미 존재하는 닉네임입니다.')
+          }
+        })
     },
     // 프로필 사진 업로드
     uploadProfilePhoto() {

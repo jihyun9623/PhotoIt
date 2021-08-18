@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserReq;
 import com.ssafy.api.response.MyPageGetRes;
+import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.*;
@@ -16,11 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,7 +172,10 @@ public class UserServiceImpl implements UserService {
      * 회원정보 불러오기
      * */
     public MyPageGetRes getProfile(String token) {
+        logger.debug("UserServiceImpl : getProfile");
         String id = jwtTokenProvider.getUserInfo(token);
+        logger.debug(id!=null?id:"null");
+
         User member = userRepository.findUserById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
         MyPageGetRes res;
         if (member.getPg() == true) {   // 작가면
@@ -221,7 +223,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 회원정보 수정 메서드
      * */
-    public void updateProfile(String token, UserReq updateInfo) {
+    public UserLoginPostRes updateProfile(String token, UserReq updateInfo) {
         logger.debug("updateProfile 진입");
         // 수정할 정보 : passwd, nickname, pg, location, introduce
         String id = jwtTokenProvider.getUserInfo(token);
@@ -268,6 +270,14 @@ public class UserServiceImpl implements UserService {
             logger.debug("비작가 -> 비작가");
         }
         userRepository.save(member);
+        String roles=updateInfo.getPg()==true?"PG":"USER";
+        String newToken = jwtTokenProvider.createToken(id, roles);
+        logger.debug("설마 아이디가 안들어오겠냐 : "+updateInfo.getId());
+        UserLoginPostRes res= UserLoginPostRes.of(200, "Success", newToken, id, updateInfo.getNickname(), roles);
+
+        logger.debug("생성한 new token : "+newToken);
+        logger.debug("생성한 토큰에서 id 뽑기 : "+jwtTokenProvider.getUserInfo(newToken));
+        return res;
     }
 
     @Override

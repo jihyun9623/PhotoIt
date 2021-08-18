@@ -8,8 +8,9 @@ const state = () => ({
 // mutations
 const mutations = {
   GET_FAVORITE_LIST(state, payload) {
-    state.pgNick = payload.pgNick
-    state.bestPhotos = payload.bestPhotos
+    // state.pgNick = payload.pgNick
+    // state.bestPhotos = payload.bestPhotos
+    state.favList = payload.favList
   },
 }
 
@@ -21,12 +22,14 @@ const actions = {
       .then((res) => {
         console.log('API에서 성공')
         // console.log(localStorage.getItem('nickname'))
-        console.log(res.data.favNicklist.pgNick)
-        console.log(res.data.favBestlist.bestPhotos)
+        // console.log(res.data.favNicklist.pgNick)
+        // console.log(res.data.favBestlist.bestPhotos)
+        console.log(res.data.favList.favList)
         // console.log('끝')
         commit('GET_FAVORITE_LIST', {
-          pgNick: res.data.favNicklist.pgNick,
-          bestPhotos: res.data.favBestlist.bestPhotos,
+          favList: res.data.favList.favList,
+          // pgNick: res.data.favNicklist.pgNick,
+          // bestPhotos: res.data.favBestlist.bestPhotos,
         })
       })
   },

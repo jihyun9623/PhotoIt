@@ -37,10 +37,10 @@ public class StudioController {
         StudioPgProfileResBody pgProfResBody = studioService.getPgProfile(nickname);
 
         if(pgProfResBody!=null) {
-            return ResponseEntity.ok(StudioPgProfileResBody.of(200, "Success", pgProfResBody.getIntroduce(), pgProfResBody.getLocation()));
+            return ResponseEntity.ok(StudioPgProfileResBody.of(200, "Success", pgProfResBody.getIntroduce(), pgProfResBody.getLocation(), pgProfResBody.getProfPhoto()));
         }
 
-        return ResponseEntity.status(401).body(StudioPgProfileResBody.of(401, "작가가 아닙니다.",null,null));
+        return ResponseEntity.status(401).body(StudioPgProfileResBody.of(401, "작가가 아닙니다.",null,null,null));
     }
 
     // 일정 보여주기
@@ -123,7 +123,7 @@ public class StudioController {
         StudioGetPhotosResBody studioGetPhotosResBody = studioService.getBestPhotos(nickname);
 
         if(studioGetPhotosResBody!=null) {
-            return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getPid(),studioGetPhotosResBody.getOrigin()));
+            return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getId(),studioGetPhotosResBody.getFile()));
         }
 
         return ResponseEntity.status(401).body(StudioGetPhotosResBody.of(401, "베스트 사진이 없습니다.",null,null));
@@ -143,7 +143,7 @@ public class StudioController {
         StudioGetPhotosResBody studioGetPhotosResBody = studioService.getAllPgPhotos(nickname);
 
         if(studioGetPhotosResBody!=null) {
-            return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getPid(),studioGetPhotosResBody.getOrigin()));
+            return ResponseEntity.ok(StudioGetPhotosResBody.of(200, "Success",studioGetPhotosResBody.getId(),studioGetPhotosResBody.getFile()));
         }
 
         return ResponseEntity.status(401).body(StudioGetPhotosResBody.of(401, "사진이 없습니다.",null,null));

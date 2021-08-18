@@ -71,6 +71,7 @@
               class="btn btn-lg btn-outline-primary fontCafe col-2"
               style="font-weight: bold"
               type="button"
+              autocomplete="off"
             >
               닉네임 중복체크
             </button>
@@ -80,13 +81,14 @@
           <div class="input-group mb-4 mt-4">
             <span class="col-1"></span>
             <span class="col-3 justify-content-center mypageForm fontCafe"
-              >비밀번호</span
+              >비밀번호 변경</span
             >
             <input
-              type="text"
+              type="password"
               class="form-control mb-0 fontCafe"
               aria-label="formPasswd"
               aria-describedby="formPasswd"
+              autocomplete="off"
               v-model="formPasswd"
               :class="{
                 'is-valid': isUserPasswordFocusAndValid,
@@ -108,10 +110,10 @@
           <div class="input-group mb-4">
             <span class="col-1"></span>
             <span class="col-3 justify-content-center mypageForm fontCafe"
-              >비밀번호 확인</span
+              >비밀번호 변경 확인</span
             >
             <input
-              type="text"
+              type="password"
               class="form-control mb-0 fontCafe"
               aria-label="formPasswdCheck"
               aria-describedby="formPasswdCheck"
@@ -245,6 +247,7 @@ export default {
       formLocation: '',
       PG: '',
       nicknameOrigin: '',
+      isPhotoGrapher: true,
     }
   },
   computed: {
@@ -276,9 +279,12 @@ export default {
         this.formNickname = res.data.nickname
         this.formProfilePhoto = res.data.photo
         this.formPgCheck = res.data.pg
-        this.formIntroduce = res.data.location
-        this.formLocation = res.data.introduce
+        this.formIntroduce = res.data.introduce
+        this.formLocation = res.data.location
         this.nicknameOrigin = res.data.nickname
+        // 작가 여부 판별
+        if (res.data.pg) this.PG = '작가입니다.'
+        else this.PG = '작가가 아닙니다.'
       })
     },
     // 회원정보 수정
@@ -301,7 +307,7 @@ export default {
         nickname: this.formNickname,
         pg: this.formPgCheck,
         location: this.formLocation,
-        introduce: this.formIntroduce,
+        profile: this.formIntroduce,
       }
       this.$store.dispatch('mypage/setUserInfo', data).then(() => {
         if (this.$store.state.mypage.return) {
@@ -330,7 +336,9 @@ export default {
         return false
       }
       this.$store
-        .dispatch('mypage/nickNameCheck', this.formNickname)
+        .dispatch('mypage/nickNameCheck', {
+          nickname: this.formNickname,
+        })
         .then(() => {
           if (this.$store.state.mypage.returnNickname) {
             this.toastSuccess('사용가능한 닉네임입니다.')
@@ -339,25 +347,6 @@ export default {
           }
         })
     },
-    // userLogin() {
-    //   httpNoJWT
-    //     .post('/user/signin', this.credentials)
-    //     .then((res) => {
-    //       console.log(res)
-    //       localStorage.setItem('jwt', res.data.jwt)
-    //       localStorage.setItem('id', res.data.id)
-    //       localStorage.setItem('role', res.data.role)
-    //       this.$emit('login')
-    //       this.$store.dispatch('login/isLoginCheck')
-    //       this.$store.dispatch('login/isRole')
-    //       window.location.reload()
-    //       this.$router.push({ name: 'MainPage' })
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //       alert('로그인 정보가 잘못되었습니다.')
-    //     })
-    // },
     // 프로필 사진 업로드
     uploadProfilePhoto() {
       let data = new FormData()
@@ -435,9 +424,7 @@ export default {
   mounted() {
     // 검색바가 보이도록 설정
     this.$store.state.search.isSearchHeaderShow = true
-    // 작가 여부 판별
-    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가입니다.'
-    else this.PG = '작가가 아닙니다.'
+
     window.scrollTo(0, 0)
   },
 }

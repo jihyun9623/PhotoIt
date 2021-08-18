@@ -38,10 +38,18 @@ const mutations = {
 const actions = {
   // 회원정보 수정
   setUserInfo({ commit }, data) {
+    console.log(data)
     return http
       .put('/mypage', data)
       .then((res) => {
         console.log(res)
+        localStorage.removeItem('nickname')
+        localStorage.removeItem('jwt')
+        localStorage.removeItem('role')
+        localStorage.setItem('nickname', res.data.nickname)
+        localStorage.setItem('jwt', res.data.jwt)
+        localStorage.setItem('role', res.data.role)
+        window.location.reload()
         commit('SET_RETURN', {
           return: true,
         })

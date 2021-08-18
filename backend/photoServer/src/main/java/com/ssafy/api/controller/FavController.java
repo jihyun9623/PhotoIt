@@ -103,9 +103,9 @@ public class FavController {
         FavResBody favResBody = favService.getFavList(userNick);
 
         if(favResBody!=null) {
-            return ResponseEntity.ok(FavResBody.of(200, "Success",favResBody.getFavNicklist(),favResBody.getFavBestlist()));
-        }
+            return ResponseEntity.ok(FavResBody.of(200, "Success",favResBody.getFavList()));//favResBody.getFavNicklist(),favResBody.getFavBestlist()));
+        }//
 
-        return ResponseEntity.status(401).body(FavResBody.of(401, "찜한 작가가 없습니다.",null,null));
+        return ResponseEntity.status(401).body(FavResBody.of(401, "찜한 작가가 없습니다.",null));
     }
 }

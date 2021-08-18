@@ -18,4 +18,12 @@ public class ThumbPhotoIdRes {
         body.setThumbnail(thumbnail);
         return body;
     }
+
+    @Override
+    public String toString() {
+        return "ThumbPhotoIdRes{" +
+                "thumbnail='" + thumbnail + '\'' +
+                ", photoId=" + photoId +
+                '}';
+    }
 }

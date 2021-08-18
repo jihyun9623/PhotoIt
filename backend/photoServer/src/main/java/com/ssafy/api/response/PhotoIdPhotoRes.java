@@ -20,4 +20,12 @@ public class PhotoIdPhotoRes {
         body.setPhotoOrigin(photoOrigin);
         return body;
     }
+
+    @Override
+    public String toString() {
+        return "PhotoIdPhotoRes{" +
+                "photoId=" + photoId +
+                ", photoOrigin='" + photoOrigin + '\'' +
+                '}';
+    }
 }

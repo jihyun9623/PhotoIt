@@ -6,7 +6,7 @@
       <Logo />
     </div>
     <SearchBar />
-    <ProfileIconMenu />
+    <ProfileIconMenu @user-logout="userLogout" />
   </nav>
 </template>
 
@@ -14,6 +14,7 @@
 import SearchBar from '@/components/Common/SearchBar'
 import Logo from '@/components/Common/Logo'
 import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
+import http from '@/assets/js/axios.js'
 
 export default {
   name: 'SearchRegion',
@@ -21,6 +22,25 @@ export default {
     SearchBar,
     Logo,
     ProfileIconMenu,
+  },
+  methods: {
+    userLogout() {
+      http
+        .get('/user/signout')
+        .then(() => {
+          alert('로그아웃 되었습니다.')
+          localStorage.removeItem('jwt')
+          localStorage.removeItem('id')
+          localStorage.removeItem('role')
+          localStorage.removeItem('profile')
+          localStorage.removeItem('nickname')
+          window.location.reload()
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('다시 시도해 주세요.')
+        })
+    },
   },
 }
 </script>
@@ -30,7 +50,7 @@ export default {
   position: fixed;
   width: 100%;
   background-color: transparent;
-  z-index: 100;
+  z-index: 10;
   height: 10%;
 }
 .logo-box {

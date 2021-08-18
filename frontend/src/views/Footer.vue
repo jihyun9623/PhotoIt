@@ -2,54 +2,30 @@
   <footer id="footer">
     <div class="footer-top">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-3 col-md-6">
-            <div class="footer-info">
-              <h3>Photo it.</h3>
-              <p>
-                서울시 강남구 <br />
-                테헤란로 멀티스퀘어 <br /><br />
-                <strong>Phone:</strong> 1544-9001<br />
-                <strong>Email:</strong> admin@ssafy.com<br />
-              </p>
-              <div class="social-links mt-3">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="#" class="instagram"
-                  ><i class="bx bxl-instagram"></i
-                ></a>
-                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-              </div>
+        <h3 class="center" style="font-size: xx-large">Photo it.</h3>
+        <hr style="width: 1vm" />
+        <div class="row d-flex justify-content-between footerMargin mt-4">
+          <div class="col-lg-5 col-md-6 fontCafe">
+            <div class="footer-info center">
+              <img
+                src="@/assets/images/Logo_ver2_white.png"
+                alt="로고"
+                class="logo logoSize center"
+                style="width: 10vw; height: auto"
+              />
             </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 footer-links">
-            <h4>Quick Menu</h4>
-            <ul>
-              <li>
-                <a href="#">Main Page</a>
-              </li>
-              <li>
-                <router-link :to="{ path: '/login' }">로그인</router-link>
-              </li>
-              <li>
-                <router-link :to="{ path: '/signup' }">회원가입</router-link>
-              </li>
-              <li>
-                <router-link :to="{ path: '/mypage' }">마이페이지</router-link>
-              </li>
-            </ul>
+            <div class="fontCafe center mt-3">사진을 잇다, Photo-it</div>
           </div>
 
           <div class="col-lg-5 col-md-6 footer-newsletter">
-            <h4>한규와 뚝딱이들 (QHD 4K)</h4>
+            <h4 class="fontCafe center">한규와 뚝딱이들 (QHD 4K)</h4>
             <hr />
-            <h5>신한규 &nbsp;김상재&nbsp; 김지현</h5>
-            <h5>박세령 &nbsp;이은총&nbsp; 이희정</h5>
+            <h5 class="fontCafe center">신한규 &nbsp;김상재&nbsp; 김지현</h5>
+            <h5 class="fontCafe center">박세령 &nbsp;이은총&nbsp; 이희정</h5>
           </div>
         </div>
       </div>
+      <p class="mt-5 mb-3 text-muted center fontS">&copy; PHOTO-IT 2021</p>
     </div>
   </footer>
 </template>

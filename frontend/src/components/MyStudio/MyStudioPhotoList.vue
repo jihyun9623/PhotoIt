@@ -2,240 +2,32 @@
   <div class="wrapper">
     <div class="list">
       <div class="left">
-        <div class="image image-2">
-          <div class="img img-vert">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Photography</h4>
-              <h2 class="info-title">Cafe Mora</h2>
-              <h5 class="info-view"><span class="line"></span>view</h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Photography</h4>
-            <h2 class="info-title">Cafe Mora</h2>
-            <h5 class="info-view"><span class="line"></span>view</h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-4">
-          <div class="img img-hor">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Design</h4>
-              <h2 class="info-title">Lumilio study</h2>
-              <h5 class="info-view"><span class="line"></span>view</h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Design</h4>
-            <h2 class="info-title">Lumilio study</h2>
-            <h5 class="info-view"><span class="line"></span>view</h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-6">
-          <div class="img img-square">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Logo Design</h4>
-              <h2 class="info-title">Lachot</h2>
-              <h5 class="info-view"><span class="line"></span>view</h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Logo Design</h4>
-            <h2 class="info-title">Lachot</h2>
-            <h5 class="info-view"><span class="line"></span>view</h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-2">
-          <div class="img img-vert">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Brand identity</h4>
-              <h2 class="info-title">Nike</h2>
-              <h5 class="info-view"><span class="line"></span>view</h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Brand identity</h4>
-            <h2 class="info-title">Nike</h2>
-            <h5 class="info-view"><span class="line"></span>view</h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-4">
-          <div class="img img-hor">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Infrastructure</h4>
-              <h2 class="info-title">Davinci</h2>
-              <h5 class="info-view"><span class="line"></span>view</h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Infrastructure</h4>
-            <h2 class="info-title">Davinci</h2>
-            <h5 class="info-view"><span class="line"></span>view</h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-6">
-          <div class="img img-square">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Caligraphy</h4>
-              <h2 class="info-title">HandsOn</h2>
-              <h5 class="info-view"><span class="line"></span>view</h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Caligraphy</h4>
-            <h2 class="info-title">HandsOn</h2>
-            <h5 class="info-view"><span class="line"></span>view</h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-      </div>
-      <div class="right">
-        <div class="image image-1">
-          <div class="img img-hor">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Organization</h4>
-              <h2 class="info-title">Loreipsum</h2>
-              <h5 class="info-view">view<span class="line"></span></h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Organization</h4>
-            <h2 class="info-title">Loreipsum</h2>
-            <h5 class="info-view">view<span class="line"></span></h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-3">
-          <div class="img img-square">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Lettering</h4>
-              <h2 class="info-title">Cafe Fantasy</h2>
-              <h5 class="info-view">view<span class="line"></span></h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Lettering</h4>
-            <h2 class="info-title">Cafe Fantasy</h2>
-            <h5 class="info-view">view<span class="line"></span></h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-5">
-          <div class="img img-vert">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Photography</h4>
-              <h2 class="info-title">Cafe Mora</h2>
-              <h5 class="info-view">view<span class="line"></span></h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Photography</h4>
-            <h2 class="info-title">Cafe Mora</h2>
-            <h5 class="info-view">view<span class="line"></span></h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-1">
-          <div class="img img-hor">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Photography</h4>
-              <h2 class="info-title">Cafe Mora</h2>
-              <h5 class="info-view">view<span class="line"></span></h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Photography</h4>
-            <h2 class="info-title">Cafe Mora</h2>
-            <h5 class="info-view">view<span class="line"></span></h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-3">
-          <div class="img img-square">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Photography</h4>
-              <h2 class="info-title">Cafe Mora</h2>
-              <h5 class="info-view">view<span class="line"></span></h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Photography</h4>
-            <h2 class="info-title">Cafe Mora</h2>
-            <h5 class="info-view">view<span class="line"></span></h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-        <div class="image image-5">
-          <div class="img img-vert">
-            <div class="inner"></div>
-            <div class="info">
-              <h4 class="info-tagline">Photography</h4>
-              <h2 class="info-title">Cafe Mora</h2>
-              <h5 class="info-view">view<span class="line"></span></h5>
-            </div>
-          </div>
-          <div class="info">
-            <h4 class="info-tagline">Photography</h4>
-            <h2 class="info-title">Cafe Mora</h2>
-            <h5 class="info-view">view<span class="line"></span></h5>
-          </div>
-          <div class="panel"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="wrapper">
-    <div class="list">
-      <div class="left">
-        <MyStudioPhotoListItem
-          v-for="photos in even_idx"
+        <MyStudioPhotoListItemLeft
+          v-for="photos in $store.state.mystudio.photo_2n_0"
           :key="photos.id"
           :photos="photos"
         />
       </div>
-      <div class="right"></div>
+      <div class="right">
+        <MyStudioPhotoListItemRight
+          v-for="photos1 in $store.state.mystudio.photo_2n_1"
+          :key="photos1.id"
+          :photos1="photos1"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import MyStudioPhotoListItem from '@/components/MyStudio/MyStudioPhotoListItem.vue'
+import MyStudioPhotoListItemLeft from '@/components/MyStudio/MyStudioPhotoListItemLeft'
+import MyStudioPhotoListItemRight from '@/components/MyStudio/MyStudioPhotoListItemRight'
+
 export default {
   name: 'MyStudioPhotoList',
   components: {
-    MyStudioPhotoListItem,
-  },
-  data: function () {
-    return {
-      even_idx: [],
-      odd_idx: [],
-    }
-  },
-  created: function () {
-    // console.log('before for')
-    for (
-      var step_l = 0;
-      step_l < this.$store.state.mystudio.photo_list.length;
-      step_l = step_l + 2
-    ) {
-      this.even_idx.push(this.$store.state.mystudio.photo_list[step_l])
-      // console.log('for ing')
-    }
+    MyStudioPhotoListItemLeft,
+    MyStudioPhotoListItemRight,
   },
   mounted: function () {
     // Util functions
@@ -568,25 +360,25 @@ body {
   top: 58.9285714286%;
 }
 
-.right .image:nth-child(3n + 1) .inner {
+/* .right .image:nth-child(3n + 1) .inner {
   background-image: url('https://images.unsplash.com/photo-1496749843252-699a989877a1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fe5da9650707e5a93c8c3cf164c2e74b&auto=format&fit=crop&w=1375&q=80');
 }
 .right .image:nth-child(3n + 2) .inner {
   background-image: url('https://images.unsplash.com/photo-1492970471430-bc6bd7eb2b13?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=9893bc89e46e2b77a5d8c091fbba04e9&auto=format&fit=crop&w=1355&q=80');
-}
+} */
 .right .image:nth-child(3n) .inner {
-  background-image: url('https://images.unsplash.com/photo-1501707305551-9b2adda5e527?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0cf5887247e17503ce4e542d00d86b9d&auto=format&fit=crop&w=1335&q=80');
+  /* background-image: url('https://images.unsplash.com/photo-1501707305551-9b2adda5e527?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0cf5887247e17503ce4e542d00d86b9d&auto=format&fit=crop&w=1335&q=80'); */
   background-position-x: 50%;
 }
 
-.left .image:nth-child(3n + 1) .inner {
+/* .left .image:nth-child(3n + 1) .inner {
   background-image: url('https://images.unsplash.com/photo-1510022079733-8b58aca7c4a9?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6da2c9e985e56b6a43209d7b1d46c8ca&auto=format&fit=crop&w=701&q=80');
 }
 .left .image:nth-child(3n + 2) .inner {
   background-image: url('https://images.unsplash.com/photo-1513555329264-541740eca390?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=356f530d44af9c3c2690fd464baa655c&auto=format&fit=crop&w=1350&q=800');
-}
+} */
 .left .image:nth-child(3n) .inner {
-  background-image: url('https://images.unsplash.com/photo-1521089815383-cf2b2cf7f0f0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=524500bf8ae21941d5af74e374d43dec&auto=format&fit=crop&w=701&q=80');
+  /* background-image: url('https://images.unsplash.com/photo-1521089815383-cf2b2cf7f0f0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=524500bf8ae21941d5af74e374d43dec&auto=format&fit=crop&w=701&q=80'); */
   background-position-x: 50%;
 }
 </style>

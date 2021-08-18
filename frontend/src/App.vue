@@ -3,6 +3,7 @@
     <!-- <div id="nav"><router-link to="/">Mainpage</router-link> |</div> -->
     <router-view />
   </div>
+  <GoTop />
   <div id="footer">
     <main-footer />
   </div>
@@ -10,31 +11,32 @@
 
 <script>
 import Footer from '@/views/Footer.vue'
-import axios from 'axios'
+import GoTop from '@/components/Common/GoTop'
+import httpNoJWT from '@/assets/js/axiosNotJWT.js'
 export default {
   name: 'App',
   components: {
     'main-footer': Footer,
+    GoTop: GoTop,
   },
   computed: {
     isLoginCheck() {
       return this.$store.state.login.isLogin
     },
+    nickname() {
+      return this.$store.state.mainpage.nickname
+    },
   },
-  created: function () {
+  created() {
     this.$store.dispatch('mainpage/getRegions')
-    // 로그인 여부 확인, 로그인 했을 때만 프로필과 닉네임을 요청한다.
+    this.$store.dispatch('mainpage/getTags')
     this.$store.dispatch('login/isLoginCheck')
-    if (this.$store.state.login.isLogin) {
-      this.$store.dispatch('mainpage/getProfileNickname')
-    }
-
-    axios({
-      method: 'get',
-      url: 'http://i5a108.p.ssafy.io:8080/user/location',
-    })
+    this.$store.dispatch('mainpage/getProfileNickname')
+    this.$store.dispatch('login/getProfile')
+    this.$store.dispatch('login/getNickname')
+    httpNoJWT
+      .get('/user/location')
       .then((res) => {
-        console.log(res)
         this.$store.dispatch('getLocations', res.data)
       })
       .catch((err) => {
@@ -45,6 +47,8 @@ export default {
 </script>
 
 <style>
+@import './assets/css/style.css';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -64,5 +68,8 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+#footer {
+  margin-top: 30vh;
 }
 </style>

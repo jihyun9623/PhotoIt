@@ -3,9 +3,11 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.controller.Usercontroller;
+import com.ssafy.api.response.FavResBody;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.Favorite;
 import com.ssafy.db.entity.MyStudio;
+import com.ssafy.db.entity.Photo;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.FavRepository;
 import com.ssafy.db.repository.MyStudioRepository;
@@ -15,8 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service("FavService")
 public class FavServiceImpl implements FavService{
@@ -133,20 +134,71 @@ public class FavServiceImpl implements FavService{
 
     // 찜 리스트 불러오기
     @Override
-    public Integer[] getFavList(String userNick){
+    public FavResBody getFavList(String userNick){
+        System.out.println(userNick);
         // nickname으로 user idx 리턴
         int userIdx = userRepository.findUserByNickname(userNick).getIdx();
-
         // userIdx로 찜목록 불러오기
         List<Favorite> fav = favRepository.findByUser_Idx(userIdx);
 
         if(fav.size()==0) return null;
 
         // 매핑
-        Integer[] favList = new Integer[fav.size()];
+        Map<String,Map<String,List<String>>> favList = new HashMap<>();
+        Map<String,List<String>> favlist = new HashMap<>();
         int i=0;
-        for(Favorite f : fav) favList[i++] = f.getMyStudio().getIdx();
+        for(Favorite f : fav) {
+            //스튜디오 인덱스로 작가 스튜디오 정보 불러오기
+            MyStudio studioInfo = myStudioRepository.findByIdx(f.getMyStudio().getIdx());
+            //작가 닉네임
+            String pgNick = studioInfo.getNickname();
 
-        return favList;
+            //전체사진
+            List<Photo> allPhotos = studioInfo.getPhotos();
+            List<String> best = new ArrayList<>();
+            //전체사진에서 best인것 뽑기
+            for(Photo p : allPhotos){
+                if(p.isBest()){
+                    best.add(p.getThumbnail());
+                }
+            }
+            favlist.put(pgNick,best);
+            favList.put("favList",favlist);
+        }
+
+        FavResBody favbody = new FavResBody();
+        favbody.setFavList(favList);
+        return favbody;
+//        // 매핑
+//        Map<String,List<String>> favNickList = new HashMap<>();
+//        Map<String,List<List<String>>> favBestList = new HashMap<>();
+//        List<String> nickList = new ArrayList<>();
+//        List<List<String>> bestList = new ArrayList<>();
+//        int i=0;
+//        for(Favorite f : fav) {
+//            //스튜디오 인덱스로 작가 스튜디오 정보 불러오기
+//            MyStudio studioInfo = myStudioRepository.findByIdx(f.getMyStudio().getIdx());
+//            //작가 닉네임 리스트에 추가
+//            String pgNick = studioInfo.getNickname();
+//            nickList.add(pgNick);
+//
+//            //전체사진
+//            List<Photo> allPhotos = studioInfo.getPhotos();
+//            List<String> best = new ArrayList<>();
+//            //전체사진에서 best인것 뽑기
+//            for(Photo p : allPhotos){
+//                if(p.isBest()){
+//                    best.add(p.getThumbnail());
+//                }
+//            }
+//            bestList.add(best);
+//            favNickList.put("pgNick",nickList);
+//            favBestList.put("bestPhotos",bestList);
+//        }
+//
+//        FavResBody favbody = new FavResBody();
+//        favbody.setFavNicklist(favNickList);
+//        favbody.setFavBestlist(favBestList);
+//        return favbody;
     };
 }

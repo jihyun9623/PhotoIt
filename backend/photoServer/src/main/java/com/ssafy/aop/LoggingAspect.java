@@ -2,6 +2,7 @@ package com.ssafy.aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
@@ -20,4 +21,9 @@ public class LoggingAspect {
     public void loggin(JoinPoint jp){
         logger.debug("메서드 선언부 : {} 전달 파라미터 : {}", jp.getSignature(), Arrays.toString(jp.getArgs()));
     }
+
+//    @AfterReturning(value="execution(* com.ssafy.api..*.*(..))", returning = "result")
+//    public void log_studioedit(JoinPoint jp, Object result){
+//        logger.info("메소드 : {} 리턴 : {}", jp.getSignature(), result.toString());
+//    }
 }

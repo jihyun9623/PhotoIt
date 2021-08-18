@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/search")
-@CrossOrigin("http://localhost:8081")
+//@CrossOrigin("*")
 public class SearchController {
     public static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 

@@ -27,7 +27,7 @@ public class MyStudio {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Photo> photos = new ArrayList<>();
 
     @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)

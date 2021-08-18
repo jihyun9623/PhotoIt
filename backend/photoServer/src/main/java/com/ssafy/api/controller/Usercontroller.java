@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/user")
 @Api("User Controller API V1")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:8081")
 public class Usercontroller {
     private static final Logger logger = LoggerFactory.getLogger(Usercontroller.class);
 

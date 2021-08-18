@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:8081")
 public class MainPageController {
     public static final Logger logger = LoggerFactory.getLogger(MainPageController.class);
 

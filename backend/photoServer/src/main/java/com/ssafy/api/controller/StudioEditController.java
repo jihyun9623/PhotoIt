@@ -22,7 +22,7 @@ import java.util.List;
 @Api(value = "스튜디오 Edit API", tags = {"edit"})
 @RestController
 @RequestMapping("/studioedit")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:8081")
 public class StudioEditController {
 
     @Autowired

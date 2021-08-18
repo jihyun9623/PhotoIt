@@ -1,10 +1,9 @@
 <template>
   <MyStudioHeader />
-  <h1>MyStudioEdit</h1>
   <!-- bestlist와 photolist를 활용하여 사진 표시, 및 클릭시 modal표시 -->
 
-  <!-- bestlist -->
   <div class="container">
+    <!-- bestlist -->
     <div class="best-container">
       <div class="row">
         <MyStudioEditBestItem
@@ -15,8 +14,6 @@
           class="tag-item"
           @click="showBestModal(item, bestid[idx])"
         />
-        <!-- 모달 -->
-        <BestModal />
       </div>
     </div>
 
@@ -24,22 +21,20 @@
     <div>
       <div class="row">
         <MyStudioEditBestItem
-          v-for="(item, idx) in best"
+          v-for="(item, idx) in photo"
           :key="idx"
           :id="bestid[idx]"
           :item="item"
           class="tag-item"
-          @click="showBestModal(item, bestid[idx])"
+          @click="showPhotoModal(item, bestid[idx])"
         />
-        <!-- 모달 -->
-        <BestModal />
       </div>
     </div>
   </div>
-
-  <PhotoModal />
-
+  <!-- 모달 -->
+  <BestModal />
   <BestModal v-on:call-parent-best="closeBestModal"></BestModal>
+  <PhotoModal />
 </template>
 
 <script>

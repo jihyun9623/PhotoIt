@@ -426,6 +426,11 @@ export default {
   },
   created() {
     this.getUserInfo()
+    this.$store.dispatch('login/isLoginCheck')
+    if (!this.$store.state.login.isLogin) {
+      alert('접근 권한이 없습니다.')
+      this.$router.push({ name: 'MainPage' })
+    }
   },
   mounted() {
     // 검색바가 보이도록 설정

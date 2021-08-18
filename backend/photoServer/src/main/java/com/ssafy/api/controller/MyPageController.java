@@ -30,19 +30,20 @@ public class MyPageController {
 
     @ApiOperation(value = "마이페이지 회원정보 조회", notes = "마이페이지 진입시 해당 회원의 정보를 모두 불러온다")
     @GetMapping
-    public BaseResponseBody getProfile(@RequestHeader(value = "Authorization") String token) {
+    public MyPageGetRes getProfile(@RequestHeader(value = "Authorization") String token) {
         MyPageGetRes res = userService.getProfile(token);
         //logger.debug(res.toString());
-        return BaseResponseBody.of(200, "Success");
+        return res;
     }
 
     @ApiOperation(value = "회원정보 수정", notes = "회원정보를 업데이트한다")
     @PutMapping
-    public BaseResponseBody updateProfile(
+    public UserLoginPostRes updateProfile(
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "수정할 회원정보", required = true) UserReq updateInfo) {
-        userService.updateProfile(token, updateInfo);
-        return BaseResponseBody.of(200, "Success");
+        System.out.println(updateInfo.getNickname());
+        System.out.println(updateInfo.getPasswd());
+        return userService.updateProfile(token, updateInfo);
     }
 
     @ApiOperation(value = "회원 탈퇴", notes = "회원정보를 삭제한다")

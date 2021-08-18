@@ -40,7 +40,7 @@ const actions = {
   // 마이스튜디오 접속시 본인 확인
   studioAuth({ commit }) {
     return http
-      .get('/studioedit/studioauth' + localStorage.getItem('nickname'))
+      .get('/studioedit/studioauth/' + localStorage.getItem('nickname'))
       .then((res) => {
         console.log(res)
         commit('SET_STUDIOAUTH')
@@ -58,7 +58,7 @@ const actions = {
   },
   // 베스트 3 사진 받아오기
   getBestPhoto({ commit }) {
-    http.get('/studioedit/bestphoto').then((res) => {
+    return http.get('/studioedit/bestphoto').then((res) => {
       console.log(res)
       commit('SET_BEST', {
         best: res.data.file,
@@ -68,7 +68,7 @@ const actions = {
   },
   // 작가 전체사진 받아오기
   getPhoto({ commit }) {
-    http.get('/studioedit/photo').then((res) => {
+    return http.get('/studioedit/photo').then((res) => {
       console.log(res)
       commit('SET_PHOTO', {
         photo: res.data.file,

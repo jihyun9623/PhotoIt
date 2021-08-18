@@ -2,24 +2,72 @@
   <MyStudioHeader />
   <h1>MyStudioEdit</h1>
   <!-- bestlist와 photolist를 활용하여 사진 표시, 및 클릭시 modal표시 -->
+
+  <!-- bestlist -->
+  <div class="container">
+    <div class="best-container">
+      <div class="row">
+        <MyStudioEditBestItem
+          v-for="(item, idx) in best"
+          :key="idx"
+          :id="bestid[idx]"
+          :item="item"
+          class="tag-item"
+          @click="showBestModal(item, bestid[idx])"
+        />
+        <!-- 모달 -->
+        <BestModal />
+      </div>
+    </div>
+
+    <!--photolist -->
+    <div>
+      <div class="row">
+        <MyStudioEditBestItem
+          v-for="(item, idx) in best"
+          :key="idx"
+          :id="bestid[idx]"
+          :item="item"
+          class="tag-item"
+          @click="showBestModal(item, bestid[idx])"
+        />
+        <!-- 모달 -->
+        <BestModal />
+      </div>
+    </div>
+  </div>
+
+  <PhotoModal />
+
+  <BestModal v-on:call-parent-best="closeBestModal"></BestModal>
 </template>
 
 <script>
 import MyStudioHeader from '@/components/MyStudio/MyStudioHeader.vue'
+import BestModal from '@/components/MyStudioEdit/MyStudioEditBest.vue'
+import PhotoModal from '@/components/MyStudioEdit/MyStudioEditPhoto.vue'
+import MyStudioEditBestItem from '@/components/MyStudioEdit/MyStudioEditBestItem'
 // import component from "component location"
 
 export default {
   name: 'MyStudioEdit',
-  created() {
-    this.$store.dispatch('mystudioedit/studioAuth').then(() => {
-      if (this.$store.state.mystudioedit.studioauth) {
-        this.$router.push({ name: 'MainPage' })
-      }
-    })
+  components: {
+    // components
+    MyStudioHeader,
+    BestModal,
+    PhotoModal,
+    MyStudioEditBestItem,
   },
   data() {
     return {
-      data: '',
+      bestModal: '',
+      photoModal: '',
+      bestModalOn: false,
+      photoModalOn: false,
+      best: '',
+      bestid: '',
+      photo: '',
+      photoid: '',
     }
   },
   computed: {
@@ -37,6 +85,14 @@ export default {
     },
   },
   method: {
+    // Edit Best Mode 표시
+    showBestModal() {
+      this.bestModal.show()
+    },
+    // Edit Best Mode 표시
+    showPhotoModal() {
+      this.photoModal.show()
+    },
     // 베스트 사진 추가
     addBest(photo_id) {
       // TODO : Best사진 추가할 수 있는지 확인 필요
@@ -144,9 +200,29 @@ export default {
       })
     },
   },
-  components: {
-    // components
-    MyStudioHeader,
+  created() {
+    this.$store.dispatch('mystudioedit/studioAuth').then(() => {
+      if (this.$store.state.mystudioedit.studioauth) {
+        this.$router.push({ name: 'MainPage' })
+      }
+    })
+    this.$store.dispatch('mystudioedit/getBestPhoto').then(() => {
+      this.best = this.$store.state.mystudioedit.best
+      this.bestid = this.$store.state.mystudioedit.bestid
+    })
+    this.$store.dispatch('mystudioedit/getPhoto').then(() => {
+      this.photo = this.$store.state.mystudioedit.photo
+      this.photoid = this.$store.state.mystudioedit.photoid
+    })
   },
 }
 </script>
+
+<style scoped>
+.tag-item:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  opacity: 0.7;
+  overflow: hidden;
+}
+</style>

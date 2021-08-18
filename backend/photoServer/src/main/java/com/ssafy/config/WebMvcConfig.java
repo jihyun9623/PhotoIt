@@ -23,6 +23,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMapping(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
+                .allowedOrigins("http://localhost:8080")
+                .allowedOrigins("http://localhost:8081")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
@@ -39,7 +41,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry)    {
-        List<String>exclude_list= Arrays.asList("/*","/user/**", "/search/**", "/studio/**", "/fav/**", "/char/**");
+        List<String>exclude_list= Arrays.asList("/*","/user/**", "/search/**", "/studio/**", "/fav/**", "/chat/**");
         logger.debug("addInterceptors");
           registry.addInterceptor(jwtInterceptor)
                   .excludePathPatterns(exclude_list)

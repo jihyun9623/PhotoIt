@@ -1,11 +1,14 @@
 import axios from 'axios'
+const serverURL = 'http://localhost:8080'
+// https://i5a108.p.ssafy.io/api
+// http://localhost:8080
 
 // axios 객체 생성
 export default axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: serverURL,
   headers: {
     'Access-Control-Allow-Origin': '*',
-    Authorization: '${jwt}',
+    Authorization: localStorage.getItem('jwt'),
   },
   withCredentials: true,
 })

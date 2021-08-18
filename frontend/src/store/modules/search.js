@@ -1,4 +1,4 @@
-import axios from 'axios'
+import httpNoJWT from '@/assets/js/axiosNotJWT.js'
 
 // state
 const state = () => ({
@@ -11,12 +11,8 @@ const state = () => ({
 const actions = {
   tagSearch({ commit }, info) {
     console.log(info)
-    axios({
-      method: 'get',
-      // url: `http://i5a108.p.ssafy.io:8080/search/tag/${info.keyword}/${info.region}`,
-      url: `http://localhost:8080/search/tag/${info.keyword}/${info.region}`,
-      data: info,
-    })
+    httpNoJWT
+      .get('/search/tag/' + info.keyword + '/' + info.region, info)
       .then((res) => {
         console.log(res)
         commit('TAG_SEARCH', res.data.photoList)
@@ -27,12 +23,8 @@ const actions = {
       })
   },
   photographerSearch({ commit }, info) {
-    axios({
-      method: 'get',
-      // url: `http://i5a108.p.ssafy.io:8080/search/pg/${info.keyword}/${info.region}`,
-      url: `http://localhost:8080/search/pg/${info.keyword}/${info.region}`,
-      data: info,
-    })
+    httpNoJWT
+      .get('/search/pg/' + info.keyword + '/' + info.region, info)
       .then((res) => {
         console.log(res)
         commit('PHOTOGRAPHER_SEARCH', res.data.profileList)

@@ -4,7 +4,7 @@ import http from '@/assets/js/axios.js'
 const state = () => ({
   email: 'A108@ssafy.com',
   nickName: 'Patabear',
-  profilePhoto: '../assets/images/Logo.png',
+  profilePhoto: '../assets/images/profile_default.png',
   isPhotoGrapher: false,
   location: '',
   introduce: '',
@@ -36,28 +36,20 @@ const mutations = {
 
 // actions
 const actions = {
-  getUserInfo({ commit }) {
-    // TO-DO : 로컬스토리지 확인후 아래 보낼내용 수정하기
-    //http.get('/mypage/' + localStorage.getItem('nickName')).then((res) => {
-    http.get('/mypage/' + 'user').then((res) => {
-      console.log('UserInfoData :')
-      console.log(res)
-      commit('SET_USER_INFO', {
-        email: res.id,
-        nickName: res.nickname,
-        profilePhoto: res.photo,
-        isPhotoGrapher: res.pg,
-        location: res.location,
-        introduce: res.introduce,
-      })
-    })
-  },
   // 회원정보 수정
   setUserInfo({ commit }, data) {
+    console.log(data)
     return http
-      .put('/mypage', JSON.stringify(data))
+      .put('/mypage', data)
       .then((res) => {
         console.log(res)
+        localStorage.removeItem('nickname')
+        localStorage.removeItem('jwt')
+        localStorage.removeItem('role')
+        localStorage.setItem('nickname', res.data.nickname)
+        localStorage.setItem('jwt', res.data.jwt)
+        localStorage.setItem('role', res.data.role)
+        window.location.reload()
         commit('SET_RETURN', {
           return: true,
         })
@@ -89,7 +81,7 @@ const actions = {
   // 닉네임 중복체크
   nickNameCheck({ commit }, data) {
     return http
-      .post('/mypage/nicknameCheck', JSON.stringify(data))
+      .post('/mypage/nicknameCheck', data)
       .then((res) => {
         console.log(res)
         commit('SET_RETURN_NICKNAME', {
@@ -106,7 +98,7 @@ const actions = {
   // 프로필 사진 업로드
   uploadProfilePhoto({ commit }, data) {
     return http
-      .post('/mypage/editphoto', JSON.stringify(data))
+      .post('/mypage/editphoto', data)
       .then((res) => {
         console.log(res)
         commit('SET_RETURN', {

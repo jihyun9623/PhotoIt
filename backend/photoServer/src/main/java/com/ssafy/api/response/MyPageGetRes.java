@@ -68,5 +68,8 @@ public class MyPageGetRes extends  BaseResponseBody{
 //		res.setIntroduce(introduce);
 //		return res;
 //	}
-
+	@Override
+	public String toString(){
+		return id+" / "+passwd+" / "+nickname+" / "+pg;
+	}
 }

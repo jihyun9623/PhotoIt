@@ -97,18 +97,18 @@ public class JwtTokenUtil {
     // 토큰에서 회원 정보 추출
     public String getUserInfo(String token) {
         logger.debug("getUserInfo : 들어온 토큰 = " + token);
- //       try {
+        try {
                 return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 //        return Jwts.parser()
 //                .setSigningKey(secretKey.getBytes(Charset.forName("UTF-8")))
 //                .parseClaimsJws(token).getBody().getSubject();
        // return Jwts.parser().setSigningKey(secretKey.getBytes(Charset.forName("UTF-8"))).parseClaimsJws(token.replace("{", "").replace("}","")).getBody().getSubject();
-//        } catch (io.jsonwebtoken.security.SignatureException e) {
-//            log.info("잘못된 JWT 서명입니다.");
-//        } catch (Exception e){
-//            log.info("잘못된 토큰입니다.");
-//        }
-//        return null;
+        } catch (io.jsonwebtoken.security.SignatureException e) {
+            log.info("잘못된 JWT 서명입니다.");
+        } catch (Exception e){
+            log.info("잘못된 토큰입니다.");
+        }
+        return null;
     }
 
     // Request의 Header에서 token 값을 가져옴. "X-AUTH-TOKEN" : "TOKEN값'

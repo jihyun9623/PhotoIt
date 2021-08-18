@@ -1,15 +1,35 @@
 <template>
   <div>
     <SearchRegion />
-    <div class="empty-box"></div>
+    <div id="bg" class="empty-box fontCafe"></div>
+    <h1 class="mypageTitle">마이페이지</h1>
+    <hr
+      align="left"
+      style="
+        border: solid 2px #0000ff;
+        width: 77vw;
+        margin-left: 8vmax;
+        color: #0000ff;
+      "
+    />
     <!-- 메인 컨테이너 -->
-    <section class="d-flex align-items-center justify-content-center pt-5 mt-5">
-      <div class="container text-center">
+    <section
+      class="
+        d-flex
+        align-items-center
+        justify-content-center
+        pt-3
+        mt-3
+        mainContainer
+      "
+    >
+      <div class="container text-center fontCafe">
         <form>
-          <h3 class="h3 mb-3">
+          <h3 class="h3 mt-3 mb-5">
             <!-- 이미지 넣을 위치 -->
             <img
               :src="formProfilePhoto"
+              alt="profile"
               width="200"
               height="200"
               class="d-inline-block align-text-top border"
@@ -17,50 +37,58 @@
           </h3>
           <hr />
           <!-- 아이디 -->
-          <div class="input-group mb-4 mt-5">
-            <span class="input-group-text col-4 justify-content-center"
+          <div class="input-group mb-4 mt-4">
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
               >이메일</span
             >
             <input
               type="text"
-              class="form-control mb-0"
+              class="form-control mb-0 mypageForm"
               aria-label="formEmail"
               aria-describedby="formEmail"
               v-model="formEmail"
               disabled
             />
+            <span class="col-4"></span>
           </div>
           <!-- 닉네임 -->
-          <div class="input-group mb-5">
-            <span class="input-group-text col-4 justify-content-center"
+          <div class="input-group mb-4">
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
               >닉네임</span
             >
             <input
               type="text"
-              class="form-control mb-0"
+              class="form-control mb-0 col-4 fontCafe"
               aria-label="formNickname"
               aria-describedby="formNickname"
               v-model="formNickname"
             />
+            <span class="col-1"></span>
             <button
               @click="checkNickname"
-              class="btn btn-lg btn-outline btn-primary"
+              class="btn btn-lg btn-outline-primary fontCafe col-2"
+              style="font-weight: bold"
               type="button"
+              autocomplete="off"
             >
               닉네임 중복체크
             </button>
+            <span class="col-1"></span>
           </div>
-          <hr />
           <!-- 비밀번호 -->
-          <div class="input-group mb-4 mt-5">
-            <span class="input-group-text col-4 justify-content-center"
-              >비밀번호</span
+          <div class="input-group mb-4 mt-4">
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
+              >비밀번호 변경</span
             >
             <input
-              type="text"
-              class="form-control mb-0"
+              type="password"
+              class="form-control mb-0 fontCafe"
               aria-label="formPasswd"
               aria-describedby="formPasswd"
+              autocomplete="off"
               v-model="formPasswd"
               :class="{
                 'is-valid': isUserPasswordFocusAndValid,
@@ -69,20 +97,24 @@
               @input="validatePassword"
               @focus="isUserPasswordFocus = true"
             />
-            <div class="valid-feedback">사용 가능한 비밀번호입니다.</div>
-            <div class="invalid-feedback">
+            <span class="col-4"></span>
+            <div class="pt-1 valid-feedback fontS">
+              사용 가능한 비밀번호입니다.
+            </div>
+            <div class="pt-1 invalid-feedback fontS">
               1개 이상의 대소문자, 특수문자, 숫자를 포함하고 8자리 이상이여야
               합니다.
             </div>
           </div>
           <!-- 비밀번호 재확인 -->
-          <div class="input-group mb-5">
-            <span class="input-group-text col-4 justify-content-center"
-              >비밀번호 재확인</span
+          <div class="input-group mb-4">
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
+              >비밀번호 변경 확인</span
             >
             <input
-              type="text"
-              class="form-control mb-0"
+              type="password"
+              class="form-control mb-0 fontCafe"
               aria-label="formPasswdCheck"
               aria-describedby="formPasswdCheck"
               v-model="formPasswdCheck"
@@ -93,34 +125,51 @@
               @input="checkSamePassword"
               @focus="isUserPasswordCheckFocus = true"
             />
+            <span class="col-4"></span>
           </div>
-          <hr />
+          <!-- <hr
+            class="dotLine"
+            style="
+              border: none;
+              border-top: 2.5px dotted blue;
+              color: #fff;
+              background-color: #fff;
+              height: 1px;
+              width: 95%;
+              margin-left: 7%;
+            "
+          /> -->
           <!-- 작가여부-->
-          <div class="input-group mb-4 mt-5">
-            <span class="input-group-text col-4 justify-content-center"
-              >작가여부</span
+          <div class="input-group mb-4 mt-4">
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
+              >작가 여부</span
             >
             <input
               type="text"
-              class="form-control mb-0"
+              class="form-control mb-0 fontCafe"
               aria-label="formPgCheck"
               aria-describedby="formPgCheck"
               v-model="PG"
               disabled
             />
+            <span class="col-3"></span>
             <button
               @click="upgradeToPhotoGrapher"
-              class="btn btn-lg btn-outline btn-primary"
+              class="btn btn-lg btn-outline-primary fontCafe col-2"
+              style="font-weight: bold"
               type="button"
               v-if="!formPgCheck"
             >
               작가로 전환하기
             </button>
+            <span class="col-1"></span>
           </div>
           <!-- 작가 자기소개 -->
           <div class="input-group mb-4" v-if="formPgCheck">
-            <span class="input-group-text col-4 justify-content-center"
-              >작가 자기소개</span
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
+              >작가 한 줄 소개</span
             >
             <input
               type="text"
@@ -129,11 +178,13 @@
               aria-describedby="formIntroduce"
               v-model="formIntroduce"
             />
+            <span class="col-4"></span>
           </div>
           <!-- 작가 지역 -->
           <div class="input-group mb-5" v-if="formPgCheck">
-            <span class="input-group-text col-4 justify-content-center"
-              >작가 지역</span
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
+              >작가 활동 지역</span
             >
             <input
               type="text"
@@ -142,27 +193,30 @@
               aria-describedby="formLocation"
               v-model="formLocation"
             />
+            <span class="col-4"></span>
           </div>
           <hr />
           <div class="d-flex justify-content-end mt-5">
             <button
-              @click="deleteUser"
-              class="btn btn-lg btn-outline btn-danger"
-              type="button"
-            >
-              회원 탈퇴
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <button
               @click="updateUser"
-              class="btn btn-lg btn-outline btn-warning"
+              class="btn btn-lg btn-outline-warning fontCafe"
+              style="font-weight: bold"
               type="button"
             >
               회원 정보 수정
             </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button
+              @click="deleteUser"
+              class="btn btn-lg btn-outline-danger fontCafe"
+              style="font-weight: bold"
+              type="button"
+            >
+              회원 탈퇴
+            </button>
+            <span class="col-2"></span>
           </div>
           <br />
-          <p class="mt-4 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
       </div>
     </section>
@@ -171,6 +225,7 @@
 
 <script>
 import SearchRegion from '@/components/Common/SearchRegion'
+import http from '@/assets/js/axios.js'
 
 export default {
   name: 'MyPage',
@@ -182,16 +237,17 @@ export default {
       isUserPasswordValid: false,
       isUserPasswordFocus: false,
       isUserPasswordCheckFocus: false,
-      formEmail: this.$store.state.mypage.email,
-      formNickname: this.$store.state.mypage.nickName,
-      formProfilePhoto: this.$store.state.mypage.profilePhoto,
+      formEmail: '',
+      formNickname: '',
+      formProfilePhoto: '',
       formPasswd: '',
       formPasswdCheck: '',
-      formPgCheck: this.$store.state.mypage.isPhotoGrapher,
-      formIntroduce: this.$store.state.mypage.introduce,
-      formLocation: this.$store.state.mypage.location,
+      formPgCheck: '',
+      formIntroduce: '',
+      formLocation: '',
       PG: '',
-      nicknameOrigin: this.$store.state.mypage.nickName,
+      nicknameOrigin: '',
+      isPhotoGrapher: true,
     }
   },
   computed: {
@@ -215,6 +271,22 @@ export default {
     },
   },
   methods: {
+    getUserInfo() {
+      http.get('/mypage').then((res) => {
+        console.log('UserInfoData :')
+        console.log(res)
+        this.formEmail = res.data.id
+        this.formNickname = res.data.nickname
+        this.formProfilePhoto = res.data.photo
+        this.formPgCheck = res.data.pg
+        this.formIntroduce = res.data.introduce
+        this.formLocation = res.data.location
+        this.nicknameOrigin = res.data.nickname
+        // 작가 여부 판별
+        if (res.data.pg) this.PG = '작가입니다.'
+        else this.PG = '작가가 아닙니다.'
+      })
+    },
     // 회원정보 수정
     updateUser() {
       if (this.nicknameOrigin != this.formNickname) {
@@ -235,7 +307,7 @@ export default {
         nickname: this.formNickname,
         pg: this.formPgCheck,
         location: this.formLocation,
-        introduce: this.formIntroduce,
+        profile: this.formIntroduce,
       }
       this.$store.dispatch('mypage/setUserInfo', data).then(() => {
         if (this.$store.state.mypage.return) {
@@ -263,17 +335,33 @@ export default {
         this.toastSuccess('닉네임이 변경되지 않았어요.')
         return false
       }
-      this.$store.dispatch('mypage/nickNameCheck').then(() => {
-        if (this.$store.state.mypage.returnNickname) {
-          this.toastSuccess('사용가능한 닉네임입니다.')
-        } else {
-          this.toastDanger('이미 존재하는 닉네임입니다.')
-        }
-      })
+      this.$store
+        .dispatch('mypage/nickNameCheck', {
+          nickname: this.formNickname,
+        })
+        .then(() => {
+          if (this.$store.state.mypage.returnNickname) {
+            this.toastSuccess('사용가능한 닉네임입니다.')
+          } else {
+            this.toastDanger('이미 존재하는 닉네임입니다.')
+          }
+        })
     },
     // 프로필 사진 업로드
     uploadProfilePhoto() {
-      let data = { file: this.formProfilePhoto }
+      let data = new FormData()
+
+      // file upload
+      let attachFiles = document.querySelector('#inputFileUploadInsert')
+      console.log('attachFiles : ')
+      console.log(attachFiles)
+
+      if (attachFiles.files.length > 0) {
+        data.append('file', attachFiles.files[0])
+      } else {
+        this.toastDanger('프로필 사진 수정에 실패했습니다.')
+        return false
+      }
       this.$store.dispatch('mypage/uploadProfilePhoto', data).then(() => {
         if (this.$store.state.mypage.return) {
           this.toastSuccess('프로필 사진이 수정되었습니다.')
@@ -326,14 +414,18 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('mypage/getUserInfo')
+    this.getUserInfo()
+    this.$store.dispatch('login/isLoginCheck')
+    if (!this.$store.state.login.isLogin) {
+      alert('접근 권한이 없습니다.')
+      this.$router.push({ name: 'MainPage' })
+    }
   },
   mounted() {
     // 검색바가 보이도록 설정
     this.$store.state.search.isSearchHeaderShow = true
-    // 작가 여부 판별
-    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가입니다.'
-    else this.PG = '작가가 아닙니다.'
+
+    window.scrollTo(0, 0)
   },
 }
 </script>

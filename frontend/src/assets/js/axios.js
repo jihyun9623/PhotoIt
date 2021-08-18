@@ -1,5 +1,5 @@
 import axios from 'axios'
-const serverURL = 'http://localhost:8080'
+const serverURL = 'https://i5a108.p.ssafy.io/api'
 // https://i5a108.p.ssafy.io/api
 // http://localhost:8080
 

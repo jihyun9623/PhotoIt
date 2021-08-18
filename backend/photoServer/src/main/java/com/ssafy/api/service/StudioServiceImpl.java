@@ -153,8 +153,8 @@ public class StudioServiceImpl implements StudioService {
         }
 
         StudioGetPhotosResBody resbody = new StudioGetPhotosResBody();
-        resbody.setPid(pid);
-        resbody.setOrigin(borigin);
+        resbody.setId(pid);
+        resbody.setFile(borigin);
 
         return resbody;
     };
@@ -184,8 +184,8 @@ public class StudioServiceImpl implements StudioService {
         }
 
         StudioGetPhotosResBody resbody = new StudioGetPhotosResBody();
-        resbody.setPid(pid);
-        resbody.setOrigin(origin);
+        resbody.setId(pid);
+        resbody.setFile(origin);
 
         return resbody;
     };

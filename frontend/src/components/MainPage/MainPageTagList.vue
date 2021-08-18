@@ -88,10 +88,7 @@
 <script>
 import MainPageTagItem from '@/components/MainPage/MainPageTagItem'
 import PhotoDetail from '@/components/Common/PhotoDetail'
-import AOS from 'aos'
-import 'aos/dist/aos.css'
 
-AOS.init()
 export default {
   name: 'MainPageTagList',
   components: {

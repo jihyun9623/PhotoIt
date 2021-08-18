@@ -330,7 +330,7 @@ export default {
         return false
       }
       this.$store
-        .dispatch('mypage/nickNameCheck', this.data.formNickname)
+        .dispatch('mypage/nickNameCheck', this.formNickname)
         .then(() => {
           if (this.$store.state.mypage.returnNickname) {
             this.toastSuccess('사용가능한 닉네임입니다.')
@@ -339,6 +339,25 @@ export default {
           }
         })
     },
+    // userLogin() {
+    //   httpNoJWT
+    //     .post('/user/signin', this.credentials)
+    //     .then((res) => {
+    //       console.log(res)
+    //       localStorage.setItem('jwt', res.data.jwt)
+    //       localStorage.setItem('id', res.data.id)
+    //       localStorage.setItem('role', res.data.role)
+    //       this.$emit('login')
+    //       this.$store.dispatch('login/isLoginCheck')
+    //       this.$store.dispatch('login/isRole')
+    //       window.location.reload()
+    //       this.$router.push({ name: 'MainPage' })
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //       alert('로그인 정보가 잘못되었습니다.')
+    //     })
+    // },
     // 프로필 사진 업로드
     uploadProfilePhoto() {
       let data = new FormData()

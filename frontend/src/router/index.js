@@ -34,7 +34,7 @@ const routes = [
     component: Signup,
   },
   {
-    path: '/favlist',
+    path: '/fav',
     name: 'FavoriteList',
     component: FavoriteList,
   },

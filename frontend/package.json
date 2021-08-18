@@ -13,10 +13,10 @@
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
+    "mosha-vue-toastify": "^1.0.19",
     "vue": "^3.1.5",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0",
-    "mosha-vue-toastify": "^1.0.18"
+    "vuex": "^4.0.0-0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

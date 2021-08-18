@@ -1,43 +1,54 @@
 <template>
   <div class="favlistbox">
     <!-- <div class="head"> -->
-    <div class="pgNick">
-      <p>aaaaa</p>
-    </div>
+    <!-- <router-link
+      :to="{ path: `/mystudio/${profile.nickName}` }"
+      class="pg-name"
+    >
+      <div class="card">
+        <img class="img-fluid card-img" alt="Profile" :src="profile.photo" />
+        <div class="card-body">
+          <p class="card-text fs-6 fw-bold text-center pt-3">
+            {{ profile.nickName }}
+          </p>
+        </div>
+      </div>
+    </router-link> -->
+    <!-- <div class="pgNick"> -->
+    <p>{{ favNick }}</p>
+    <a>{{ favBest }}</a>
+    <!-- </div> -->
     <!-- <div class="deleteFav"><button>x</button></div> -->
     <!-- </div> -->
-    <div
+    <!-- <div
       class="bestphoto"
       v-for="(photo, idx) in photoList"
       :key="idx"
       :best="best"
     >
       <FavoriteListBoxBest />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import FavoriteListBoxBest from '@/components/FavoriteList/FavoriteListBoxBest'
+// import FavoriteListBoxBest from '@/components/FavoriteList/FavoriteListBoxBest'
 
 export default {
   name: 'FavoriteListBox',
   components: {
-    FavoriteListBoxBest,
+    // FavoriteListBoxBest,
   },
   props: {
-    pgFav: {
-      type: Object,
-    },
-    photoList: {
-      type: Array,
-    },
+    favNick: Array,
+    favBest: Array,
   },
-  data() {
-    return {
-      nickName: this.pgFav.nickName,
-    }
-  },
+  created() {},
+  // data() {
+  //   return {
+  //     favList: this.$state.
+  //   }
+  // },
 }
 </script>
 

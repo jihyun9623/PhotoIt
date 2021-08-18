@@ -48,5 +48,4 @@ public class UserReq {
         this.location=location;
         this.profile=profile;
     }
-
 }

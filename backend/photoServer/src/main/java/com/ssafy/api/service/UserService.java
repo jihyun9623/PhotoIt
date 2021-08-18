@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserReq;
 import com.ssafy.api.response.MyPageGetRes;
+import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.common.model.response.BaseResponseBody;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public interface UserService {
     Boolean isPasswordRight(String id, String passwd);
 
     // 회원정보 수정하기 put : /mypage
-    void updateProfile(String token, UserReq updateInfo);
+    UserLoginPostRes updateProfile(String token, UserReq updateInfo);
 
     // 회원탈퇴 delete : /mypage
     void withdrawalUser(String token);

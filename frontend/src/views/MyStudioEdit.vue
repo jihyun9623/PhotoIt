@@ -6,65 +6,60 @@
     bestlist
     <div class="best-container row">
       <div
-        v-for="(item, idx) in best"
+        v-for="(item, idx) in bestid"
         :key="idx"
         :id="bestid[idx]"
         :item="item"
         class="tag-item col-md-4 d-flex align-self-center"
+        @click="bestClick(bestid[idx])"
       >
         <img class="img-fluid card-img" :src="item" />
       </div>
     </div>
 
+    <button
+      class="btn btn-sm btn-warning float-start"
+      data-toggle="modal"
+      data-target="#UploadModal"
+      @click="showModal()"
+    >
+      사진 업로드
+    </button>
+
     photolist
-    <div class="best-container row">
+    <div class="photo-container row flex-wrap">
       <div
-        v-for="(item, idx) in photo"
+        v-for="(item, idx) in photoid"
         :key="idx"
-        :id="bestid[idx]"
+        :id="photoid[idx]"
         :item="item"
         class="tag-item col-md-2 d-flex align-self-center"
+        @click="photoClick(photoid[idx])"
       >
         <img class="img-fluid card-img" :src="item" />
       </div>
     </div>
   </div>
 
-  <!--모달 
-  <BestModal />
-  <BestModal v-on:call-parent-best="closeBestModal"></BestModal>
-  <PhotoModal />
-  -->
+  <UploadModal v-on:call-parent-close="closeModal"></UploadModal>
 </template>
 
 <script>
 import http from '@/assets/js/axios.js'
-// import MyStudioHeader from '@/components/MyStudio/MyStudioHeader.vue'
-// import BestModal from '@/components/MyStudioEdit/MyStudioEditBest.vue'
-// import PhotoModal from '@/components/MyStudioEdit/MyStudioEditPhoto.vue'
-// import MyStudioEditBestItem from '@/components/MyStudioEdit/MyStudioEditBestItem'
-// import component from "component location"
+import UploadModal from '@/components/MyStudioEdit/MyStudioEditUploadModal.vue'
 
 export default {
   name: 'MyStudioEdit',
   components: {
-    // components
-    // MyStudioHeader,
-    // BestModal,
-    // PhotoModal,
-    // MyStudioEditBestItem,
+    UploadModal,
   },
   data() {
     return {
-      bestModal: '',
-      photoModal: '',
-      bestModalOn: false,
-      photoModalOn: false,
+      modal: false,
       best: '',
       bestid: '',
       photo: '',
       photoid: '',
-      modal: false,
     }
   },
   computed: {
@@ -83,12 +78,18 @@ export default {
   },
   methods: {
     // Edit Best Mode 표시
-    showBestModal() {
-      this.bestModal.show()
+    showModal() {
+      this.modal = true
     },
-    // Edit Best Mode 표시
-    showPhotoModal() {
-      this.photoModal.show()
+    closeModal() {
+      this.modal = false
+      window.location.reload()
+    },
+    bestClick(id) {
+      console.log(id)
+    },
+    photoClick(id) {
+      console.log(id)
     },
     // 베스트 사진 추가
     addBest(photo_id) {
@@ -174,7 +175,7 @@ export default {
     },
     // 베스트 사진을 더 추가할 수 있는지 확인
     IsPossibleBestBeAdded() {
-      if (this.$store.state.mystudioedit.photo.length > 2) {
+      if (this.$store.state.mystudioedit.best.length > 2) {
         return false
       } else {
         return true
@@ -222,7 +223,6 @@ export default {
       }
     })
   },
-  mounted() {},
 }
 </script>
 

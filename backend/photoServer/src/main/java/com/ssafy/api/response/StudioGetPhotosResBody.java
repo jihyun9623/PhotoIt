@@ -17,16 +17,16 @@ import java.util.List;
 @ApiModel("StudioGetPhotosResBody")
 public class StudioGetPhotosResBody extends BaseResponseBody {
     @ApiModelProperty(name="사진 ID 배열", example = "123512")
-    String[] pid;
+    String[] id;
     @ApiModelProperty(name="사진 파일", example = "multipart 형")
-    String[] origin;
+    String[] file;
 
     public static StudioGetPhotosResBody of(Integer statusCode, String message, String[] pid, String[] origin){
         StudioGetPhotosResBody body = new StudioGetPhotosResBody();
         body.setStatusCode(statusCode);
         body.setMessage(message);
-        body.setPid(pid);
-        body.setOrigin(origin);
+        body.setId(pid);
+        body.setFile(origin);
         return body;
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-6 col-md-3 d-flex justify-content-center">
+  <div class="col-6 col-md-3 d-flex justify-content-center mt-5">
     <router-link
       :to="{ path: `/mystudio/${profile.nickName}` }"
       class="pg-name"

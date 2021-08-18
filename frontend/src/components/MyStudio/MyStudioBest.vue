@@ -73,13 +73,11 @@ export default {
 <style>
 .best3-all {
   max-width: 100%;
-  max-width: 1920px;
-  max-height: 1080px;
+  max-height: 865px;
 }
 .best3-all .best3 {
-  max-width: 100%;
-  max-height: 1080px;
   object-fit: contain;
+  max-width: 100%;
   margin: auto;
 }
 </style>

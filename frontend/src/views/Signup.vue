@@ -2,10 +2,6 @@
   <div>
     <div class="container-signup">
       <h1>Signup</h1>
-      <p>
-        추가할 일 <br />
-        API 넘어오면 하나씩 확인하면서 수정작업
-      </p>
       <input
         style="display: none"
         type="file"

@@ -1,7 +1,5 @@
 <template>
-  <div>&nbsp;</div>
   <div class="headerwrapper">
-    <div>&nbsp;</div>
     <div class="headercontainer row">
       <div class="headerelement col-4">
         <router-link
@@ -10,7 +8,7 @@
             params: { nickname: this.$store.state.mystudio.nickname },
           }"
         >
-          <img src="@/assets/images/profile_default.png" class="pg-profile" />
+          <img :src="pg_profPhoto" class="pg-profile" />
         </router-link>
         <div class="pg-info">
           <p class="pg-name">{{ this.$store.state.mystudio.nickname }}</p>
@@ -27,7 +25,9 @@
         <MyStudioHeaderFavorite class="col-4" />
         <MyStudioHeaderChat class="col-4" />
         <div class="col-4">
-          <img src="@/assets/images/home_icon.png" class="icon" />
+          <router-link :to="{ name: 'MainPage' }">
+            <img src="@/assets/images/home_icon.png" class="icon" />
+          </router-link>
         </div>
       </div>
       <div class="headerelement col-4">
@@ -64,8 +64,10 @@ export default {
     MyStudioHeaderFavorite,
     MyStudioHeaderSearchBar,
   },
-  data: function () {
-    return {}
+  computed: {
+    pg_profPhoto() {
+      return this.$store.state.mystudio.pg_profile.profPhoto
+    },
   },
   created: function () {
     console.log('created start')
@@ -74,11 +76,17 @@ export default {
       'mystudio/pgProfile',
       this.$store.state.mystudio.nickname,
     )
+    // this.pg_profPhoto = this.$store.state.mystudio.pg_profile.profPhoto
     this.$store.dispatch('mystudio/best3', this.$store.state.mystudio.nickname)
     this.$store.dispatch(
       'mystudio/photoAll',
       this.$store.state.mystudio.nickname,
     )
+  },
+  methods: {
+    refreshAll() {
+      window.location.reload()
+    },
   },
 }
 </script>
@@ -91,6 +99,8 @@ export default {
   padding-right: 80px;
   background: white;
   text-align: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .headercontainer {

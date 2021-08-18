@@ -223,6 +223,7 @@
 
 <script>
 import SearchRegion from '@/components/Common/SearchRegion'
+import http from '@/assets/js/axios.js'
 
 export default {
   name: 'MyPage',
@@ -234,37 +235,19 @@ export default {
       isUserPasswordValid: false,
       isUserPasswordFocus: false,
       isUserPasswordCheckFocus: false,
-      //formEmail: this.$store.state.mypage.email,
-      //formNickname: this.$store.state.mypage.nickName,
-      //formProfilePhoto: this.$store.state.mypage.profilePhoto,
+      formEmail: '',
+      formNickname: '',
+      formProfilePhoto: '',
       formPasswd: '',
       formPasswdCheck: '',
-      //formPgCheck: this.$store.state.mypage.isPhotoGrapher,
-      //formIntroduce: this.$store.state.mypage.introduce,
-      //formLocation: this.$store.state.mypage.location,
+      formPgCheck: '',
+      formIntroduce: '',
+      formLocation: '',
       PG: '',
-      nicknameOrigin: this.$store.state.mypage.nickName,
+      nicknameOrigin: '',
     }
   },
   computed: {
-    formEmail() {
-      return this.$store.state.mypage.email
-    },
-    formNickname() {
-      return this.$store.state.mypage.nickName
-    },
-    formProfilePhoto() {
-      return this.$store.state.mypage.profilePhoto
-    },
-    formPgCheck() {
-      return this.$store.state.mypage.isPhotoGrapher
-    },
-    formIntroduce() {
-      return this.$store.state.mypage.introduce
-    },
-    formLocation() {
-      return this.$store.state.mypage.location
-    },
     // 패스워드 양식 확인 및 표시용
     isUserPasswordFocusAndInvalid() {
       return this.isUserPasswordFocus && !this.isUserPasswordValid
@@ -285,6 +268,19 @@ export default {
     },
   },
   methods: {
+    getUserInfo() {
+      http.get('/mypage').then((res) => {
+        console.log('UserInfoData :')
+        console.log(res)
+        this.formEmail = res.data.id
+        this.formNickname = res.data.nickname
+        this.formProfilePhoto = res.data.photo
+        this.formPgCheck = res.data.pg
+        this.formIntroduce = res.data.location
+        this.formLocation = res.data.introduce
+        this.nicknameOrigin = res.data.nickname
+      })
+    },
     // 회원정보 수정
     updateUser() {
       if (this.nicknameOrigin != this.formNickname) {
@@ -334,7 +330,7 @@ export default {
         return false
       }
       this.$store
-        .dispatch('mypage/nickNameCheck', this.data.formNickname)
+        .dispatch('mypage/nickNameCheck', this.formNickname)
         .then(() => {
           if (this.$store.state.mypage.returnNickname) {
             this.toastSuccess('사용가능한 닉네임입니다.')
@@ -343,6 +339,25 @@ export default {
           }
         })
     },
+    // userLogin() {
+    //   httpNoJWT
+    //     .post('/user/signin', this.credentials)
+    //     .then((res) => {
+    //       console.log(res)
+    //       localStorage.setItem('jwt', res.data.jwt)
+    //       localStorage.setItem('id', res.data.id)
+    //       localStorage.setItem('role', res.data.role)
+    //       this.$emit('login')
+    //       this.$store.dispatch('login/isLoginCheck')
+    //       this.$store.dispatch('login/isRole')
+    //       window.location.reload()
+    //       this.$router.push({ name: 'MainPage' })
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //       alert('로그인 정보가 잘못되었습니다.')
+    //     })
+    // },
     // 프로필 사진 업로드
     uploadProfilePhoto() {
       let data = new FormData()
@@ -410,15 +425,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('mypage/getUserInfo').then(() => {
-      this.formEmail = this.$store.state.mypage.email
-      this.formNickname = this.$store.state.mypage.nickName
-      this.formProfilePhoto = this.$store.state.mypage.profilePhoto
-      this.formPgCheck = this.$store.state.mypage.isPhotoGrapher
-      this.formIntroduce = this.$store.state.mypage.introduce
-      this.formLocation = this.$store.state.mypage.location
-      this.nicknameOrigin = this.$store.state.mypage.nickName
-    })
+    this.getUserInfo()
   },
   mounted() {
     // 검색바가 보이도록 설정

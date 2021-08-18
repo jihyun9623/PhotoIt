@@ -5,6 +5,7 @@ import mystudio from './modules/mystudio'
 import mainpage from './modules/mainpage'
 import mypage from './modules/mypage'
 import mystudioedit from './modules/mystudioedit'
+import favorite from './modules/favorite'
 
 export default createStore({
   state: {
@@ -28,5 +29,6 @@ export default createStore({
     mainpage,
     mypage,
     mystudioedit,
+    favorite,
   },
 })

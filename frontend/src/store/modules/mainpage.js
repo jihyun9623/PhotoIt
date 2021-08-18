@@ -51,7 +51,7 @@ const actions = {
   },
   getDetailPhotos({ commit }, info) {
     commit('GET_PG_NICKNAME', info.nickName)
-    httpNoJWT
+    return httpNoJWT
       .post('/detail', info)
       .then((res) => {
         console.log(res)

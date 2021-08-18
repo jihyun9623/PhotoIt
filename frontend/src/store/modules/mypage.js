@@ -36,28 +36,20 @@ const mutations = {
 
 // actions
 const actions = {
-  getUserInfo({ commit }) {
-    // TO-DO : 로컬스토리지 확인후 아래 보낼내용 수정하기
-    //http.get('/mypage/' + localStorage.getItem('nickName')).then((res) => {
-    http.get('/mypage').then((res) => {
-      console.log('UserInfoData :')
-      console.log(res)
-      commit('SET_USER_INFO', {
-        email: res.data.id,
-        nickName: res.data.nickname,
-        profilePhoto: res.data.photo,
-        isPhotoGrapher: res.data.pg,
-        location: res.data.location,
-        introduce: res.data.introduce,
-      })
-    })
-  },
   // 회원정보 수정
   setUserInfo({ commit }, data) {
+    console.log(data)
     return http
       .put('/mypage', data)
       .then((res) => {
         console.log(res)
+        localStorage.removeItem('nickname')
+        localStorage.removeItem('jwt')
+        localStorage.removeItem('role')
+        localStorage.setItem('nickname', res.data.nickname)
+        localStorage.setItem('jwt', res.data.jwt)
+        localStorage.setItem('role', res.data.role)
+        window.location.reload()
         commit('SET_RETURN', {
           return: true,
         })

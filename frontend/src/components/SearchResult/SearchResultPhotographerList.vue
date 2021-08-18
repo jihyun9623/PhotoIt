@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row pt-5">
       <SearchResultPhotographerItem
         v-for="(profile, idx) in profileList"
         :key="idx"

@@ -52,7 +52,6 @@ public class MainPageServiceImpl implements MainPageService{
     @Override
     @Transactional
     public UserProfile userProfile(String JWT) {
-
         User user = userRepository.findUserById(jwtTokenUtil.getUserInfo(JWT)).orElseThrow(RuntimeException::new);
         UserProfile userProfile = UserProfile.of(user.getNickname(), user.getPhoto());
         return userProfile;

@@ -25,16 +25,16 @@
       aria-expanded="false"
     />
     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-      <li v-if="!isLogin" class="mb-2 mt-2">
-        <router-link :to="{ name: 'Login' }"> 로그인 </router-link>
-      </li>
-      <li v-if="!isLogin" class="mb-2">
-        <router-link :to="{ name: 'Signup' }"> 회원가입 </router-link>
-      </li>
+      <router-link :to="{ name: 'Login' }">
+        <li v-if="!isLogin" class="mb-2 mt-2">로그인</li>
+      </router-link>
+      <router-link :to="{ name: 'Signup' }">
+        <li v-if="!isLogin" class="mb-2">회원가입</li>
+      </router-link>
       <li v-if="isLogin" @click="userLogout" class="mb-2 mt-2">로그아웃</li>
-      <li v-if="isLogin" class="mb-2">
-        <router-link :to="{ name: 'MyPage' }"> 마이페이지 </router-link>
-      </li>
+      <router-link :to="{ name: 'MyPage' }">
+        <li v-if="isLogin" class="mb-2">마이페이지</li>
+      </router-link>
       <!-- 비작가는 마이스튜디오 메뉴가 보이면 안된다. -->
       <li class="mb-2">
         <router-link
@@ -53,6 +53,10 @@
         </router-link>
       </li>
       <!-- <li v-if="isLogin" class="mb-2"><router-link :to="{ name: '' }"> 찜 목록 </router-link></li> -->
+
+      <router-link :to="{ name: 'FavoriteList' }">
+        <li v-if="isLogin" class="mb-2">찜 목록</li>
+      </router-link>
     </ul>
   </span>
 </template>
@@ -62,7 +66,8 @@ export default {
   name: 'ProfileIconMenu',
   computed: {
     profilePicture() {
-      return this.$store.state.login.profile
+      // return this.$store.state.login.profile
+      return this.$store.state.mainpage.profilePicture
     },
     isLogin() {
       return this.$store.state.login.isLogin

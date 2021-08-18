@@ -7,7 +7,7 @@
         class="me-2 fontCafe"
         v-model="info.region"
       >
-        <option value="all">&nbsp;&nbsp;전체</option>
+        <option value="all" class="fontCafe">&nbsp;&nbsp;전체</option>
         <option v-for="(region, idx) in regions" :key="idx" :value="region">
           {{ region }}
         </option>

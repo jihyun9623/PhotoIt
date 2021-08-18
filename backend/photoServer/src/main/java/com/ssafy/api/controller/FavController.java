@@ -4,15 +4,19 @@ import com.ssafy.api.request.FavReq;
 import com.ssafy.api.response.FavResBody;
 import com.ssafy.api.service.FavService;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.Photo;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Api(value = "Fav API")
 @RestController
 @RequestMapping("/fav")
-@CrossOrigin("*")
+@CrossOrigin(origins="http://localhost:8081", allowedHeaders="*", allowCredentials = "true")
 public class FavController {
 
     @Autowired
@@ -96,11 +100,11 @@ public class FavController {
     })
     public ResponseEntity<FavResBody> getFavList(@RequestBody @PathVariable("userNick") String userNick){
         /* 찜목록 조회 */
-        Integer[] favList = favService.getFavList(userNick);
+        FavResBody favResBody = favService.getFavList(userNick);
 
-        if(true) {
-            return ResponseEntity.ok(FavResBody.of(200, "Success",favList));
-        }
+        if(favResBody!=null) {
+            return ResponseEntity.ok(FavResBody.of(200, "Success",favResBody.getFavList()));//favResBody.getFavNicklist(),favResBody.getFavBestlist()));
+        }//
 
         return ResponseEntity.status(401).body(FavResBody.of(401, "찜한 작가가 없습니다.",null));
     }

@@ -104,6 +104,9 @@ export default {
       this.$router.push({ name: 'MainPage' })
     }
   },
+  mounted() {
+    window.scrollTo(0, 0)
+  },
 }
 </script>
 

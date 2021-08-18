@@ -3,12 +3,13 @@
   <div class="empty-box"></div>
   <h1>My Favorite List</h1>
   <!-- <div class="favbox" v-for="(fav, idx) in favlist" :key="idx" :fav="fav"> -->
-  <FavoriteListBox
+  <!-- <FavoriteListBox
     v-for="(favNick, favBest, i) in (pgNicklist, bestPhotoslist)"
     :favNick="favNick"
     :favBest="favBest"
     :key="i"
-  />
+  /> -->
+  <FavoriteListBox v-for="(fav, i) in favList" :fav="fav" :key="i" />
   <!-- </div> -->
 </template>
 
@@ -25,17 +26,43 @@ export default {
   },
   // methods: {},
   computed: {
-    pgNicklist() {
-      return this.$store.state.favorite.pgNick
+    favList() {
+      // let favlist = this.$store.state.favorite.favList
+      // let key = Object.keys(this.$store.state.favorite.favList)
+      // let value = Object.values(this.$store.state.favorite.favList)
+      // console.log(key)
+      // console.log(value)
+
+      let nicklist = this.$store.state.favorite.pgNick
+      // let bestlist = this.$store.state.favorite.bestPhotos
+      let favList = []
+      for (let i in nicklist) {
+        let temp = []
+        temp.push(nicklist[i])
+        favList.push(temp)
+      }
+      // console.log(favList)
+      // for (let i = 0; i < favList.length; i++) {
+      //   let temp = []
+      //   temp.push(bestlist[i])
+      //   console.log(favList)
+      //   favList.splice(i, 1, [favList[i]] + [temp])
+      // }
+      console.log(favList)
+      return this.$store.state.favorite.favList
     },
-    bestPhotoslist() {
-      return this.$store.state.favorite.bestPhotos
-    },
+    // pgNicklist() {
+    //   return this.$store.state.favorite.pgNick
+    // },
+    // bestPhotoslist() {
+    //   return this.$store.state.favorite.bestPhotos
+    // },
   },
   created() {
     this.$store.dispatch('favorite/getFavList').then(() => {
-      if (this.$store.state.favorite.pgNick != null) {
+      if (this.$store.state.favorite.favList != null) {
         console.log('Vue에서 성공')
+        // console.log(this.$store.state.favorite.bestPhotos[0])
       } else {
         alert('Vue에서 실패')
       }

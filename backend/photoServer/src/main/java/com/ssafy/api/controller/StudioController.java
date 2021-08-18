@@ -37,10 +37,10 @@ public class StudioController {
         StudioPgProfileResBody pgProfResBody = studioService.getPgProfile(nickname);
 
         if(pgProfResBody!=null) {
-            return ResponseEntity.ok(StudioPgProfileResBody.of(200, "Success", pgProfResBody.getIntroduce(), pgProfResBody.getLocation()));
+            return ResponseEntity.ok(StudioPgProfileResBody.of(200, "Success", pgProfResBody.getIntroduce(), pgProfResBody.getLocation(), pgProfResBody.getProfPhoto()));
         }
 
-        return ResponseEntity.status(401).body(StudioPgProfileResBody.of(401, "작가가 아닙니다.",null,null));
+        return ResponseEntity.status(401).body(StudioPgProfileResBody.of(401, "작가가 아닙니다.",null,null,null));
     }
 
     // 일정 보여주기

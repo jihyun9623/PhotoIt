@@ -144,17 +144,14 @@ public class FavServiceImpl implements FavService{
         if(fav.size()==0) return null;
 
         // 매핑
-        Map<String,List<String>> favNickList = new HashMap<>();
-        Map<String,List<List<String>>> favBestList = new HashMap<>();
-        List<String> nickList = new ArrayList<>();
-        List<List<String>> bestList = new ArrayList<>();
+        Map<String,Map<String,List<String>>> favList = new HashMap<>();
+        Map<String,List<String>> favlist = new HashMap<>();
         int i=0;
         for(Favorite f : fav) {
             //스튜디오 인덱스로 작가 스튜디오 정보 불러오기
             MyStudio studioInfo = myStudioRepository.findByIdx(f.getMyStudio().getIdx());
-            //작가 닉네임 리스트에 추가
+            //작가 닉네임
             String pgNick = studioInfo.getNickname();
-            nickList.add(pgNick);
 
             //전체사진
             List<Photo> allPhotos = studioInfo.getPhotos();
@@ -165,14 +162,43 @@ public class FavServiceImpl implements FavService{
                     best.add(p.getThumbnail());
                 }
             }
-            bestList.add(best);
-            favNickList.put("pgNick",nickList);
-            favBestList.put("bestPhotos",bestList);
+            favlist.put(pgNick,best);
+            favList.put("favList",favlist);
         }
 
         FavResBody favbody = new FavResBody();
-        favbody.setFavNicklist(favNickList);
-        favbody.setFavBestlist(favBestList);
+        favbody.setFavList(favList);
         return favbody;
+//        // 매핑
+//        Map<String,List<String>> favNickList = new HashMap<>();
+//        Map<String,List<List<String>>> favBestList = new HashMap<>();
+//        List<String> nickList = new ArrayList<>();
+//        List<List<String>> bestList = new ArrayList<>();
+//        int i=0;
+//        for(Favorite f : fav) {
+//            //스튜디오 인덱스로 작가 스튜디오 정보 불러오기
+//            MyStudio studioInfo = myStudioRepository.findByIdx(f.getMyStudio().getIdx());
+//            //작가 닉네임 리스트에 추가
+//            String pgNick = studioInfo.getNickname();
+//            nickList.add(pgNick);
+//
+//            //전체사진
+//            List<Photo> allPhotos = studioInfo.getPhotos();
+//            List<String> best = new ArrayList<>();
+//            //전체사진에서 best인것 뽑기
+//            for(Photo p : allPhotos){
+//                if(p.isBest()){
+//                    best.add(p.getThumbnail());
+//                }
+//            }
+//            bestList.add(best);
+//            favNickList.put("pgNick",nickList);
+//            favBestList.put("bestPhotos",bestList);
+//        }
+//
+//        FavResBody favbody = new FavResBody();
+//        favbody.setFavNicklist(favNickList);
+//        favbody.setFavBestlist(favBestList);
+//        return favbody;
     };
 }

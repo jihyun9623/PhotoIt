@@ -46,7 +46,7 @@ public class StudioServiceImpl implements StudioService {
             //지역,작가소개 매핑
             String[] strings = new String[loc.size()];
             for (int i = 0; i < loc.size(); i++) { strings[i] = loc.get(i).getName(); }
-
+//사진 추가
             StudioPgProfileResBody resbody = new StudioPgProfileResBody();
             resbody.setLocation(strings);
             resbody.setIntroduce(myStudio.getProfile());

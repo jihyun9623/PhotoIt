@@ -75,6 +75,7 @@ export default {
     }
   },
   mounted() {
+    window.scrollTo(0, 0)
     // 검색바가 보이도록 설정
     this.$store.state.search.isSearchHeaderShow = true
   },

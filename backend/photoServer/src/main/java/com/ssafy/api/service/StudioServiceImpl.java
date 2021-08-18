@@ -40,16 +40,19 @@ public class StudioServiceImpl implements StudioService {
             // 스튜디오 idx로 작가 프로필을 가져옴
             MyStudio myStudio = myStudioRepository.findByIdx(studioIdx);
 
+            String profPhoto = userRepository.findUserByNickname(nickname).getPhoto();
+
             // 지역
             List<Location> loc = locationRepository.findByAuthorLocations_MyStudio_Idx(studioIdx);
 
             //지역,작가소개 매핑
             String[] strings = new String[loc.size()];
             for (int i = 0; i < loc.size(); i++) { strings[i] = loc.get(i).getName(); }
-
+//사진 추가
             StudioPgProfileResBody resbody = new StudioPgProfileResBody();
             resbody.setLocation(strings);
             resbody.setIntroduce(myStudio.getProfile());
+            resbody.setProfPhoto(profPhoto);
             return resbody;
         }catch (NullPointerException e){
             return null;

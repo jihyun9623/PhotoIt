@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/mypage")
 @Api("MyPage Controller API V1")
-@CrossOrigin(origins="http://localhost:8081", allowedHeaders="*", allowCredentials = "true")
+//@CrossOrigin(origins="http://localhost:8081", allowedHeaders="*", allowCredentials = "true")
+@CrossOrigin("*")
 public class MyPageController {
     private static final Logger logger = LoggerFactory.getLogger(MyPageController.class);
 

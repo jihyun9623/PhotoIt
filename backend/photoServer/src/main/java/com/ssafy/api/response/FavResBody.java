@@ -33,4 +33,11 @@ public class FavResBody extends BaseResponseBody {
 //        body.setFavBestlist(favBestlist);
         return body;
     }
+
+    @Override
+    public String toString() {
+        return "FavResBody{" +
+                "favList=" + favList +
+                '}';
+    }
 }

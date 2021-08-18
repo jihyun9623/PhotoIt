@@ -25,5 +25,5 @@ public class LoggingAspect {
 //    @AfterReturning(value="execution(* com.ssafy.api..*.*(..))", returning = "result")
 //    public void log_studioedit(JoinPoint jp, Object result){
 //        logger.info("메소드 : {} 리턴 : {}", jp.getSignature(), result.toString());
-    }
+//    }
 }

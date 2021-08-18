@@ -22,4 +22,13 @@ public class PhotoIdThumbNickNameRes {
         body.setNickName(nickName);
         return body;
     }
+
+    @Override
+    public String toString() {
+        return "PhotoIdThumbNickNameRes{" +
+                "photoId=" + photoId +
+                ", thumb='" + thumb + '\'' +
+                ", nickName='" + nickName + '\'' +
+                '}';
+    }
 }

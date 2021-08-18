@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Getter @Setter
@@ -43,5 +44,15 @@ public class MainPagePhotoDetailRes extends BaseResponseBody {
         return body;
     }
 
-
+    @Override
+    public String toString() {
+        return "MainPagePhotoDetailRes{" +
+                "origin='" + origin + '\'' +
+                ", tagList=" + Arrays.toString(tagList) +
+                ", favorite=" + favorite +
+                ", photoIdx=" + photoIdx +
+                ", profilePhoto='" + profilePhoto + '\'' +
+                ", thumbPhotoIds=" + thumbPhotoIds +
+                '}';
+    }
 }

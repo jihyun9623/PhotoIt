@@ -33,7 +33,7 @@ public class MyPageController {
     @GetMapping
     public MyPageGetRes getProfile(@RequestHeader(value = "Authorization") String token) {
         MyPageGetRes res = userService.getProfile(token);
-        logger.debug(res.toString());
+        //logger.debug(res.toString());
         return res;
     }
 
@@ -50,7 +50,7 @@ public class MyPageController {
     @ApiOperation(value = "회원 탈퇴", notes = "회원정보를 삭제한다")
     @DeleteMapping
     public BaseResponseBody deleteUser( @RequestHeader(value = "Authorization") String token) {
-        logger.debug("회원 탈퇴 메서드 진입");
+        //logger.debug("회원 탈퇴 메서드 진입");
         userService.withdrawalUser(token);
         return BaseResponseBody.of(200, "Success");
     }

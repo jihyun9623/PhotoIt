@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Arrays;
+
 /**
  * 스튜디오 수정페이지 프로필정보 API ([GET] /studioedit/pgprofile) 요청에 필요한 리스폰스 바디 정의.
  */
@@ -27,5 +29,13 @@ public class StudioEditPgProfileResponseBody extends BaseResponseBody {
 		body.setIntroduce(introduce);
 		body.setLocation(location);
 		return body;
+	}
+
+	@Override
+	public String toString() {
+		return "StudioEditPgProfileResponseBody{" +
+				"introduce='" + introduce + '\'' +
+				", location=" + Arrays.toString(location) +
+				'}';
 	}
 }

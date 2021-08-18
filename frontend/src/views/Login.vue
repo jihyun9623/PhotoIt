@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import httpNoJWT from '@/assets/js/axiosNotJWT.js'
 
 export default {
   name: 'Login',
@@ -79,12 +79,8 @@ export default {
   },
   methods: {
     userLogin() {
-      axios({
-        method: 'post',
-        // url: 'http://i5a108.p.ssafy.io:8080/user/signin',
-        url: 'http://localhost:8080/user/signin',
-        data: this.credentials,
-      })
+      httpNoJWT
+        .post('/user/signin', this.credentials)
         .then((res) => {
           console.log(res)
           localStorage.setItem('jwt', res.data.jwt)

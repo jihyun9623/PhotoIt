@@ -322,7 +322,7 @@
 
 <script>
 // import component from "component location"
-import axios from 'axios'
+import httpNoJWT from '@/assets/js/axiosNotJWT.js'
 
 export default {
   name: 'Signup',
@@ -367,11 +367,8 @@ export default {
     },
     // emailDupCheck : 이메일 중복확인 요청
     emailDupCheck: function () {
-      axios({
-        method: 'post',
-        url: 'http://i5a108.p.ssafy.io:8080/user/emaildup',
-        data: this.credentials,
-      })
+      httpNoJWT
+        .post('/user/emaildup', this.credentials)
         .then((res) => {
           console.log(res)
           if (this.credentials.id == null) {
@@ -394,11 +391,8 @@ export default {
     // emailAuthSend : 인증 버튼 클릭 시, 서버에 코드를 인증메일로 보내줄 것을 요청
     emailAuthSend: function () {
       this.emailSend = 'true' // 전송 보내지면 인증 입력창 띄워야 함
-      axios({
-        method: 'post',
-        url: 'http://i5a108.p.ssafy.io:8080/user/emailauth',
-        data: this.credentials.id,
-      })
+      httpNoJWT
+        .post('/user/emailauth', this.credentials.id)
         .then((res) => {
           console.log(res)
         })
@@ -430,11 +424,8 @@ export default {
     // },
     //
     nicknameDupCheck: function () {
-      axios({
-        method: 'post',
-        url: 'http://i5a108.p.ssafy.io:8080/user/nicknameCheck',
-        data: this.credentials,
-      })
+      httpNoJWT
+        .post('/user/nicknameCheck', this.credentials)
         .then((res) => {
           console.log(res)
           if (this.credentials.nickname == null) {
@@ -462,11 +453,8 @@ export default {
         this.dupNickname === this.credentials.nickname // 중복체크한 닉네임과 입력된 닉네임이 같다면
       ) {
         this.signupstate = 'success'
-        axios({
-          method: 'post',
-          url: 'http://i5a108.p.ssafy.io:8080/user/signup',
-          data: this.credentials,
-        })
+        httpNoJWT
+          .post('/user/signup', this.credentials)
           .then((res) => {
             console.log(res)
           })

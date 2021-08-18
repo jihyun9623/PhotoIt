@@ -15,8 +15,13 @@
       </div>
     </router-link> -->
     <!-- <div class="pgNick"> -->
-    <p>{{ favNick }}</p>
-    <a>{{ favBest }}</a>
+    <!-- <p>{{ favNick }}</p>
+    <a>{{ favBest }}</a> -->
+
+    <p>{{ fav }}</p>
+    <a>{{ Object.keys(fav) }}</a>
+    <p>{{ Object.values(fav)[0] }}</p>
+
     <!-- </div> -->
     <!-- <div class="deleteFav"><button>x</button></div> -->
     <!-- </div> -->
@@ -40,8 +45,9 @@ export default {
     // FavoriteListBoxBest,
   },
   props: {
-    favNick: Array,
-    favBest: Array,
+    fav: Array,
+    // favNick: Array,
+    // favBest: Array,
   },
   created() {},
   // data() {

@@ -20,17 +20,6 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
     private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
-    public void addCorsMapping(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedOrigins("http://localhost:8080")
-                .allowedOrigins("http://localhost:8081")
-                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .exposedHeaders("Authorization")
-                .allowCredentials(true);
-    }
-
     @Autowired
     private JwtInterceptor jwtInterceptor;
 
@@ -49,5 +38,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
                   .addPathPatterns("/user/signout")
                   .addPathPatterns("/mypage/**")
                   .addPathPatterns("/studioedit/**");
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedOrigins("http://localhost:8080")
+                .allowedOrigins("http://localhost:8081")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization")
+                .allowCredentials(true);
     }
 }

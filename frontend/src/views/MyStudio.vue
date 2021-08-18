@@ -34,8 +34,10 @@
         <MyStudioHeaderSearchBar />
       </div>
       <div class="headerelement col-2">
-        <div class="col-6">edit</div>
-        <div class="col-6">profile</div>
+        <div class="col-6"></div>
+        <div class="col-6">
+          <ProfileIconMenu @user-logout="userLogout" />
+        </div>
       </div>
     </div>
   </div>
@@ -52,6 +54,8 @@ import MyStudioBest from '@/components/MyStudio/MyStudioBest'
 import MyStudioHeaderChat from '@/components/MyStudio/MyStudioHeaderChat.vue'
 import MyStudioHeaderFavorite from '@/components/MyStudio/MyStudioHeaderFavorite.vue'
 import MyStudioHeaderSearchBar from '@/components/MyStudio/MyStudioHeaderSearchBar.vue'
+import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
+import http from '@/assets/js/axios.js'
 
 export default {
   name: 'MyStudio',
@@ -63,6 +67,7 @@ export default {
     MyStudioHeaderChat,
     MyStudioHeaderFavorite,
     MyStudioHeaderSearchBar,
+    ProfileIconMenu,
   },
   computed: {
     pg_profPhoto() {
@@ -84,8 +89,25 @@ export default {
     )
   },
   methods: {
-    refreshAll() {
-      window.location.reload()
+    userLogout() {
+      http
+        .get('/user/signout')
+        .then(() => {
+          alert('로그아웃 되었습니다.')
+          localStorage.removeItem('jwt')
+          localStorage.removeItem('id')
+          localStorage.removeItem('role')
+          localStorage.removeItem('profile')
+          localStorage.removeItem('nickname')
+          this.$router.push({ name: 'MainPage' })
+          if (this.$route.name === 'MainPage') {
+            window.location.reload()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('다시 시도해 주세요.')
+        })
     },
   },
 }

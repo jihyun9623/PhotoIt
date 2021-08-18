@@ -34,10 +34,7 @@ export default {
           localStorage.removeItem('role')
           localStorage.removeItem('profile')
           localStorage.removeItem('nickname')
-          this.$router.push({ name: 'MainPage' })
-          if (this.$route.name === 'MainPage') {
-            window.location.reload()
-          }
+          window.location.reload()
         })
         .catch((err) => {
           console.log(err)

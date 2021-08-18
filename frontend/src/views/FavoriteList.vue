@@ -70,6 +70,7 @@ export default {
   },
   mounted() {
     this.$store.state.search.isSearchHeaderShow = true
+    window.scrollTo(0, 0)
   },
   // props: {},
 }

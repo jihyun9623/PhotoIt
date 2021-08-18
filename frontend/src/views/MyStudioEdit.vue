@@ -1,9 +1,9 @@
 <template>
-  <MyStudioHeader />
+  <!-- <MyStudioHeader /> -->
+  <h1>배고프다..</h1>
   <!-- bestlist와 photolist를 활용하여 사진 표시, 및 클릭시 modal표시 -->
-
   <div class="container">
-    <!-- bestlist -->
+    bestlist
     <div class="best-container">
       <div class="row">
         <MyStudioEditBestItem
@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <!--photolist -->
+    photolist
     <div>
       <div class="row">
         <MyStudioEditBestItem
@@ -31,27 +31,30 @@
       </div>
     </div>
   </div>
-  <!-- 모달 -->
+
+  <!--모달 
   <BestModal />
   <BestModal v-on:call-parent-best="closeBestModal"></BestModal>
   <PhotoModal />
+  -->
 </template>
 
 <script>
-import MyStudioHeader from '@/components/MyStudio/MyStudioHeader.vue'
-import BestModal from '@/components/MyStudioEdit/MyStudioEditBest.vue'
-import PhotoModal from '@/components/MyStudioEdit/MyStudioEditPhoto.vue'
-import MyStudioEditBestItem from '@/components/MyStudioEdit/MyStudioEditBestItem'
+import http from '@/assets/js/axios.js'
+// import MyStudioHeader from '@/components/MyStudio/MyStudioHeader.vue'
+// import BestModal from '@/components/MyStudioEdit/MyStudioEditBest.vue'
+// import PhotoModal from '@/components/MyStudioEdit/MyStudioEditPhoto.vue'
+// import MyStudioEditBestItem from '@/components/MyStudioEdit/MyStudioEditBestItem'
 // import component from "component location"
 
 export default {
   name: 'MyStudioEdit',
   components: {
     // components
-    MyStudioHeader,
-    BestModal,
-    PhotoModal,
-    MyStudioEditBestItem,
+    // MyStudioHeader,
+    // BestModal,
+    // PhotoModal,
+    // MyStudioEditBestItem,
   },
   data() {
     return {
@@ -194,21 +197,32 @@ export default {
         showIcon: true,
       })
     },
+    getBestPhoto() {
+      http.get('/studioedit/bestphoto').then((res) => {
+        console.log(res)
+        this.best = res.data.file
+        this.bestid = res.data.id
+        console.log('best')
+        console.log(this.best)
+      })
+    },
+    // 작가 전체사진 받아오기
+    getPhoto() {
+      http.get('/studioedit/photo').then((res) => {
+        console.log(res)
+        this.photo = res.data.file
+        this.photoid = res.data.id
+      })
+    },
   },
   created() {
     this.$store.dispatch('mystudioedit/studioAuth').then(() => {
-      if (this.$store.state.mystudioedit.studioauth) {
+      if (!this.$store.state.mystudioedit.studioauth) {
         this.$router.push({ name: 'MainPage' })
       }
     })
-    this.$store.dispatch('mystudioedit/getBestPhoto').then(() => {
-      this.best = this.$store.state.mystudioedit.best
-      this.bestid = this.$store.state.mystudioedit.bestid
-    })
-    this.$store.dispatch('mystudioedit/getPhoto').then(() => {
-      this.photo = this.$store.state.mystudioedit.photo
-      this.photoid = this.$store.state.mystudioedit.photoid
-    })
+    this.getBestPhoto()
+    this.getPhoto()
   },
 }
 </script>

@@ -4,30 +4,28 @@
   <!-- bestlist와 photolist를 활용하여 사진 표시, 및 클릭시 modal표시 -->
   <div class="container">
     bestlist
-    <div class="best-container">
-      <div class="row">
-        <MyStudioEditBestItem
-          v-for="(item, idx) in best"
-          :key="idx"
-          :id="bestid[idx]"
-          :item="item"
-          class="tag-item"
-          @click="showBestModal(item, bestid[idx])"
-        />
+    <div class="best-container row">
+      <div
+        v-for="(item, idx) in best"
+        :key="idx"
+        :id="bestid[idx]"
+        :item="item"
+        class="tag-item col-md-4 d-flex align-self-center"
+      >
+        <img class="img-fluid card-img" :src="item" />
       </div>
     </div>
 
     photolist
-    <div>
-      <div class="row">
-        <MyStudioEditBestItem
-          v-for="(item, idx) in photo"
-          :key="idx"
-          :id="bestid[idx]"
-          :item="item"
-          class="tag-item"
-          @click="showPhotoModal(item, bestid[idx])"
-        />
+    <div class="best-container row">
+      <div
+        v-for="(item, idx) in photo"
+        :key="idx"
+        :id="bestid[idx]"
+        :item="item"
+        class="tag-item col-md-2 d-flex align-self-center"
+      >
+        <img class="img-fluid card-img" :src="item" />
       </div>
     </div>
   </div>
@@ -66,6 +64,7 @@ export default {
       bestid: '',
       photo: '',
       photoid: '',
+      modal: false,
     }
   },
   computed: {
@@ -82,7 +81,7 @@ export default {
       return this.$store.state.mystudioedit.photo
     },
   },
-  method: {
+  methods: {
     // Edit Best Mode 표시
     showBestModal() {
       this.bestModal.show()
@@ -199,10 +198,9 @@ export default {
     },
     getBestPhoto() {
       http.get('/studioedit/bestphoto').then((res) => {
-        console.log(res)
-        this.best = res.data.file
+        console.log('bestphoto axios')
+        this.best = res.data.files
         this.bestid = res.data.id
-        console.log('best')
         console.log(this.best)
       })
     },
@@ -210,20 +208,21 @@ export default {
     getPhoto() {
       http.get('/studioedit/photo').then((res) => {
         console.log(res)
-        this.photo = res.data.file
+        this.photo = res.data.files
         this.photoid = res.data.id
       })
     },
   },
   created() {
+    this.getBestPhoto()
+    this.getPhoto()
     this.$store.dispatch('mystudioedit/studioAuth').then(() => {
       if (!this.$store.state.mystudioedit.studioauth) {
         this.$router.push({ name: 'MainPage' })
       }
     })
-    this.getBestPhoto()
-    this.getPhoto()
   },
+  mounted() {},
 }
 </script>
 
@@ -233,5 +232,15 @@ export default {
   transform: scale(1.1);
   opacity: 0.7;
   overflow: hidden;
+}
+.best-container {
+  border: 5px solid darkblue;
+  height: 400px;
+  width: 100%;
+}
+.photo-container {
+  border: 5px solid darkblue;
+  height: 100%;
+  width: 100%;
 }
 </style>

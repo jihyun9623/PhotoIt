@@ -56,26 +56,6 @@ const actions = {
       })
     })
   },
-  // 베스트 3 사진 받아오기
-  getBestPhoto({ commit }) {
-    return http.get('/studioedit/bestphoto').then((res) => {
-      console.log(res)
-      commit('SET_BEST', {
-        best: res.data.file,
-        bestid: res.data.id,
-      })
-    })
-  },
-  // 작가 전체사진 받아오기
-  getPhoto({ commit }) {
-    return http.get('/studioedit/photo').then((res) => {
-      console.log(res)
-      commit('SET_PHOTO', {
-        photo: res.data.file,
-        photoid: res.data.id,
-      })
-    })
-  },
   // 베스트 사진 추가 (파라미터 사진 ID)
   addBestPhoto({ commit }, data) {
     return http

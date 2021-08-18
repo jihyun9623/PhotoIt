@@ -3,6 +3,7 @@
     <!-- <div id="nav"><router-link to="/">Mainpage</router-link> |</div> -->
     <router-view />
   </div>
+  <GoTop />
   <div id="footer">
     <main-footer />
   </div>
@@ -10,11 +11,13 @@
 
 <script>
 import Footer from '@/views/Footer.vue'
+import GoTop from '@/components/Common/GoTop'
 import httpNoJWT from '@/assets/js/axiosNotJWT.js'
 export default {
   name: 'App',
   components: {
     'main-footer': Footer,
+    GoTop: GoTop,
   },
   computed: {
     isLoginCheck() {

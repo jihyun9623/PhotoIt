@@ -223,6 +223,7 @@
 
 <script>
 import SearchRegion from '@/components/Common/SearchRegion'
+import http from '@/assets/js/axios.js'
 
 export default {
   name: 'MyPage',
@@ -234,37 +235,19 @@ export default {
       isUserPasswordValid: false,
       isUserPasswordFocus: false,
       isUserPasswordCheckFocus: false,
-      //formEmail: this.$store.state.mypage.email,
-      //formNickname: this.$store.state.mypage.nickName,
-      //formProfilePhoto: this.$store.state.mypage.profilePhoto,
+      formEmail: '',
+      formNickname: '',
+      formProfilePhoto: '',
       formPasswd: '',
       formPasswdCheck: '',
-      //formPgCheck: this.$store.state.mypage.isPhotoGrapher,
-      //formIntroduce: this.$store.state.mypage.introduce,
-      //formLocation: this.$store.state.mypage.location,
+      formPgCheck: '',
+      formIntroduce: '',
+      formLocation: '',
       PG: '',
-      nicknameOrigin: this.$store.state.mypage.nickName,
+      nicknameOrigin: '',
     }
   },
   computed: {
-    formEmail() {
-      return this.$store.state.mypage.email
-    },
-    formNickname() {
-      return this.$store.state.mypage.nickName
-    },
-    formProfilePhoto() {
-      return this.$store.state.mypage.profilePhoto
-    },
-    formPgCheck() {
-      return this.$store.state.mypage.isPhotoGrapher
-    },
-    formIntroduce() {
-      return this.$store.state.mypage.introduce
-    },
-    formLocation() {
-      return this.$store.state.mypage.location
-    },
     // 패스워드 양식 확인 및 표시용
     isUserPasswordFocusAndInvalid() {
       return this.isUserPasswordFocus && !this.isUserPasswordValid
@@ -285,6 +268,19 @@ export default {
     },
   },
   methods: {
+    getUserInfo() {
+      http.get('/mypage').then((res) => {
+        console.log('UserInfoData :')
+        console.log(res)
+        this.formEmail = res.data.id
+        this.formNickname = res.data.nickname
+        this.formProfilePhoto = res.data.photo
+        this.formPgCheck = res.data.pg
+        this.formIntroduce = res.data.location
+        this.formLocation = res.data.introduce
+        this.nicknameOrigin = res.data.nickname
+      })
+    },
     // 회원정보 수정
     updateUser() {
       if (this.nicknameOrigin != this.formNickname) {
@@ -345,7 +341,19 @@ export default {
     },
     // 프로필 사진 업로드
     uploadProfilePhoto() {
-      let data = { file: this.formProfilePhoto }
+      let data = new FormData()
+
+      // file upload
+      let attachFiles = document.querySelector('#inputFileUploadInsert')
+      console.log('attachFiles : ')
+      console.log(attachFiles)
+
+      if (attachFiles.files.length > 0) {
+        data.append('file', attachFiles.files[0])
+      } else {
+        this.toastDanger('프로필 사진 수정에 실패했습니다.')
+        return false
+      }
       this.$store.dispatch('mypage/uploadProfilePhoto', data).then(() => {
         if (this.$store.state.mypage.return) {
           this.toastSuccess('프로필 사진이 수정되었습니다.')
@@ -398,14 +406,14 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('mypage/getUserInfo')
+    this.getUserInfo()
   },
   mounted() {
     // 검색바가 보이도록 설정
     this.$store.state.search.isSearchHeaderShow = true
     // 작가 여부 판별
-    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가회원입니다.'
-    else this.PG = '일반회원입니다.'
+    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가입니다.'
+    else this.PG = '작가가 아닙니다.'
     window.scrollTo(0, 0)
   },
 }

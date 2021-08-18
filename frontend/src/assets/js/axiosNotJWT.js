@@ -6,9 +6,4 @@ const serverURL = 'https://i5a108.p.ssafy.io/api'
 // axios 객체 생성
 export default axios.create({
   baseURL: serverURL,
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    Authorization: localStorage.getItem('jwt'),
-  },
-  withCredentials: true,
 })

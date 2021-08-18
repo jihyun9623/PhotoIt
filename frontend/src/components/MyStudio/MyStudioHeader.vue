@@ -6,11 +6,11 @@
         <div>
           <p class="pg-name">{{ this.$store.state.mystudio.nickname }}</p>
           <div class="pg-mentarea">
-            <p class="col-1 pg-mentquote">"</p>
-            <p class="col-10 pg-ment">
+            <p class="pg-mentquote">"</p>
+            <p class="pg-ment">
               {{ this.$store.state.mystudio.pg_profile.introduce }}
             </p>
-            <p class="col-1 pg-mentquote">"</p>
+            <p class="pg-mentquote">"</p>
           </div>
         </div>
       </div>
@@ -80,6 +80,7 @@ export default {
 
 .pg-mentarea {
   width: auto;
+  justify-content: space-between;
   display: inline-flex;
   display: flex;
   align-items: center;

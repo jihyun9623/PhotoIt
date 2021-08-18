@@ -2,6 +2,7 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.UserReq;
 import com.ssafy.api.response.MyPageGetRes;
+import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.JwtTokenUtil;
@@ -38,11 +39,12 @@ public class MyPageController {
 
     @ApiOperation(value = "회원정보 수정", notes = "회원정보를 업데이트한다")
     @PutMapping
-    public BaseResponseBody updateProfile(
+    public UserLoginPostRes updateProfile(
             @RequestHeader(value = "Authorization") String token,
             @RequestBody @ApiParam(value = "수정할 회원정보", required = true) UserReq updateInfo) {
-        userService.updateProfile(token, updateInfo);
-        return BaseResponseBody.of(200, "Success");
+        System.out.println(updateInfo.getNickname());
+        System.out.println(updateInfo.getPasswd());
+        return userService.updateProfile(token, updateInfo);
     }
 
     @ApiOperation(value = "회원 탈퇴", notes = "회원정보를 삭제한다")

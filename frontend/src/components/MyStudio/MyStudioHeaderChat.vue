@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="@/assets/images/chat_icon.png" class="icon" />
+    <img src="@/assets/images/send_message_icon.png" class="icon" />
   </div>
 </template>
 

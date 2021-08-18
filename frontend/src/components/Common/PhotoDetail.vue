@@ -18,7 +18,7 @@
               <span class="pe-3 profile-box">
                 <span v-if="detailProfile">
                   <img
-                    class="pg-profile"
+                    class="pg-profile-photo"
                     :src="detailProfile"
                     alt="photographer profile"
                   />
@@ -36,7 +36,7 @@
                 <!-- 기본 프로필 사진 및 찜 아이콘 -->
                 <span v-else>
                   <img
-                    class="pg-profile"
+                    class="pg-profile-photo"
                     src="../../assets/images/profile_default.png"
                     alt="default profile"
                   />
@@ -53,7 +53,15 @@
                 </span>
               </span>
               <!-- 사진 작가 닉네임 -->
-              <span class="me-5 fw-bold">{{ detailPgNickname }}</span>
+              <router-link
+                data-bs-dismiss="modal"
+                class="go-mystudio"
+                :to="{ path: `/mystudio/${detailPgNickname}` }"
+              >
+                <span class="me-5 fw-bold">
+                  {{ detailPgNickname }}
+                </span>
+              </router-link>
               <!-- 사진 태그 리스트 -->
               <span v-for="(tag, idx) in detailTagList" :key="idx" class="me-2">
                 #{{ tag }}
@@ -195,11 +203,12 @@ export default {
 .card {
   border-style: none;
 }
-.pg-profile {
+.pg-profile-photo {
   width: 5vh;
   height: 5vh;
   border-radius: 50%;
   overflow: hidden;
+  object-fit: cover;
 }
 .profile-box {
   position: relative;
@@ -210,5 +219,12 @@ export default {
   right: 20%;
   color: red;
   cursor: pointer;
+}
+.go-mystudio {
+  text-decoration: none;
+  color: white;
+}
+.go-mystudio:hover {
+  text-decoration: underline;
 }
 </style>

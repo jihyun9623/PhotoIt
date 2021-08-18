@@ -28,15 +28,6 @@
           <h3 class="h3 mt-3 mb-5">
             <!-- 이미지 넣을 위치 -->
             <img
-              v-if="formProfilePhoto"
-              src="@/assets/images/profile_default.png"
-              alt="default profile"
-              width="200"
-              height="200"
-              class="d-inline-block align-text-top"
-            />
-            <img
-              v-else
               :src="formProfilePhoto"
               alt="profile"
               width="200"
@@ -105,10 +96,10 @@
               @focus="isUserPasswordFocus = true"
             />
             <span class="col-4"></span>
-            <div class="pt-1 valid-feedback infoFont">
+            <div class="pt-1 valid-feedback fontS">
               사용 가능한 비밀번호입니다.
             </div>
-            <div class="pt-1 invalid-feedback infoFont">
+            <div class="pt-1 invalid-feedback fontS">
               1개 이상의 대소문자, 특수문자, 숫자를 포함하고 8자리 이상이여야
               합니다.
             </div>
@@ -160,7 +151,7 @@
               v-model="PG"
               disabled
             />
-            <span class="col-1"></span>
+            <span class="col-3"></span>
             <button
               @click="upgradeToPhotoGrapher"
               class="btn btn-lg btn-outline-primary fontCafe col-2"
@@ -174,8 +165,9 @@
           </div>
           <!-- 작가 자기소개 -->
           <div class="input-group mb-4" v-if="formPgCheck">
-            <span class="input-group-text col-4 justify-content-center"
-              >작가 자기소개</span
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
+              >작가 한 줄 소개</span
             >
             <input
               type="text"
@@ -184,11 +176,13 @@
               aria-describedby="formIntroduce"
               v-model="formIntroduce"
             />
+            <span class="col-4"></span>
           </div>
           <!-- 작가 지역 -->
           <div class="input-group mb-5" v-if="formPgCheck">
-            <span class="input-group-text col-4 justify-content-center"
-              >작가 지역</span
+            <span class="col-1"></span>
+            <span class="col-3 justify-content-center mypageForm fontCafe"
+              >작가 활동 지역</span
             >
             <input
               type="text"
@@ -197,6 +191,7 @@
               aria-describedby="formLocation"
               v-model="formLocation"
             />
+            <span class="col-4"></span>
           </div>
           <hr />
           <div class="d-flex justify-content-end mt-5">
@@ -220,7 +215,6 @@
             <span class="col-2"></span>
           </div>
           <br />
-          <p class="mt-4 mb-3 text-muted">&copy; PHOTO-IT 2021</p>
         </form>
       </div>
     </section>
@@ -229,6 +223,7 @@
 
 <script>
 import SearchRegion from '@/components/Common/SearchRegion'
+import http from '@/assets/js/axios.js'
 
 export default {
   name: 'MyPage',
@@ -240,37 +235,19 @@ export default {
       isUserPasswordValid: false,
       isUserPasswordFocus: false,
       isUserPasswordCheckFocus: false,
-      //formEmail: this.$store.state.mypage.email,
-      //formNickname: this.$store.state.mypage.nickName,
-      //formProfilePhoto: this.$store.state.mypage.profilePhoto,
+      formEmail: '',
+      formNickname: '',
+      formProfilePhoto: '',
       formPasswd: '',
       formPasswdCheck: '',
-      //formPgCheck: this.$store.state.mypage.isPhotoGrapher,
-      //formIntroduce: this.$store.state.mypage.introduce,
-      //formLocation: this.$store.state.mypage.location,
+      formPgCheck: '',
+      formIntroduce: '',
+      formLocation: '',
       PG: '',
-      nicknameOrigin: this.$store.state.mypage.nickName,
+      nicknameOrigin: '',
     }
   },
   computed: {
-    formEmail() {
-      return this.$store.state.mypage.email
-    },
-    formNickname() {
-      return this.$store.state.mypage.nickName
-    },
-    formProfilePhoto() {
-      return this.$store.state.mypage.profilePhoto
-    },
-    formPgCheck() {
-      return this.$store.state.mypage.isPhotoGrapher
-    },
-    formIntroduce() {
-      return this.$store.state.mypage.introduce
-    },
-    formLocation() {
-      return this.$store.state.mypage.location
-    },
     // 패스워드 양식 확인 및 표시용
     isUserPasswordFocusAndInvalid() {
       return this.isUserPasswordFocus && !this.isUserPasswordValid
@@ -291,6 +268,19 @@ export default {
     },
   },
   methods: {
+    getUserInfo() {
+      http.get('/mypage').then((res) => {
+        console.log('UserInfoData :')
+        console.log(res)
+        this.formEmail = res.data.id
+        this.formNickname = res.data.nickname
+        this.formProfilePhoto = res.data.photo
+        this.formPgCheck = res.data.pg
+        this.formIntroduce = res.data.location
+        this.formLocation = res.data.introduce
+        this.nicknameOrigin = res.data.nickname
+      })
+    },
     // 회원정보 수정
     updateUser() {
       if (this.nicknameOrigin != this.formNickname) {
@@ -340,7 +330,7 @@ export default {
         return false
       }
       this.$store
-        .dispatch('mypage/nickNameCheck', this.data.formNickname)
+        .dispatch('mypage/nickNameCheck', this.formNickname)
         .then(() => {
           if (this.$store.state.mypage.returnNickname) {
             this.toastSuccess('사용가능한 닉네임입니다.')
@@ -349,9 +339,40 @@ export default {
           }
         })
     },
+    // userLogin() {
+    //   httpNoJWT
+    //     .post('/user/signin', this.credentials)
+    //     .then((res) => {
+    //       console.log(res)
+    //       localStorage.setItem('jwt', res.data.jwt)
+    //       localStorage.setItem('id', res.data.id)
+    //       localStorage.setItem('role', res.data.role)
+    //       this.$emit('login')
+    //       this.$store.dispatch('login/isLoginCheck')
+    //       this.$store.dispatch('login/isRole')
+    //       window.location.reload()
+    //       this.$router.push({ name: 'MainPage' })
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //       alert('로그인 정보가 잘못되었습니다.')
+    //     })
+    // },
     // 프로필 사진 업로드
     uploadProfilePhoto() {
-      let data = { file: this.formProfilePhoto }
+      let data = new FormData()
+
+      // file upload
+      let attachFiles = document.querySelector('#inputFileUploadInsert')
+      console.log('attachFiles : ')
+      console.log(attachFiles)
+
+      if (attachFiles.files.length > 0) {
+        data.append('file', attachFiles.files[0])
+      } else {
+        this.toastDanger('프로필 사진 수정에 실패했습니다.')
+        return false
+      }
       this.$store.dispatch('mypage/uploadProfilePhoto', data).then(() => {
         if (this.$store.state.mypage.return) {
           this.toastSuccess('프로필 사진이 수정되었습니다.')
@@ -404,14 +425,15 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('mypage/getUserInfo')
+    this.getUserInfo()
   },
   mounted() {
     // 검색바가 보이도록 설정
     this.$store.state.search.isSearchHeaderShow = true
     // 작가 여부 판별
-    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가회원입니다.'
-    else this.PG = '일반회원입니다.'
+    if (this.$store.state.mypage.isPhotoGrapher) this.PG = '작가입니다.'
+    else this.PG = '작가가 아닙니다.'
+    window.scrollTo(0, 0)
   },
 }
 </script>

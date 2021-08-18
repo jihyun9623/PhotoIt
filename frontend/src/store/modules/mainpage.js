@@ -1,4 +1,5 @@
-import axios from 'axios'
+import http from '@/assets/js/axios.js'
+import httpNoJWT from '@/assets/js/axiosNotJWT.js'
 
 // state
 const state = () => ({
@@ -19,35 +20,19 @@ const state = () => ({
 // actions
 const actions = {
   getRegions({ commit }) {
-    axios({
-      method: 'get',
-      // url: `http://i5a108.p.ssafy.io:8080/location`,
-      url: `http://localhost:8080/location`,
-    }).then((res) => {
+    httpNoJWT.get('/location').then((res) => {
       commit('GET_REGIONS', res.data.locationList)
     })
   },
   getTags({ commit }) {
-    axios({
-      method: 'get',
-      // url: `http://i5a108.p.ssafy.io:8080/tag`,
-      url: `http://localhost:8080/tag`,
-    }).then((res) => {
+    httpNoJWT.get('/tag').then((res) => {
       console.log(res)
       commit('GET_TAGS', res.data.tagList)
     })
   },
   getProfileNickname({ commit }) {
-    const jwt = localStorage.getItem('jwt')
-    const config = {
-      Authorization: jwt,
-    }
-    axios({
-      method: 'post',
-      // url: `http://i5a108.p.ssafy.io:8080/profile`,
-      url: `http://localhost:8080/profile`,
-      headers: config,
-    })
+    http
+      .post('/profile')
       .then((res) => {
         console.log(res)
         localStorage.setItem('profile', res.data.userProfile.photo)
@@ -59,23 +44,15 @@ const actions = {
       })
   },
   getMainContents({ commit }) {
-    axios({
-      method: 'get',
-      // url: `http://i5a108.p.ssafy.io:8080/contents`,
-      url: `http://localhost:8080/contents`,
-    }).then((res) => {
+    httpNoJWT.get('/contents').then((res) => {
       console.log(res)
       commit('GET_MAIN_CONTENTS', res.data.tagPhotoList)
     })
   },
   getDetailPhotos({ commit }, info) {
     commit('GET_PG_NICKNAME', info.nickName)
-    return axios({
-      method: 'post',
-      // url: `http://i5a108.p.ssafy.io:8080/detail`,
-      url: `http://localhost:8080/detail`,
-      data: info,
-    })
+    return httpNoJWT
+      .post('/detail', info)
       .then((res) => {
         console.log(res)
         commit('GET_DETAIL_PHOTO', res.data)
@@ -85,18 +62,8 @@ const actions = {
       })
   },
   addFavorite({ commit }, info) {
-    const jwt = localStorage.getItem('jwt')
-    const config = {
-      Authorization: jwt,
-    }
-    // console.log(info, config)
-    axios({
-      method: 'post',
-      // url: `http://i5a108.p.ssafy.io:8080/fav/add`,
-      url: `http://localhost:8080/fav/add`,
-      headers: config,
-      data: info,
-    })
+    http
+      .post('/fav/add', info)
       .then((res) => {
         console.log(res)
         commit('ADD_FAVORITE')
@@ -107,18 +74,8 @@ const actions = {
       })
   },
   deleteFavorite({ commit }, info) {
-    const jwt = localStorage.getItem('jwt')
-    const config = {
-      Authorization: jwt,
-    }
-    // console.log(info, config)
-    axios({
-      method: 'post',
-      // url: `http://i5a108.p.ssafy.io:8080/fav/delete`,
-      url: `http://localhost:8080/fav/delete`,
-      headers: config,
-      data: info,
-    })
+    http
+      .post('/fav/delete', info)
       .then((res) => {
         console.log(res)
         commit('DELETE_FAVORITE')

@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-const SERVER_URL = 'http://localhost:8080/studio'
+import httpNoJWT from '@/assets/js/axiosNotJWT.js'
 
 // state
 const state = () => ({
@@ -47,10 +45,8 @@ const state = () => ({
 // actions
 const actions = {
   pgProfile: function ({ commit }, nickname) {
-    axios({
-      method: 'get',
-      url: `${SERVER_URL}/pgprofile/${nickname}`,
-    })
+    httpNoJWT
+      .get('/studio/pgprofile/' + nickname)
       .then((res) => {
         commit('PG_PROFILE', res.data)
       })
@@ -60,10 +56,8 @@ const actions = {
   },
   best3: function ({ commit }, nickname) {
     console.log('best3 actions')
-    axios({
-      method: 'get',
-      url: `${SERVER_URL}/bestphotos/${nickname}`,
-    })
+    httpNoJWT
+      .get('/studio/bestphotos/' + nickname)
       .then((res) => {
         commit('BEST3', res.data.origin)
       })
@@ -73,10 +67,8 @@ const actions = {
   },
   photoAll: function ({ commit }, nickname) {
     console.log('photoAll actions')
-    axios({
-      method: 'get',
-      url: `${SERVER_URL}/pgphoto/${nickname}`,
-    })
+    httpNoJWT
+      .get('/studio/pgphoto/' + nickname)
       .then((res) => {
         commit('PHOTO_ALL', res.data.origin)
       })

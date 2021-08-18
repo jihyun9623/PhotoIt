@@ -88,6 +88,7 @@
 <script>
 import MainPageTagItem from '@/components/MainPage/MainPageTagItem'
 import PhotoDetail from '@/components/Common/PhotoDetail'
+
 export default {
   name: 'MainPageTagList',
   components: {

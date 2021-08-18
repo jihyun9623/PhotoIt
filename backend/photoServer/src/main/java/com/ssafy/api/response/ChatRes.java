@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter @Setter
 @ApiModel("ChatResponse")
 public class ChatRes {
@@ -15,10 +17,14 @@ public class ChatRes {
     @ApiModelProperty(name = "메세지 내용", example = "hello")
     String message;
 
-    public static ChatRes of(String sender, String message) {
+    @ApiModelProperty(name = "보낸 시간")
+    LocalDateTime time;
+
+    public static ChatRes of(String sender, String message, LocalDateTime time) {
         ChatRes body = new ChatRes();
         body.setSender(sender);
         body.setMessage(message);
+        body.setTime(time);
         return body;
     }
 }

@@ -10,15 +10,15 @@ import java.util.List;
 @Getter @Setter
 @ApiModel("ChatRoomResponse")
 public class ChatRoomRes {
-    @ApiModelProperty(name = "채팅방 id", example = "84e06280-e302-40cb-b639-9fcf8155006b")
-    String roomId;
+    @ApiModelProperty(name = "채팅방 name", example = "qwe@qwe.com test_sj1@naver.com")
+    String roomName;
 
     @ApiModelProperty(name = "대화내용")
     List<ChatRes> chatLists;
 
-    public static ChatRoomRes of(String roomId, List<ChatRes> chatLists) {
+    public static ChatRoomRes of(String roomName, List<ChatRes> chatLists) {
         ChatRoomRes body = new ChatRoomRes();
-        body.setRoomId(roomId);
+        body.setRoomName(roomName);
         body.setChatLists(chatLists);
         return body;
     }

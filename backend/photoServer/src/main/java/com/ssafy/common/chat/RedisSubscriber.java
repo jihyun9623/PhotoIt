@@ -10,10 +10,12 @@ import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@CrossOrigin("*")
 public class RedisSubscriber implements MessageListener {
 
     private final ObjectMapper objectMapper;
@@ -31,7 +33,7 @@ public class RedisSubscriber implements MessageListener {
             // ChatMessage 객채로 맵핑
             ChatMessageDto roomMessage = objectMapper.readValue(publishMessage, ChatMessageDto.class);
             // Websocket 구독자에게 채팅 메시지 Send
-            messagingTemplate.convertAndSend("/sub/chat/room/" + roomMessage.getRoomId(), roomMessage);
+            messagingTemplate.convertAndSend("/sub/chat/room/" + roomMessage.getRoomName(), roomMessage);
         } catch (Exception e) {
             log.error(e.getMessage());
         }

@@ -28,7 +28,6 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final TempChatMessageRepository messageRepository;
     private final TempChatRoomRepository roomRepository;
-    private final JwtTokenUtil jwtTokenUtil;
     private final UserRepository userRepository;
 
     @Transactional
@@ -39,18 +38,19 @@ public class ChatService {
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
         a.sort(Comparator.comparingInt(TempChatMessage::getIdx));
         for(TempChatMessage t : a) {
-            ChatRes chatRes = ChatRes.of(t.getSenderName(), t.getMessage());
+            String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
+            ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
             listChatRes.add(chatRes);
         }
 
         chatRoomRepository.enterChatRoom(tempChatRoom.getRoomName());
 
-        return ChatRoomRes.of(chatRoomDto.getRoomId(), listChatRes);
+        return ChatRoomRes.of(chatRoomDto.getName(), listChatRes);
     }
 
     @Transactional
-    public void ChatSave(String roomId, String sender, String message) {
-        TempChatRoom chatRoom = roomRepository.getById(roomId);
+    public void ChatSave(String roomName, String sender, String message) {
+        TempChatRoom chatRoom = roomRepository.getById(roomName);
         User user = userRepository.findUserByNickname(sender);
         TempChatMessage chatMessage = TempChatMessage.builder()
                                       .tempChatRoom(chatRoom)
@@ -62,11 +62,10 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatRoomsRes roomList(String JWT) {
-        User user = userRepository.findUserById(jwtTokenUtil.getUserPk(JWT)).orElseThrow(RuntimeException::new);
-
-        List<TempChatRoom> roomNames1 = roomRepository.findByRoomNameEndsWith(" "+ user.getId());
-        List<TempChatRoom> roomNames2 = roomRepository.findByRoomNameStartsWith(user.getId() + " ");
+    public ChatRoomsRes roomList(String nickName) {
+        String userId = userRepository.findUserByNickname(nickName).getId();
+        List<TempChatRoom> roomNames1 = roomRepository.findByRoomNameEndsWith(" "+ userId);
+        List<TempChatRoom> roomNames2 = roomRepository.findByRoomNameStartsWith(userId + " ");
         List<String> nickList = new ArrayList<>();
 
         for(TempChatRoom room : roomNames1) {

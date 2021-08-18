@@ -1,10 +1,13 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.ChatReq;
 import com.ssafy.api.request.ChatUsersReq;
 import com.ssafy.api.response.ChatRoomRes;
 import com.ssafy.api.response.ChatRoomsRes;
 import com.ssafy.api.service.ChatService;
+import com.ssafy.common.chat.RedisPublisher;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.dto.ChatMessageDto;
 import com.ssafy.db.dto.ChatRoomDto;
 import com.ssafy.db.repository.ChatRoomRepository;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +28,7 @@ public class ChatRoomController {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatService chatService;
+    private final RedisPublisher redisPublisher;
 
     @ApiOperation(value = "채팅 roomId, 내용 받기 처음들어가면 내용 x")
     @PostMapping("/room")
@@ -38,10 +42,17 @@ public class ChatRoomController {
     @ApiOperation(value = "사용자의 채팅 목록 불러오기")
     @PostMapping("/rooms")
     @ResponseBody
-    public ResponseEntity<ChatRoomsRes> roomList(HttpServletRequest req) {
-        String JWT = req.getHeader("Authorization");
-        ChatRoomsRes chatRoomsRes = chatService.roomList(JWT);
+    public ResponseEntity<ChatRoomsRes> roomList(@RequestBody ChatReq chatReq) {
+        ChatRoomsRes chatRoomsRes = chatService.roomList(chatReq.getSender());
         return ResponseEntity.ok(chatRoomsRes);
     }
 
+    @ApiOperation(value = "채팅")
+    @PostMapping("/room/chatting")
+    @ResponseBody
+    public void roomList(@RequestBody ChatMessageDto message) {
+        chatService.ChatSave(message.getRoomName(), message.getSender(), message.getMessage());
+
+        redisPublisher.publish(chatRoomRepository.getTopic(message.getRoomName()), message);
+    }
 }

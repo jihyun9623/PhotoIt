@@ -94,6 +94,8 @@ dependencies {
 
 	/* 섬네일 추출 라이브러리 */
 	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+	// MultipartFile 변환 라이브러리
+	implementation group: 'commons-io', name: 'commons-io', version: '2.4'
 
 	/* Redis */
 	compile('org.springframework.boot:spring-boot-starter-data-redis')

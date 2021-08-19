@@ -43,7 +43,6 @@ public class ChatService {
             listChatRes.add(chatRes);
         }
 
-        chatRoomRepository.enterChatRoom(tempChatRoom.getRoomName());
 
         return ChatRoomRes.of(chatRoomDto.getName(), listChatRes);
     }

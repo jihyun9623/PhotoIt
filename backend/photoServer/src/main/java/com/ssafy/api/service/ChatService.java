@@ -43,12 +43,9 @@ public class ChatService {
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
         logger.debug("-----------------------------");
         List<ChatRes> listChatRes = new ArrayList<>();
-        TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
-                                     .orElseThrow(RuntimeException::new);
-        List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
-
-        if(a!=null) {
-            for(TempChatMessage t : a) {
+        List<TempChatMessage> tempChatMessages = messageRepository.findAll();
+        for(TempChatMessage t : tempChatMessages) {
+            if(t.getTempChatRoom().getRoomName().equals(chatRoomDto.getName())) {
                 String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
                 ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
                 listChatRes.add(chatRes);

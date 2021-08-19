@@ -61,12 +61,17 @@
         class="warning-text"
       >
         "해당 이메일을 사용할 수 있습니다. 인증 버튼을 눌러주세요."
+        <br />
+        "인증입력창이 조금 늦게 나올 수 있습니다. 기다려주세요"
       </p>
       <p
         v-else-if="emailDup === '100' && emailAuthChk === null"
         class="warning-text"
       >
-        "이메일을 입력해주세요"
+        "이메일 입력창이 비어있습니다. 이메일을 입력해주세요."
+      </p>
+      <p v-else-if="!(emailAuthChk === null)" class="warning-text">
+        "인증번호를 입력해주세요"
       </p>
       <div v-if="emailSend === 'true'" class="row">
         <div class="col-10">
@@ -87,11 +92,11 @@
         emailAuthChk = 401 일 때는 "인증코드가 일치하지 않습니다."<br />
         emailAuthChk = 200 일 때는 "인증에 성공하셨습니다."
       </p> -->
-      <p v-if="emailAuthChk === '401'" class="warning-text">
-        "인증코드가 일치하지 않습니다." <br />
-      </p>
-      <p v-if="emailAuthChk === '200'" class="warning-text">
+      <p v-if="emailAuthChk === 'true'" class="warning-text">
         "인증에 성공하셨습니다."
+      </p>
+      <p v-else-if="emailAuthChk === 'false'" class="warning-text">
+        "인증코드가 일치하지 않습니다." <br />
       </p>
       <hr class="my-hr" />
       <p class="warning-text">
@@ -338,8 +343,8 @@ export default {
       emailDupid: null,
       emailSend: null, // 인증 요청갔는지 확인하고 인증 입력창 띄운다.
       emailAuth: {
-        id: null,
         code: null, // 유저가 입력한 인증 코드
+        id: null,
       },
       emailAuthChk: null, // 인증번호 일치 여부 (null 이면 이메일 인증 아직 안함)
       passwordConfirmation: null, // 비밀번호 확인 입력 내용
@@ -397,27 +402,25 @@ export default {
         })
     },
     //
-    // // emailAuthCheck : 입력한 코드 확인 요청
-    // emailAuthCheck: function () {
-    //   this.emailAuth.id = this.credentials.id
-    //   // 인증 때 이메일도 함께 보내야하고, 나중에 인증한 메일과 회원가입창 메일이 같은지 확인해야 한다.
-    //   axios({
-    //     method: 'post',
-    //     url: '',
-    //     data: this.emailAuth, // 유저가 입력한 인증코드를 보낸다.
-    //   })
-    //     .then(res => {
-    //       console.log(res)
-    //       this.emailAuthChk = true
-    //       this.emailAuth.id = this.credentials.id
-    // 이부분 제대로 동작하나 확인할 것.
-    // 인증을 완료한 메일과 입력창에 입력해둔 메일이 같아야 회원가입이 가능하도록
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //       this.emailAuthChk = false
-    //     })
-    // },
+    // emailAuthCheck : 입력한 코드 확인 요청
+    emailAuthCheck: function () {
+      this.emailAuth.id = this.credentials.id
+      // 인증 때 이메일도 함께 보내야하고, 나중에 인증한 메일과 회원가입창 메일이 같은지 확인해야 한다.
+      httpNoJWT
+        .post('/user/emailAuthCheck', this.emailAuth)
+        .then((res) => {
+          console.log(res)
+          this.emailAuthChk = 'true'
+          this.emailAuth.id = this.credentials.id
+          // 이부분 제대로 동작하나 확인할 것.
+          // 인증을 완료한 메일과 입력창에 입력해둔 메일이 같아야 회원가입이 가능하도록
+        })
+        .catch((err) => {
+          console.log(err)
+          this.emailAuthChk = 'false'
+        })
+      console.log(this.emailAuthChk)
+    },
     //
     nicknameDupCheck: function () {
       httpNoJWT
@@ -441,9 +444,9 @@ export default {
         })
     },
     signup: function () {
-      // this.emailAuthChk === 'true' && // 이메일 인증 통과했다면
-      // this.emailAuth.id === this.credentials.id && // 인증된 이메일과 입력된 이메일이 같다면
       if (
+        this.emailAuthChk === 'true' && // 이메일 인증 통과했다면
+        this.emailAuth.id === this.credentials.id && // 인증된 이메일과 입력된 이메일이 같다면
         this.emailDupid === this.credentials.id && // 중복체크한 이메일과 입력된 이메일이 같다면
         this.credentials.passwd === this.passwordConfirmation && // 비밀번호 확인이 같다면
         this.dupNickname === this.credentials.nickname // 중복체크한 닉네임과 입력된 닉네임이 같다면
@@ -467,6 +470,14 @@ export default {
         } else if (!(this.dupNickname === this.credentials.nickname)) {
           this.warningtext =
             '중복체크한 닉네임과 입력된 닉네임이 다릅니다. 다시 확인해주세요.'
+        } else if (this.emailAuthChk === null) {
+          this.warningtext = '이메일 인증을 진행해주세요.'
+        } else if (this.emailAuthChk === 'false') {
+          this.warningtext =
+            '이메일 인증을 통과하지 못했습니다. 다시 확인해주세요.'
+        } else if (!(this.emailAuth.id === this.credentials.id)) {
+          this.warningtext =
+            '이메일 인증을 통과한 이메일과 입력된 이메일이 다릅니다. 다시 확인해주세요.'
         }
         console.log(this.warningtext)
       }

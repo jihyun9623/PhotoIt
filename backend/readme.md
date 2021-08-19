@@ -26,7 +26,7 @@
 ### 2. Jenkins 설정
 
 > Gitlab 설정  
-> Jenkins의 시스템설정
+> Jenkins의 시스템설정  
 > -> host URL = https://lab.ssafy.com/  
 > -> Credentials는 Gitlab API토큰을 사용    
 > (Token 발급 : Gitlab계정(중요. 프로젝트가 아님)의 설정에서 API에 꼭 체크하고 발급  
@@ -136,7 +136,7 @@
 > 우리는 이제 Nginx와 BE개발을 통해 만든 springServer, 두개의 이미지로 서비스를 할 예정이다.  
 
 ### 6. Docker Image 생성
-    docker run --name nginx -d -p 80:80 -v /home/user/nginx/:/usr/share/nginx/html nginx
+    docker run --name nginx -d -p 80:80 443:443 -v /home/user/nginx/:/var/www/html nginx
 > 위와 같이 이미지 다운로드 및 컨테이너 생성, 실행까지 쉽게 진행 가능하다.  
 > 이는 Docker에서 Nginx 정식 Image파일을 제공하기 때문에 자동으로 모두 진행된다.  
 > 위의 명령에 옵션이 많은데 자주 사용하는 옵션들은 아래에 설명하겠다.  
@@ -186,22 +186,7 @@
 > Nginx는 기본적으로 /usr/share/nginx/html/ 폴더에 html파일이 있으면 80포트를 통해 서비스를 제공한다.  
 > 이는 아주 기본적인 제공이며, 추가적인 부분을 아직 진행하지 않았다.  
 
-### 9. Nginx 활용 (미진행 부분)
-> Nginx의 proxy_pass 설정을 하여 FE <-> BE 요청 및 응답을 설정해야한다.  
-> Nginx의 설정과 spring의 application.properties의 URL,port를 맞춰주면 된다.  
-> 현재 Nginx, springServer 모두 docker에 올려져 있으므로 도커 컨테이너간 네트워크를 열어줘야하는 작업이 필요하다.(확실치 않음 아마 필요할 것)  
-
-> 위와같이 된다면  
-    FE = 사이트주소:80/  
-    BE = 사이트주소:80/api/  
-> 의 형태가 되며 사이트주소:80/api/ 에 요청이 들어오면 proxy_pass 를 통해 타 포트로 nginx가 연결해 데이터를 전달하는 방식이 된다.  
-> (서버에대한 접근이 nginx만 함으로써 사용자에게는 보이지 않게 된다.)  
-> (위의 방법으로 cors 문제 해결가능)  
-
-> Https 설정도 Nginx에서 설정이 가능하며, 인증서의 경우 certbot을 활용하여 인증서 발급이 필요하다.  
-> 진행된다면 80포트가 아닌 443포트(https포트) 로 바뀌게 된다.  
-
-### 10. Nginx https 설정 및 springServer와의 proxy연결
+### 9. Nginx https 설정 및 springServer와의 proxy연결
 > Nginx를 통해 https를 제공하고 배포 및 백엔드 서버와 연결하기위해 새로 컨테이너를 만들었다.  
 > docker run -d -p 80:80 -p 443:443 -v /var/lib/jenkins/workspace/dist/:/var/www/html/ --name nginxTLS --link springServer: nginx  
 > 포트 80, 443 개방  

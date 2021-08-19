@@ -9,12 +9,39 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    public void addCorsMapping(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true);
+    private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
+
+    //private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
+
+    @Autowired
+    private JwtInterceptor jwtInterceptor;
+
+    public WebMvcConfig(JwtInterceptor jwtInterceptor) {
+        this.jwtInterceptor = jwtInterceptor;
     }
 
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry)    {
+        List<String>exclude_list= Arrays.asList("/*","/user/**", "/search/**", "/studio/**", "/fav/**", "/chat/**");
+        //logger.debug("addInterceptors");
+          registry.addInterceptor(jwtInterceptor)
+                  .excludePathPatterns(exclude_list)
+                  .addPathPatterns("/profile")
+                  .addPathPatterns("/user/signout")
+                  .addPathPatterns("/mypage/**")
+                  .addPathPatterns("/studioedit/**");
+    }
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOriginPatterns("*")
+//                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+//                .allowedHeaders("*")
+//                .exposedHeaders("Authorization")
+//                .allowCredentials(true);
+//    }
+
 }
+

@@ -58,6 +58,32 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.1.1'
 
+	/* Redis */
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	/* chat */
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+
+	implementation 'org.webjars:sockjs-client:1.1.2'
+	implementation 'org.webjars:stomp-websocket:2.3.3-1'
+
+
+	implementation 'org.webjars.bower:bootstrap:4.3.1'
+	implementation 'org.webjars.bower:vue:2.5.16'
+	implementation 'org.webjars.bower:axios:0.17.1'
+	implementation 'com.google.code.gson:gson:2.8.0'
+
+	/*AWS s3*/
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.1.RELEASE'
+
+	/* 섬네일 추출 라이브러리 */
+	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+	// MultipartFile 변환 라이브러리
+	implementation group: 'commons-io', name: 'commons-io', version: '2.4'
+
+	/* Redis */
+	compile('org.springframework.boot:spring-boot-starter-data-redis')
 }
 test {
 	useJUnitPlatform()

@@ -1,11 +1,25 @@
 <template>
   <div>
+<<<<<<< HEAD
+    <h1 class="fontXL signupTitle">회원 가입</h1>
+    <hr
+      align="left"
+      style="
+        border: solid 2px #1f3a93;
+        width: 77vw;
+        margin-left: 10vmax;
+        opacity: 0.7;
+      "
+    />
+    <div class="container-signup fontCafe">
+=======
     <div class="container-signup">
       <h1>Signup</h1>
       <p>
         추가할 일 <br />
         API 넘어오면 하나씩 확인하면서 수정작업
       </p>
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
       <input
         style="display: none"
         type="file"
@@ -30,7 +44,7 @@
       <br />
       <p class="signup-title">아이디 (이메일)</p>
       <div class="row">
-        <div class="col-10">
+        <div class="col-10 fontCafe">
           <input
             type="email"
             placeholder="user@gmail.com"
@@ -40,8 +54,13 @@
           />
         </div>
         <button
+<<<<<<< HEAD
+          v-if="emailDup === null || emailDup === '401' || emailDup === '100'"
+          class="btn btn-outline-primary col-2 btnPrimary"
+=======
           v-if="emailDup === null || emailDup === '401'"
           class="btn btn-primary col-2"
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
           @click="emailDupCheck"
         >
           중복확인
@@ -133,7 +152,7 @@
 
       <p class="signup-title">닉네임</p>
       <div class="row">
-        <div class="col-10">
+        <div class="col-10 fontCafe">
           <input
             type="nickname"
             placeholder="닉네임을 입력해 주세요."
@@ -142,7 +161,10 @@
             v-model="credentials.nickname"
           />
         </div>
-        <button class="btn btn-primary col-2" @click="nicknameDupCheck">
+        <button
+          class="btn btn-outline-primary col-2 btnPrimary"
+          @click="nicknameDupCheck"
+        >
           중복확인
         </button>
       </div>
@@ -162,7 +184,7 @@
       <p class="signup-title">작가 여부</p>
       <div class="photographer-check">
         <div
-          class="btn-group"
+          class="btn-group fontCafe"
           role="group"
           aria-label="Basic radio toggle button group"
         >
@@ -175,7 +197,7 @@
             id="btnradio1"
             autocomplete="off"
           />
-          <label class="btn btn-outline-primary" for="btnradio1"
+          <label class="btn btn-outline-primary btnPrimary" for="btnradio1"
             >작가입니다.</label
           >
 
@@ -188,22 +210,47 @@
             id="btnradio2"
             autocomplete="off"
           />
-          <label class="btn btn-outline-primary" for="btnradio2"
+          <label class="btn btn-outline-primary btnPrimary" for="btnradio2"
             >작가가 아닙니다.</label
           >
         </div>
       </div>
+<<<<<<< HEAD
+      <div v-if="credentials.pg === 'true'">
+        <p></p>
+        <p class="signup-title fontCafe">작가 한마디</p>
+        <div class="row">
+          <div>
+            <input
+              type="profile"
+              placeholder="작가 한마디를 입력해 주세요."
+              class="form-control-plaintext fontCafe"
+              id="profile"
+              v-model="credentials.profile"
+            />
+          </div>
+        </div>
+        <p></p>
+        <p class="signup-title fontCafe">지역 목록 선택</p>
+=======
       <div v-if="credentials.photographer === 'true'">
         <p>지역 목록 선택</p>
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
         <div
           class="row"
           role="group"
           aria-label="Basic checkbox toggle button group"
         >
           <div
+<<<<<<< HEAD
+            class="col-3 fontCafe"
+            v-for="location_ele in $store.state.location_all"
+            :key="location_ele"
+=======
             class="col-3"
             v-for="location_ele in location_all"
             :key="location_ele.loca"
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
           >
             <input
               type="checkbox"
@@ -224,7 +271,85 @@
       </div>
       <hr class="my-hr" />
 
+<<<<<<< HEAD
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btnOutline"
+        style="width: 100%"
+        @click="signup(credentials)"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        회원가입
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content" v-if="signupstate === 'fail'">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">회원가입 실패!</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              {{ warningtext }}
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+          <div class="modal-content" v-else-if="signupstate === 'success'">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">회원가입 성공!</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">회원가입에 성공하셨습니다.</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary btnOutline"
+                @click="gotoLogin()"
+                data-bs-dismiss="modal"
+              >
+                로그인 페이지로
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+=======
       <button type="button" class="btn btn-default">회원가입</button>
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
     </div>
   </div>
 </template>
@@ -298,6 +423,20 @@ export default {
     //     })
     // },
     //
+<<<<<<< HEAD
+    // emailAuthSend : 인증 버튼 클릭 시, 서버에 코드를 인증메일로 보내줄 것을 요청
+    emailAuthSend: function () {
+      httpNoJWT
+        .post('/user/emailauth', { id: this.credentials.id })
+        .then((res) => {
+          this.emailSend = 'true' // 전송 보내지면 인증 입력창 띄워야 함
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+=======
     // // emailAuthSend : 서버에 코드를 인증메일로 보내줄 것을 요청
     // emailAuthSend: function () {
     //   this.emailSend = 'true'
@@ -313,6 +452,7 @@ export default {
     //       console.log(err)
     //     })
     // },
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
     //
     // // emailAuthCheck : 입력한 코드 확인 요청
     // emailAuthCheck: function () {
@@ -377,6 +517,18 @@ export default {
   components: {
     // components
   },
+<<<<<<< HEAD
+  created() {
+    this.$store.dispatch('login/isLoginCheck')
+    if (this.$store.state.login.isLogin) {
+      this.$router.push({ name: 'MainPage' })
+    }
+  },
+  mounted() {
+    window.scrollTo(0, 0)
+  },
+=======
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
 }
 </script>
 
@@ -384,7 +536,8 @@ export default {
 .container-signup {
   max-width: 600px;
   margin: auto;
-  padding: 20px;
+  padding: 50px 20px 20px 20px;
+  /* padding: 20px; */
 }
 
 .profile-preview {
@@ -415,22 +568,6 @@ export default {
 .my-hr {
   height: 2px;
   margin: 5px 0px;
-}
-.btn {
-  font-weight: bold;
-}
-.btn-default {
-  color: #595959;
-  background-color: #f0f0f0;
-  width: 100%;
-}
-.btn-default:hover {
-  color: #fff;
-  background-color: #c4c4c4;
-}
-.btn-default:active {
-  color: #fff;
-  background-color: #0095f6;
 }
 .photographer-container {
   padding: 0 5px;

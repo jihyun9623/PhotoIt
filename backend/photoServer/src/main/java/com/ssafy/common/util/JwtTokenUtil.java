@@ -22,29 +22,47 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 @Component
 public class JwtTokenUtil {
-    private static String secretKey;
-    private static Integer expirationTime;
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
+        private static String secretKey = "secretKey-test-authorization-jwt-manage-token-photo-it";
+    private static Long tokenValidTime = 3000 * 60 * 1000L;       // 토큰 유효 시간 나중에 바꾸기
+    private final UserDetailsService userDetailsService;
+    private final StringRedisTemplate redisTemplate;
 
-    public static final String TOKEN_PREFIX = "Bearer ";
-    public static final String HEADER_STRING = "Authorization";
-    public static final String ISSUER = "ssafy.com";
-    
-    @Autowired
-	public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime) {
-		this.secretKey = secretKey;
-		this.expirationTime = expirationTime;
-	}
-    
-	public void setExpirationTime() {
-    		//JwtTokenUtil.expirationTime = Integer.parseInt(expirationTime);
-    		JwtTokenUtil.expirationTime = expirationTime;
-	}
+    // 객체 초기화, secretKey Base64로 인코딩.
+    @PostConstruct
+    protected void init() {
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
 
-	public static JWTVerifier getVerifier() {
-        return JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes()))
-                .withIssuer(ISSUER)
-                .build();
+    //public String createToken(String userPk, UserRole roles){
+    public String createToken(@NotNull String id, String role) {
+        init();
+        Date now = new Date();
+        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
+        Claims claims=Jwts.claims();
+        claims.put("id", id);
+        claims.put("role", role);
+        return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+ //               .setClaims(claims) // 정보 저장
+                .setSubject(id)
+                .claim("id", id)
+                .claim("role", role)
+                .setIssuedAt(now) // 토큰 발행 시간 정보
+                .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
+                .signWith(Keys.hmacShaKeyFor(secretKeyBytes), SignatureAlgorithm.HS256)
+                .compact();
+
+//        return Jwts.builder()
+//                .setHeaderParam("typ", "JWT")
+//                //.setClaims(claims) // 정보 저장
+//                .setSubject(id)
+//                .claim("id", id)
+//                .claim("role", role)
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis() + tokenValidTime))
+//                .signWith(SignatureAlgorithm.HS512, secretKey.getBytes(Charset.forName("UTF-8")))
+//                .compact();
     }
     
     public static String getToken(String userId) {
@@ -78,25 +96,21 @@ public class JwtTokenUtil {
                 .build();
 
         try {
-            verifier.verify(token.replace(TOKEN_PREFIX, ""));
-        } catch (AlgorithmMismatchException ex) {
-            throw ex;
-        } catch (InvalidClaimException ex) {
-            throw ex;
-        } catch (SignatureGenerationException ex) {
-            throw ex;
-        } catch (SignatureVerificationException ex) {
-            throw ex;
-        } catch (TokenExpiredException ex) {
-            throw ex;
-        } catch (JWTCreationException ex) {
-            throw ex;
-        } catch (JWTDecodeException ex) {
-            throw ex;
-        } catch (JWTVerificationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw ex;
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            System.out.println(claims.getBody());
+            ValueOperations<String, String> logoutValueOperations = redisTemplate.opsForValue();
+            if (logoutValueOperations.get(token) != null) {
+                return false;
+            }
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.info("잘못된 JWT 서명입니다.");
+        } catch (ExpiredJwtException e) {
+            log.info("만료된 JWT 토큰입니다.");
+        } catch (UnsupportedJwtException e) {
+            log.info("지원되지 않는 JWT 토큰입니다.");
+        } catch (IllegalArgumentException e) {
+            log.info("JWT 토큰이 잘못되었습니다.");
         }
     }
 

@@ -56,9 +56,9 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setClaims(claims) // 정보 저장
-                .setSubject(id)
-//                .claim("id", id)
-//                .claim("role", role)
+//                .setSubject(id)
+                .claim("id", id)
+                .claim("role", role)
                 .setIssuedAt(now) // 토큰 발행 시간 정보
                 .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time
                 .signWith(Keys.hmacShaKeyFor(secretKeyBytes), SignatureAlgorithm.HS256)

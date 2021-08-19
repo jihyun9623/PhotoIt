@@ -294,9 +294,7 @@ body {
   visibility: visible;
   transition: visibility 0.5s ease-in-out;
 }
-.image:hover {
-  cursor: pointer;
-}
+
 .image.close {
   visibility: hidden;
 }

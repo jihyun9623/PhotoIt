@@ -21,9 +21,14 @@ export default {
     let data = {
       sender: localStorage.getItem('nickname'),
     }
-    http.post('/chat/rooms', data).then((res) => {
-      this.nicks = res.data.nickNames
-    })
+    http
+      .post('/chat/rooms', data)
+      .then((res) => {
+        this.nicks = res.data.nickNames
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   methods: {
     EnterRoom: function (n) {

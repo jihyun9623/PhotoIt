@@ -76,6 +76,7 @@ export default {
     }
   },
   created: function () {
+    console.log(this.$store.state.mystudio.best3)
     if (this.$store.state.mystudio.best3 === null) {
       console.log('0')
       this.best1 =

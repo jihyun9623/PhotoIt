@@ -38,17 +38,20 @@ public class ChatService {
     @Transactional
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
         List<ChatRes> listChatRes = new ArrayList<>();
-        TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
-                                     .orElseThrow(RuntimeException::new);
+//        TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
+//                                     .orElseThrow(RuntimeException::new);
+        String roomName = chatRoomDto.getName();
+        TempChatRoom tempChatRoom = roomRepository.getById(roomName);
         logger.debug(tempChatRoom.getRoomName());
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
         logger.debug(a==null?"null":"null xxx");
-        for(TempChatMessage t : a) {
-            String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
-            ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
-            listChatRes.add(chatRes);
+        if(a!=null) {
+            for(TempChatMessage t : a) {
+                String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
+                ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
+                listChatRes.add(chatRes);
+            }
         }
-
 
         return ChatRoomRes.of(chatRoomDto.getName(), listChatRes);
     }

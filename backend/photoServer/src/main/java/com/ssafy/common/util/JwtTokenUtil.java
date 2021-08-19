@@ -35,7 +35,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class JwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static String secretKey = "secretKey-test-authorization-jwt-manage-token-photo-it";
-    private static Long tokenValidTime = 3000 * 60 * 1000L;       // 토큰 유효 시간 나중에 바꾸기
+    private static Long tokenValidTime = 30000 * 60 * 1000L;       // 토큰 유효 시간 나중에 바꾸기
     private final UserDetailsService userDetailsService;
     private final StringRedisTemplate redisTemplate;
 
@@ -89,14 +89,14 @@ public class JwtTokenUtil {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        logger.debug("getAuthentication 진입");
+        //logger.debug("getAuthentication 진입");
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserInfo(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // 토큰에서 회원 정보 추출
     public String getUserInfo(String token) {
-        logger.debug("getUserInfo : 들어온 토큰 = " + token);
+        //logger.debug("getUserInfo : 들어온 토큰 = " + token);
         try {
                 return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 //        return Jwts.parser()
@@ -123,7 +123,7 @@ public class JwtTokenUtil {
             System.out.println(claims.getBody());
             ValueOperations<String, String> logoutValueOperations = redisTemplate.opsForValue();
             if (logoutValueOperations.get(token) != null) {
-                logger.debug("로그아웃된 토큰입니다.");
+                //logger.debug("로그아웃된 토큰입니다.");
                 return false;
             }
             return !claims.getBody().getExpiration().before(new Date());
@@ -147,7 +147,7 @@ public class JwtTokenUtil {
                     .verify(token.replace("Bearer", ""))
                     .getSubject();
             //result
-            logger.debug(result2);
+            //logger.debug(result2);
             return true;
         } catch (Exception e) {
             logger.error("token값 인증 오류" + e.getMessage());

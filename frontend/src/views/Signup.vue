@@ -388,7 +388,7 @@ export default {
     emailAuthSend: function () {
       this.emailSend = 'true' // 전송 보내지면 인증 입력창 띄워야 함
       httpNoJWT
-        .post('/user/emailauth', this.credentials.id)
+        .post('/user/emailauth', { id: this.credentials.id })
         .then((res) => {
           console.log(res)
         })
@@ -516,6 +516,7 @@ export default {
   padding-right: 0;
   padding-left: 0;
   background-color: #f7f7f7;
+  text-indent: 2%;
 }
 .form-control-plaintext:hover {
   font-size: 15px;

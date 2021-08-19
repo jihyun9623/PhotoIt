@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     sendMessage: function () {
-      console.log('??')
       let data = {
         roomName: this.roomName,
         sender: localStorage.getItem('nickname'),

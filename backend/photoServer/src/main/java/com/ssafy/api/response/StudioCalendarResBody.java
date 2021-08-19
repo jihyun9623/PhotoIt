@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Getter
 @Setter
@@ -23,5 +24,12 @@ public class StudioCalendarResBody extends BaseResponseBody {
         body.setMessage(message);
         body.setCalList(calList);
         return body;
+    }
+
+    @Override
+    public String toString() {
+        return "StudioCalendarResBody{" +
+                "calList=" + Arrays.toString(calList) +
+                '}';
     }
 }

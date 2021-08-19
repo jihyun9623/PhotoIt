@@ -1,6 +1,11 @@
 <template>
-  <div class="bestlist">
-    <img class="bestimg" :src="thumbnail" />
+  <div class="col-md-3 mb-3 me-1 ms-1 d-inline-block big-box">
+    <div v-if="photo" class="card real">
+      <img class="img-fluid card-img" alt="Best Photo" :src="photo" />
+    </div>
+    <div v-else class="card empty">
+      <div class="fake-box card-img"></div>
+    </div>
   </div>
 </template>
 
@@ -8,21 +13,27 @@
 export default {
   name: 'FavoriteListBoxBest',
   props: {
-    best: {
-      type: Object,
+    photo: {
+      type: String,
     },
-  },
-  data() {
-    return {
-      photoId: this.best.photoId,
-      thumbnail: this.best.thumbnail,
-    }
   },
 }
 </script>
 
 <style scoped>
-.bestlist {
-  margin: 1%;
+.card-img {
+  width: 100%;
+  min-width: 15vh;
+  height: 15vh;
+  object-fit: cover;
+}
+.card.real {
+  border-style: none;
+}
+.fake-box {
+  border-style: 1rem solid black;
+}
+.big-box {
+  overflow: hidden;
 }
 </style>

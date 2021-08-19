@@ -23,4 +23,7 @@ export default {
 .icon {
   width: 45%;
 }
+.icon:hover {
+  cursor: pointer;
+}
 </style>

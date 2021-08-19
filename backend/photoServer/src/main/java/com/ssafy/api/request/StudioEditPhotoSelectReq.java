@@ -18,6 +18,4 @@ public class StudioEditPhotoSelectReq {
 	String add_id;
 	@ApiModelProperty(name="삭제할 사진 ID", example="219216")
 	String del_id;
-	@ApiModelProperty(name="JWT", example ="NEMOBAJISPONGEBOBILOVEMONDAY")
-	String JWT;
 }

@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class UserRegisterPostRes extends BaseResponseBody {
     public static UserRegisterPostRes of(Integer statusCode, String message){
         // 1. ResponseBody 객체 res 하나 만들어서

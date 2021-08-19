@@ -1,0 +1,90 @@
+#bg {
+  /* background-color: blueviolet; */
+  margin-left: 3vmax;
+  margin-right: 5vmax;
+}
+
+.angled-gradient {
+  background-color: linear-gradient(70deg, blue, pink);
+  
+}
+
+
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.footerMargin{
+  margin-left: 15vw;
+  margin-right: 15vw;
+}
+
+.dotLine{
+    border: dotted 3px rgb(107, 159, 255);
+}
+
+
+.mypageTitle {
+  text-align: left;
+  margin-left: 8vmax;
+  font-family: "Cafe24SsurroundAir";
+  font-weight: bold;
+  color: black;
+}
+
+.mypageForm {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.mypageTitleLine {
+  border: solid 3px #333f50;
+  width: 75%;
+  margin-left: 8vmax;
+  color: #333f50;
+}
+
+.mainContainer {
+  font-family: "Cafe24SsurroundAir";
+}
+
+/*----------chat---------*/
+
+
+
+
+
+
+
+/*----------font---------*/
+@font-face {
+  font-family: "Cafe24SsurroundAir";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.fontCafe {
+  font-size: medium;
+  font-family: "Cafe24SsurroundAir";
+}
+
+.fontS{
+  font-size: small;
+  font-family: "Cafe24SsurroundAir";
+}
+
+.basicFont{
+  font-family: "Cafe24SsurroundAir";
+}
+
+.fontL{
+  font-size: x-large;
+  font-family: "Cafe24SsurroundAir";
+}

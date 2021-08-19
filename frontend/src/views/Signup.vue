@@ -399,10 +399,10 @@ export default {
     //
     // emailAuthSend : 인증 버튼 클릭 시, 서버에 코드를 인증메일로 보내줄 것을 요청
     emailAuthSend: function () {
-      this.emailSend = 'true' // 전송 보내지면 인증 입력창 띄워야 함
       httpNoJWT
         .post('/user/emailauth', { id: this.credentials.id })
         .then((res) => {
+          this.emailSend = 'true' // 전송 보내지면 인증 입력창 띄워야 함
           console.log(res)
         })
         .catch((err) => {

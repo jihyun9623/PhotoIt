@@ -29,15 +29,18 @@ export default {
   methods: {
     addFavorite() {
       this.$store.dispatch('mainpage/addFavorite', {
-        pgNick: this.$store.state.mystudio.nickname,
+        pgNick: this.$route.params.nickname,
         userNick: this.$store.state.login.myNickname,
       })
     },
     deleteFavorite() {
       this.$store.dispatch('mainpage/deleteFavorite', {
-        pgNick: this.$store.state.mystudio.nickname,
+        pgNick: this.$route.params.nickname,
         userNick: this.$store.state.login.myNickname,
       })
+    },
+    originShow() {
+      window.open(this.detailPhoto)
     },
   },
   created() {

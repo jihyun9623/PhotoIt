@@ -38,8 +38,7 @@ public class ChatService {
     @Transactional
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
         List<ChatRes> listChatRes = new ArrayList<>();
-        TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
-                                     .orElseThrow(RuntimeException::new);
+        TempChatRoom tempChatRoom =  roomRepository.getById(chatRoomDto.getName());
 
         logger.debug(tempChatRoom.getRoomName());
         logger.debug(String.valueOf(tempChatRoom.getTempChatMessages().size()));

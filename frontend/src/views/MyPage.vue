@@ -117,6 +117,7 @@
               class="form-control mb-0 fontCafe"
               aria-label="formPasswdCheck"
               aria-describedby="formPasswdCheck"
+              autocomplete="off"
               v-model="formPasswdCheck"
               :class="{
                 'is-valid': isSamePasswordValid,

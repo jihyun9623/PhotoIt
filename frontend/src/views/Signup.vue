@@ -388,7 +388,7 @@ export default {
     emailAuthSend: function () {
       this.emailSend = 'true' // 전송 보내지면 인증 입력창 띄워야 함
       httpNoJWT
-        .post('/user/emailauth', this.credentials.id)
+        .post('/user/emailauth', { id: this.credentials.id })
         .then((res) => {
           console.log(res)
         })

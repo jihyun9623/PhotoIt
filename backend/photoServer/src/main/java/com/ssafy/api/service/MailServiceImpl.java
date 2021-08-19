@@ -19,6 +19,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.File;
 import java.util.Random;
 
 @Service
@@ -61,12 +62,12 @@ public class MailServiceImpl implements MailService {
             msgBodyPart.setContent(htmlText, "text/html");
             multipart.addBodyPart(msgBodyPart);
 
-            msgBodyPart=new MimeBodyPart();
-//            DataSource fds=new FileDataSource("C:\\Users\\multicampus\\S05P12A108\\backend\\photoServer\\src\\main\\resources\\img\\logo_remove.png");
-            DataSource fds=new FileDataSource("src/main/resources/logo_remove.png"); //resources가 build하면 classpath로 된다!!
-            msgBodyPart.setDataHandler(new DataHandler(fds));
-            msgBodyPart.setHeader("Content-ID", "<image>");
-            multipart.addBodyPart(msgBodyPart);
+//            msgBodyPart=new MimeBodyPart();
+////            DataSource fds=new FileDataSource("C:\\Users\\multicampus\\S05P12A108\\backend\\photoServer\\src\\main\\resources\\img\\logo_remove.png");
+//            DataSource fds=new FileDataSource(""); //resources가 build하면 classpath로 된다!!
+//            msgBodyPart.setDataHandler(new DataHandler(fds));
+//            msgBodyPart.setHeader("Content-ID", "<image>");
+//            multipart.addBodyPart(msgBodyPart);
 //
 //            msg.setContent(multipart);
 

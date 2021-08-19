@@ -38,24 +38,8 @@ public class ChatService {
     @Transactional
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
         List<ChatRes> listChatRes = new ArrayList<>();
-//        TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
-//                                     .orElseThrow(RuntimeException::new);
-        String roomName = chatRoomDto.getName();
-
-        String[] us = roomName.split(" ");
-        User user1 = userRepository.findUserById(us[0]).orElseThrow(RuntimeException::new);
-        User user2 = userRepository.findUserById(us[1]).orElseThrow(RuntimeException::new);
-        String user1_nick = user1.getId();
-        String user2_nick = user2.getId();
-        logger.debug(user1_nick + "--------------------------------user1");
-        logger.debug(user2_nick + "--------------------------------user2");
-        String name;
-        if(user1_nick.compareTo(user2_nick)>0)
-            name = user2_nick.concat(" "+user1_nick);
-        else
-            name = user1_nick.concat(" "+user2_nick);
-        TempChatRoom tempChatRoom = roomRepository.getById(name);
-        logger.debug(tempChatRoom.getRoomName());
+        TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
+                                     .orElseThrow(RuntimeException::new);
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
 //        logger.debug(a==null?"null":"null xxx");
         if(a!=null) {
@@ -65,6 +49,14 @@ public class ChatService {
                 listChatRes.add(chatRes);
             }
         }
+        logger.debug("----------------------------me--------------------------------------");
+        List<TempChatRoom> tempChatRooms = roomRepository.findAll();
+        for(TempChatRoom t : tempChatRooms) {
+            for(TempChatMessage tc : t.getTempChatMessages()) {
+                logger.debug(tc.getSenderName() + " " + tc.getMessage());
+            }
+        }
+        logger.debug("----------------------------ch--------------------------------------");
 
         return ChatRoomRes.of(chatRoomDto.getName(), listChatRes);
     }

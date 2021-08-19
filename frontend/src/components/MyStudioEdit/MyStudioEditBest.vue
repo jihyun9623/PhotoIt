@@ -3,7 +3,12 @@
     <div v-if="bestPhoto" class="card real-photo">
       <img class="img-fluid card-img" alt="Best Photo" :src="bestPhoto" />
       <!-- 버튼에 클릭 이벤트 삽입 -> 베스트 사진 삭제 -->
-      <button type="button" class="btn-close" aria-label="Close"></button>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        @click="bestClick"
+      ></button>
     </div>
     <div v-else class="card empty-photo">
       <div class="fake-box card-img"></div>
@@ -17,6 +22,11 @@ export default {
   props: {
     bestPhoto: {
       type: String,
+    },
+  },
+  methods: {
+    bestClick() {
+      this.$emit('call-best')
     },
   },
 }

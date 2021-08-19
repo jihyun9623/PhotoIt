@@ -3,7 +3,12 @@
     <div class="card">
       <img class="img-fluid card-img" alt="Photo" :src="item" />
       <!-- 버튼에 클릭 이벤트 삽입 -> 사진 삭제 -->
-      <button type="button" class="btn-close" aria-label="Close"></button>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        @click="delClick"
+      ></button>
       <!-- 버튼에 클릭 이벤트 삽입 -> 베스트 사진 추가 -->
       <button
         type="button"
@@ -11,6 +16,7 @@
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
         title="베스트 사진으로 추가해보세요!"
+        @click="addClick"
       >
         <i class="fas fa-plus"></i>
       </button>
@@ -24,6 +30,14 @@ export default {
   props: {
     item: {
       type: String,
+    },
+  },
+  methods: {
+    addClick() {
+      this.$emit('call-add')
+    },
+    delClick() {
+      this.$emit('call-del')
     },
   },
 }

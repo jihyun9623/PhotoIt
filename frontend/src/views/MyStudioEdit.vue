@@ -24,10 +24,10 @@
     <section class="best-container row mb-5">
       <!-- 베스트 사진 삭제는 MyStudioEditBest에서 하기 -->
       <MyStudioEditBest
+        v-on:call-best="bestClick(bestid[idx])"
         v-for="(n, idx) in 3"
         :key="idx"
         :best-photo="best[idx]"
-        @click="bestClick(bestid[idx])"
       />
     </section>
     <div class="d-flex justify-content-between pt-5">
@@ -45,11 +45,12 @@
     <section class="photo-container row flex-wrap">
       <!-- 베스트 사진 삭제는 MyStudioEditPhotoList에서 하기 -->
       <MyStudioEditPhotoList
+        v-on:call-add="photoClickAdd(photoid[idx])"
+        v-on:call-del="photoClickDel(photoid[idx])"
         v-for="(item, idx) in photo"
         :key="idx"
         :id="photoid[idx]"
         :item="photo[idx]"
-        @click="photoClick(photoid[idx])"
       />
     </section>
   </div>
@@ -108,14 +109,16 @@ export default {
         this.deleteBest(id)
       }
     },
-    photoClick(id) {
+    photoClickAdd(id) {
       console.log(id)
       if (confirm('베스트 사진에 추가할까요?')) {
         this.addBest(id)
-      } else {
-        if (confirm('사진을 영구 삭제할까요?')) {
-          this.deletePhoto(id)
-        }
+      }
+    },
+    photoClickDel(id) {
+      console.log(id)
+      if (confirm('사진을 영구 삭제할까요?')) {
+        this.deletePhoto(id)
       }
     },
     // 베스트 사진 추가
@@ -128,9 +131,11 @@ export default {
       this.$store.dispatch('mystudioedit/addBestPhoto', data).then(() => {
         if (this.$store.state.mystudioedit.return) {
           this.toastSuccess('베스트 사진으로 추가하였습니다.')
-          this.$router.push({ name: 'MyStudioEdit' })
+          setTimeout(function () {
+            location.reload()
+          }, 3000)
         } else {
-          this.toastDanger('베스트 사진 추가에 실패하였습니다.')
+          this.toastDanger('베스트 사진은 3개까지 가능합니다.')
         }
       })
     },
@@ -143,7 +148,9 @@ export default {
       this.$store.dispatch('mystudioedit/editBestPhoto', data).then(() => {
         if (this.$store.state.mystudioedit.return) {
           this.toastSuccess('베스트 사진을 교체하였습니다.')
-          this.$router.push({ name: 'MyStudioEdit' })
+          setTimeout(function () {
+            location.reload()
+          }, 3000)
         } else {
           this.toastDanger('베스트 사진 교체에 실패하였습니다.')
         }
@@ -158,7 +165,9 @@ export default {
       this.$store.dispatch('mystudioedit/deleteBestPhoto', data).then(() => {
         if (this.$store.state.mystudioedit.return) {
           this.toastSuccess('베스트 사진에서 제외하였습니다.')
-          this.$router.push({ name: 'MyStudioEdit' })
+          setTimeout(function () {
+            location.reload()
+          }, 3000)
         } else {
           this.toastDanger('베스트 사진에서 제외하는데 실패하였습니다.')
         }
@@ -182,7 +191,9 @@ export default {
       this.$store.dispatch('mystudioedit/addPhoto', formData).then(() => {
         if (this.$store.state.mystudioedit.return) {
           this.toastSuccess('사진을 업로드하였습니다.')
-          this.$router.push({ name: 'MyStudioEdit' })
+          setTimeout(function () {
+            location.reload()
+          }, 3000)
         } else {
           this.toastDanger('사진 업로드에 실패하였습니다.')
         }
@@ -197,7 +208,9 @@ export default {
       this.$store.dispatch('mystudioedit/deletePhoto', data).then(() => {
         if (this.$store.state.mystudioedit.return) {
           this.toastSuccess('사진을 삭제하였습니다.')
-          this.$router.push({ name: 'MyStudioEdit' })
+          setTimeout(function () {
+            location.reload()
+          }, 3000)
         } else {
           this.toastDanger('사진을 삭제하는데 실패하였습니다.')
         }

@@ -20,19 +20,16 @@
           ></button>
         </div>
         <div class="modal-body">
-          <div class="form-check mb-3">
+          <div class="form-group mb-2">
+            <label for="exampleFormControlInput1">태그 입력</label>
             <input
-              v-model="attachFile"
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="chkFileUploadInsert"
+              v-model="text"
+              type="text"
+              id="exampleFormControlInput1"
+              class="form-control text-center"
             />
-            <label class="form-check-label" for="chkFileUploadInsert"
-              >파일 추가</label
-            >
           </div>
-          <div class="mb-3" v-show="attachFile" id="imgFileUploadInsertWrapper">
+          <div class="mb-3" id="imgFileUploadInsertWrapper">
             <input
               @change="changeFile"
               type="file"
@@ -76,6 +73,7 @@ export default {
       files: '',
       fileList: [],
       tag: ['우정', '웨딩'],
+      text: '',
     }
   },
   methods: {
@@ -96,26 +94,17 @@ export default {
     uploadFile() {
       // file upload
       // let dataArray = new Array()
-      let tags = this.tag
       let data = new FormData()
-      data.append('data', tags)
+      data.append('data', this.text)
       // data.append('file', dataArray)
 
       let cnt = this.files.files.length
       for (var i = 0; i < cnt; i++) {
         data.append('file', this.files.files[i])
-        // dataArray.push(this.files.files[i])
-        // data.append('file', this.files.files[i])
       }
-      // let attachFiles = document.querySelector('#inputFileUploadInsert')
-      console.log('upload pending files')
-      // console.log(dataArray)
-      console.log(data)
 
-      // let cnt = this.files.files.length
-      // for (var i = 0; i < cnt; i++) {
-      //   data.append('file', this.files.files[i])
-      // }
+      console.log('upload pending files')
+      console.log(data)
 
       const jwt = localStorage.getItem('jwt')
       const config = {

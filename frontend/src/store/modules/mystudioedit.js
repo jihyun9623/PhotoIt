@@ -93,7 +93,7 @@ const actions = {
   // 베스트 사진 삭제 (파라미터 사진 ID)
   deleteBestPhoto({ commit }, data) {
     return http
-      .delete('/studioedit/bestphoto', data)
+      .post('/studioedit/bestphoto/delete', data)
       .then((res) => {
         console.log(res)
         commit('SET_RETURN', {

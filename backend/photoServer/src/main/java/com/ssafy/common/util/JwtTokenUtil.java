@@ -35,7 +35,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class JwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static String secretKey = "secretKey-test-authorization-jwt-manage-token-photo-it";
-    private static Long tokenValidTime = 3000 * 60 * 1000L;       // 토큰 유효 시간 나중에 바꾸기
+    private static Long tokenValidTime = 30000 * 60 * 1000L;       // 토큰 유효 시간 나중에 바꾸기
     private final UserDetailsService userDetailsService;
     private final StringRedisTemplate redisTemplate;
 

@@ -286,7 +286,6 @@ public class UserServiceImpl implements UserService {
      * */
     public void withdrawalUser(String token) {
         String id = jwtTokenProvider.getUserInfo(token);
-        signOut(token); // 로그아웃 먼저 시킴.
         User member = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
         if (member.getPg() == true) {
             //logger.debug("작가 제거");

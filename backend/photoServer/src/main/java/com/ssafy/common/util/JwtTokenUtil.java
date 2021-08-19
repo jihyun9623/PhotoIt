@@ -34,15 +34,10 @@ import static com.google.common.collect.Lists.newArrayList;
 @RequiredArgsConstructor
 public class JwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
-    private static String secretKey = "secretKey-test-authorization-jwt-manage-token-photo-it";
+        private static String secretKey = "secretKey-test-authorization-jwt-manage-token-photo-it";
     private static Long tokenValidTime = 3000 * 60 * 1000L;       // 토큰 유효 시간 나중에 바꾸기
     private final UserDetailsService userDetailsService;
     private final StringRedisTemplate redisTemplate;
-
-//    public static final String TOKEN_PREFIX = "Bearer ";
-//    public static final String HEADER_STRING = "Authorization";
-//    public static final String ISSUER = "ssafy.com";
-
 
     // 객체 초기화, secretKey Base64로 인코딩.
     @PostConstruct
@@ -52,15 +47,15 @@ public class JwtTokenUtil {
 
     //public String createToken(String userPk, UserRole roles){
     public String createToken(@NotNull String id, String role) {
-//        Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위
-//        claims.put("role", userPk);
         init();
         Date now = new Date();
         byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
-
+        Claims claims=Jwts.claims();
+        claims.put("id", id);
+        claims.put("role", role);
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                //.setClaims(claims) // 정보 저장
+ //               .setClaims(claims) // 정보 저장
                 .setSubject(id)
                 .claim("id", id)
                 .claim("role", role)
@@ -123,7 +118,6 @@ public class JwtTokenUtil {
             System.out.println(claims.getBody());
             ValueOperations<String, String> logoutValueOperations = redisTemplate.opsForValue();
             if (logoutValueOperations.get(token) != null) {
-                //logger.debug("로그아웃된 토큰입니다.");
                 return false;
             }
             return !claims.getBody().getExpiration().before(new Date());

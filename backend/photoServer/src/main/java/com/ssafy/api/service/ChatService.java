@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.controller.Usercontroller;
 import com.ssafy.api.response.ChatRes;
 import com.ssafy.api.response.ChatRoomRes;
 import com.ssafy.api.response.ChatRoomsRes;
@@ -13,6 +14,8 @@ import com.ssafy.db.repository.TempChatMessageRepository;
 import com.ssafy.db.repository.TempChatRoomRepository;
 import com.ssafy.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
@@ -30,20 +33,30 @@ public class ChatService {
     private final TempChatRoomRepository roomRepository;
     private final UserRepository userRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(ChatService.class);
+
     @Transactional
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
         List<ChatRes> listChatRes = new ArrayList<>();
         TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
                                      .orElseThrow(RuntimeException::new);
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
-        a.sort(Comparator.comparingInt(TempChatMessage::getIdx));
-        for(TempChatMessage t : a) {
-            String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
-            ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
-            listChatRes.add(chatRes);
+//        logger.debug(a==null?"null":"null xxx");
+        if(a!=null) {
+            for(TempChatMessage t : a) {
+                String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
+                ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
+                listChatRes.add(chatRes);
+            }
         }
-
-        chatRoomRepository.enterChatRoom(tempChatRoom.getRoomName());
+        logger.debug("----------------------------me--------------------------------------");
+        List<TempChatRoom> tempChatRooms = roomRepository.findAll();
+        for(TempChatRoom t : tempChatRooms) {
+            for(TempChatMessage tc : t.getTempChatMessages()) {
+                logger.debug(tc.getSenderName() + " " + tc.getMessage());
+            }
+        }
+        logger.debug("----------------------------ch--------------------------------------");
 
         return ChatRoomRes.of(chatRoomDto.getName(), listChatRes);
     }

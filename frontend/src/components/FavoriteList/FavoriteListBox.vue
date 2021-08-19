@@ -1,80 +1,69 @@
 <template>
-  <div class="favlistbox">
-    <!-- <div class="head"> -->
-    <!-- <router-link
-      :to="{ path: `/mystudio/${profile.nickName}` }"
-      class="pg-name"
-    >
-      <div class="card">
-        <img class="img-fluid card-img" alt="Profile" :src="profile.photo" />
-        <div class="card-body">
-          <p class="card-text fs-6 fw-bold text-center pt-3">
-            {{ profile.nickName }}
-          </p>
-        </div>
-      </div>
-    </router-link> -->
-    <!-- <div class="pgNick"> -->
-    <!-- <p>{{ favNick }}</p>
-    <a>{{ favBest }}</a> -->
-
-    <p>{{ fav }}</p>
-    <a>{{ Object.keys(fav) }}</a>
-    <p>{{ Object.values(fav)[0] }}</p>
-
-    <!-- </div> -->
-    <!-- <div class="deleteFav"><button>x</button></div> -->
-    <!-- </div> -->
-    <!-- <div
-      class="bestphoto"
-      v-for="(photo, idx) in photoList"
-      :key="idx"
-      :best="best"
-    >
-      <FavoriteListBoxBest />
-    </div> -->
+  <div class="col-md-6 fav-box mb-5 mt-4 d-inline">
+    <div class="d-flex justify-content-between mt-3">
+      <router-link
+        class="go-mystudio"
+        :to="{ path: `/mystudio/${favItem[0]}` }"
+      >
+        <p class="fw-bold ps-2 pe-2">@ {{ favItem[0] }}</p>
+      </router-link>
+      <button type="button" class="btn-close" @click="deleteFavorite"></button>
+    </div>
+    <div>
+      <FavoriteListBoxBest
+        v-for="(n, idx) in 3"
+        :key="idx"
+        :photo="favItem[1][n - 1]"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-// import FavoriteListBoxBest from '@/components/FavoriteList/FavoriteListBoxBest'
+import FavoriteListBoxBest from '@/components/FavoriteList/FavoriteListBoxBest'
 
 export default {
   name: 'FavoriteListBox',
   components: {
-    // FavoriteListBoxBest,
+    FavoriteListBoxBest,
   },
   props: {
-    fav: Array,
-    // favNick: Array,
-    // favBest: Array,
+    favItem: {
+      type: Object,
+    },
   },
-  created() {},
-  // data() {
-  //   return {
-  //     favList: this.$state.
-  //   }
-  // },
+  methods: {
+    deleteFavorite() {
+      this.$store
+        .dispatch('mainpage/deleteFavorite', {
+          pgNick: this.favItem[0],
+          userNick: this.$store.state.login.myNickname,
+        })
+        .then(() => {
+          this.$store.dispatch('favorite/getFavList')
+          window.location.reload()
+        })
+      // await this.$store.dispatch('mainpage/deleteFavorite', {
+      //   pgNick: this.favItem[0],
+      //   userNick: this.$store.state.login.myNickname,
+      // })
+    },
+  },
 }
 </script>
 
 <style scoped>
-.favlistbox {
-  border: solid 1px;
+.fav-box {
+  border: 2px dashed;
   border-radius: 1rem;
   width: 45%;
 }
-.head {
-  display: flex;
+.go-mystudio {
+  text-decoration: none;
+  color: rgb(149, 149, 149);
 }
-.pgNick {
-  margin: 5px;
-}
-.bestphoto {
-  margin: 5px;
-}
-.bestphoto {
-  padding: 1%;
-  display: flex;
+.go-mystudio:hover {
+  /* text-decoration: underline; */
+  color: black;
 }
 </style>

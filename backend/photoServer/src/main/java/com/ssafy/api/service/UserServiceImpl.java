@@ -161,8 +161,9 @@ public class UserServiceImpl implements UserService {
     /* 로그아웃 */
     public BaseResponseBody signOut(String token) {
         ValueOperations<String, String> logoutValueOpations = redisTemplate.opsForValue();
+        logoutValueOpations.set(token, token);
         User member = (User) jwtTokenProvider.getAuthentication(token).getPrincipal();
-        //logger.debug("로그아웃 유저 아이디 : {}, 유저 이름 : '{}'", member.getId(), member.getNickname());
+        logger.debug("로그아웃 유저 아이디 : {}, 유저 이름 : '{}'", member.getId(), member.getNickname());
         return BaseResponseBody.of(200, "Success Logout");
     }
 
@@ -286,7 +287,6 @@ public class UserServiceImpl implements UserService {
      * */
     public void withdrawalUser(String token) {
         String id = jwtTokenProvider.getUserInfo(token);
-        signOut(token); // 로그아웃 먼저 시킴.
         User member = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
         if (member.getPg() == true) {
             //logger.debug("작가 제거");

@@ -53,6 +53,7 @@ public class MyPageController {
     public BaseResponseBody deleteUser( @RequestHeader(value = "Authorization") String token) {
         //logger.debug("회원 탈퇴 메서드 진입");
         userService.withdrawalUser(token);
+        userService.signOut(token);
         return BaseResponseBody.of(200, "Success");
     }
 

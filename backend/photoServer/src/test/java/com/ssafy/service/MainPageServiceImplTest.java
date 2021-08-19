@@ -1,10 +1,8 @@
 package com.ssafy.service;
 
 import com.ssafy.api.service.MainPageService;
-import com.ssafy.db.entity.MyStudio;
-import com.ssafy.db.entity.Tag;
-import com.ssafy.db.entity.TempChatRoom;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.dto.ChatRoomDto;
+import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;

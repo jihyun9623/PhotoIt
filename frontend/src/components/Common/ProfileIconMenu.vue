@@ -36,6 +36,9 @@
         <li v-if="isLogin" class="mb-2">마이페이지</li>
       </router-link>
       <!-- 비작가는 마이스튜디오 메뉴가 보이면 안된다. -->
+      <router-link :to="{ name: 'ChatRoomList' }">
+        <li v-if="isLogin" class="mb-2">쪽지함</li>
+      </router-link>
 
       <router-link v-if="role === 'PG'" :to="{ path: `/mystudio/${nickname}` }">
         <li class="mb-2">마이스튜디오</li>

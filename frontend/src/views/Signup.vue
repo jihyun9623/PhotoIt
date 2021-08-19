@@ -478,6 +478,12 @@ export default {
   components: {
     // components
   },
+  created() {
+    this.$store.dispatch('login/isLoginCheck')
+    if (this.$store.state.login.isLogin) {
+      this.$router.push({ name: 'MainPage' })
+    }
+  },
   mounted() {
     window.scrollTo(0, 0)
   },

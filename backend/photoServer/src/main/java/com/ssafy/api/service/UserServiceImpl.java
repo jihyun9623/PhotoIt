@@ -153,6 +153,8 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         //logger.debug("로그인 성공 : " + member.getId());
+        String newToken = jwtTokenProvider.createToken(member.getId(), member.getRole());
+        System.out.println("******** "+jwtTokenProvider.validateToken(newToken)+" ********");
         return jwtTokenProvider.createToken(member.getId(), member.getRole());
         // return jwtTokenProvider.createToken(member.getId(), member.getRole());
     }

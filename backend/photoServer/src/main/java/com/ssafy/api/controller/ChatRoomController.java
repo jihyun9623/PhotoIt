@@ -32,6 +32,9 @@ public class ChatRoomController {
     @PostMapping("/room")
     @ResponseBody
     public ResponseEntity<ChatRoomRes> createRoom(@RequestBody ChatUsersReq chatUsersReq) {
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        System.out.printf("user1: %s, user2: %s\n", chatUsersReq.getUser1(), chatUsersReq.getUser2());
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         ChatRoomDto chatRoomDto = chatRoomRepository.createChatRoom(chatUsersReq.getUser1(), chatUsersReq.getUser2());
         ChatRoomRes chatRoomRes = chatService.chatList(chatRoomDto);
         return ResponseEntity.ok(chatRoomRes);

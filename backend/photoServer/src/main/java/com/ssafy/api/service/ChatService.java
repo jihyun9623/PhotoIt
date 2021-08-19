@@ -41,9 +41,6 @@ public class ChatService {
 
     @Transactional
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
-        String sender = userRepository.findUserById(chatRoomDto.getName().split(" ")[0])
-                .orElseThrow(RuntimeException::new).getNickname();
-        ChatSave(chatRoomDto.getName(), sender, "----------------");
         logger.debug("-----------------------------");
         List<ChatRes> listChatRes = new ArrayList<>();
         TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())

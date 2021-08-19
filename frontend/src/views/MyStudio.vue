@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="headerwrapper">
     <div class="headercontainer row">
       <div class="headerelement col-4">
@@ -48,13 +47,8 @@
     <MyStudioPhotoList />
   </div>
   <div v-else>
-    <p class="d-flex justify-content-center align-content-center">
-      업로드된 사진이 없습니다.
-    </p>
+    <div class="noPhoto">업로드된 사진이 없습니다.</div>
   </div>
-=======
-  <h1>MyStudio1</h1>
->>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
 </template>
 
 <script>
@@ -67,3 +61,97 @@ export default {
   },
 };
 </script>
+
+<style>
+.headerwrapper {
+  width: 100%;
+  height: 72px;
+  padding-left: 80px;
+  padding-right: 80px;
+  background: white;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.headercontainer {
+  width: 100%;
+  max-width: 1200px;
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.headerelement {
+  line-height: 100%;
+  display: flex;
+  justify-content: flex-right;
+  align-items: center;
+}
+
+.pg-profile {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  cursor: pointer;
+  clip-path: circle(22px at center);
+  margin-right: 13px;
+}
+
+.pg-info {
+  width: 100%;
+}
+
+.pg-name {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.pg-mentarea {
+  width: 100%;
+  /* justify-content: space-between; */
+  justify-content: flex-start;
+  display: inline-flex;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  margin-bottom: 0;
+}
+
+.pg-mentquote {
+  display: inline-block;
+  font-weight: bold;
+  align-items: center;
+  margin-bottom: 0;
+  font-size: 35px;
+  padding: 0;
+  text-align: center;
+}
+
+.pg-ment {
+  height: 100%;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+@font-face {
+  font-family: 'Cafe24SsurroundAir';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+.noPhoto {
+  font-size: larger;
+  font-weight: bolder;
+  font-family: 'Cafe24SsurroundAir';
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}
+</style>

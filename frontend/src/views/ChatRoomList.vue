@@ -1,6 +1,14 @@
 <template>
-  <h1 class="mt-5 basicFont" style="z-index: 2">채팅방 목록</h1>
-  <hr />
+  <h1 class="fontXL signupTitle">채팅방 목록</h1>
+  <hr
+    align="left"
+    style="
+      border: solid 2px #1f3a93;
+      width: 77vw;
+      margin-left: 10vmax;
+      opacity: 0.7;
+    "
+  />
   <ChatList />
 </template>
 

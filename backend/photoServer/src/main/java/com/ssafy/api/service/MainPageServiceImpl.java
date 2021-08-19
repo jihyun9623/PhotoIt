@@ -93,8 +93,12 @@ public class MainPageServiceImpl implements MainPageService{
                     .name(entry.getKey())
                     .build();
             mainTags.add(tag);
-            tagList.remove(tag);
-            System.out.println(entry.getKey() + " : " + entry.getValue());
+            for(int i=0; i<tagList.size(); ++i) {
+                if(tagList.get(i).getName().equals(tag.getName())) {
+                    tagList.remove(i);
+                    break;
+                }
+            }
             if(cnt==viewsTag)
                 break;
         }

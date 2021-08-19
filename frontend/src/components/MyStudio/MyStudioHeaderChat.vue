@@ -1,11 +1,22 @@
 <template>
   <div>
-    <img src="@/assets/images/send_message_icon.png" class="icon" />
+    <a @click="EnterRoom">
+      <img src="@/assets/images/send_message_icon.png" class="icon" />
+    </a>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    EnterRoom: function () {
+      this.$router.push({
+        name: 'Chat',
+        query: { nickName: this.$store.state.mystudio.nickname },
+      })
+    },
+  },
+}
 </script>
 
 <style>

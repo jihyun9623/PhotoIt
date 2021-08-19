@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <ul v-for="n in nicks" :key="n">
-      <button class="btn btn-primary" type="button" @click="EnterRoom">
+  <div class="chatListBorder">
+    <ul class="chatListItem" v-for="n in nicks" :key="n">
+      <button class="btn fontL" type="button" @click="EnterRoom">
         {{ n }}
       </button>
     </ul>
@@ -10,6 +10,7 @@
 
 <script>
 import http from '@/assets/js/axios.js'
+
 export default {
   name: 'ChatList',
   data() {
@@ -35,3 +36,18 @@ export default {
   },
 }
 </script>
+
+<style>
+.chatListBorder {
+  border: solid 2px;
+  margin-left: 30vw;
+  margin-right: 30vw;
+}
+
+.chatListItem {
+  background-color: rgb(228, 224, 224);
+  border-radius: 30px;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
+}
+</style>

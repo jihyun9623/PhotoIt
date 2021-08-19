@@ -20,4 +20,12 @@ public class UserProfile {
         body.setPhoto(photo);
         return body;
     }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" +
+                "nickName='" + nickName + '\'' +
+                ", photo='" + photo + '\'' +
+                '}';
+    }
 }

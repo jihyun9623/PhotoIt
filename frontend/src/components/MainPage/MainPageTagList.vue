@@ -9,7 +9,7 @@
           class="tag-name"
           @click="goSearch"
         >
-          # {{ tagName }}
+          # {{ tagName }} <i class="fas fa-caret-down"></i>
         </router-link>
       </div>
       <div class="row">

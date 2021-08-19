@@ -26,20 +26,6 @@
     border: dotted 3px rgb(107, 159, 255);
 }
 
-.fontCafe {
-  font-size: medium;
-  font-family: "Cafe24SsurroundAir";
-}
-
-.fontS{
-  font-size: small;
-  font-family: "Cafe24SsurroundAir";
-}
-
-.fontL{
-  font-size: x-large;
-  font-family: "Cafe24SsurroundAir";
-}
 
 .mypageTitle {
   text-align: left;
@@ -67,10 +53,38 @@
   font-family: "Cafe24SsurroundAir";
 }
 
+/*----------chat---------*/
+
+
+
+
+
+
+
+/*----------font---------*/
 @font-face {
   font-family: "Cafe24SsurroundAir";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff")
     format("woff");
   font-weight: normal;
   font-style: normal;
+}
+
+.fontCafe {
+  font-size: medium;
+  font-family: "Cafe24SsurroundAir";
+}
+
+.fontS{
+  font-size: small;
+  font-family: "Cafe24SsurroundAir";
+}
+
+.basicFont{
+  font-family: "Cafe24SsurroundAir";
+}
+
+.fontL{
+  font-size: x-large;
+  font-family: "Cafe24SsurroundAir";
 }

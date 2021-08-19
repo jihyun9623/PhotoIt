@@ -1,5 +1,6 @@
 <template>
-  <h1>채팅방 목록</h1>
+  <h1 class="mt-5 basicFont" style="z-index: 2">채팅방 목록</h1>
+  <hr />
   <ChatList />
 </template>
 

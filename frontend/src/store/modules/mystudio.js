@@ -24,11 +24,11 @@ const actions = {
       })
   },
   best3: function ({ commit }, nickname) {
-    console.log('best3 actions')
     httpNoJWT
       .get('/studio/bestphotos/' + nickname)
       .then((res) => {
-        commit('BEST3', res.data.origin)
+        console.log(res.data)
+        commit('BEST3', res.data.file)
       })
       .catch((err) => {
         console.log(err)
@@ -39,7 +39,8 @@ const actions = {
     httpNoJWT
       .get('/studio/pgphoto/' + nickname)
       .then((res) => {
-        commit('PHOTO_ALL', res.data.origin)
+        console.log(res.data)
+        commit('PHOTO_ALL', res.data.file)
       })
       .catch((err) => {
         console.log(err)

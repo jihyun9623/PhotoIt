@@ -158,6 +158,12 @@
   font-family: "Cafe24SsurroundAir";
 }
 
+.fontEditTitle{
+  font-weight: bolder;
+  font-size: x-large;
+  font-family: "Cafe24SsurroundAir";
+}
+
 /* signup */
 .signupTitle{
   margin-top: 3rem;

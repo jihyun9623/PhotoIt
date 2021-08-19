@@ -19,8 +19,21 @@
       "
     ></i>
   </router-link>
-  <div class="container">
-    <h1 class="pt-5 mt-5 float-start">BEST 3</h1>
+  <div class="container mt-5">
+    <div id="bg" class="empty-box fontCafe center"></div>
+    <h1 class="mypageTitle fontXL center" style="margin-right: 10rem">
+      My Studio Edit
+    </h1>
+    <hr
+      align="left"
+      style="
+        border: solid 2px #1f3a93;
+        width: 100%;
+        margin-right: 4vmax;
+        opacity: 0.7;
+      "
+    />
+    <h1 class="pt-3 mt-4 float-start fontEditTitle mb-3">BEST 3</h1>
     <section class="best-container row mb-5">
       <!-- 베스트 사진 삭제는 MyStudioEditBest에서 하기 -->
       <MyStudioEditBest
@@ -30,10 +43,10 @@
         :best-photo="best[idx]"
       />
     </section>
-    <div class="d-flex justify-content-between pt-5">
-      <h1>PHOTO LIST</h1>
+    <div class="d-flex justify-content-between pt-1 mb-3">
+      <h1 class="pt-3 mt-4 float-start fontEditTitle">PHOTO LIST</h1>
       <button
-        class="btn upload-btn me-3 mb-3"
+        class="btn upload-btn me-3 mb-3 fontCafe"
         data-bs-toggle="modal"
         data-bs-target="#UploadModal"
         @click="showModal()"
@@ -266,23 +279,27 @@ export default {
       }
     })
   },
+  mounted() {
+    window.scrollTo(0, 0)
+  },
 }
 </script>
 
 <style scoped>
 .best-container {
-  border: 5px solid darkblue;
+  border: 3px solid darkblue;
   height: 30vh;
   width: 100%;
 }
 .photo-container {
-  border: 5px solid darkblue;
+  border: 3px solid darkblue;
   height: auto;
   width: 100%;
 }
 .upload-btn {
-  background-color: #4b77be;
-  color: white;
+  border: 3px dashed darkblue;
+  /* background-color: #4b77be; */
+  color: darkblue;
 }
 .upload-btn:hover {
   opacity: 80%;
@@ -292,5 +309,10 @@ export default {
 }
 .btn-go-back:hover {
   opacity: 80%;
+}
+.goBackBtn {
+  position: absolute;
+  top: 5vh;
+  left: 20vw;
 }
 </style>

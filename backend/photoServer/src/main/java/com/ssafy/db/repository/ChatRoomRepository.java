@@ -1,7 +1,7 @@
 package com.ssafy.db.repository;
 
 import com.ssafy.db.dto.ChatRoomDto;
-import com.ssafy.db.entity.TempChatRoom;
+import com.ssafy.db.entity.*;
 import com.ssafy.db.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
@@ -46,11 +46,6 @@ public class ChatRoomRepository {
     public ChatRoomDto createChatRoom(String user1, String user2) {
         User user1_ = userRepository.findUserByNickname(user1);
         User user2_ = userRepository.findUserByNickname(user2);
-        String name;
-        if(user1_.getId().compareTo(user2_.getId())>0)
-            name = user2_.getId().concat(" "+ user1_.getId());
-        else
-            name = user1_.getId().concat(" "+user2_.getId());
 
         ChatRoomDto chatRoom = ChatRoomDto.create(user1_.getId(), user2_.getId());
         TempChatRoom tempChatRoom = TempChatRoom.builder()

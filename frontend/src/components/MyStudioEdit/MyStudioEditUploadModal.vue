@@ -49,13 +49,23 @@
             </div>
           </div>
         </div>
+        <div class="modal-footer">
+          <button
+            @click="uploadFile"
+            data-bs-dismiss="modal"
+            class="btn btn-sm btn-primary btn-outline"
+            type="button"
+          >
+            업로드
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import http from '@/assets/js/axios.js'
+// import http from '@/assets/js/axios.js'
 import axios from 'axios'
 
 export default {
@@ -63,7 +73,9 @@ export default {
   data() {
     return {
       attachFile: false,
+      files: '',
       fileList: [],
+      tag: ['우정', '웨딩'],
     }
   },
   methods: {
@@ -73,6 +85,7 @@ export default {
       document.querySelector('#inputFileUploadInsert').value = ''
     },
     changeFile(fileEvent) {
+      this.files = fileEvent.target
       if (fileEvent.target.files && fileEvent.target.files.length > 0) {
         for (var i = 0; i < fileEvent.target.files.length; i++) {
           const file = fileEvent.target.files[i]
@@ -80,44 +93,69 @@ export default {
         }
       }
     },
-    uploadFile({ commit }) {
+    uploadFile() {
       // file upload
+      // let dataArray = new Array()
+      let tags = this.tag
       let data = new FormData()
-      let attachFiles = document.querySelector('#inputFileUploadInsert')
-      console.log('upload pending files')
-      console.log(attachFiles)
+      data.append('data', tags)
+      // data.append('file', dataArray)
 
-      let cnt = attachFiles.files.length
+      let cnt = this.files.files.length
       for (var i = 0; i < cnt; i++) {
-        data.append('file', attachFiles.files[i])
+        data.append('file', this.files.files[i])
+        // dataArray.push(this.files.files[i])
+        // data.append('file', this.files.files[i])
       }
+      // let attachFiles = document.querySelector('#inputFileUploadInsert')
+      console.log('upload pending files')
+      // console.log(dataArray)
+      console.log(data)
+
+      // let cnt = this.files.files.length
+      // for (var i = 0; i < cnt; i++) {
+      //   data.append('file', this.files.files[i])
+      // }
 
       const jwt = localStorage.getItem('jwt')
       const config = {
-        'Content-Type': 'multipart/form-data',
         Authorization: jwt,
       }
       return axios({
         method: 'post',
-        url: http.serverURL + '/studioedit/photo',
+        url: 'http://localhost:8080/studioedit/photo',
         headers: config,
         data: data,
       })
         .then((res) => {
           console.log(res)
-          commit('SET_RETURN', {
-            return: true,
-          })
+          this.toastSuccess('업로드하였습니다.')
+          this.closeModal()
         })
         .catch((err) => {
           console.log(err)
-          commit('SET_RETURN', {
-            return: false,
-          })
+          this.toastDanger('업로드하는데 실패하였습니다.')
+          this.closeModal()
         })
     },
     closeModal() {
       this.$emit('call-parent-close') // no parameter
+    },
+    toastSuccess(text) {
+      this.$moshaToast(text, {
+        type: 'success',
+        position: 'bottom-right',
+        timeout: 3000,
+        showIcon: true,
+      })
+    },
+    toastDanger(text) {
+      this.$moshaToast(text, {
+        type: 'danger',
+        position: 'bottom-right',
+        timeout: 3000,
+        showIcon: true,
+      })
     },
   },
   mounted() {

@@ -1,12 +1,12 @@
 <template>
   <!-- <MyStudioHeader /> -->
-  <h1>배고프다..</h1>
+  <h1>StudioEdit</h1>
   <!-- bestlist와 photolist를 활용하여 사진 표시, 및 클릭시 modal표시 -->
   <div class="container">
     bestlist
     <div class="best-container row">
       <div
-        v-for="(item, idx) in bestid"
+        v-for="(item, idx) in best"
         :key="idx"
         :id="bestid[idx]"
         :item="item"
@@ -19,17 +19,18 @@
 
     <button
       class="btn btn-sm btn-warning float-start"
-      data-toggle="modal"
-      data-target="#UploadModal"
+      data-bs-toggle="modal"
+      data-bs-target="#UploadModal"
       @click="showModal()"
     >
       사진 업로드
     </button>
+    <UploadModal v-on:call-parent-close="closeModal"></UploadModal>
 
     photolist
     <div class="photo-container row flex-wrap">
       <div
-        v-for="(item, idx) in photoid"
+        v-for="(item, idx) in photo"
         :key="idx"
         :id="photoid[idx]"
         :item="item"
@@ -40,8 +41,6 @@
       </div>
     </div>
   </div>
-
-  <UploadModal v-on:call-parent-close="closeModal"></UploadModal>
 </template>
 
 <script>
@@ -83,12 +82,13 @@ export default {
     },
     closeModal() {
       this.modal = false
-      window.location.reload()
     },
     bestClick(id) {
+      confirm(id)
       console.log(id)
     },
     photoClick(id) {
+      alert(id)
       console.log(id)
     },
     // 베스트 사진 추가

@@ -28,4 +28,11 @@ public class SearchTagLocationRes extends BaseResponseBody {
         return body;
     }
 
+    @Override
+    public String toString() {
+        return "SearchTagLocationRes{" +
+                "photoList=" + photoList +
+                ", tag='" + tag + '\'' +
+                '}';
+    }
 }

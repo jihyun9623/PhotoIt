@@ -22,4 +22,11 @@ public class MainPageProfileRes extends BaseResponseBody {
         body.setUserProfile(userProfile);
         return body;
     }
+
+    @Override
+    public String toString() {
+        return "MainPageProfileRes{" +
+                "userProfile=" + userProfile +
+                '}';
+    }
 }

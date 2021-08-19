@@ -16,7 +16,8 @@ import java.util.Map;
 @Api(value = "Fav API")
 @RestController
 @RequestMapping("/fav")
-@CrossOrigin(origins="http://localhost:8081", allowedHeaders="*", allowCredentials = "true")
+//@CrossOrigin(origins="http://localhost:8081", allowedHeaders="*", allowCredentials = "true")
+@CrossOrigin("*")
 public class FavController {
 
     @Autowired

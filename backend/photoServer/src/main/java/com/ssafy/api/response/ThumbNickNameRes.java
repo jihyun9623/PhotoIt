@@ -22,4 +22,13 @@ public class ThumbNickNameRes {
         body.setThumbnail(thumbnail);
         return body;
     }
+
+    @Override
+    public String toString() {
+        return "ThumbNickNameRes{" +
+                "thumbnail='" + thumbnail + '\'' +
+                ", photoId=" + photoId +
+                ", nickName='" + nickName + '\'' +
+                '}';
+    }
 }

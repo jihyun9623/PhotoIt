@@ -42,12 +42,14 @@
     </div>
   </div>
   <!-- <MyStudioHeader /> -->
-  <div v-if="!(this.$store.state.mystudio.photo_all == null)">
+  <div class="fontCafe" v-if="!(this.$store.state.mystudio.photo_all == null)">
     <MyStudioBest />
     <MyStudioPhotoList />
   </div>
   <div v-else>
-    <p>업로드된 사진이 없습니다.</p>
+    <p class="d-flex justify-content-center align-content-center">
+      업로드된 사진이 없습니다.
+    </p>
   </div>
 </template>
 

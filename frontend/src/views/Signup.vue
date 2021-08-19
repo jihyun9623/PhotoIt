@@ -207,27 +207,27 @@
       </div>
       <div v-if="credentials.pg === 'true'">
         <p></p>
-        <p class="signup-title">작가 한마디</p>
+        <p class="signup-title fontCafe">작가 한마디</p>
         <div class="row">
           <div>
             <input
               type="profile"
               placeholder="작가 한마디를 입력해 주세요."
-              class="form-control-plaintext"
+              class="form-control-plaintext fontCafe"
               id="profile"
               v-model="credentials.profile"
             />
           </div>
         </div>
         <p></p>
-        <p class="signup-title">지역 목록 선택</p>
+        <p class="signup-title fontCafe">지역 목록 선택</p>
         <div
           class="row"
           role="group"
           aria-label="Basic checkbox toggle button group"
         >
           <div
-            class="col-3"
+            class="col-3 fontCafe"
             v-for="location_ele in $store.state.location_all"
             :key="location_ele"
           >

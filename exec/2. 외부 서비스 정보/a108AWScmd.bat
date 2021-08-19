@@ -1,0 +1,1 @@
+ssh -i I5A108T.pem ubuntu@i5a108.p.ssafy.io

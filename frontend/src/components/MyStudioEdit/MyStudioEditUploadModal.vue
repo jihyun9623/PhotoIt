@@ -62,8 +62,7 @@
 </template>
 
 <script>
-// import http from '@/assets/js/axios.js'
-import axios from 'axios'
+import http from '@/assets/js/axios.js'
 
 export default {
   name: 'UploadModal',
@@ -102,20 +101,10 @@ export default {
       for (var i = 0; i < cnt; i++) {
         data.append('file', this.files.files[i])
       }
-
       console.log('upload pending files')
       console.log(data)
-
-      const jwt = localStorage.getItem('jwt')
-      const config = {
-        Authorization: jwt,
-      }
-      return axios({
-        method: 'post',
-        url: 'http://localhost:8080/studioedit/photo',
-        headers: config,
-        data: data,
-      })
+      return http
+        .post('/studioedit/photo', data)
         .then((res) => {
           console.log(res)
           this.toastSuccess('업로드하였습니다.')

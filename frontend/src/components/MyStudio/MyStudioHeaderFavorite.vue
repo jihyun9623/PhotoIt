@@ -29,13 +29,13 @@ export default {
   methods: {
     addFavorite() {
       this.$store.dispatch('mainpage/addFavorite', {
-        pgNick: this.detailPgNickname,
+        pgNick: this.$route.params.nickname,
         userNick: this.$store.state.login.myNickname,
       })
     },
     deleteFavorite() {
       this.$store.dispatch('mainpage/deleteFavorite', {
-        pgNick: this.detailPgNickname,
+        pgNick: this.$route.params.nickname,
         userNick: this.$store.state.login.myNickname,
       })
     },

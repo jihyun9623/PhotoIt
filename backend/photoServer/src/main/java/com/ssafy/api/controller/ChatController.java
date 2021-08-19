@@ -19,6 +19,7 @@
 //public class ChatController {
 //
 //    private final RedisPublisher redisPublisher;
+
 //    private final ChatRoomRepository chatRoomRepository;
 //    private final ChatService chatService;
 //

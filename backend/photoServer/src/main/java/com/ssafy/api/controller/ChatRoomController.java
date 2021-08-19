@@ -5,7 +5,6 @@ import com.ssafy.api.request.ChatUsersReq;
 import com.ssafy.api.response.ChatRoomRes;
 import com.ssafy.api.response.ChatRoomsRes;
 import com.ssafy.api.service.ChatService;
-import com.ssafy.common.chat.RedisPublisher;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.dto.ChatMessageDto;
 import com.ssafy.db.dto.ChatRoomDto;
@@ -28,12 +27,14 @@ public class ChatRoomController {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatService chatService;
-    private final RedisPublisher redisPublisher;
 
     @ApiOperation(value = "채팅 roomId, 내용 받기 처음들어가면 내용 x")
     @PostMapping("/room")
     @ResponseBody
     public ResponseEntity<ChatRoomRes> createRoom(@RequestBody ChatUsersReq chatUsersReq) {
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        System.out.printf("user1: %s, user2: %s\n", chatUsersReq.getUser1(), chatUsersReq.getUser2());
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         ChatRoomDto chatRoomDto = chatRoomRepository.createChatRoom(chatUsersReq.getUser1(), chatUsersReq.getUser2());
         ChatRoomRes chatRoomRes = chatService.chatList(chatRoomDto);
         return ResponseEntity.ok(chatRoomRes);
@@ -52,7 +53,5 @@ public class ChatRoomController {
     @ResponseBody
     public void roomList(@RequestBody ChatMessageDto message) {
         chatService.ChatSave(message.getRoomName(), message.getSender(), message.getMessage());
-
-        redisPublisher.publish(chatRoomRepository.getTopic(message.getRoomName()), message);
     }
 }

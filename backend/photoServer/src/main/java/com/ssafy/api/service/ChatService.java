@@ -33,17 +33,31 @@ public class ChatService {
     @Transactional
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
         List<ChatRes> listChatRes = new ArrayList<>();
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        System.out.printf("getName : %s\n", chatRoomDto.getName());
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
                                      .orElseThrow(RuntimeException::new);
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        System.out.printf("tempChatRoom.getRoomName : %s\n", chatRoomDto.getName());
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
-        a.sort(Comparator.comparingInt(TempChatMessage::getIdx));
-        for(TempChatMessage t : a) {
-            String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
-            ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        System.out.printf("tempChatRoom.getRoomName : %s,a.size() : %d\n", tempChatRoom.getRoomName(), a.size());
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+
+        for(int i=a.size()-1; i>-1; --i) {
+            String temp = userRepository.findUserById(a.get(i).getSenderName()).orElseThrow(RuntimeException::new).getNickname();
+            ChatRes chatRes = ChatRes.of(temp, a.get(i).getMessage(), a.get(i).getSendTime());
             listChatRes.add(chatRes);
         }
+//        a.sort(Comparator.comparingInt(TempChatMessage::getIdx));
+//        for(TempChatMessage t : a) {
+//            String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
+//            ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
+//            listChatRes.add(chatRes);
+//        }
 
-        chatRoomRepository.enterChatRoom(tempChatRoom.getRoomName());
 
         return ChatRoomRes.of(chatRoomDto.getName(), listChatRes);
     }

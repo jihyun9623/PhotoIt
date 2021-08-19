@@ -2,28 +2,19 @@
   <div>
     <SearchRegion />
     <div id="bg" class="empty-box fontCafe"></div>
-    <h1 class="mypageTitle">마이페이지</h1>
+    <h1 class="mypageTitle fontXL">마이페이지</h1>
     <hr
       align="left"
       style="
-        border: solid 2px #0000ff;
-        width: 77vw;
+        border: solid 2px #1f3a93;
+        width: 85vw;
         margin-left: 8vmax;
-        color: #0000ff;
+        opacity: 0.7;
       "
     />
     <!-- 메인 컨테이너 -->
-    <section
-      class="
-        d-flex
-        align-items-center
-        justify-content-center
-        pt-3
-        mt-3
-        mainContainer
-      "
-    >
-      <div class="container text-center fontCafe">
+    <section class="d-flex align-items-center justify-content-center pt-3 mt-3">
+      <div class="container text-center">
         <form>
           <h3 class="h3 mt-3 mb-5">
             <!-- 이미지 넣을 위치 -->
@@ -37,11 +28,9 @@
           </h3>
           <hr />
           <!-- 아이디 -->
-          <div class="input-group mb-4 mt-4">
+          <div class="input-group mb-4 mt-4 fontCafe">
             <span class="col-1"></span>
-            <span class="col-3 justify-content-center mypageForm fontCafe"
-              >이메일</span
-            >
+            <span class="col-3 justify-content-center mypageForm">이메일</span>
             <input
               type="text"
               class="form-control mb-0 mypageForm"
@@ -53,23 +42,21 @@
             <span class="col-4"></span>
           </div>
           <!-- 닉네임 -->
-          <div class="input-group mb-4">
+          <div class="input-group mb-4 fontCafe">
             <span class="col-1"></span>
-            <span class="col-3 justify-content-center mypageForm fontCafe"
-              >닉네임</span
-            >
+            <span class="col-3 justify-content-center mypageForm">닉네임</span>
             <input
               type="text"
-              class="form-control mb-0 col-4 fontCafe"
+              class="form-control mb-0 col-4"
               aria-label="formNickname"
               aria-describedby="formNickname"
               v-model="formNickname"
             />
-            <span class="col-1"></span>
+            <span class="col-1 fontCafe"></span>
             <button
               @click="checkNickname"
-              class="btn btn-lg btn-outline-primary fontCafe col-2"
-              style="font-weight: bold"
+              class="btn btn-lg btn-outline-primary col-2 btnPrimary"
+              style="border-radius: 0.25rem"
               type="button"
               autocomplete="off"
             >
@@ -78,14 +65,14 @@
             <span class="col-1"></span>
           </div>
           <!-- 비밀번호 -->
-          <div class="input-group mb-4 mt-4">
+          <div class="input-group mb-4 mt-4 fontCafe">
             <span class="col-1"></span>
-            <span class="col-3 justify-content-center mypageForm fontCafe"
+            <span class="col-3 justify-content-center mypageForm"
               >비밀번호 변경</span
             >
             <input
               type="password"
-              class="form-control mb-0 fontCafe"
+              class="form-control mb-0"
               aria-label="formPasswd"
               aria-describedby="formPasswd"
               autocomplete="off"
@@ -107,14 +94,14 @@
             </div>
           </div>
           <!-- 비밀번호 재확인 -->
-          <div class="input-group mb-4">
+          <div class="input-group mb-4 fontCafe">
             <span class="col-1"></span>
-            <span class="col-3 justify-content-center mypageForm fontCafe"
+            <span class="col-3 justify-content-center mypageForm"
               >비밀번호 변경 확인</span
             >
             <input
               type="password"
-              class="form-control mb-0 fontCafe"
+              class="form-control mb-0"
               aria-label="formPasswdCheck"
               aria-describedby="formPasswdCheck"
               v-model="formPasswdCheck"
@@ -140,14 +127,14 @@
             "
           /> -->
           <!-- 작가여부-->
-          <div class="input-group mb-4 mt-4">
+          <div class="input-group mb-4 mt-4 fontCafe">
             <span class="col-1"></span>
-            <span class="col-3 justify-content-center mypageForm fontCafe"
+            <span class="col-3 justify-content-center mypageForm"
               >작가 여부</span
             >
             <input
               type="text"
-              class="form-control mb-0 fontCafe"
+              class="form-control mb-0"
               aria-label="formPgCheck"
               aria-describedby="formPgCheck"
               v-model="PG"
@@ -156,8 +143,8 @@
             <span class="col-3"></span>
             <button
               @click="upgradeToPhotoGrapher"
-              class="btn btn-lg btn-outline-primary fontCafe col-2"
-              style="font-weight: bold"
+              class="btn btn-lg btn-outline-primary col-2 btnPrimary"
+              style="border-radius: 0.25rem"
               type="button"
               v-if="!formPgCheck"
             >
@@ -166,9 +153,9 @@
             <span class="col-1"></span>
           </div>
           <!-- 작가 자기소개 -->
-          <div class="input-group mb-4" v-if="formPgCheck">
+          <div class="input-group mb-4 fontCafe" v-if="formPgCheck">
             <span class="col-1"></span>
-            <span class="col-3 justify-content-center mypageForm fontCafe"
+            <span class="col-3 justify-content-center mypageForm"
               >작가 한 줄 소개</span
             >
             <input
@@ -181,9 +168,9 @@
             <span class="col-4"></span>
           </div>
           <!-- 작가 지역 -->
-          <div class="input-group mb-5" v-if="formPgCheck">
+          <div class="input-group mb-5 fontCafe" v-if="formPgCheck">
             <span class="col-1"></span>
-            <span class="col-3 justify-content-center mypageForm fontCafe"
+            <span class="col-3 justify-content-center mypageForm"
               >작가 활동 지역</span
             >
             <input
@@ -196,11 +183,10 @@
             <span class="col-4"></span>
           </div>
           <hr />
-          <div class="d-flex justify-content-end mt-5">
+          <div class="d-flex justify-content-end mt-5 fontCafe">
             <button
               @click="updateUser"
-              class="btn btn-lg btn-outline-warning fontCafe"
-              style="font-weight: bold"
+              class="btn btn-lg btn-warning btnOutline"
               type="button"
             >
               회원 정보 수정
@@ -208,8 +194,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp;
             <button
               @click="deleteUser"
-              class="btn btn-lg btn-outline-danger fontCafe"
-              style="font-weight: bold"
+              class="btn btn-lg btn-danger deleteUser"
               type="button"
             >
               회원 탈퇴

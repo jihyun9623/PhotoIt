@@ -115,6 +115,10 @@ export default {
         })
     },
   },
+  mounted() {
+    window.reload()
+    window.scrollTo(0, 0)
+  },
 }
 </script>
 

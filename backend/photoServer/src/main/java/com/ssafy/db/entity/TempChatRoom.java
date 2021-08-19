@@ -18,7 +18,7 @@ public class TempChatRoom {
     @Column(name = "temp_Chat_Room_Name")
     private String roomName;
 
-    @OneToMany(mappedBy = "tempChatRoom")
+    @OneToMany(mappedBy = "tempChatRoom", cascade = CascadeType.ALL)
     private List<TempChatMessage> tempChatMessages = new ArrayList<>();
 
     @Builder

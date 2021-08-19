@@ -165,7 +165,7 @@ public class StudioEditController {
     }
 
     // 베스트 사진 삭제하기
-    @DeleteMapping("/bestphoto")
+    @PostMapping("/bestphoto/delete")
     @ApiOperation(value = "베스트3 사진 삭제하기", notes = "사진ID를 받아 best사진에서 삭제")
     @ApiResponses({
             @ApiResponse(code = 201, message = "삭제 완료", response = BaseResponseBody.class),
@@ -214,7 +214,7 @@ public class StudioEditController {
     }
 
     // 전체사진 중 삭제하기
-    @DeleteMapping("/photo")
+    @PostMapping("/photo/delete")
     @ApiOperation(value = "작가 전체 사진 중 하나 삭제하기", notes = "작가 전체사진 중 하나를 삭제한다")
     @ApiResponses({
             @ApiResponse(code = 201, message = "삭제 완료", response = BaseResponseBody.class),

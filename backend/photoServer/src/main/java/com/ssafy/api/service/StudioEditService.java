@@ -6,6 +6,7 @@ import com.ssafy.api.response.StudioEditPgProfileResponseBody;
 import com.ssafy.api.response.StudioEditPhotoResponseBody;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -74,7 +75,7 @@ public interface StudioEditService {
      * @return
      * False : 업로드 실패
      */
-    boolean addPgPhoto(String JWT, List<MultipartFile> files, String[][] tags);
+    boolean addPgPhoto(String JWT, MultipartHttpServletRequest request, String[] tags);
 
     /**
      * @param JWT

@@ -38,13 +38,10 @@ public class ChatService {
     @Transactional
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
         List<ChatRes> listChatRes = new ArrayList<>();
-//        TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
-//                                     .orElseThrow(RuntimeException::new);
-        String roomName = chatRoomDto.getName();
-        TempChatRoom tempChatRoom = roomRepository.getById(roomName);
-        logger.debug(tempChatRoom.getRoomName());
+        TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
+                                     .orElseThrow(RuntimeException::new);
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
-        logger.debug(a==null?"null":"null xxx");
+//        logger.debug(a==null?"null":"null xxx");
         if(a!=null) {
             for(TempChatMessage t : a) {
                 String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
@@ -52,6 +49,14 @@ public class ChatService {
                 listChatRes.add(chatRes);
             }
         }
+        logger.debug("----------------------------me--------------------------------------");
+        List<TempChatRoom> tempChatRooms = roomRepository.findAll();
+        for(TempChatRoom t : tempChatRooms) {
+            for(TempChatMessage tc : t.getTempChatMessages()) {
+                logger.debug(tc.getSenderName() + " " + tc.getMessage());
+            }
+        }
+        logger.debug("----------------------------ch--------------------------------------");
 
         return ChatRoomRes.of(chatRoomDto.getName(), listChatRes);
     }

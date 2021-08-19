@@ -10,15 +10,17 @@ import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.common.util.Uploader;
 import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
+import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -156,8 +158,10 @@ public class StudioEditServiceImpl implements StudioEditService {
             Photo photo_after = new Photo(add_id, photo_before.getMyStudio(), photo_before.getViewCnt(), photo_before.getOrigin(), photo_before.getThumbnail(), true, photo_before.getUpload());
 
             photoRepository.save(photo_after);
+
+            return true;
         }
-        return true;
+        return false;
 
     }
 
@@ -187,12 +191,17 @@ public class StudioEditServiceImpl implements StudioEditService {
 
     // 작가 베스트 사진 삭제
     @Override
+    @Transactional
     public boolean delBestPhoto(String JWT, int del_id) {
         // JWT -> user_id -> MyStudio -> Photo -> best
         String user_id = utilCheckUserId(JWT);
 
+//        System.out.println("del_id : " + del_id);
+
         // 본인의 사진인지 별도 확인 필요
         if(!myPhotoCheck(del_id, user_id)) return false;
+
+//        System.out.println("본인사진임");
 
         Photo photo_before = photoRepository.findByIdx(del_id);
         if(photo_before == null) return false;
@@ -206,28 +215,51 @@ public class StudioEditServiceImpl implements StudioEditService {
     // 작가 사진 업로드
     @Override
     @Transactional
-    public boolean addPgPhoto(String JWT, List<MultipartFile> files, String[][] tags) {
+    public boolean addPgPhoto(String JWT, MultipartHttpServletRequest request, String[] tags) {
         // JWT -> user_id -> MyStudio -> Photo
         String user_id = utilCheckUserId(JWT);
         MyStudio myStudio = myStudioRepository.findByUser_Id(user_id);
 
+        List<MultipartFile> files = request.getFiles("file");
         // 여러 사진파일 업로드
         for(int i = 0; i < files.size(); i++) {
             MultipartFile file = files.get(i);
-            String[] tag = tags[i];
+            String[] tag = tags;
             String originURL = null;
             String thumbnailURL = null;
 
             try {
+//                ClassPathResource resource = new ClassPathResource("/");
+//                Path path = Paths.get(resource.getURI());
+
+                String path = new File("src/main/resources").getAbsolutePath();
+
+                File thumbnail = new File(path+"/image/thumbnail." + FilenameUtils.getExtension(file.getOriginalFilename()));
+
+//                System.out.println(thumbnail.getPath());
+
                 originURL = uploader.uploadS3Instance(file, DirNameOrigin);
 
                 /* 섬네일 추출 */
-                File thumbnail = new File(TEMP_FILE_PATH + "thumbnail");
+
                 // QUALITY 1~5 -> 4, resizeMode = Auto, size = 400 * 400, Filename = "thumbnail_" + OriginalName
-                ImageIO.write(Scalr.resize(ImageIO.read(file.getInputStream()), Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 400,400), file.getContentType(), thumbnail);
+                BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+//                System.out.println("버퍼 : " + bufferedImage.toString());
+                BufferedImage afterImage = Scalr.resize(bufferedImage, 400,400);
+//                System.out.println("애프터 : " + afterImage.toString());
+                FileOutputStream fos = new FileOutputStream(thumbnail);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write( afterImage, FilenameUtils.getExtension(file.getOriginalFilename()), baos );
+
+                fos.write(baos.toByteArray());
+
+//                System.out.println("섬네일 생성 : " + thumbnail);
 
                 thumbnailURL = uploader.uploadS3Instance(thumbnail, DirNameThumbnail);
             } catch (IOException e) {
+                System.out.println(e.getMessage());
+                System.out.println("에러!");
                 return false;
             }
 
@@ -235,6 +267,7 @@ public class StudioEditServiceImpl implements StudioEditService {
             Photo photo = new Photo(0, myStudio, 0, originURL,  thumbnailURL, false, LocalDateTime.now());
 
             photoRepository.save(photo);
+            System.out.println("save" + photo.toString());
 
             // PhotoTag Table에 사진태그 추가
             for(int j = 0; j < tag.length; j++) {
@@ -250,6 +283,7 @@ public class StudioEditServiceImpl implements StudioEditService {
 
     // 작가 사진 삭제
     @Override
+    @Transactional
     public boolean delPgPhoto(String JWT, int del_id) {
         // JWT -> user_id -> MyStudio -> Photo
         String user_id = utilCheckUserId(JWT);
@@ -262,7 +296,7 @@ public class StudioEditServiceImpl implements StudioEditService {
         if(photo != null) {
             String origin = photo.getOrigin();
             String thumbnail = photo.getThumbnail();
-            if(photoRepository.deleteByIdx(del_id) > 0) {
+            if(photoRepository.deleteByIdx(del_id) > 0 && photoTagRepository.deleteByPhoto_Idx(del_id) > 0) {
                 uploader.deleteS3Instance(origin);
                 uploader.deleteS3Instance(thumbnail);
                 return true;
@@ -280,6 +314,7 @@ public class StudioEditServiceImpl implements StudioEditService {
 
     // 본인사진인지 체크
     private boolean myPhotoCheck (int photo_id, String user_id) {
+
         Photo temp = photoRepository.findByIdx(photo_id);
         if(temp == null) return false;
 

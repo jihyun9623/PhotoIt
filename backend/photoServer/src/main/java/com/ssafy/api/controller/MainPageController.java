@@ -97,7 +97,7 @@ public class MainPageController {
     })
     public ResponseEntity<MainPageProfileRes> userProfile(HttpServletRequest req) {
         String JWT = req.getHeader("Authorization");
-           UserProfile userProfile = mainPageService.userProfile(JWT);
-            return ResponseEntity.ok(MainPageProfileRes.of(200, "Success", userProfile));
+        UserProfile userProfile = mainPageService.userProfile(JWT);
+        return ResponseEntity.ok(MainPageProfileRes.of(200,"Success", userProfile));
     }
 }

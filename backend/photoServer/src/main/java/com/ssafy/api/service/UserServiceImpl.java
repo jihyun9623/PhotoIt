@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     public boolean isValidToken(String token) {
         if (token != null && token.length() > 0) {
-            logger.debug("token 검증");
+            //logger.debug("token 검증");
             return jwtTokenProvider.validateToken(token);
         } else {
             throw new RuntimeException("인증 토큰이 없습니다");
@@ -146,13 +146,13 @@ public class UserServiceImpl implements UserService {
     @Override
     /* 로그인 */
     public String signin(UserReq loginInfo) {
-        logger.debug("로그인 메서드 진입");
+        //logger.debug("로그인 메서드 진입");
         User member = userRepository.findUserById(loginInfo.getId())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디입니다."));
         if (!passwordEncoder.matches(loginInfo.getPasswd(), member.getPasswd())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        logger.debug("로그인 성공 : " + member.getId());
+        //logger.debug("로그인 성공 : " + member.getId());
         return jwtTokenProvider.createToken(member.getId(), member.getRole());
         // return jwtTokenProvider.createToken(member.getId(), member.getRole());
     }
@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
     public BaseResponseBody signOut(String token) {
         ValueOperations<String, String> logoutValueOpations = redisTemplate.opsForValue();
         User member = (User) jwtTokenProvider.getAuthentication(token).getPrincipal();
-        logger.debug("로그아웃 유저 아이디 : {}, 유저 이름 : '{}'", member.getId(), member.getNickname());
+        //logger.debug("로그아웃 유저 아이디 : {}, 유저 이름 : '{}'", member.getId(), member.getNickname());
         return BaseResponseBody.of(200, "Success Logout");
     }
 
@@ -172,16 +172,16 @@ public class UserServiceImpl implements UserService {
      * 회원정보 불러오기
      * */
     public MyPageGetRes getProfile(String token) {
-        logger.debug("UserServiceImpl : getProfile");
+        //logger.debug("UserServiceImpl : getProfile");
         String id = jwtTokenProvider.getUserInfo(token);
-        logger.debug(id!=null?id:"null");
+        //logger.debug(id!=null?id:"null");
 
         User member = userRepository.findUserById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
         MyPageGetRes res;
         if (member.getPg() == true) {   // 작가면
             MyStudio memberStudio = myStudioRepository.findByUserIdx(member.getIdx());
             List<AuthorLocation> list = authorLocationRepository.findAuthorLocationByMyStudio(memberStudio);
-            logger.debug("getProfile - list : " + String.valueOf(list));
+            //logger.debug("getProfile - list : " + String.valueOf(list));
             List<String> memberList = new ArrayList<>();
             for (AuthorLocation loc : list) {
                 Location l = loc.getLocation();
@@ -202,7 +202,7 @@ public class UserServiceImpl implements UserService {
                     .photo(member.getPhoto() != null ? member.getPhoto() : "")
                     .build();
         }
-        logger.debug(res.getPhoto());
+        //logger.debug(res.getPhoto());
         return res;
     }
 
@@ -224,7 +224,7 @@ public class UserServiceImpl implements UserService {
      * 회원정보 수정 메서드
      * */
     public UserLoginPostRes updateProfile(String token, UserReq updateInfo) {
-        logger.debug("updateProfile 진입");
+        //logger.debug("updateProfile 진입");
         // 수정할 정보 : passwd, nickname, pg, location, introduce
         String id = jwtTokenProvider.getUserInfo(token);
         User member = userRepository.findById(id)
@@ -237,10 +237,10 @@ public class UserServiceImpl implements UserService {
         }
         // 작가 업데이트
         if (updateInfo.getPg() == true) {
-            logger.debug("작가 -> 작가");
+            //logger.debug("작가 -> 작가");
             member.updateUserProfile(updateInfo);   // 일단 유저 정보 업데이트
 
-            logger.debug("뽑아온 유저 idx : " + member.getIdx());        // 해당 유저 id를 가진 mystudio 객체를 가져옴
+            //logger.debug("뽑아온 유저 idx : " + member.getIdx());        // 해당 유저 id를 가진 mystudio 객체를 가져옴
             MyStudio memberStudio = myStudioRepository.findByUserIdx(member.getIdx());
 
             memberStudio.updateMyStudioProfile(updateInfo, member);     // mystudio 업데이트 - clear
@@ -267,16 +267,16 @@ public class UserServiceImpl implements UserService {
         else {
             member.updateUserProfile(updateInfo);
 
-            logger.debug("비작가 -> 비작가");
+            //logger.debug("비작가 -> 비작가");
         }
         userRepository.save(member);
         String roles=updateInfo.getPg()==true?"PG":"USER";
         String newToken = jwtTokenProvider.createToken(id, roles);
-        logger.debug("설마 아이디가 안들어오겠냐 : "+updateInfo.getId());
+        //logger.debug("설마 아이디가 안들어오겠냐 : "+updateInfo.getId());
         UserLoginPostRes res= UserLoginPostRes.of(200, "Success", newToken, id, updateInfo.getNickname(), roles);
 
-        logger.debug("생성한 new token : "+newToken);
-        logger.debug("생성한 토큰에서 id 뽑기 : "+jwtTokenProvider.getUserInfo(newToken));
+        //logger.debug("생성한 new token : "+newToken);
+        //logger.debug("생성한 토큰에서 id 뽑기 : "+jwtTokenProvider.getUserInfo(newToken));
         return res;
     }
 
@@ -289,7 +289,7 @@ public class UserServiceImpl implements UserService {
         signOut(token); // 로그아웃 먼저 시킴.
         User member = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
         if (member.getPg() == true) {
-            logger.debug("작가 제거");
+            //logger.debug("작가 제거");
             // 작가면 일단 MyStudio랑 location부터 지워야됨
             MyStudio myStudio = myStudioRepository.findByIdx(member.getIdx());
             authorLocationRepository.deleteAuthorLocationByMyStudio(myStudio);
@@ -297,7 +297,7 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.delete(member);
         userRepository.flush();
-        logger.debug("제거 완료");
+        //logger.debug("제거 완료");
     }
 
     @Override

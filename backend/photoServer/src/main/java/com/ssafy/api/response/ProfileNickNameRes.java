@@ -18,5 +18,13 @@ public class ProfileNickNameRes {
         body.setPhoto(photo);
         return body;
     }
+
+    @Override
+    public String toString() {
+        return "ProfileNickNameRes{" +
+                "photo='" + photo + '\'' +
+                ", nickName='" + nickName + '\'' +
+                '}';
+    }
 }
 

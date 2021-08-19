@@ -1,5 +1,6 @@
 <template>
   <div>
+<<<<<<< HEAD
     <h1 class="fontXL signupTitle">회원 가입</h1>
     <hr
       align="left"
@@ -11,6 +12,14 @@
       "
     />
     <div class="container-signup fontCafe">
+=======
+    <div class="container-signup">
+      <h1>Signup</h1>
+      <p>
+        추가할 일 <br />
+        API 넘어오면 하나씩 확인하면서 수정작업
+      </p>
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
       <input
         style="display: none"
         type="file"
@@ -26,7 +35,7 @@
       <img
         v-else
         @click="$refs.fileInput.click()"
-        src="@/assets/images/profile_default.png"
+        src="@/assets/profile_default.png"
         class="profile-preview"
       />
 
@@ -41,12 +50,17 @@
             placeholder="user@gmail.com"
             class="form-control-plaintext"
             id="email"
-            v-model="credentials.id"
+            v-model="credentials.email"
           />
         </div>
         <button
+<<<<<<< HEAD
           v-if="emailDup === null || emailDup === '401' || emailDup === '100'"
           class="btn btn-outline-primary col-2 btnPrimary"
+=======
+          v-if="emailDup === null || emailDup === '401'"
+          class="btn btn-primary col-2"
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
           @click="emailDupCheck"
         >
           중복확인
@@ -59,6 +73,11 @@
           인증
         </button>
       </div>
+      <p class="warning-text">
+        [중복체크 확인 문구 구역] null일때는 안뜨고 <br />
+        emailDup = 401 일때는 "이미 존재하는 이메일입니다." <br />
+        emailDup = 200 일 때는 "해당 이메일을 사용할 수 있습니다."
+      </p>
       <p
         v-if="emailDup === '401' && emailAuthChk === null"
         class="warning-text"
@@ -71,12 +90,6 @@
       >
         "해당 이메일을 사용할 수 있습니다. 인증 버튼을 눌러주세요."
       </p>
-      <p
-        v-else-if="emailDup === '100' && emailAuthChk === null"
-        class="warning-text"
-      >
-        "이메일을 입력해주세요"
-      </p>
       <div v-if="emailSend === 'true'" class="row">
         <div class="col-10">
           <input
@@ -84,18 +97,18 @@
             placeholder="인증코드를 입력해주세요"
             class="form-control-plaintext"
             id="emailAuth"
-            v-model="emailAuth.code"
+            v-model="emailAuth"
           />
         </div>
         <button class="btn btn-primary col-2" @click="emailAuthCheck">
           확인
         </button>
       </div>
-      <!-- <p class="warning-text">
+      <p class="warning-text">
         [인증 일치 문구] null일때는 안뜨고 <br />
         emailAuthChk = 401 일 때는 "인증코드가 일치하지 않습니다."<br />
         emailAuthChk = 200 일 때는 "인증에 성공하셨습니다."
-      </p> -->
+      </p>
       <p v-if="emailAuthChk === '401'" class="warning-text">
         "인증코드가 일치하지 않습니다." <br />
       </p>
@@ -115,7 +128,7 @@
           placeholder="비밀번호 (8 ~ 13자리)"
           class="form-control-plaintext"
           id="password"
-          v-model="credentials.passwd"
+          v-model="credentials.password"
         />
       </div>
 
@@ -129,17 +142,12 @@
         />
       </div>
       <p
-        v-if="
-          credentials.passwd === passwordConfirmation &&
-          credentials.passwd != null
-        "
+        v-if="credentials.password === passwordConfirmation"
         class="warning-text"
       >
         비밀번호가 일치합니다.
       </p>
-      <p v-else-if="credentials.passwd != null" class="warning-text">
-        비밀번호가 일치하지 않습니다.
-      </p>
+      <p v-else class="warning-text">비밀번호가 일치하지 않습니다.</p>
       <hr class="my-hr" />
 
       <p class="signup-title">닉네임</p>
@@ -160,14 +168,16 @@
           중복확인
         </button>
       </div>
+      <p class="warning-text">
+        [중복체크 확인 문구 구역] null일때는 안뜨고 <br />
+        nicknameDup = 401 일때는 "이미 존재하는 닉네임입니다." <br />
+        nicknameDup = 200 일 때는 "해당 닉네임을 사용할 수 있습니다."
+      </p>
       <p v-if="nicknameDup === '401'" class="warning-text">
         "이미 존재하는 닉네임입니다." <br />
       </p>
       <p v-else-if="nicknameDup === '200'" class="warning-text">
         "해당 닉네임을 사용할 수 있습니다."
-      </p>
-      <p v-else-if="nicknameDup === '100'" class="warning-text">
-        "닉네임을 입력해주세요"
       </p>
       <hr class="my-hr" />
 
@@ -180,7 +190,7 @@
         >
           <input
             type="radio"
-            v-model="credentials.pg"
+            v-model="credentials.photographer"
             value="true"
             class="btn-check"
             name="btnradio"
@@ -193,7 +203,7 @@
 
           <input
             type="radio"
-            v-model="credentials.pg"
+            v-model="credentials.photographer"
             value="false"
             class="btn-check"
             name="btnradio"
@@ -205,6 +215,7 @@
           >
         </div>
       </div>
+<<<<<<< HEAD
       <div v-if="credentials.pg === 'true'">
         <p></p>
         <p class="signup-title fontCafe">작가 한마디</p>
@@ -221,35 +232,46 @@
         </div>
         <p></p>
         <p class="signup-title fontCafe">지역 목록 선택</p>
+=======
+      <div v-if="credentials.photographer === 'true'">
+        <p>지역 목록 선택</p>
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
         <div
           class="row"
           role="group"
           aria-label="Basic checkbox toggle button group"
         >
           <div
+<<<<<<< HEAD
             class="col-3 fontCafe"
             v-for="location_ele in $store.state.location_all"
             :key="location_ele"
+=======
+            class="col-3"
+            v-for="location_ele in location_all"
+            :key="location_ele.loca"
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
           >
             <input
               type="checkbox"
               class="btn-check"
-              :id="location_ele"
+              :id="location_ele.loca"
               autocomplete="off"
-              :value="location_ele"
+              :value="location_ele.loca"
               v-model="credentials.location"
             />
             <label
               class="btn btn-outline-primary btn-width"
-              :for="location_ele"
+              :for="location_ele.loca"
             >
-              {{ location_ele }}
+              {{ location_ele.loca }}
             </label>
           </div>
         </div>
       </div>
       <hr class="my-hr" />
 
+<<<<<<< HEAD
       <!-- Button trigger modal -->
       <button
         type="button"
@@ -325,41 +347,51 @@
           </div>
         </div>
       </div>
+=======
+      <button type="button" class="btn btn-default">회원가입</button>
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
     </div>
   </div>
 </template>
 
 <script>
 // import component from "component location"
-import httpNoJWT from '@/assets/js/axiosNotJWT.js'
+// import axios from 'axios'
 
 export default {
   name: 'Signup',
   data: function () {
     return {
       credentials: {
-        id: null, // email
-        location: [], // 지역 정보
-        nickname: null, // 닉네임
-        passwd: null, // 비밀번호
-        pg: '', // 사진작가 여부
-        file: null, // 프로필 사진 파일
-        profile: '작가 한마디를 입력하지 않았습니다.', // 한줄 자기소개
+        email: null,
+        password: null,
+        nickname: null,
+        photographer: '',
+        location: [],
+        introduce: null,
+        profile: null,
       },
-      preview: null, // 프로필 사진 프리뷰
-      emailDup: null, // 이메일 중복확인 요청 후, 중복여부 응답
-      emailDupid: null,
-      emailSend: null, // 인증 요청갔는지 확인하고 인증 입력창 띄운다.
-      emailAuth: {
-        id: null,
-        code: null, // 유저가 입력한 인증 코드
-      },
-      emailAuthChk: null, // 인증번호 일치 여부 (null 이면 이메일 인증 아직 안함)
-      passwordConfirmation: null, // 비밀번호 확인 입력 내용
-      nicknameDup: null, // 닉네임 중복확인 요청 후, 중복 여부 응답
-      dupNickname: null, // 중복확인 요청 보냈던 닉네임 따로 저장
-      signupstate: null,
-      warningtext: null,
+      preview: null,
+      emailDup: null,
+      emailSend: null,
+      emailAuth: null,
+      emailAuthChk: null,
+      authedEmail: null,
+      passwordConfirmation: null,
+      nicknameDup: null,
+      dupNickname: null,
+      location_all: [
+        { loca: '서울' },
+        { loca: '부산' },
+        { loca: '경기도' },
+        { loca: '강원도' },
+        { loca: '경상남도' },
+        { loca: '경상북도' },
+        { loca: '전라남도' },
+        { loca: '전라북도' },
+        { loca: '충청남도' },
+        { loca: '충청북도' },
+      ],
     }
   },
   methods: {
@@ -370,33 +402,28 @@ export default {
         reader.onload = (e) => {
           this.preview = e.target.result
         }
-        this.credentials.file = input.files[0]
+        this.credentials.profile = input.files[0]
         reader.readAsDataURL(input.files[0])
       }
     },
-    // emailDupCheck : 이메일 중복확인 요청
-    emailDupCheck: function () {
-      httpNoJWT
-        .post('/user/emaildup', this.credentials)
-        .then((res) => {
-          console.log(res)
-          if (this.credentials.id == null) {
-            this.emailDup = '100'
-          } else {
-            if (res.data.statusCode == 200) {
-              this.emailDup = '200'
-              this.emailDupid = this.credentials.id
-            } else if (res.data.statusCode == 401) {
-              this.emailDup = '401'
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          this.emailDup = '401'
-        })
-    },
+    // // emailDupCheck : 이메일 중복확인 요청
+    // emailDupCheck: function () {
+    //   axios({
+    //     method: 'post',
+    //     url: '',
+    //     data: this.credentials.email,
+    //   })
+    //     .then(res => {
+    //       console.log(res)
+    //       this.emailDup = '200'
+    //     })
+    //     .catch(res => {
+    //       console.log(err)
+    //       this.emailDup = '401'
+    //     })
+    // },
     //
+<<<<<<< HEAD
     // emailAuthSend : 인증 버튼 클릭 시, 서버에 코드를 인증메일로 보내줄 것을 요청
     emailAuthSend: function () {
       httpNoJWT
@@ -409,20 +436,35 @@ export default {
           console.log(err)
         })
     },
-    //
-    // // emailAuthCheck : 입력한 코드 확인 요청
-    // emailAuthCheck: function () {
-    //   this.emailAuth.id = this.credentials.id
-    //   // 인증 때 이메일도 함께 보내야하고, 나중에 인증한 메일과 회원가입창 메일이 같은지 확인해야 한다.
+=======
+    // // emailAuthSend : 서버에 코드를 인증메일로 보내줄 것을 요청
+    // emailAuthSend: function () {
+    //   this.emailSend = 'true'
     //   axios({
     //     method: 'post',
     //     url: '',
-    //     data: this.emailAuth, // 유저가 입력한 인증코드를 보낸다.
+    //     data: this.credentials.email,
+    //   })
+    //     .then(res => {
+    //       console.log(res)
+    //     })
+    //     .catch(res => {
+    //       console.log(err)
+    //     })
+    // },
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
+    //
+    // // emailAuthCheck : 입력한 코드 확인 요청
+    // emailAuthCheck: function () {
+    //   axios({
+    //     method: 'post',
+    //     url: '',
+    //     data: this.emailAuth,
     //   })
     //     .then(res => {
     //       console.log(res)
     //       this.emailAuthChk = true
-    //       this.emailAuth.id = this.credentials.id
+    //       this.authedEmail = this.credentials.email
     // 이부분 제대로 동작하나 확인할 것.
     // 인증을 완료한 메일과 입력창에 입력해둔 메일이 같아야 회원가입이 가능하도록
     //     })
@@ -432,65 +474,50 @@ export default {
     //     })
     // },
     //
-    nicknameDupCheck: function () {
-      httpNoJWT
-        .post('/user/nicknameCheck', this.credentials)
-        .then((res) => {
-          console.log(res)
-          if (this.credentials.nickname == null) {
-            this.nicknameDup = '100'
-          } else {
-            if (res.data.statusCode == 200) {
-              this.nicknameDup = '200'
-              this.dupNickname = this.credentials.nickname
-            } else if (res.data.statusCode == 401) {
-              this.nicknameDup = '401'
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          this.nicknameDup = '401'
-        })
-    },
-    signup: function () {
-      // this.emailAuthChk === 'true' && // 이메일 인증 통과했다면
-      // this.emailAuth.id === this.credentials.id && // 인증된 이메일과 입력된 이메일이 같다면
-      if (
-        this.emailDupid === this.credentials.id && // 중복체크한 이메일과 입력된 이메일이 같다면
-        this.credentials.passwd === this.passwordConfirmation && // 비밀번호 확인이 같다면
-        this.dupNickname === this.credentials.nickname // 중복체크한 닉네임과 입력된 닉네임이 같다면
-      ) {
-        this.signupstate = 'success'
-        httpNoJWT
-          .post('/user/signup', this.credentials)
-          .then((res) => {
-            console.log(res)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      } else {
-        this.signupstate = 'fail'
-        if (!(this.emailDupid === this.credentials.id)) {
-          this.warningtext =
-            '중복체크한 이메일과 입력된 이메일이 다릅니다. 다시 확인해주세요.'
-        } else if (!(this.credentials.passwd === this.passwordConfirmation)) {
-          this.warningtext = '비밀번호가 다릅니다.'
-        } else if (!(this.dupNickname === this.credentials.nickname)) {
-          this.warningtext =
-            '중복체크한 닉네임과 입력된 닉네임이 다릅니다. 다시 확인해주세요.'
-        }
-        console.log(this.warningtext)
-      }
-    },
-    gotoLogin: function () {
-      this.$router.push({ name: 'Login' })
-    },
+    // nicknameDupCheck: function () {
+    //   axios({
+    //     method: 'post',
+    //     url: '',
+    //     data: this.credentials.nickname,
+    //   })
+    //     .then(res => {
+    //       this.nicknameDup = '200'
+    //     })
+    //     .catch(res => {
+    //       this.nicknameDup = '401'
+    //     })
+    // },
+    //
+    // signup: function () {
+    //   if (
+    //     this.emailAuthChk === 'true' &&
+    //     this.authedEmail === this.credentials.email &&
+    //     this.credentials.password === this.passwordConfirmation &&
+    //     this.dupNickname === this.credentials.nickname
+    //   ) {
+    //     axios({
+    //       method: 'post',
+    //       url: '',
+    //       data: this.credentials,
+    //     })
+    //       .then(res => {
+    //         this.$router.push({ name: 'Login'})
+    //       })
+    //       .catch(err => {
+    //         console.log(err)
+    //       })
+    //   } else {
+    //     if (!(this.authedEmail === this.credentials.email)) {
+    //       this.warningtext = '인증한 이메일과 입력된 이메일이 다릅니다. 다시 확인해주세요.'
+    //     }
+    //   }
+    // },
   },
+
   components: {
     // components
   },
+<<<<<<< HEAD
   created() {
     this.$store.dispatch('login/isLoginCheck')
     if (this.$store.state.login.isLogin) {
@@ -500,6 +527,8 @@ export default {
   mounted() {
     window.scrollTo(0, 0)
   },
+=======
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
 }
 </script>
 
@@ -535,18 +564,6 @@ export default {
   border-width: 1px 0;
   padding-right: 0;
   padding-left: 0;
-  background-color: #f7f7f7;
-  text-indent: 2%;
-}
-.form-control-plaintext:hover {
-  font-size: 15px;
-  font-weight: bold;
-  border: 0px;
-  margin-bottom: 5px;
-  border-width: 1px 0;
-  padding-right: 0;
-  padding-left: 0;
-  background-color: #e7e7e7;
 }
 .my-hr {
   height: 2px;

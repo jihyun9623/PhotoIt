@@ -1,13 +1,15 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.api.request.UserReq;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @NoArgsConstructor
@@ -27,7 +29,7 @@ public class MyStudio {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
     @OneToMany(mappedBy = "myStudio", cascade = CascadeType.ALL)
@@ -50,13 +52,6 @@ public class MyStudio {
         this.calendars = calendars;
         this.favorites = favorites;
         this.authorLocations = authorLocations;
-    }
 
-    // 수정할 정보 : passwd, nickname(중복체크해야됨), pg, location, introduce
-    public void updateMyStudioProfile(UserReq updateInfo, User user){
-        this.nickname=updateInfo.getNickname();
-        this.profile=updateInfo.getProfile();
-        //this.user=user;
     }
-
 }

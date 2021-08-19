@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div>
     <SearchRegion />
     <div id="bg" class="empty-box fontCafe"></div>
@@ -207,17 +208,20 @@
       </div>
     </section>
   </div>
+=======
+  <h1>MyPage</h1>
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
 </template>
 
 <script>
-import SearchRegion from '@/components/Common/SearchRegion'
-import http from '@/assets/js/axios.js'
+// import component from "component location"
 
 export default {
-  name: 'MyPage',
+  name: "MyPage",
   components: {
-    SearchRegion,
+    // components
   },
+<<<<<<< HEAD
   data() {
     return {
       isUserPasswordValid: false,
@@ -417,10 +421,7 @@ export default {
     window.scrollTo(0, 0)
   },
 }
+=======
+};
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
 </script>
-<style scoped>
-/* nav 태그의 position이 'fixed' 이기 때문에 공간을 먹어버리는 문제 해결 */
-.empty-box {
-  height: 15vh;
-}
-</style>

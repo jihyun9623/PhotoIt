@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <SearchRegion />
   <section class="container">
     <div class="row d-flex justify-content-between">
@@ -12,63 +13,18 @@
       />
     </div>
   </section>
+=======
+  <h1>FavoritList</h1>
+>>>>>>> b265e36ab2382e6685df9df1c57de22ab86a1626
 </template>
 
 <script>
-import SearchRegion from '@/components/Common/SearchRegion'
-import FavoriteListBox from '@/components/FavoriteList/FavoriteListBox'
+// import component from "component location"
 
 export default {
-  name: 'FavoriteList',
+  name: "FavoriteList",
   components: {
-    SearchRegion,
-    FavoriteListBox,
+    // components
   },
-  data() {
-    return {
-      favListArray: null,
-    }
-  },
-  computed: {
-    favList() {
-      return this.$store.state.favorite.favList
-    },
-    isFavorite() {
-      return this.$store.state.favorite.isFavorite
-    },
-  },
-  watch: {
-    favList() {
-      console.log(this.favList)
-      this.objectToArray()
-    },
-  },
-  methods: {
-    objectToArray() {
-      if (this.favList) {
-        this.favListArray = Object.entries(this.favList)
-        // console.log(this.favListArray)
-      }
-    },
-  },
-  created() {
-    if (!this.$store.state.login.isLogin) {
-      alert('접근 권한이 없습니다.')
-      this.$router.push({ name: 'MainPage' })
-    }
-    this.$store.dispatch('favorite/getFavList')
-    this.$store.dispatch('login/isLoginCheck')
-  },
-  mounted() {
-    this.$store.state.search.isSearchHeaderShow = true
-    window.scrollTo(0, 0)
-    // console.log(this.favList)
-    // this.objectToArray()
-  },
-}
+};
 </script>
-<style scoped>
-.empty-box {
-  height: 10vh;
-}
-</style>

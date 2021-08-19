@@ -1,25 +1,24 @@
 /* 2021-07-27 스켈레톤 코드 작성	by.HeeJung,Lee */
-/* 2021-08-03 Feat : Service 구현에 따른 컨트롤러 수정	by.HeeJung,Lee */
 
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.StudioEditPhotoSelectReq;
 import com.ssafy.api.request.StudioEditPhotoUploadReq;
-import com.ssafy.api.response.StudioEditPgProfileResponseBody;
 import com.ssafy.api.response.StudioEditPhotoResponseBody;
-import com.ssafy.api.service.StudioEditService;
-import com.ssafy.api.service.UserService;
+import com.ssafy.api.response.StudioEditPgProfileResponseBody;
 import com.ssafy.common.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-@Api(value = "스튜디오 Edit API", tags = {"edit"})
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+@Api(value = "스튜디오 Edit API", tags = {"edit."})
 @RestController
 @RequestMapping("/studioedit")
-@CrossOrigin("*")
 public class StudioEditController {
 
     @Autowired

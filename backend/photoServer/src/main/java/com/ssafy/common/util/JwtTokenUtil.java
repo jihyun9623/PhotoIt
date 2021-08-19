@@ -1,37 +1,26 @@
 package com.ssafy.common.util;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.*;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.DatatypeConverter;
-import java.nio.charset.Charset;
-import java.util.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * jwt 토큰 유틸 정의.
  */
-@Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
         private static String secretKey = "secretKey-test-authorization-jwt-manage-token-photo-it";
@@ -75,44 +64,37 @@ public class JwtTokenUtil {
 //                .signWith(SignatureAlgorithm.HS512, secretKey.getBytes(Charset.forName("UTF-8")))
 //                .compact();
     }
-    private Jws<Claims> decodeToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey.getBytes(Charset.forName("UTF-8")))
-                .parseClaimsJws(token);
+    
+    public static String getToken(String userId) {
+    		Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+        return JWT.create()
+                .withSubject(userId)
+                .withExpiresAt(expires)
+                .withIssuer(ISSUER)
+                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
 
-
-    // JWT 토큰에서 인증 정보 조회
-    public Authentication getAuthentication(String token) {
-        //logger.debug("getAuthentication 진입");
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserInfo(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    public static String getToken(Instant expires, String userId) {
+        return JWT.create()
+                .withSubject(userId)
+                .withExpiresAt(Date.from(expires))
+                .withIssuer(ISSUER)
+                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                .sign(Algorithm.HMAC512(secretKey.getBytes()));
+    }
+    
+    public static Date getTokenExpiration(int expirationTime) {
+    		Date now = new Date();
+    		return new Date(now.getTime() + expirationTime);
     }
 
-    // 토큰에서 회원 정보 추출
-    public String getUserInfo(String token) {
-        //logger.debug("getUserInfo : 들어온 토큰 = " + token);
-        try {
-                return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-//        return Jwts.parser()
-//                .setSigningKey(secretKey.getBytes(Charset.forName("UTF-8")))
-//                .parseClaimsJws(token).getBody().getSubject();
-       // return Jwts.parser().setSigningKey(secretKey.getBytes(Charset.forName("UTF-8"))).parseClaimsJws(token.replace("{", "").replace("}","")).getBody().getSubject();
-        } catch (io.jsonwebtoken.security.SignatureException e) {
-            log.info("잘못된 JWT 서명입니다.");
-        } catch (Exception e){
-            log.info("잘못된 토큰입니다.");
-        }
-        return null;
-    }
+    public static void handleError(String token) {
+        JWTVerifier verifier = JWT
+                .require(Algorithm.HMAC512(secretKey.getBytes()))
+                .withIssuer(ISSUER)
+                .build();
 
-    // Request의 Header에서 token 값을 가져옴. "X-AUTH-TOKEN" : "TOKEN값'
-    public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
-    }
-
-
-    public boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             System.out.println(claims.getBody());
@@ -130,23 +112,29 @@ public class JwtTokenUtil {
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.");
         }
-        return false;
     }
 
-    public boolean verifyToken(String token) {
-        if (token == null) return false;
+    public static void handleError(JWTVerifier verifier, String token) {
         try {
-            String result2 = JWT.require(Algorithm.HMAC512(secretKey.getBytes()))
-                    .build()
-                    .verify(token.replace("Bearer", ""))
-                    .getSubject();
-            //result
-            //logger.debug(result2);
-            return true;
-        } catch (Exception e) {
-            logger.error("token값 인증 오류" + e.getMessage());
-            return false;
+            verifier.verify(token.replace(TOKEN_PREFIX, ""));
+        } catch (AlgorithmMismatchException ex) {
+            throw ex;
+        } catch (InvalidClaimException ex) {
+            throw ex;
+        } catch (SignatureGenerationException ex) {
+            throw ex;
+        } catch (SignatureVerificationException ex) {
+            throw ex;
+        } catch (TokenExpiredException ex) {
+            throw ex;
+        } catch (JWTCreationException ex) {
+            throw ex;
+        } catch (JWTDecodeException ex) {
+            throw ex;
+        } catch (JWTVerificationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
-
 }

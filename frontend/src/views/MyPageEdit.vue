@@ -6,9 +6,9 @@
 // import component from "component location"
 
 export default {
-  name: 'MyPageEdit',
+  name: "MyPageEdit",
   components: {
     // components
   },
-}
+};
 </script>

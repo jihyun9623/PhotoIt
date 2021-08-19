@@ -16,4 +16,6 @@ import lombok.Setter;
 public class StudioEditAuthReq {
 	@ApiModelProperty(name="유저 닉네임", example="Lorem_Ipsum")
 	String nickname;
+	@ApiModelProperty(name="JWT", example ="NEMOBAJISPONGEBOBILOVEMONDAY")
+	String JWT;
 }

@@ -21,14 +21,14 @@ public class Calendar {
     private int idx;
 
     @NotNull
-    private String date;
+    private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studio_idx")
     private MyStudio myStudio;
 
     @Builder
-    public Calendar(int idx, String date, MyStudio myStudio) {
+    public Calendar(int idx, LocalDateTime date, MyStudio myStudio) {
         this.idx = idx;
         this.date = date;
         this.myStudio = myStudio;

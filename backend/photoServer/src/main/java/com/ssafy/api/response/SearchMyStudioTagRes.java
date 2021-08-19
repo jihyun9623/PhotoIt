@@ -22,11 +22,4 @@ public class SearchMyStudioTagRes extends BaseResponseBody {
         body.setPhotoList(photoList);
         return body;
     }
-
-    @Override
-    public String toString() {
-        return "SearchMyStudioTagRes{" +
-                "photoList=" + photoList +
-                '}';
-    }
 }

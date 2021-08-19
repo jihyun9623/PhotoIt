@@ -17,7 +17,9 @@ import java.io.File;
 @ApiModel("StudioEditPhotoUploadRequest")
 public class StudioEditPhotoUploadReq {
 	@ApiModelProperty(name="tag List", example="웨딩, 우정, 졸업")
-	String[][] data;
-	@ApiModelProperty(name="file", example="업로드 사진")
-	List<MultipartFile> file;
+	String[][] tag;
+	@ApiModelProperty(name="files", example="업로드 사진")
+	File[] file;
+	@ApiModelProperty(name="JWT", example ="NEMOBAJISPONGEBOBILOVEMONDAY")
+	String JWT;
 }

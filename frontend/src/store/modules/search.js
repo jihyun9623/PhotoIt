@@ -1,21 +1,24 @@
-import httpNoJWT from '@/assets/js/axiosNotJWT.js'
+import axios from 'axios'
 
 // state
 const state = () => ({
   resultTag: null,
   resultPhotographer: null,
-  isSearchHeaderShow: false,
 })
 
 // actions
 const actions = {
   tagSearch({ commit }, info) {
-    console.log(info)
-    httpNoJWT
-      .get('/search/tag/' + info.keyword + '/' + info.region, info)
+    axios({
+      method: 'post',
+      url: `http:어쩌고/search/tag/${info.keyword}/${info.region}`,
+      data: info,
+    })
       .then((res) => {
         console.log(res)
-        commit('TAG_SEARCH', res.data.photoList)
+        // 추가해야 함!
+        commit('TAG_SEARCH', 'res.data.???')
+        this.$router.push({ name: 'SearchResult' })
       })
       .catch((err) => {
         console.log(err)
@@ -23,22 +26,21 @@ const actions = {
       })
   },
   photographerSearch({ commit }, info) {
-    httpNoJWT
-      .get('/search/pg/' + info.keyword + '/' + info.region, info)
+    axios({
+      method: 'post',
+      url: `http:어쩌고/search/pg/${info.keyword}/${info.region}`,
+      data: info,
+    })
       .then((res) => {
         console.log(res)
-        commit('PHOTOGRAPHER_SEARCH', res.data.profileList)
+        // 추가해야 함!
+        commit('PHOTOGRAPHER_SEARCH', 'res.data.???')
+        this.$router.push({ name: 'SearchResult' })
       })
       .catch((err) => {
         console.log(err)
         alert('다시 시도해주십시오.')
       })
-  },
-  searchBarViewTrue({ commit }) {
-    commit('SEARCH_BAR_VIEW_TRUE')
-  },
-  searchBarViewFalse({ commit }) {
-    commit('SEARCH_BAR_VIEW_FALSE')
   },
 }
 
@@ -49,16 +51,9 @@ const mutations = {
   PHOTOGRAPHER_SEARCH(state, data) {
     state.resultPhotographer = data
   },
-  SEARCH_BAR_VIEW_TRUE(state) {
-    state.isSearchHeaderShow = true
-  },
-  SEARCH_BAR_VIEW_FALSE(state) {
-    state.isSearchHeaderShow = false
-  },
 }
 
 export default {
-  namespaced: true,
   state,
   actions,
   mutations,

@@ -6,8 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Arrays;
-
 @Getter @Setter
 @ApiModel("MainPageLocationResponse")
 public class MainPageLocationRes extends BaseResponseBody {
@@ -22,10 +20,4 @@ public class MainPageLocationRes extends BaseResponseBody {
         return body;
     }
 
-    @Override
-    public String toString() {
-        return "MainPageLocationRes{" +
-                "locationList=" + Arrays.toString(locationList) +
-                '}';
-    }
 }

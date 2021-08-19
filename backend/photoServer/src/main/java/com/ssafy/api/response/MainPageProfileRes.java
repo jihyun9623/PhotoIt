@@ -26,11 +26,4 @@ public class MainPageProfileRes extends BaseResponseBody {
         body.setNickName(nickName);
         return body;
     }
-
-    @Override
-    public String toString() {
-        return "MainPageProfileRes{" +
-                "userProfile=" + userProfile +
-                '}';
-    }
 }

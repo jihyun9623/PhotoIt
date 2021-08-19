@@ -31,12 +31,4 @@ public class StudioEditPhotoResponseBody extends BaseResponseBody {
 		body.setFileList(fileList);
 		return body;
 	}
-
-	@Override
-	public String toString() {
-		return "StudioEditPhotoResponseBody{" +
-				"id=" + id +
-				", files=" + files +
-				'}';
-	}
 }

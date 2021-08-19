@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 @Getter @Setter
@@ -37,11 +35,4 @@ public class MainPageTagPhotoRes extends BaseResponseBody {
         return body;
     }
 
-    @Override
-    public String toString() {
-        return "MainPageTagPhotoRes{" +
-                "tagPhotoList=" + tagPhotoList +
-                ", tagList=" + Arrays.toString(tagList) +
-                '}';
-    }
 }

@@ -1,55 +1,40 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.UserReq;
-import com.ssafy.api.response.MyPageGetRes;
-import com.ssafy.api.response.UserLoginPostRes;
-import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.User;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public interface UserService {
 
-    public boolean isValidToken(String token);
-        // 지역목록요청 : locationList
-     List<String> locationList();
+    // 지역목록요청 : locationList
+    public ArrayList<String> locationList();
 
-     // 작가 업그레이드
-    boolean upgradePhotographer(String id);
+    // 이메일 인증 요청 : emailAuth
+    public boolean emailAuth();
+
+    // 이메일 코드 확인 요청 : emailAuthCheck
+    public boolean emailAuthCheck();
+
+    // 닉네임 중복검사 : nameDupCheck
+    public boolean nameDupCheck();
 
     // 회원가입 완료 요청 : signUp
-    void signUp(UserReq user);
+    public boolean signUp();
 
     // 로그인 : signIn
-    String signin(UserReq loginInfo);
+    public boolean signIn();
 
     // 로그아웃 : signOut
-    BaseResponseBody signOut(String token);
+    public boolean signOut();
 
-    // 들어가자마자 회원정보 받아오기 get : /mypage
-    MyPageGetRes getProfile(String token);
+    User getUserByUserId(String userId);
 
-    // 비밀번호 맞는지 확인
-    Boolean isPasswordRight(String id, String passwd);
-
-    // 회원정보 수정하기 put : /mypage
-    UserLoginPostRes updateProfile(String token, UserReq updateInfo);
-
-    // 회원탈퇴 delete : /mypage
-    void withdrawalUser(String token);
-
-    // 닉네임 중복 체크
-    boolean nicknameDuplicateCheck(String nickname);
-
-    // 아이디(=이메일) 중복 체크
-    boolean idDuplicateCheck(String id);
-
-    void testToken(String token);
-
-    void editProfilePhoto(String token, UserReq photo);
-
-
-//    // 로그아웃 : signOut
-//    public boolean signOut();
-
+    // 회원정보 받아오기 : getMyInfo
+    
+    // 닉네임 중복체크 : nameDupCheck >>good
+    // 회원정보 수정 : editMyInfo
+    // 작가 업그레이드 : upgradeToPg
+    // 회원탈퇴 : quitUser
 }

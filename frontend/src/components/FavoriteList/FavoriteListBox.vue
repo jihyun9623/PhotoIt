@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-6 fav-box mb-3 mt-4 d-inline">
+  <div class="col-md-6 fav-box mb-5 mt-4 d-inline">
     <div class="d-flex justify-content-between mt-3">
       <router-link
         class="go-mystudio"

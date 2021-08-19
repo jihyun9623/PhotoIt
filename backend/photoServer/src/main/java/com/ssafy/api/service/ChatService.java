@@ -39,8 +39,11 @@ public class ChatService {
         TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
                                      .orElseThrow(RuntimeException::new);
         System.out.println("-------------------------------------------------------------------------------------------------------------");
-        System.out.printf("tempChatRoom.getRoomName : %s\n", chatRoomDto.getName());
+        System.out.printf("tempChatRoom.getRoomName : %s\n", tempChatRoom.getRoomName();
         System.out.println("-------------------------------------------------------------------------------------------------------------");
+
+        System.out.println(tempChatRoom.getTempChatMessages().size());
+
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.printf("tempChatRoom.getRoomName : %s,a.size() : %d\n", tempChatRoom.getRoomName(), a.size());

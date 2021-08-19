@@ -3,7 +3,7 @@
   <section class="container">
     <div class="row d-flex justify-content-between">
       <div class="empty-box"></div>
-      <h1>My Favorite List</h1>
+      <h1 class="mb-5">My Favorite List</h1>
       <!-- {{ favListArray }} -->
       <FavoriteListBox
         v-for="(favItem, idx) in favListArray"

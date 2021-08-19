@@ -1,5 +1,10 @@
 <template>
-  <i @click="goTopMove" class="fas fa-arrow-alt-circle-up gotop-btn fa-3x"></i>
+  <div style="background-color: white">
+    <i
+      @click="goTopMove"
+      class="fas fa-arrow-alt-circle-up gotop-btn fa-3x"
+    ></i>
+  </div>
 </template>
 
 <script>
@@ -15,7 +20,7 @@ export default {
 
 <style scoped>
 .gotop-btn {
-  color: rgb(44, 7, 165);
+  color: #1f3a93;
   position: fixed;
   z-index: 100;
   bottom: 3vh;
@@ -23,6 +28,6 @@ export default {
 }
 .gotop-btn:hover {
   cursor: pointer;
-  color: rgb(124, 120, 120);
+  color: #4b77be;
 }
 </style>

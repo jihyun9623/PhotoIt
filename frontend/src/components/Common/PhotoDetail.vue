@@ -10,6 +10,10 @@
       <div class="modal-content">
         <div class="modal-body d-flex justify-content-center">
           <img :src="detailPhoto" alt="detail" class="modal-img" />
+          <button class="origin-show px-3 py-2" @click="originShow">
+            <div class="mb-1 mt-1"><i class="fas fa-images fa-3x"></i></div>
+            <div>원본 보기</div>
+          </button>
         </div>
         <div class="modal-footer d-flex justify-content-start pt-0">
           <div class="ps-2 pb-2" style="color: white">
@@ -160,6 +164,9 @@ export default {
         userNick: this.$store.state.login.myNickname,
       })
     },
+    originShow() {
+      window.open(this.detailPhoto)
+    },
   },
   created() {
     // 로그인 여부 확인
@@ -226,5 +233,23 @@ export default {
 }
 .go-mystudio:hover {
   text-decoration: underline;
+}
+.origin-show {
+  visibility: hidden;
+  position: absolute;
+  top: 4%;
+  left: 3%;
+  border-radius: 1rem;
+  /* opacity: 90%; */
+  border: 0.3rem rgba(136, 136, 136, 0.507);
+  border-style: none solid solid none;
+  background-color: white;
+  outline: none;
+  transition: all 0.3s ease 0s;
+  font-size: 0.8rem;
+}
+.modal-body:hover .origin-show {
+  visibility: visible;
+  transform: translateY(10px);
 }
 </style>

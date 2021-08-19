@@ -22,9 +22,14 @@ export default {
     let data = {
       sender: localStorage.getItem('nickname'),
     }
-    http.post('/chat/rooms', data).then((res) => {
-      this.nicks = res.data.nickNames
-    })
+    http
+      .post('/chat/rooms', data)
+      .then((res) => {
+        this.nicks = res.data.nickNames
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   methods: {
     EnterRoom: function (n) {
@@ -40,14 +45,14 @@ export default {
 <style>
 .chatListBorder {
   border: solid 2px;
-  margin-left: 30vw;
-  margin-right: 30vw;
+  margin-left: 20vw;
+  margin-right: 20vw;
 }
 
 .chatListItem {
   background-color: rgb(228, 224, 224);
   border-radius: 30px;
-  padding-top: 4vh;
-  padding-bottom: 4vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
 }
 </style>

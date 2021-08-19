@@ -84,6 +84,7 @@ export default {
             Math.random() * this.$store.state.mystudio.photo_all.length,
           )
         ]
+      console.log(this.best1)
     } else if (this.$store.state.mystudio.best3.length == 3) {
       console.log('3')
       this.best3 = this.$store.state.mystudio.best3[2]

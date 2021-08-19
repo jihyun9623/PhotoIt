@@ -3,7 +3,6 @@
 
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.StudioEditAuthReq;
 import com.ssafy.api.request.StudioEditPhotoSelectReq;
 import com.ssafy.api.request.StudioEditPhotoUploadReq;
 import com.ssafy.api.response.StudioEditPgProfileResponseBody;
@@ -15,9 +14,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Api(value = "스튜디오 Edit API", tags = {"edit"})
 @RestController
@@ -202,14 +199,13 @@ public class StudioEditController {
     })
     public ResponseEntity<BaseResponseBody> addPgPhoto(
             @RequestHeader(value = "Authorization") String token,
-            @RequestBody @ApiParam(value = "JWT", required = true) StudioEditPhotoUploadReq uploadReq) {
+            StudioEditPhotoUploadReq uploadReq, MultipartHttpServletRequest request) {
         String jwt = token;
 
-        String tag[][] = uploadReq.getData();
-        List<MultipartFile> files = uploadReq.getFile();
+        String tag[] = uploadReq.getData();
 
         /* 닉네임을 통한 JWT 확인 후 현재 들어온 JWT와 비교하여 확인 후 전체사진(섬네일) 업로드*/
-        boolean result = studioEditService.addPgPhoto(jwt, files, tag);
+        boolean result = studioEditService.addPgPhoto(jwt, request, tag);
         if (result) {
             return ResponseEntity.ok(BaseResponseBody.of(201, "Success"));
         }

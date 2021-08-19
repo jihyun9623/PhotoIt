@@ -1,20 +1,11 @@
 <template>
   <section>
-    <div
-      class="login-form container"
-      style="border: 0.1em solid; margin-top: 20vh"
-    >
-      <div class="row">
-        <!-- Logo-->
-        <router-link :to="{ name: 'MainPage' }">
-          <img
-            src="@/assets/images/Logo_ver2.png"
-            alt="logo"
-            class="logo-box pb-4"
-          />
-        </router-link>
+    <div class="login-form container mt-5">
+      <form class="row">
+        <!-- Logo 자리 -->
+        <div class="logo-box mb-5">로고 자리</div>
         <div class="mb-3">
-          <label for="id" class="form-label d-flex justify-content-start"
+          <label for="email" class="form-label d-flex justify-content-start"
             >이메일(아이디)</label
           >
           <input
@@ -22,8 +13,8 @@
             class="form-control"
             id="email"
             placeholder="user@example.com"
-            v-model="credentials.id"
-            @keyup.enter="userLogin"
+            v-model="credentials.email"
+            @keyup.enter="login"
           />
         </div>
         <div class="mb-3">
@@ -35,77 +26,53 @@
             class="form-control"
             id="password"
             placeholder="비밀번호"
-            v-model="credentials.passwd"
-            @keyup.enter="userLogin"
+            v-model="credentials.password"
+            @keyup.enter="login"
           />
         </div>
-        <div class="align-items-center mb-4 mt-5">
-          <button class="btn login-form-btn mb-2 login-btn" @click="userLogin">
-            로그인
-          </button>
-          <button type="button" class="btn login-form-btn mb-2 signup-btn">
-            <router-link :to="{ name: 'Signup' }"> 회원가입 </router-link>
+        <div class="align-items-center mb-4 mt-2">
+          <button class="btn login-form-btn mb-2" @click="login">로그인</button>
+          <button type="button" class="btn login-form-btn mb-2">
+            <!-- <router-link :to="{ name: Signup }"> -->
+            <span>회원가입</span>
+            <!-- </router-link> -->
           </button>
         </div>
+      </form>
+      <div class="mt-4 d-flex justify-content-evenly">
+        <button class="btn login-find-btn">
+          <!-- <router-link :to="{ name: 어딘가 }"> -->
+          <span>아이디 찾기</span>
+          <!-- </router-link> -->
+        </button>
+        <button class="btn login-find-btn">
+          <!-- <router-link :to="{ name: 어딘가 }"> -->
+          <span>비밀번호 찾기</span>
+          <!-- </router-link> -->
+        </button>
       </div>
-      <!-- <div class="mt-4 d-flex justify-content-evenly">
-        <button class="btn login-find-btn">
-          <router-link :to="{ name: 어딘가 }">
-            <span>아이디 찾기</span>
-          </router-link>
-        </button>
-        <button class="btn login-find-btn">
-          <router-link :to="{ name: 어딘가 }">
-            <span>비밀번호 찾기</span>
-          </router-link>
-        </button>
-      </div> -->
     </div>
   </section>
 </template>
 
 <script>
-import httpNoJWT from '@/assets/js/axiosNotJWT.js'
+// import component from "component location"
 
 export default {
   name: 'Login',
   data() {
     return {
       credentials: {
-        id: null,
-        passwd: null,
+        email: null,
+        password: null,
       },
     }
   },
-  methods: {
-    userLogin() {
-      httpNoJWT
-        .post('/user/signin', this.credentials)
-        .then((res) => {
-          console.log(res)
-          localStorage.setItem('jwt', res.data.jwt)
-          localStorage.setItem('id', res.data.id)
-          localStorage.setItem('role', res.data.role)
-          this.$emit('login')
-          this.$store.dispatch('login/isLoginCheck')
-          this.$store.dispatch('login/isRole')
-          window.location.reload()
-          this.$router.push({ name: 'MainPage' })
-        })
-        .catch((err) => {
-          console.log(err)
-          alert('로그인 정보가 잘못되었습니다.')
-        })
+  method: {
+    login() {
+      // store의 login 모듈의 saveToken 실행
+      this.$store.dispatch('login/saveToken', this.credentials)
     },
-  },
-  created() {
-    this.$store.dispatch('login/isLoginCheck')
-    if (this.$store.state.login.isLogin) {
-      this.$router.push({ name: 'MainPage' })
-    }
-  },
-  mounted() {
-    window.scrollTo(0, 0)
   },
 }
 </script>
@@ -119,24 +86,14 @@ export default {
   font-weight: bold;
 }
 
-.loginBox {
-  position: absolute;
-}
-
 input {
   border-style: none none solid none;
   border-width: 2px;
 }
 .login-form-btn {
-  /* background-color: #c4c4c4; */
+  background-color: #c4c4c4;
   width: 95%;
   box-shadow: inset 0px 0px rgba(255, 255, 255, 0);
-}
-.login-btn {
-  border: 0.15rem solid rgb(16, 16, 119);
-}
-.signup-btn {
-  background-color: rgb(16, 16, 119);
 }
 .login-find-btn {
   background-color: #ffffff;
@@ -145,17 +102,13 @@ input {
 }
 .logo-box {
   box-sizing: content-box;
-  width: 30%;
-  /* height: 100px; */
-  /* background-color: #c4c4c4; */
-  margin: 5% auto;
+  width: 90%;
+  height: 100px;
+  background-color: #c4c4c4;
+  margin: 0px auto;
 }
 .form-control:focus {
   border-color: #c4c4c4;
   box-shadow: inset 0px 0px rgba(255, 255, 255, 0);
-}
-.signup-btn a {
-  text-decoration: none;
-  color: white;
 }
 </style>

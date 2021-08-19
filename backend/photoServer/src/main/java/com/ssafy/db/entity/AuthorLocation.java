@@ -3,6 +3,7 @@ package com.ssafy.db.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -31,10 +32,4 @@ public class AuthorLocation {
         this.myStudio = myStudio;
         this.location = location;
     }
-
-//    public void updateAuthorLocationProfile(MyStudio myStudio, Location location){
-//        this.myStudio=myStudio;
-//        this.location=location;
-//    }
-
 }

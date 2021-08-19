@@ -12,7 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -59,7 +62,7 @@ public class MainPageController {
     }
 
     @GetMapping("/contents")
-    @ApiOperation(value = "메인콘텐츠 가져오기", notes = "사진태그 ,(썸네일, 닉네임)")
+    @ApiOperation(value = "메인콘텐츠 가져오기", notes = "사진 태그별 사진, 사진작가 닉네임들을 가져온다.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success", response = MainPageTagPhotoRes.class),
             @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
@@ -68,7 +71,7 @@ public class MainPageController {
     })
     public ResponseEntity<MainPageTagPhotoRes> mainPageContents() {
         String[] tagList = mainPageService.tagList();
-        List<TagThumbNickNameRes> tagPhotoList = mainPageService.getMainContents();
+        Map<String, Map<String, String>> tagPhotoList = mainPageService.getMainContents();
 
         return ResponseEntity.ok(MainPageTagPhotoRes.of(200, "Success", tagPhotoList, tagList));
     }

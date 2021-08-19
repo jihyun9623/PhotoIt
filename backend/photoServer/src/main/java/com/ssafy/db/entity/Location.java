@@ -26,4 +26,5 @@ public class Location {
         this.name = name;
         this.authorLocations = authorLocations;
     }
+
 }

@@ -6,7 +6,10 @@ import com.ssafy.api.response.ThumbPhotoIdRes;
 import com.ssafy.api.response.UserProfile;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.*;
-import com.ssafy.db.repository.*;
+import com.ssafy.db.repository.LocationRepository;
+import com.ssafy.db.repository.PhotoRepository;
+import com.ssafy.db.repository.TagRepository;
+import com.ssafy.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -113,8 +116,8 @@ public class MainPageServiceImpl implements MainPageService{
         List<TagThumbNickNameRes> tagPhotoList = new ArrayList<>();
         for(Tag t : mainTags) {
             String tempTag = t.getName();
-            List<ThumbNickNameRes> temp = new ArrayList<>();
-            cnt = 0;
+            Map<String, String> tempMap = new HashMap<>();
+
             for(Photo p : photos) {
                 for(PhotoTag pt : p.getPhotoTags()) {
                     if(pt.getTag().getName().equals(tempTag)) {
@@ -122,14 +125,11 @@ public class MainPageServiceImpl implements MainPageService{
                         cnt++;
                     }
                 }
-                if(cnt==photoCnt)
-                    break;
             }
             tagPhotoList.add(TagThumbNickNameRes.of(tempTag, temp));
             if(++cnt_==viewsTag+randTag)
                 break;
         }
-
 
         return tagPhotoList;
     }

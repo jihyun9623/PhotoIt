@@ -7,6 +7,7 @@ import com.ssafy.common.model.response.BaseResponseBody;
 
 import java.util.List;
 
+@Service
 public interface UserService {
 
     public boolean isValidToken(String token);

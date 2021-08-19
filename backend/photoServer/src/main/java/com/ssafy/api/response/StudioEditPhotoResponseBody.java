@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -19,16 +19,16 @@ import java.util.List;
 @ApiModel("BaseResponseBody")
 public class StudioEditPhotoResponseBody extends BaseResponseBody {
 	@ApiModelProperty(name="사진 ID 배열", example = "123512")
-	List<String> id;
+	String[] id;
 	@ApiModelProperty(name="사진 파일", example = "multipart 형")
-	List<String> files;
+	List<File> fileList;
 	
-	public static StudioEditPhotoResponseBody of(Integer statusCode, String message, List<String> id, List<String> files) {
+	public static StudioEditPhotoResponseBody of(Integer statusCode, String message, String[] id, List<File> fileList) {
 		StudioEditPhotoResponseBody body = new StudioEditPhotoResponseBody();
 		body.setStatusCode(statusCode);
 		body.setMessage(message);
 		body.setId(id);
-		body.setFiles(files);
+		body.setFileList(fileList);
 		return body;
 	}
 

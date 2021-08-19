@@ -49,12 +49,11 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "no-console": "off",
+      "no-console" : "off",
       "generator-star-spacing": "off",
       "prettier/prettier": [
         "error",
-        {
-          "tabWidth": 2,
+        { "tabWidth": 2,
           "endOfLine": "auto",
           "singleQuote": true,
           "semi": false,

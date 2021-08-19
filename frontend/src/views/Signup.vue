@@ -17,7 +17,7 @@
       <img
         v-else
         @click="$refs.fileInput.click()"
-        src="@/assets/images/profile_default.png"
+        src="@/assets/profile_default.png"
         class="profile-preview"
       />
 
@@ -32,7 +32,7 @@
             placeholder="user@gmail.com"
             class="form-control-plaintext"
             id="email"
-            v-model="credentials.id"
+            v-model="credentials.email"
           />
         </div>
         <button
@@ -75,7 +75,7 @@
             placeholder="인증코드를 입력해주세요"
             class="form-control-plaintext"
             id="emailAuth"
-            v-model="emailAuth.code"
+            v-model="emailAuth"
           />
         </div>
         <button class="btn btn-primary col-2" @click="emailAuthCheck">
@@ -106,7 +106,7 @@
           placeholder="비밀번호 (8 ~ 13자리)"
           class="form-control-plaintext"
           id="password"
-          v-model="credentials.passwd"
+          v-model="credentials.password"
         />
       </div>
 
@@ -168,7 +168,7 @@
         >
           <input
             type="radio"
-            v-model="credentials.pg"
+            v-model="credentials.photographer"
             value="true"
             class="btn-check"
             name="btnradio"
@@ -181,7 +181,7 @@
 
           <input
             type="radio"
-            v-model="credentials.pg"
+            v-model="credentials.photographer"
             value="false"
             class="btn-check"
             name="btnradio"
@@ -357,7 +357,7 @@ export default {
         reader.onload = (e) => {
           this.preview = e.target.result
         }
-        this.credentials.file = input.files[0]
+        this.credentials.profile = input.files[0]
         reader.readAsDataURL(input.files[0])
       }
     },
@@ -399,17 +399,15 @@ export default {
     //
     // // emailAuthCheck : 입력한 코드 확인 요청
     // emailAuthCheck: function () {
-    //   this.emailAuth.id = this.credentials.id
-    //   // 인증 때 이메일도 함께 보내야하고, 나중에 인증한 메일과 회원가입창 메일이 같은지 확인해야 한다.
     //   axios({
     //     method: 'post',
     //     url: '',
-    //     data: this.emailAuth, // 유저가 입력한 인증코드를 보낸다.
+    //     data: this.emailAuth,
     //   })
     //     .then(res => {
     //       console.log(res)
     //       this.emailAuthChk = true
-    //       this.emailAuth.id = this.credentials.id
+    //       this.authedEmail = this.credentials.email
     // 이부분 제대로 동작하나 확인할 것.
     // 인증을 완료한 메일과 입력창에 입력해둔 메일이 같아야 회원가입이 가능하도록
     //     })

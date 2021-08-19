@@ -1,8 +1,5 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.response.TagThumbNickNameRes;
-import com.ssafy.api.response.ThumbPhotoIdRes;
-import com.ssafy.api.response.UserProfile;
 import com.ssafy.db.entity.Photo;
 import com.ssafy.db.entity.User;
 import org.springframework.stereotype.Service;

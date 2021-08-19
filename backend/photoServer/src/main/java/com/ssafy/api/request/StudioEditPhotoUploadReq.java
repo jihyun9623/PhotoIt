@@ -6,9 +6,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.File;
 
 /**
  * 스튜디오 수정페이지 전체사진 사진 추가 API ([POST] /studioedit/photo) 요청에 필요한 리퀘스트 바디 정의.

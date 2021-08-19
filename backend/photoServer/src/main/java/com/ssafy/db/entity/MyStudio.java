@@ -50,7 +50,6 @@ public class MyStudio {
         this.calendars = calendars;
         this.favorites = favorites;
         this.authorLocations = authorLocations;
-    }
 
     // 수정할 정보 : passwd, nickname(중복체크해야됨), pg, location, introduce
     public void updateMyStudioProfile(UserReq updateInfo, User user){

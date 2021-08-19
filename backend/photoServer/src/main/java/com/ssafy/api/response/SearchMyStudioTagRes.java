@@ -7,16 +7,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
-import java.util.List;
 import java.util.Map;
 
 @Getter @Setter
 @ApiModel("SearchMyStudioTagResponse")
 public class SearchMyStudioTagRes extends BaseResponseBody {
-    @ApiModelProperty(name = "원본사진, 사진id", notes = "원본사진과 사진ID List")
-    List<PhotoIdPhotoRes> photoList;
+    @ApiModelProperty(name = "사진, 사진id", notes = "사진과 사진ID List")
+    Map<String, Integer> photoList;
 
-    public static SearchMyStudioTagRes of(Integer statusCode, String message, List<PhotoIdPhotoRes> photoList) {
+    public static SearchMyStudioTagRes of(Integer statusCode, String message, Map<String, Integer> photoList) {
         SearchMyStudioTagRes body = new SearchMyStudioTagRes();
         body.setStatusCode(statusCode);
         body.setMessage(message);

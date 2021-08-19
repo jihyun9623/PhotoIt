@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,7 @@ public class TempChatRoom {
     private String roomName;
 
     @OneToMany(mappedBy = "tempChatRoom")
-    private List<TempChatMessage> tempChatMessages;
+    private List<TempChatMessage> tempChatMessages = new ArrayList<>();
 
     @Builder
     public TempChatRoom (String roomName, List<TempChatMessage> tempChatMessages) {

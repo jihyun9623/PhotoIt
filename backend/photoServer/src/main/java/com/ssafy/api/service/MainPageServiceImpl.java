@@ -107,13 +107,13 @@ public class MainPageServiceImpl implements MainPageService{
         // tag viewTags + randTag 만큼 넘겨주기!
         int cnt_=0;
         List<TagThumbNickNameRes> tagPhotoList = new ArrayList<>();
-        for(Tag t : tagList) {
+        for(Tag t : mainTags) {
             String tempTag = t.getName();
             List<ThumbNickNameRes> temp = new ArrayList<>();
             cnt = 0;
             for(Photo p : photos) {
                 for(PhotoTag pt : p.getPhotoTags()) {
-                    if(pt.getTag().getName() == tempTag) {
+                    if(pt.getTag().getName().equals(tempTag)) {
                         temp.add(ThumbNickNameRes.of(p.getThumbnail(), p.getIdx() ,p.getMyStudio().getNickname()));
                         cnt++;
                     }

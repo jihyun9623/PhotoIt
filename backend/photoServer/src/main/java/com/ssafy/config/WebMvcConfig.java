@@ -23,18 +23,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     //private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedOrigins("*")
-//                .allowedOrigins("http://localhost:8080")
-//                .allowedOrigins("http://localhost:8081")
-//                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-//                .allowedHeaders("*")
-//                .exposedHeaders("Authorization")
-//                .allowCredentials(true);
-//    }
-
     @Autowired
     private JwtInterceptor jwtInterceptor;
 
@@ -64,4 +52,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //                .exposedHeaders("Authorization")
 //                .allowCredentials(true);
 //    }
+
 }
+

@@ -36,13 +36,27 @@
         <li v-if="isLogin" class="mb-2">마이페이지</li>
       </router-link>
       <!-- 비작가는 마이스튜디오 메뉴가 보이면 안된다. -->
+      <li class="mb-2">
+        <router-link
+          v-if="role === 'PG'"
+          :to="{ path: `/mystudio/${nickname}` }"
+        >
+          마이스튜디오
+        </router-link>
+      </li>
+      <li class="mb-2">
+        <router-link
+          v-if="role === 'PG'"
+          :to="{ path: `/mystudioedit/${nickname}` }"
+        >
+          마이스튜디오에딧
+        </router-link>
+      </li>
+      <!-- <li v-if="isLogin" class="mb-2"><router-link :to="{ name: '' }"> 찜 목록 </router-link></li> -->
       <router-link :to="{ name: 'ChatRoomList' }">
         <li v-if="isLogin" class="mb-2">쪽지함</li>
       </router-link>
 
-      <router-link v-if="role === 'PG'" :to="{ path: `/mystudio/${nickname}` }">
-        <li class="mb-2">마이스튜디오</li>
-      </router-link>
       <router-link :to="{ name: 'FavoriteList' }">
         <li v-if="isLogin" class="mb-2">찜 목록</li>
       </router-link>

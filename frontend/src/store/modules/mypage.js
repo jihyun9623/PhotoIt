@@ -84,9 +84,15 @@ const actions = {
       .post('/mypage/nicknameCheck', data)
       .then((res) => {
         console.log(res)
-        commit('SET_RETURN_NICKNAME', {
-          return: true,
-        })
+        if (res.data.message === 'Duplicated') {
+          commit('SET_RETURN_NICKNAME', {
+            return: false,
+          })
+        } else {
+          commit('SET_RETURN_NICKNAME', {
+            return: true,
+          })
+        }
       })
       .catch((err) => {
         console.log(err)

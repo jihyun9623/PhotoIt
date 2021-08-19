@@ -39,7 +39,7 @@ public class ChatService {
         TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
                                      .orElseThrow(RuntimeException::new);
         System.out.println("-------------------------------------------------------------------------------------------------------------");
-        System.out.printf("tempChatRoom.getRoomName : %s\n", tempChatRoom.getRoomName();
+        System.out.printf("tempChatRoom.getRoomName : %s\n", tempChatRoom.getRoomName());
         System.out.println("-------------------------------------------------------------------------------------------------------------");
 
         System.out.println(tempChatRoom.getTempChatMessages().size());

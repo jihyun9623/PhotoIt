@@ -137,7 +137,7 @@ const actions = {
   // 전체사진 삭제 (파라미터 사진 ID)
   deletePhoto({ commit }, data) {
     return http
-      .delete('/studioedit/photo', data)
+      .post('/studioedit/photo/delete', data)
       .then((res) => {
         console.log(res)
         commit('SET_RETURN', {

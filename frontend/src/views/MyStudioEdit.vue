@@ -84,18 +84,27 @@ export default {
       this.modal = false
     },
     bestClick(id) {
-      confirm(id)
       console.log(id)
+      if (confirm('베스트 사진에서 삭제할까요?')) {
+        this.deleteBest(id)
+      }
     },
     photoClick(id) {
-      alert(id)
       console.log(id)
+      if (confirm('베스트 사진에 추가할까요?')) {
+        this.addBest(id)
+      } else {
+        if (confirm('사진을 영구 삭제할까요?')) {
+          this.deletePhoto(id)
+        }
+      }
     },
     // 베스트 사진 추가
     addBest(photo_id) {
       // TODO : Best사진 추가할 수 있는지 확인 필요
       let data = {
         add_id: photo_id,
+        del_id: '',
       }
       this.$store.dispatch('mystudioedit/addBestPhoto', data).then(() => {
         if (this.$store.state.mystudioedit.return) {
@@ -124,6 +133,7 @@ export default {
     // 베스트 사진 삭제
     deleteBest(del_id) {
       let data = {
+        add_id: '',
         del_id: del_id,
       }
       this.$store.dispatch('mystudioedit/deleteBestPhoto', data).then(() => {
@@ -162,6 +172,7 @@ export default {
     // 사진 삭제
     deletePhoto(del_id) {
       let data = {
+        add_id: '',
         del_id: del_id,
       }
       this.$store.dispatch('mystudioedit/deletePhoto', data).then(() => {

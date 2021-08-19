@@ -1,10 +1,7 @@
 <template>
   <section>
-    <div
-      class="login-form container"
-      style="border: 0.1em solid; margin-top: 20vh"
-    >
-      <div class="row">
+    <div class="login-form container">
+      <div class="row fontCafe">
         <!-- Logo-->
         <router-link :to="{ name: 'MainPage' }">
           <img
@@ -13,7 +10,7 @@
             class="logo-box pb-4"
           />
         </router-link>
-        <div class="mb-3">
+        <div class="mb-3 fontCafe">
           <label for="id" class="form-label d-flex justify-content-start"
             >이메일(아이디)</label
           >
@@ -26,7 +23,7 @@
             @keyup.enter="userLogin"
           />
         </div>
-        <div class="mb-3">
+        <div class="mb-3 fontCafe">
           <label for="password" class="form-label d-flex justify-content-start"
             >비밀번호</label
           >
@@ -43,7 +40,10 @@
           <button class="btn login-form-btn mb-2 login-btn" @click="userLogin">
             로그인
           </button>
-          <button type="button" class="btn login-form-btn mb-2 signup-btn">
+          <button
+            type="button"
+            class="btn login-form-btn mb-2 btnOutline fontCafe"
+          >
             <router-link :to="{ name: 'Signup' }"> 회원가입 </router-link>
           </button>
         </div>
@@ -114,15 +114,16 @@ export default {
 .login-form {
   max-width: 600px;
   margin: auto;
-  padding: 20px;
-  color: #000000;
+  padding: 70px 40px;
+  color: #001557;
   font-weight: bold;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  margin-top: 20vh;
 }
-
 .loginBox {
   position: absolute;
 }
-
 input {
   border-style: none none solid none;
   border-width: 2px;
@@ -133,10 +134,13 @@ input {
   box-shadow: inset 0px 0px rgba(255, 255, 255, 0);
 }
 .login-btn {
-  border: 0.15rem solid rgb(16, 16, 119);
+  border: 1px solid #3a539b;
+  color: #3a539b;
 }
-.signup-btn {
-  background-color: rgb(16, 16, 119);
+.login-btn:hover {
+  border: 1px solid #4b77be;
+  background-color: #4b77be;
+  color: white;
 }
 .login-find-btn {
   background-color: #ffffff;
@@ -154,7 +158,7 @@ input {
   border-color: #c4c4c4;
   box-shadow: inset 0px 0px rgba(255, 255, 255, 0);
 }
-.signup-btn a {
+.btnOutline a {
   text-decoration: none;
   color: white;
 }

@@ -57,7 +57,7 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-    <div v-if="this.$store.state.mystudio.best3 == null">
+    <div class="noBest" v-if="this.$store.state.mystudio.best3 == null">
       {{ bestNoneMessage }}
     </div>
   </div>
@@ -114,5 +114,12 @@ export default {
   object-fit: cover;
   object-position: center center;
   margin: auto;
+}
+
+.noBest {
+  font-size: large;
+  font-weight: bolder;
+  font-family: 'Cafe24SsurroundAir';
+  margin-top: 3vh;
 }
 </style>

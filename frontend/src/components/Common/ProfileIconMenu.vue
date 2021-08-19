@@ -49,7 +49,7 @@
           v-if="role === 'PG'"
           :to="{ path: `/mystudioedit/${nickname}` }"
         >
-          마이스튜디오에딧
+          마이스튜디오 EDIT
         </router-link>
       </li>
       <!-- <li v-if="isLogin" class="mb-2"><router-link :to="{ name: '' }"> 찜 목록 </router-link></li> -->

@@ -516,6 +516,7 @@ export default {
   padding-right: 0;
   padding-left: 0;
   background-color: #f7f7f7;
+  text-indent: 2%;
 }
 .form-control-plaintext:hover {
   font-size: 15px;

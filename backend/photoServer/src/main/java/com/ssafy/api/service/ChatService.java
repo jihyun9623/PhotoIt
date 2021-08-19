@@ -36,12 +36,18 @@ public class ChatService {
         TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
                                      .orElseThrow(RuntimeException::new);
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
-        a.sort(Comparator.comparingInt(TempChatMessage::getIdx));
-        for(TempChatMessage t : a) {
-            String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
-            ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
+
+        for(int i=a.size()-1; i>-1; --i) {
+            String temp = userRepository.findUserById(a.get(i).getSenderName()).orElseThrow(RuntimeException::new).getNickname();
+            ChatRes chatRes = ChatRes.of(temp, a.get(i).getMessage(), a.get(i).getSendTime());
             listChatRes.add(chatRes);
         }
+//        a.sort(Comparator.comparingInt(TempChatMessage::getIdx));
+//        for(TempChatMessage t : a) {
+//            String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
+//            ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
+//            listChatRes.add(chatRes);
+//        }
 
 
         return ChatRoomRes.of(chatRoomDto.getName(), listChatRes);

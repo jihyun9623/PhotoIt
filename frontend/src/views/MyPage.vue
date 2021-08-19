@@ -248,6 +248,7 @@ export default {
       PG: '',
       nicknameOrigin: '',
       isPhotoGrapher: true,
+      isDuplicated: '',
     }
   },
   computed: {
@@ -282,6 +283,7 @@ export default {
         this.formIntroduce = res.data.introduce
         this.formLocation = res.data.location
         this.nicknameOrigin = res.data.nickname
+        this.isDuplicated = res.data.message
         // 작가 여부 판별
         if (res.data.pg) this.PG = '작가입니다.'
         else this.PG = '작가가 아닙니다.'
@@ -340,7 +342,8 @@ export default {
           nickname: this.formNickname,
         })
         .then(() => {
-          if (this.$store.state.mypage.returnNickname) {
+          if (this.isDuplicated === 'Duplicated') {
+            // if (this.$store.state.mypage.returnNickname) {
             this.toastSuccess('사용가능한 닉네임입니다.')
           } else {
             this.toastDanger('이미 존재하는 닉네임입니다.')

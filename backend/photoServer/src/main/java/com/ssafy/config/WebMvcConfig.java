@@ -18,6 +18,9 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
+
     //private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
 //    @Override
@@ -51,4 +54,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
                   .addPathPatterns("/mypage/**")
                   .addPathPatterns("/studioedit/**");
     }
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOriginPatterns("*")
+//                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+//                .allowedHeaders("*")
+//                .exposedHeaders("Authorization")
+//                .allowCredentials(true);
+//    }
 }

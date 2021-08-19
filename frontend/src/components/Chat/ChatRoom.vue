@@ -49,7 +49,7 @@ export default {
   components: {},
   data() {
     return {
-      messages: '',
+      messages: [],
       roomName: '',
       get nickname() {
         return localStorage.getItem('nickname')
@@ -61,6 +61,7 @@ export default {
       user1: localStorage.getItem('nickname'),
       user2: this.$route.query.nickName,
     }
+    console.log(data)
     http.post('/chat/room', data).then((res) => {
       this.messages = res.data.chatLists
       this.roomName = res.data.roomName

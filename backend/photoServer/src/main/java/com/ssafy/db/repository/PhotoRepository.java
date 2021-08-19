@@ -19,8 +19,6 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 
     boolean existsByOrigin(String origin);
 
-    long deleteByIdx(int idx);
-
     long countByMyStudio_IdxAndBestIsTrue(int idx);
 
     List<Photo> findByMyStudio_Idx(Integer studio_idx);

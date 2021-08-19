@@ -295,24 +295,22 @@ public class StudioEditServiceImpl implements StudioEditService {
         String user_id = utilCheckUserId(JWT);
 
         // 본인의 사진인지 별도 확인 필요
-        if(!myPhotoCheck(del_id, user_id)) return false;
+        // if(!myPhotoCheck(del_id, user_id)) return false;
 
         Photo photo = photoRepository.findByIdx(del_id);
+        List<PhotoTag> tags = photoTagRepository.findByPhoto_Idx(del_id);
 
         if(photo != null) {
             String origin = photo.getOrigin();
             String thumbnail = photo.getThumbnail();
 
-            long b = photoTagRepository.deleteByPhoto_Idx(del_id);
-            long a = photoRepository.deleteByIdx(del_id);
+            for(PhotoTag p : tags) photoTagRepository.delete(p);
+            photoRepository.delete(photo);
             photoRepository.flush();
             photoTagRepository.flush();
-            System.out.println("a = " + a + " b = " + b);
-            if(a > 0 && b > 0) {
-                uploader.deleteS3Instance(origin);
-                uploader.deleteS3Instance(thumbnail);
-                return true;
-            }
+            uploader.deleteS3Instance(origin);
+            uploader.deleteS3Instance(thumbnail);
+            return true;
         }
         return false;
     }

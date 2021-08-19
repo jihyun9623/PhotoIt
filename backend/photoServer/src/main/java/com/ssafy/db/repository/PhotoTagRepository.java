@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface PhotoTagRepository extends JpaRepository<PhotoTag, Integer> {
-    long deleteByPhoto_Idx(int idx);
+    List<PhotoTag> findByPhoto_Idx(int idx);
 }

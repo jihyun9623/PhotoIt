@@ -116,7 +116,7 @@ export default {
     },
   },
   mounted() {
-    window.location.reload(true)
+    window.location.reload()
     window.scrollTo(0, 0)
   },
 }

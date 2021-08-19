@@ -63,8 +63,8 @@ public class Usercontroller {
     })
     @PostMapping("/signin")
     public ResponseEntity<UserLoginPostRes> signin(@RequestBody @ApiParam(value = "로그인 정보", required = true) UserReq loginInfo, HttpServletResponse response) {
-        //logger.debug("login Method 진입");
-        //logger.debug("들어온 loginInfo : " + loginInfo.getId() + " / " + loginInfo.getPasswd());
+        logger.debug("login Method 진입");
+        logger.debug("들어온 loginInfo : " + loginInfo.getId() + " / " + loginInfo.getPasswd());
         //
         String jwt = userService.signin(loginInfo); // 생성한 jwt
         MyPageGetRes user = userService.getProfile(jwt);
@@ -72,6 +72,7 @@ public class Usercontroller {
         String nickname=user.getNickname();
         UserLoginPostRes res = UserLoginPostRes.of(200, "Success", jwt, loginInfo.getId(), nickname, role);
         response.setHeader("Authorization", jwt);
+        logger.debug(res.getId()+" / "+res.getNickname());
         return new ResponseEntity<UserLoginPostRes>(res, HttpStatus.OK);
     }
 

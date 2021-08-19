@@ -18,7 +18,10 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
+
     private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
+
+    //private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
     @Autowired
     private JwtInterceptor jwtInterceptor;
@@ -31,7 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry)    {
         List<String>exclude_list= Arrays.asList("/*","/user/**", "/search/**", "/studio/**", "/fav/**", "/chat/**");
-        logger.debug("addInterceptors");
+        //logger.debug("addInterceptors");
           registry.addInterceptor(jwtInterceptor)
                   .excludePathPatterns(exclude_list)
                   .addPathPatterns("/profile")
@@ -40,15 +43,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
                   .addPathPatterns("/studioedit/**");
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedOrigins("http://localhost:8080")
-                .allowedOrigins("http://localhost:8081")
-                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .exposedHeaders("Authorization")
-                .allowCredentials(true);
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOriginPatterns("*")
+//                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+//                .allowedHeaders("*")
+//                .exposedHeaders("Authorization")
+//                .allowCredentials(true);
+//    }
+
 }
+

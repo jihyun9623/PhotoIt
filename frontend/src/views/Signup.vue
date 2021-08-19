@@ -1,7 +1,16 @@
 <template>
   <div>
-    <div class="container-signup">
-      <h1>Signup</h1>
+    <h1 class="fontXL signupTitle">회원 가입</h1>
+    <hr
+      align="left"
+      style="
+        border: solid 2px #1f3a93;
+        width: 77vw;
+        margin-left: 10vmax;
+        opacity: 0.7;
+      "
+    />
+    <div class="container-signup fontCafe">
       <input
         style="display: none"
         type="file"
@@ -26,7 +35,7 @@
       <br />
       <p class="signup-title">아이디 (이메일)</p>
       <div class="row">
-        <div class="col-10">
+        <div class="col-10 fontCafe">
           <input
             type="email"
             placeholder="user@gmail.com"
@@ -37,7 +46,7 @@
         </div>
         <button
           v-if="emailDup === null || emailDup === '401' || emailDup === '100'"
-          class="btn btn-primary col-2"
+          class="btn btn-outline-primary col-2 btnPrimary"
           @click="emailDupCheck"
         >
           중복확인
@@ -140,7 +149,7 @@
 
       <p class="signup-title">닉네임</p>
       <div class="row">
-        <div class="col-10">
+        <div class="col-10 fontCafe">
           <input
             type="nickname"
             placeholder="닉네임을 입력해 주세요."
@@ -149,7 +158,10 @@
             v-model="credentials.nickname"
           />
         </div>
-        <button class="btn btn-primary col-2" @click="nicknameDupCheck">
+        <button
+          class="btn btn-outline-primary col-2 btnPrimary"
+          @click="nicknameDupCheck"
+        >
           중복확인
         </button>
       </div>
@@ -167,7 +179,7 @@
       <p class="signup-title">작가 여부</p>
       <div class="photographer-check">
         <div
-          class="btn-group"
+          class="btn-group fontCafe"
           role="group"
           aria-label="Basic radio toggle button group"
         >
@@ -180,7 +192,7 @@
             id="btnradio1"
             autocomplete="off"
           />
-          <label class="btn btn-outline-primary" for="btnradio1"
+          <label class="btn btn-outline-primary btnPrimary" for="btnradio1"
             >작가입니다.</label
           >
 
@@ -193,34 +205,34 @@
             id="btnradio2"
             autocomplete="off"
           />
-          <label class="btn btn-outline-primary" for="btnradio2"
+          <label class="btn btn-outline-primary btnPrimary" for="btnradio2"
             >작가가 아닙니다.</label
           >
         </div>
       </div>
       <div v-if="credentials.pg === 'true'">
         <p></p>
-        <p class="signup-title">작가 한마디</p>
+        <p class="signup-title fontCafe">작가 한마디</p>
         <div class="row">
           <div>
             <input
               type="profile"
               placeholder="작가 한마디를 입력해 주세요."
-              class="form-control-plaintext"
+              class="form-control-plaintext fontCafe"
               id="profile"
               v-model="credentials.profile"
             />
           </div>
         </div>
         <p></p>
-        <p class="signup-title">지역 목록 선택</p>
+        <p class="signup-title fontCafe">지역 목록 선택</p>
         <div
           class="row"
           role="group"
           aria-label="Basic checkbox toggle button group"
         >
           <div
-            class="col-3"
+            class="col-3 fontCafe"
             v-for="location_ele in $store.state.location_all"
             :key="location_ele"
           >
@@ -246,7 +258,8 @@
       <!-- Button trigger modal -->
       <button
         type="button"
-        class="btn btn-default"
+        class="btn btnOutline"
+        style="width: 100%"
         @click="signup(credentials)"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
@@ -307,7 +320,7 @@
               </button>
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-primary btnOutline"
                 @click="gotoLogin()"
                 data-bs-dismiss="modal"
               >
@@ -505,7 +518,8 @@ export default {
 .container-signup {
   max-width: 600px;
   margin: auto;
-  padding: 20px;
+  padding: 50px 20px 20px 20px;
+  /* padding: 20px; */
 }
 
 .profile-preview {
@@ -548,22 +562,6 @@ export default {
 .my-hr {
   height: 2px;
   margin: 5px 0px;
-}
-.btn {
-  font-weight: bold;
-}
-.btn-default {
-  color: #595959;
-  background-color: #f0f0f0;
-  width: 100%;
-}
-.btn-default:hover {
-  color: #fff;
-  background-color: #c4c4c4;
-}
-.btn-default:active {
-  color: #fff;
-  background-color: #0095f6;
 }
 .photographer-container {
   padding: 0 5px;

@@ -240,7 +240,7 @@ export default {
   top: 4%;
   left: 3%;
   border-radius: 1rem;
-  opacity: 90%;
+  /* opacity: 90%; */
   border: 0.3rem rgba(136, 136, 136, 0.507);
   border-style: none solid solid none;
   background-color: white;

@@ -23,4 +23,11 @@ public class SearchPgLocationRes extends BaseResponseBody {
         body.setProfileList(profileList);
         return body;
     }
+
+    @Override
+    public String toString() {
+        return "SearchPgLocationRes{" +
+                "profileList=" + profileList +
+                '}';
+    }
 }

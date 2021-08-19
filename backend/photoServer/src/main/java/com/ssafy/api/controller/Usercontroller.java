@@ -34,7 +34,7 @@ public class Usercontroller {
     @ApiOperation(value = "지역 목록 요청", notes = "지역 목록을 불러온다.")
     @GetMapping("/location")
     public LocationGetRes getLocation() {
-        logger.debug("getLocation 진입, 지역목록 불러오기");
+        //logger.debug("getLocation 진입, 지역목록 불러오기");
         return LocationGetRes.of(200, "Success", userService.locationList());
     }
 
@@ -72,6 +72,7 @@ public class Usercontroller {
         String nickname=user.getNickname();
         UserLoginPostRes res = UserLoginPostRes.of(200, "Success", jwt, loginInfo.getId(), nickname, role);
         response.setHeader("Authorization", jwt);
+        logger.debug(res.getId()+" / "+res.getNickname());
         return new ResponseEntity<UserLoginPostRes>(res, HttpStatus.OK);
     }
 
@@ -80,7 +81,7 @@ public class Usercontroller {
     @ApiOperation(value = "로그아웃", notes = "로그아웃")
     @GetMapping("/signout")
     public BaseResponseBody signOut(@RequestHeader(value = "Authorization") String token) {
-        logger.debug("로그아웃 메서드 진입");
+        //logger.debug("로그아웃 메서드 진입");
         return userService.signOut(token);
     }
 
@@ -101,12 +102,12 @@ public class Usercontroller {
     @ApiOperation(value = "아이디(=이메일) 중복 확인", notes = "아이디(=이메일) 중복 확인")
     @PostMapping("/emaildup")
     public BaseResponseBody idDuplicateCheck(@RequestBody @ApiParam(value = "확인할 아이디(=이메일)", required = true) UserReq idInfo) {
-        logger.debug(idInfo.getId());
+        //logger.debug(idInfo.getId());
         Boolean isDuplicated = userService.idDuplicateCheck(idInfo.getId());    // 중복이면 true, 중복 아니면 false.
         if (!isDuplicated) {
             return BaseResponseBody.of(200, "Success");
         } else {
-            logger.debug("아이디(=이메일) 중복!");
+            //logger.debug("아이디(=이메일) 중복!");
             return BaseResponseBody.of(401, "Duplicated");
         }
     }

@@ -20,4 +20,12 @@ public class TagThumbNickNameRes {
             body.setThumbNickNameList(thumbNickNameList);
             return body;
     }
+
+    @Override
+    public String toString() {
+        return "TagThumbNickNameRes{" +
+                "tag='" + tag + '\'' +
+                ", thumbNickNameList=" + thumbNickNameList +
+                '}';
+    }
 }

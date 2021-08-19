@@ -1,3 +1,35 @@
+/* font */
+@font-face {
+  font-family: "Cafe24SsurroundAir";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.fontCafe > * {
+  font-size: medium;
+  font-family: "Cafe24SsurroundAir";
+}
+
+.fontS{
+  font-size: small;
+  font-family: "Cafe24SsurroundAir";
+}
+
+.fontL{
+  font-size: x-large;
+  font-family: "Cafe24SsurroundAir";
+}
+
+.fontXL{
+  font-weight: bold;
+  font-family: "Cafe24SsurroundAir";
+}
+
+
+/* //////////////////////////////////////////////////////// */
+/* 어디에 쓰이는지 적어줄사람~? */
 #bg {
   /* background-color: blueviolet; */
   margin-left: 3vmax;
@@ -6,10 +38,7 @@
 
 .angled-gradient {
   background-color: linear-gradient(70deg, blue, pink);
-  
 }
-
-
 
 .center{
   display: flex;
@@ -25,6 +54,90 @@
 .dotLine{
     border: dotted 3px rgb(107, 159, 255);
 }
+/* //////////////////////////////////////////////////////// */
+
+/* 각 페이지 버튼 */
+.btn {
+  font-weight: bold;
+}
+.btnPrimary{
+  color: #3a539b;
+  border-color: #3a539b;
+}
+.btnPrimary:hover{
+  background-color: #3a539b;
+}
+.btnOutline{
+  background-color: #3a539b !important;
+  /* border: 1px solid #3a539b; */
+  color: white !important;
+}
+.btnOutline:hover{
+  background-color: #446cb3 !important;
+}
+
+
+/* mypage */
+.mypageTitle {
+  text-align: left;
+  margin-left: 8vmax;
+  color: black;
+}
+.mypageForm {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.input-group>.justify-content-center{
+  font-weight: bold
+}
+.deleteUser{
+  background-color: #c0392b !important;
+  border: 1px solid #c0392b;
+  font-weight: bold
+}
+
+/*----------chat---------*/
+
+.fontPeople{
+  font-weight: bolder;
+  font-size: larger;
+  font-family: "Cafe24SsurroundAir";
+  margin-top:3vh;
+  margin-bottom: 3vh;
+  /* background-color: rgb(31, 58, 147); */
+}
+
+.chatBoxLeft{
+  font-family: "Cafe24SsurroundAir";
+  background-color: rgb(213, 220, 226);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-bottom: 3vh;
+}
+
+.chatBoxRight{
+  font-family: "Cafe24SsurroundAir";
+  background-color: rgb(213, 220, 226);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  margin-bottom: 3vh;
+}
+
+
+
+
+/*----------font---------*/
+@font-face {
+  font-family: "Cafe24SsurroundAir";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 .fontCafe {
   font-size: medium;
@@ -36,41 +149,19 @@
   font-family: "Cafe24SsurroundAir";
 }
 
+.basicFont{
+  font-family: "Cafe24SsurroundAir";
+}
+
 .fontL{
   font-size: x-large;
   font-family: "Cafe24SsurroundAir";
 }
 
-.mypageTitle {
-  text-align: left;
-  margin-left: 8vmax;
-  font-family: "Cafe24SsurroundAir";
-  font-weight: bold;
-  color: black;
+/* signup */
+.signupTitle{
+  margin-top: 3rem;
+  font-size: 2.5rem;
 }
 
-.mypageForm {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-}
 
-.mypageTitleLine {
-  border: solid 3px #333f50;
-  width: 75%;
-  margin-left: 8vmax;
-  color: #333f50;
-}
-
-.mainContainer {
-  font-family: "Cafe24SsurroundAir";
-}
-
-@font-face {
-  font-family: "Cafe24SsurroundAir";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}

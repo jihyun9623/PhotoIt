@@ -39,10 +39,23 @@ public class ChatService {
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
         List<ChatRes> listChatRes = new ArrayList<>();
         String roomName = chatRoomDto.getName();
-        TempChatRoom tempChatRoom = roomRepository.getById(roomName);
+
+        String[] us = roomName.split(" ");
+        User user1 = userRepository.findUserById(us[0]).orElseThrow(RuntimeException::new);
+        User user2 = userRepository.findUserById(us[1]).orElseThrow(RuntimeException::new);
+        String user1_nick = user1.getId();
+        String user2_nick = user2.getId();
+        logger.debug(user1_nick + "--------------------------------user1");
+        logger.debug(user2_nick + "--------------------------------user2");
+        String name;
+        if(user1_nick.compareTo(user2_nick)>0)
+            name = user2_nick.concat(" "+user1_nick);
+        else
+            name = user1_nick.concat(" "+user2_nick);
+        TempChatRoom tempChatRoom = roomRepository.getById(name);
         logger.debug(tempChatRoom.getRoomName());
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
-        logger.debug(a==null?"null":"null xxx");
+//        logger.debug(a==null?"null":"null xxx");
         if(a!=null) {
             for(TempChatMessage t : a) {
                 String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();

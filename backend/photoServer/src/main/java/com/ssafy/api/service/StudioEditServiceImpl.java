@@ -158,8 +158,10 @@ public class StudioEditServiceImpl implements StudioEditService {
             Photo photo_after = new Photo(add_id, photo_before.getMyStudio(), photo_before.getViewCnt(), photo_before.getOrigin(), photo_before.getThumbnail(), true, photo_before.getUpload());
 
             photoRepository.save(photo_after);
+
+            return true;
         }
-        return true;
+        return false;
 
     }
 
@@ -189,12 +191,17 @@ public class StudioEditServiceImpl implements StudioEditService {
 
     // 작가 베스트 사진 삭제
     @Override
+    @Transactional
     public boolean delBestPhoto(String JWT, int del_id) {
         // JWT -> user_id -> MyStudio -> Photo -> best
         String user_id = utilCheckUserId(JWT);
 
+//        System.out.println("del_id : " + del_id);
+
         // 본인의 사진인지 별도 확인 필요
         if(!myPhotoCheck(del_id, user_id)) return false;
+
+//        System.out.println("본인사진임");
 
         Photo photo_before = photoRepository.findByIdx(del_id);
         if(photo_before == null) return false;
@@ -247,9 +254,7 @@ public class StudioEditServiceImpl implements StudioEditService {
 
                 fos.write(baos.toByteArray());
 
-                System.out.println("섬네일 생성");
-
-                System.out.println(thumbnail);
+//                System.out.println("섬네일 생성 : " + thumbnail);
 
                 thumbnailURL = uploader.uploadS3Instance(thumbnail, DirNameThumbnail);
             } catch (IOException e) {
@@ -278,6 +283,7 @@ public class StudioEditServiceImpl implements StudioEditService {
 
     // 작가 사진 삭제
     @Override
+    @Transactional
     public boolean delPgPhoto(String JWT, int del_id) {
         // JWT -> user_id -> MyStudio -> Photo
         String user_id = utilCheckUserId(JWT);
@@ -290,7 +296,7 @@ public class StudioEditServiceImpl implements StudioEditService {
         if(photo != null) {
             String origin = photo.getOrigin();
             String thumbnail = photo.getThumbnail();
-            if(photoRepository.deleteByIdx(del_id) > 0) {
+            if(photoRepository.deleteByIdx(del_id) > 0 && photoTagRepository.deleteByPhoto_Idx(del_id) > 0) {
                 uploader.deleteS3Instance(origin);
                 uploader.deleteS3Instance(thumbnail);
                 return true;
@@ -308,6 +314,7 @@ public class StudioEditServiceImpl implements StudioEditService {
 
     // 본인사진인지 체크
     private boolean myPhotoCheck (int photo_id, String user_id) {
+
         Photo temp = photoRepository.findByIdx(photo_id);
         if(temp == null) return false;
 

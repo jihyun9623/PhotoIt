@@ -53,13 +53,69 @@
 
 <script>
 // import component from "component location"
+// import MyStudioHeader from '@/components/MyStudio/MyStudioHeader'
+import MyStudioPhotoList from '@/components/MyStudio/MyStudioPhotoList'
+import MyStudioBest from '@/components/MyStudio/MyStudioBest'
+import MyStudioHeaderChat from '@/components/MyStudio/MyStudioHeaderChat.vue'
+import MyStudioHeaderFavorite from '@/components/MyStudio/MyStudioHeaderFavorite.vue'
+import MyStudioHeaderSearchBar from '@/components/MyStudio/MyStudioHeaderSearchBar.vue'
+import ProfileIconMenu from '@/components/Common/ProfileIconMenu'
+import http from '@/assets/js/axios.js'
 
 export default {
-  name: "MyStudio",
+  name: 'MyStudio',
   components: {
     // components
+    // MyStudioHeader,
+    MyStudioPhotoList,
+    MyStudioBest,
+    MyStudioHeaderChat,
+    MyStudioHeaderFavorite,
+    MyStudioHeaderSearchBar,
+    ProfileIconMenu,
   },
-};
+  computed: {
+    pg_profPhoto() {
+      return this.$store.state.mystudio.pg_profile.profPhoto
+    },
+  },
+  created: function () {
+    console.log('created start')
+    this.$store.state.mystudio.nickname = this.$route.params.nickname
+    this.$store.dispatch(
+      'mystudio/pgProfile',
+      this.$store.state.mystudio.nickname,
+    )
+    // this.pg_profPhoto = this.$store.state.mystudio.pg_profile.profPhoto
+    this.$store.dispatch('mystudio/best3', this.$store.state.mystudio.nickname)
+    this.$store.dispatch(
+      'mystudio/photoAll',
+      this.$store.state.mystudio.nickname,
+    )
+  },
+  methods: {
+    userLogout() {
+      http
+        .get('/user/signout')
+        .then(() => {
+          alert('로그아웃 되었습니다.')
+          localStorage.removeItem('jwt')
+          localStorage.removeItem('id')
+          localStorage.removeItem('role')
+          localStorage.removeItem('profile')
+          localStorage.removeItem('nickname')
+          this.$router.push({ name: 'MainPage' })
+          if (this.$route.name === 'MainPage') {
+            window.location.reload()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('다시 시도해 주세요.')
+        })
+    },
+  },
+}
 </script>
 
 <style>

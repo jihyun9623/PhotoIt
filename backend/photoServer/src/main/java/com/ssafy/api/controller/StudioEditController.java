@@ -1,24 +1,25 @@
 /* 2021-07-27 스켈레톤 코드 작성	by.HeeJung,Lee */
+/* 2021-08-03 Feat : Service 구현에 따른 컨트롤러 수정	by.HeeJung,Lee */
 
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.StudioEditPhotoSelectReq;
 import com.ssafy.api.request.StudioEditPhotoUploadReq;
-import com.ssafy.api.response.StudioEditPhotoResponseBody;
 import com.ssafy.api.response.StudioEditPgProfileResponseBody;
+import com.ssafy.api.response.StudioEditPhotoResponseBody;
+import com.ssafy.api.service.StudioEditService;
+import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-@Api(value = "스튜디오 Edit API", tags = {"edit."})
+@Api(value = "스튜디오 Edit API", tags = {"edit"})
 @RestController
 @RequestMapping("/studioedit")
+@CrossOrigin("*")
 public class StudioEditController {
 
     @Autowired
@@ -164,7 +165,7 @@ public class StudioEditController {
     }
 
     // 베스트 사진 삭제하기
-    @DeleteMapping("/bestphoto")
+    @PostMapping("/bestphoto/delete")
     @ApiOperation(value = "베스트3 사진 삭제하기", notes = "사진ID를 받아 best사진에서 삭제")
     @ApiResponses({
             @ApiResponse(code = 201, message = "삭제 완료", response = BaseResponseBody.class),
@@ -213,7 +214,7 @@ public class StudioEditController {
     }
 
     // 전체사진 중 삭제하기
-    @DeleteMapping("/photo")
+    @PostMapping("/photo/delete")
     @ApiOperation(value = "작가 전체 사진 중 하나 삭제하기", notes = "작가 전체사진 중 하나를 삭제한다")
     @ApiResponses({
             @ApiResponse(code = 201, message = "삭제 완료", response = BaseResponseBody.class),

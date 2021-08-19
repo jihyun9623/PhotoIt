@@ -1,56 +1,72 @@
 <template>
   <!-- <MyStudioHeader /> -->
-  <h1>StudioEdit</h1>
   <!-- bestlist와 photolist를 활용하여 사진 표시, 및 클릭시 modal표시 -->
+  <router-link :to="{ path: `/mystudio/${nickname}` }">
+    <i
+      data-bs-toggle="tooltip"
+      data-bs-placement="bottom"
+      title="마이 스튜디오로 돌아가기"
+      class="
+        fas
+        fa-arrow-circle-left fa-3x
+        mt-4
+        mb-5
+        ms-4
+        ps-2
+        pt-1
+        btn-go-back
+        float-start
+      "
+    ></i>
+  </router-link>
   <div class="container">
-    bestlist
-    <div class="best-container row">
-      <div
-        v-for="(item, idx) in best"
+    <h1 class="pt-5 mt-5 float-start">BEST 3</h1>
+    <section class="best-container row mb-5">
+      <!-- 베스트 사진 삭제는 MyStudioEditBest에서 하기 -->
+      <MyStudioEditBest
+        v-for="(n, idx) in 3"
         :key="idx"
-        :id="bestid[idx]"
-        :item="item"
-        class="tag-item col-md-4 d-flex align-self-center"
+        :best-photo="best[idx]"
         @click="bestClick(bestid[idx])"
+      />
+    </section>
+    <div class="d-flex justify-content-between pt-5">
+      <h1>PHOTO LIST</h1>
+      <button
+        class="btn upload-btn me-3 mb-3"
+        data-bs-toggle="modal"
+        data-bs-target="#UploadModal"
+        @click="showModal()"
       >
-        <img class="img-fluid card-img" :src="item" />
-      </div>
+        사진 업로드
+      </button>
     </div>
-
-    <button
-      class="btn btn-sm btn-warning float-start"
-      data-bs-toggle="modal"
-      data-bs-target="#UploadModal"
-      @click="showModal()"
-    >
-      사진 업로드
-    </button>
     <UploadModal v-on:call-parent-close="closeModal"></UploadModal>
-
-    photolist
-    <div class="photo-container row flex-wrap">
-      <div
+    <section class="photo-container row flex-wrap">
+      <!-- 베스트 사진 삭제는 MyStudioEditPhotoList에서 하기 -->
+      <MyStudioEditPhotoList
         v-for="(item, idx) in photo"
         :key="idx"
         :id="photoid[idx]"
-        :item="item"
-        class="tag-item col-md-2 d-flex align-self-center"
+        :item="photo[idx]"
         @click="photoClick(photoid[idx])"
-      >
-        <img class="img-fluid card-img" :src="item" />
-      </div>
-    </div>
+      />
+    </section>
   </div>
 </template>
 
 <script>
 import http from '@/assets/js/axios.js'
 import UploadModal from '@/components/MyStudioEdit/MyStudioEditUploadModal.vue'
+import MyStudioEditBest from '@/components/MyStudioEdit/MyStudioEditBest.vue'
+import MyStudioEditPhotoList from '@/components/MyStudioEdit/MyStudioEditPhotoList.vue'
 
 export default {
   name: 'MyStudioEdit',
   components: {
     UploadModal,
+    MyStudioEditBest,
+    MyStudioEditPhotoList,
   },
   data() {
     return {
@@ -73,6 +89,9 @@ export default {
     },
     photolist() {
       return this.$store.state.mystudioedit.photo
+    },
+    nickname() {
+      return this.$store.state.login.myNickname
     },
   },
   methods: {
@@ -227,20 +246,27 @@ export default {
 </script>
 
 <style scoped>
-.tag-item:hover {
-  cursor: pointer;
-  transform: scale(1.1);
-  opacity: 0.7;
-  overflow: hidden;
-}
 .best-container {
   border: 5px solid darkblue;
-  height: 400px;
+  height: 30vh;
   width: 100%;
 }
 .photo-container {
   border: 5px solid darkblue;
-  height: 100%;
+  height: auto;
   width: 100%;
+}
+.upload-btn {
+  background-color: #4b77be;
+  color: white;
+}
+.upload-btn:hover {
+  opacity: 80%;
+}
+.btn-go-back:before {
+  color: #4b77be;
+}
+.btn-go-back:hover {
+  opacity: 80%;
 }
 </style>

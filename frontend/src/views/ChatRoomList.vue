@@ -1,5 +1,5 @@
 <template>
-  <h1 class="fontXL signupTitle">채팅방 목록</h1>
+  <h1 class="fontXL signupTitle">쪽지함 목록</h1>
   <hr
     align="left"
     style="

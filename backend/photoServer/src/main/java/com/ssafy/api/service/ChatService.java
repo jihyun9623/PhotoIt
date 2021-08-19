@@ -40,9 +40,9 @@ public class ChatService {
         List<ChatRes> listChatRes = new ArrayList<>();
         TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
                                      .orElseThrow(RuntimeException::new);
+
         logger.debug(tempChatRoom.getRoomName());
         logger.debug(String.valueOf(tempChatRoom.getTempChatMessages().size()));
-
         List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
         logger.debug(a==null?"null":"null xxx");
         for(TempChatMessage t : a) {

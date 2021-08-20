@@ -76,7 +76,8 @@ export default {
     }
   },
   created: function () {
-    if (this.$store.state.mystudio.best3 == null) {
+    console.log(this.$store.state.mystudio.best3)
+    if (this.$store.state.mystudio.best3 === null) {
       console.log('0')
       this.best1 =
         this.$store.state.mystudio.photo_all[
@@ -85,16 +86,16 @@ export default {
           )
         ]
       console.log(this.best1)
-    } else if (this.$store.state.mystudio.best3.length == 3) {
+    } else if (this.$store.state.mystudio.best3.length === 3) {
       console.log('3')
       this.best3 = this.$store.state.mystudio.best3[2]
       this.best2 = this.$store.state.mystudio.best3[1]
       this.best1 = this.$store.state.mystudio.best3[0]
-    } else if (this.$store.state.mystudio.best3.length == 2) {
+    } else if (this.$store.state.mystudio.best3.length === 2) {
       console.log('2')
       this.best2 = this.$store.state.mystudio.best3[1]
       this.best1 = this.$store.state.mystudio.best3[0]
-    } else if (this.$store.state.mystudio.best3.length == 1) {
+    } else if (this.$store.state.mystudio.best3.length === 1) {
       console.log('1')
       this.best1 = this.$store.state.mystudio.best3[0]
     }

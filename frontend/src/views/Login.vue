@@ -18,7 +18,7 @@
             type="email"
             class="form-control"
             id="email"
-            placeholder="user@example.com"
+            placeholder="hanq@naver.com"
             v-model="credentials.id"
             @keyup.enter="userLogin"
           />
@@ -31,7 +31,7 @@
             type="password"
             class="form-control"
             id="password"
-            placeholder="비밀번호"
+            placeholder="q1w2e3r4!"
             v-model="credentials.passwd"
             @keyup.enter="userLogin"
           />

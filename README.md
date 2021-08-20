@@ -589,6 +589,5 @@
 
 ## How to work Server
 
-**👉 BACKEND - [README.md](http://readme.md) 👈**
-
+**👉 BACKEND - [README.md](./backend/readme.md) 👈**
 

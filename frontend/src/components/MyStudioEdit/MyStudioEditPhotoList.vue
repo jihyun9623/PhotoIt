@@ -62,9 +62,9 @@ export default {
   left: 5%;
   color: black;
   border: none;
-  opacity: 75%;
+  /* opacity: 75%; */
 }
-.btn-add-best:hover {
+/* .btn-add-best:hover {
   opacity: 90%;
-}
+} */
 </style>

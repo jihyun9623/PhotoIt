@@ -11,7 +11,7 @@
 - BackEnd(IntelliJ) : Spring boot, JPA, Redis, MySql, Jenkins, NginX, Docker, AWS
 - FrontEnd(NodeJS) : Vue.js
 
-![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled.png)
+![Untitled](./assets/Untitled.png)
 
 ## Requirements
 
@@ -38,7 +38,7 @@
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%201.png)
+    ![Untitled](./assets/Untitled 1.png)
 
 - 접근 방법 : 서비스 URL에 접근 시 가장 처음 보이는 페이지
 - 주요 기능: 검색, 조회수가 높은 태그 4개의 사진을 최신순으로 n개 확인 가능, 디테일(+ 찜)
@@ -48,121 +48,121 @@
         - 응답
             - MainPageLocationRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%202.png)
+                ![Untitled](./assets/Untitled 2.png)
 
             - 응답 코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%203.png)
+                ![Untitled](./assets/Untitled 3.png)
 
     - tagList() : 사진 태그들을 가져오기
         - 요청 : 없음
         - 응답
             - MainPageTagPhotoRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%204.png)
+                ![Untitled](./assets/Untitled 4.png)
 
             - 응답 코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%205.png)
+                ![Untitled](./assets/Untitled 5.png)
 
     - mainPageContents() : 메인콘텐츠(사진태그,썸네일, 닉네임) 가져오기
         - 요청 : 없음
         - 응답
             - MainPageTagPhotoRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%206.png)
+                ![Untitled](./assets/Untitled 6.png)
 
             - 응답 코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%207.png)
+                ![Untitled](./assets/Untitled 7.png)
 
     - photoDetail() : 사진 디테일 콘텐츠(원본사진 경로, 원본사진 태그List, 찜 여부, [썸네일경로, 사진ID] N개
         - 요청 : 없음
         - 응답
             - MainPagePhotoDetailRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%208.png)
+                ![Untitled](./assets/Untitled 8.png)
 
             - 응답 코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%209.png)
+                ![Untitled](./assets/Untitled 9.png)
 
     - userProfile() : 프로필 사진, 닉네임 가져오기
         - 요청 : 없음
         - 응답
             - MainPageProfileRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2010.png)
+                ![Untitled](./assets/Untitled 10.png)
 
             - 응답 코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2011.png)
+                ![Untitled](./assets/Untitled 11.png)
 
 > 회원가입 (https://i5a108.p.ssafy.io/signup)
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2012.png)
+    ![Untitled](./assets/Untitled 12.png)
 
 - 접근 방법 : 메인페이지 오른쪽 상단의 프로필 아이콘을 눌러 나오는 드롭다운에서 회원가입 선택
 - Service Functions
     - signUp() : 회원가입
         - 요청(UserReq)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2013.png)
+            ![Untitled](./assets/Untitled 13.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2014.png)
+                ![Untitled](./assets/Untitled 14.png)
 
 > 로그인 (https://i5a108.p.ssafy.io/login)
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2015.png)
+    ![Untitled](./assets/Untitled 15.png)
 
 - 접근 방법 : 메인페이지 오른쪽 상단의 프로필 아이콘을 눌러 나오는 드롭다운에서 로그인 선택
 - Service Functions
     - signin() : 로그인
         - 요청(UserReq)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2013.png)
+            ![Untitled](./assets/Untitled 13.png)
 
         - 응답
             - UserLoginPostRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2016.png)
+                ![Untitled](./assets/Untitled 16.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2017.png)
+                ![Untitled](./assets/Untitled 17.png)
 
 > 로그아웃
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2018.png)
+    ![Untitled](./assets/Untitled 18.png)
 
 - 접근 방법 : 로그인 후, 오른쪽 상단의 프로필 아이콘을 눌러 나오는 드롭다운에서 로그아웃 선택
 - Service Functions
     - signOut() : 로그아웃
         - 요청 :
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2019.png)
+            ![Untitled](./assets/Untitled 19.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2020.png)
+                ![Untitled](./assets/Untitled 20.png)
 
 > 마이페이지 (https://i5a108.p.ssafy.io/mypage)
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2021.png)
+    ![Untitled](./assets/Untitled 21.png)
 
 - 접근 방법 : 로그인 후 오른쪽 상단의 프로필 아이콘을 눌러 나오는 드롭다운에서 마이페이지 선택
 - 주요 기능: 회원 정보 확인 및 수정
@@ -170,91 +170,91 @@
     - getProfile() : 마이페이지 진입시 해당 회원의 정보를 모두 불러온다
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2022.png)
+            ![Untitled](./assets/Untitled 22.png)
 
         - 응답
             - MyPageGetRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2023.png)
+                ![Untitled](./assets/Untitled 23.png)
 
             - 응답 코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2024.png)
+                ![Untitled](./assets/Untitled 24.png)
 
     - updateProfile : 회원정보 수정
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2025.png)
+            ![Untitled](./assets/Untitled 25.png)
 
         - 응답
             - UserLoginPostRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2026.png)
+                ![Untitled](./assets/Untitled 26.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2027.png)
+                ![Untitled](./assets/Untitled 27.png)
 
     - deleteUser() : 회원 탈퇴
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2028.png)
+            ![Untitled](./assets/Untitled 28.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2029.png)
+                ![Untitled](./assets/Untitled 29.png)
 
     - upgradePhotographer() : 작가로 업그레이드
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2028.png)
+            ![Untitled](./assets/Untitled 28.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2030.png)
+                ![Untitled](./assets/Untitled 30.png)
 
     - isPasswordRight() : 비밀번호 재확인
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2025.png)
+            ![Untitled](./assets/Untitled 25.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2031.png)
+                ![Untitled](./assets/Untitled 31.png)
 
     - nicknameDuplicateCheck() : 닉네임 중복체크
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2025.png)
+            ![Untitled](./assets/Untitled 25.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2032.png)
+                ![Untitled](./assets/Untitled 32.png)
 
     - editProfilePhoto() : 프로필사진 수정
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2025.png)
+            ![Untitled](./assets/Untitled 25.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2033.png)
+                ![Untitled](./assets/Untitled 33.png)
 
 > 마이스튜디오 (https://i5a108.p.ssafy.io/mystudio)
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2034.png)
+    ![Untitled](./assets/Untitled 34.png)
 
 - 접근 방법
     - 작가일 때, 로그인 후 오른쪽 상단의 프로필 아이콘을 눌러 나오는 드롭다운에서 로그아웃 선택 또는 작가 검색,찜목록에서 해달 작가 클릭
@@ -266,72 +266,72 @@
         - 응답
             - StudioPgProfileResBody
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2035.png)
+                ![Untitled](./assets/Untitled 35.png)
 
             - 응답 코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2036.png)
+                ![Untitled](./assets/Untitled 36.png)
 
     - showCalendar() : 일정 보여주기
         - 요청 : 쿼리  /{nickname}
         - 응답
             - StudioCalendarResBody
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2037.png)
+                ![Untitled](./assets/Untitled 37.png)
 
             - 응답 코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2038.png)
+                ![Untitled](./assets/Untitled 38.png)
 
     - addCalendar() : 일정 추가하기
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2039.png)
+            ![Untitled](./assets/Untitled 39.png)
 
         - 응답
             - BaseResponseBody(T/F)
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2040.png)
+                ![Untitled](./assets/Untitled 40.png)
 
     - deleteCalendar() : 일정 삭제하기
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2039.png)
+            ![Untitled](./assets/Untitled 39.png)
 
         - 응답
             - BaseResponseBody(T/F)
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2041.png)
+                ![Untitled](./assets/Untitled 41.png)
 
     - getBestPhotos() : 베스트 3 사진 받아오기
         - 요청 : 쿼리  /{nickname}
         - 응답
             - StudioGetPhotosResBody
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2042.png)
+                ![Untitled](./assets/Untitled 42.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2043.png)
+                ![Untitled](./assets/Untitled 43.png)
 
     - getAllPgPhotos() : 작가 전체사진 받아오기
         - 요청 : 쿼리  /{nickname}
         - 응답
             - StudioGetPhotosResBody
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2042.png)
+                ![Untitled](./assets/Untitled 42.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2044.png)
+                ![Untitled](./assets/Untitled 44.png)
 
 > 마이스튜디오 Edit ([https://i5a108.p.ssafy.io/mystudioedit/{닉네임}](https://i5a108.p.ssafy.io/mystudioedit/%ED%95%9C%EB%80%A8))
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2045.png)
+    ![Untitled](./assets/Untitled 45.png)
 
 - 접근 방법 : 프로필 아이콘 드롭다운의 Edit 버튼을 클릭
 - 주요 기능: 마이스튜디오에 업로드할 사진 추가, 기존 업로드된 사진 삭제, 베스트 사진 3 선정 및 취소
@@ -342,110 +342,110 @@
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2046.png)
+                ![Untitled](./assets/Untitled 46.png)
 
     - getPgProfile() : 작가 프로필 받아오기
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2047.png)
+            ![Untitled](./assets/Untitled 47.png)
 
         - 응답
             - StudioEditPgProfileResponseBody
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2048.png)
+                ![Untitled](./assets/Untitled 48.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2049.png)
+                ![Untitled](./assets/Untitled 49.png)
 
     - getBestPhoto() : 베스트3 사진 받아오기
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2050.png)
+            ![Untitled](./assets/Untitled 50.png)
 
         - 응답
             - StudioEditPhotoResponseBody
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2051.png)
+                ![Untitled](./assets/Untitled 51.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2052.png)
+                ![Untitled](./assets/Untitled 52.png)
 
     - getPgPhoto() : 작가 전체 사진 받아오기
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2053.png)
+            ![Untitled](./assets/Untitled 53.png)
 
         - 응답
             - StudioEditPhotoResponseBody
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2051.png)
+                ![Untitled](./assets/Untitled 51.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2054.png)
+                ![Untitled](./assets/Untitled 54.png)
 
     - addBestPhoto() : 베스트3 사진 추가하기
         - 요청(StudioEditPhotoSelectReq)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2055.png)
+            ![Untitled](./assets/Untitled 55.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2056.png)
+                ![Untitled](./assets/Untitled 56.png)
 
     - updateBestPhoto() : 베스트3 사진 수정하기
         - 요청(StudioEditPhotoSelectReq)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2055.png)
+            ![Untitled](./assets/Untitled 55.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2057.png)
+                ![Untitled](./assets/Untitled 57.png)
 
     - delBestPhoto() : 베스트3 사진 삭제하기
         - 요청(StudioEditPhotoSelectReq)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2055.png)
+            ![Untitled](./assets/Untitled 55.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2058.png)
+                ![Untitled](./assets/Untitled 58.png)
 
     - addPgPhoto() : 작가 전체 사진 추가하기
         - 요청(StudioEditPhotoUploadReq)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2059.png)
+            ![Untitled](./assets/Untitled 59.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2060.png)
+                ![Untitled](./assets/Untitled 60.png)
 
     - delPgPhoto() : 작가 전체 사진 중 하나 삭제하기
         - 요청(StudioEditPhotoSelectReq)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2055.png)
+            ![Untitled](./assets/Untitled 55.png)
 
         - 응답
             - BaseResponseBody
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2061.png)
+                ![Untitled](./assets/Untitled 61.png)
 
 > 찜 (https://i5a108.p.ssafy.io/fav)
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2062.png)
+    ![Untitled](./assets/Untitled 62.png)
 
 - 접근 방법 : 로그인 후 오른쪽 상단의 프로필 아이콘을 눌러 나오는 드롭다운에서 찜목록 선택
 - 주요 기능: 작가의 마이스튜디오, 사진 디테일에서 원하는 작가를 찜하면 찜목록 페이지에서 확인 가능, 작가와 작가의 베스트 사진 3 모아보기 가능
@@ -453,54 +453,54 @@
     - addFav() : 찜 추가하기
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2063.png)
+            ![Untitled](./assets/Untitled 63.png)
 
         - 응답
             - BaseResponseBody(T/F)
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2064.png)
+                ![Untitled](./assets/Untitled 64.png)
 
     - deleteFav() : 찜 해제하기
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2063.png)
+            ![Untitled](./assets/Untitled 63.png)
 
         - 응답
             - BaseResponseBody(T/F)
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2065.png)
+                ![Untitled](./assets/Untitled 65.png)
 
     - checkFav() : 사진 확대 시 작가 이름 옆의 찜 확인
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2066.png)
+            ![Untitled](./assets/Untitled 66.png)
 
         - 응답
             - BaseResponseBody(T/F)
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2067.png)
+                ![Untitled](./assets/Untitled 67.png)
 
     - getFavList() : 찜목록 불러오기
         - 요청 : 쿼리  /{nickname}
         - 응답
             - FavResBody
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2068.png)
+                ![Untitled](./assets/Untitled 68.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2069.png)
+                ![Untitled](./assets/Untitled 69.png)
 
 > 검색
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2070.png)
+    ![Untitled](./assets/Untitled 70.png)
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2071.png)
+    ![Untitled](./assets/Untitled 71.png)
 
 - 접근 방법 : 메인페이지, 마이페이지, 찜목록 등의 상단 nav바에서 검색어 입력
 - 주요 기능: 태그 검색 및 사진 디테일(+ 찜), 작가 검색 및 작가의 마이스튜디오 이동, 태그 자동 완성
@@ -508,53 +508,53 @@
     - searchTagLocation() : 해당 지역,태그 사진 가져오기
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2072.png)
+            ![Untitled](./assets/Untitled 72.png)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2073.png)
+            ![Untitled](./assets/Untitled 73.png)
 
         - 응답
             - SearchTagLocationRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2074.png)
+                ![Untitled](./assets/Untitled 74.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2075.png)
+                ![Untitled](./assets/Untitled 75.png)
 
     - searchPg() : 해당 지역, 작가 검색
         - 요청
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2076.png)
+            ![Untitled](./assets/Untitled 76.png)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2077.png)
+            ![Untitled](./assets/Untitled 77.png)
 
         - 응답
             - SearchPgLocationRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2078.png)
+                ![Untitled](./assets/Untitled 78.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2079.png)
+                ![Untitled](./assets/Untitled 79.png)
 
     - searchMyStudioTag() : 마이스튜디오 내 태그검색
         - 요청
         - 응답
             - SearchMyStudioTagRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2080.png)
+                ![Untitled](./assets/Untitled 80.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2081.png)
+                ![Untitled](./assets/Untitled 81.png)
 
 > 쪽지 ([https://i5a108.p.ssafy.io/chat/roomlist](https://i5a108.p.ssafy.io/chat/roomlist))
 
 - Page
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2082.png)
+    ![Untitled](./assets/Untitled 82.png)
 
-    ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2083.png)
+    ![Untitled](./assets/Untitled 83.png)
 
 - 접근 방법 : 작가 스튜디오 상단의 비행기 아이콘을 클릭 또는 오른쪽 상단 프로필 아이콘을 눌러 나오는 드롭다운에서 쪽지함 선택
 - 주요 기능: 쪽지함, 쪽지 수신 및 발신
@@ -562,31 +562,33 @@
     - createRoom() : 채팅 roomId, 내용 받기
         - 요청(ChatUsersReq)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2084.png)
+            ![Untitled](./assets/Untitled 84.png)
 
         - 응답
             - ChatRoomRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2085.png)
+                ![Untitled](./assets/Untitled 85.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2086.png)
+                ![Untitled](./assets/Untitled 86.png)
 
     - roomList() : 사용자의 채팅 목록 불러오기
         - 요청(ChatReq)
 
-            ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2087.png)
+            ![Untitled](./assets/Untitled 87.png)
 
         - 응답
             - ChatRoomRes
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2085.png)
+                ![Untitled](./assets/Untitled 85.png)
 
             - 응답코드
 
-                ![Untitled](README%20md%20502363b020ab49959fca7ffe8b4641b1/Untitled%2088.png)
+                ![Untitled](./assets/Untitled 88.png)
 
 ## How to work Server
 
 **👉 BACKEND - [README.md](http://readme.md) 👈**
+
+

@@ -232,29 +232,35 @@ public class StudioEditServiceImpl implements StudioEditService {
 //                ClassPathResource resource = new ClassPathResource("/");
 //                Path path = Paths.get(resource.getURI());
 
-                String path = new File("src/main/resources").getAbsolutePath();
+                String path = System.getProperty("java.io.tmpdir");
 
-                File thumbnail = new File(path+"/image/thumbnail." + FilenameUtils.getExtension(file.getOriginalFilename()));
+                System.out.println(path);
 
-//                System.out.println(thumbnail.getPath());
+                File thumbnail = new File("thumbnail."+ FilenameUtils.getExtension(file.getOriginalFilename()));
 
-                originURL = uploader.uploadS3Instance(file, DirNameOrigin);
+                System.out.println(thumbnail.getPath());
 
                 /* 섬네일 추출 */
 
                 // QUALITY 1~5 -> 4, resizeMode = Auto, size = 400 * 400, Filename = "thumbnail_" + OriginalName
                 BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-//                System.out.println("버퍼 : " + bufferedImage.toString());
+                System.out.println("버퍼 : " + bufferedImage.toString());
                 BufferedImage afterImage = Scalr.resize(bufferedImage, 400,400);
-//                System.out.println("애프터 : " + afterImage.toString());
+                System.out.println("애프터 : " + afterImage.toString());
                 FileOutputStream fos = new FileOutputStream(thumbnail);
+
+                System.out.println("baos 전");
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ImageIO.write( afterImage, FilenameUtils.getExtension(file.getOriginalFilename()), baos );
 
+                System.out.println("fos 전");
+
                 fos.write(baos.toByteArray());
 
-//                System.out.println("섬네일 생성 : " + thumbnail);
+                System.out.println("섬네일 생성 : " + thumbnail);
+
+                originURL = uploader.uploadS3Instance(file, DirNameOrigin);
 
                 thumbnailURL = uploader.uploadS3Instance(thumbnail, DirNameThumbnail);
             } catch (IOException e) {
@@ -289,18 +295,22 @@ public class StudioEditServiceImpl implements StudioEditService {
         String user_id = utilCheckUserId(JWT);
 
         // 본인의 사진인지 별도 확인 필요
-        if(!myPhotoCheck(del_id, user_id)) return false;
+        // if(!myPhotoCheck(del_id, user_id)) return false;
 
         Photo photo = photoRepository.findByIdx(del_id);
+        List<PhotoTag> tags = photoTagRepository.findByPhoto_Idx(del_id);
 
         if(photo != null) {
             String origin = photo.getOrigin();
             String thumbnail = photo.getThumbnail();
-            if(photoRepository.deleteByIdx(del_id) > 0 && photoTagRepository.deleteByPhoto_Idx(del_id) > 0) {
-                uploader.deleteS3Instance(origin);
-                uploader.deleteS3Instance(thumbnail);
-                return true;
-            }
+
+            for(PhotoTag p : tags) photoTagRepository.delete(p);
+            photoRepository.delete(photo);
+            photoRepository.flush();
+            photoTagRepository.flush();
+            uploader.deleteS3Instance(origin);
+            uploader.deleteS3Instance(thumbnail);
+            return true;
         }
         return false;
     }

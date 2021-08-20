@@ -21,8 +21,12 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,26 +41,16 @@ public class ChatService {
 
     @Transactional
     public ChatRoomRes chatList(ChatRoomDto chatRoomDto) {
+        logger.debug("-----------------------------");
         List<ChatRes> listChatRes = new ArrayList<>();
-        TempChatRoom tempChatRoom =  roomRepository.findById(chatRoomDto.getName())
-                                     .orElseThrow(RuntimeException::new);
-        List<TempChatMessage> a = tempChatRoom.getTempChatMessages();
-//        logger.debug(a==null?"null":"null xxx");
-        if(a!=null) {
-            for(TempChatMessage t : a) {
+        List<TempChatMessage> tempChatMessages = messageRepository.findAll();
+        for(TempChatMessage t : tempChatMessages) {
+            if(t.getTempChatRoom().getRoomName().equals(chatRoomDto.getName())) {
                 String temp = userRepository.findUserById(t.getSenderName()).orElseThrow(RuntimeException::new).getNickname();
                 ChatRes chatRes = ChatRes.of(temp, t.getMessage(), t.getSendTime());
                 listChatRes.add(chatRes);
             }
         }
-        logger.debug("----------------------------me--------------------------------------");
-        List<TempChatRoom> tempChatRooms = roomRepository.findAll();
-        for(TempChatRoom t : tempChatRooms) {
-            for(TempChatMessage tc : t.getTempChatMessages()) {
-                logger.debug(tc.getSenderName() + " " + tc.getMessage());
-            }
-        }
-        logger.debug("----------------------------ch--------------------------------------");
 
         return ChatRoomRes.of(chatRoomDto.getName(), listChatRes);
     }
@@ -64,13 +58,16 @@ public class ChatService {
     @Transactional
     public void ChatSave(String roomName, String sender, String message) {
         TempChatRoom chatRoom = roomRepository.getById(roomName);
+        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime d = LocalDateTime.parse(format1.format(new Date()),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         User user = userRepository.findUserByNickname(sender);
         TempChatMessage chatMessage = TempChatMessage.builder()
                                       .tempChatRoom(chatRoom)
                                       .message(message)
                                       .senderName(user.getId())
+                                      .sendTime(d)
                                       .build();
-
         messageRepository.save(chatMessage);
     }
 

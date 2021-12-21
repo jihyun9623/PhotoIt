@@ -234,7 +234,6 @@ export default {
       PG: '',
       nicknameOrigin: '',
       isPhotoGrapher: true,
-      isDuplicated: '',
     }
   },
   computed: {
@@ -269,7 +268,6 @@ export default {
         this.formIntroduce = res.data.introduce
         this.formLocation = res.data.location
         this.nicknameOrigin = res.data.nickname
-        this.isDuplicated = res.data.message
         // 작가 여부 판별
         if (res.data.pg) this.PG = '작가입니다.'
         else this.PG = '작가가 아닙니다.'
@@ -294,13 +292,15 @@ export default {
         passwd: this.formPasswd,
         nickname: this.formNickname,
         pg: this.formPgCheck,
-        location: this.formLocation,
+        location: [this.formLocation],
         profile: this.formIntroduce,
       }
       this.$store.dispatch('mypage/setUserInfo', data).then(() => {
         if (this.$store.state.mypage.return) {
           this.toastSuccess('회원정보가 수정되었습니다.')
-          this.$router.push({ name: 'MyPage' })
+          setTimeout(function () {
+            location.reload()
+          }, 3000)
         } else {
           this.toastDanger('회원정보를 수정하지 못하였습니다.')
         }
@@ -311,7 +311,9 @@ export default {
       this.$store.dispatch('mypage/deleteUser').then(() => {
         if (this.$store.state.mypage.return) {
           this.toastSuccess('회원탈퇴가 완료되었습니다.')
-          this.$router.push({ name: 'MainPage' })
+          setTimeout(function () {
+            this.$router.push({ name: 'MainPage' })
+          }, 3000)
         } else {
           this.toastDanger('회원탈퇴를 실패하였습니다.')
         }
@@ -328,7 +330,7 @@ export default {
           nickname: this.formNickname,
         })
         .then(() => {
-          if (this.isDuplicated === 'Duplicated') {
+          if (this.$store.state.mypage.returnNickname) {
             // if (this.$store.state.mypage.returnNickname) {
             this.toastSuccess('사용가능한 닉네임입니다.')
           } else {

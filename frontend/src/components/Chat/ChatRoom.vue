@@ -1,29 +1,33 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="border border-primary col-md-4">
+      <div class="col-md-4 fontPeople">
         {{ this.$route.query.nickName }}
+        <hr />
       </div>
-      <div class="border border-primary col-md-4 offset-md-4">
+      <div class="col-md-4 offset-md-4 fontPeople">
         {{ nickname }}
+        <hr />
       </div>
     </div>
     <div v-if="messages">
       <div>
         <div v-for="m in messages" :key="m.sender">
           <div
-            class="border border-primary col-md-6 offset-md-6"
+            class="chatBoxRight col-md-6 offset-md-6 pt-2"
             v-if="nickname === m.sender"
           >
             <!--  자기자신 오른쪽  -->
-            {{ m.time[0] }}년 {{ m.time[1] }}월 {{ m.time[2] }}일
-            {{ m.time[3] }}시 {{ m.time[4] }}분 <br />
-            {{ m.message }}
+            <span
+              >{{ m.time[0] }}년 {{ m.time[1] }}월 {{ m.time[2] }}일
+              {{ m.time[3] }} : {{ m.time[4] }}
+            </span>
+            <div class="mt-3 pb-3">{{ m.message }}</div>
           </div>
-          <div class="border border-primary col-md-6" v-else>
+          <div class="chatBoxLeft col-md-6" v-else>
             {{ m.time[0] }}년 {{ m.time[1] }}월 {{ m.time[2] }}일
-            {{ m.time[3] }}시 {{ m.time[4] }}분 <br />
-            {{ m.message }}
+            {{ m.time[3] }} : {{ m.time[4] }} <br />
+            <div class="mt-3 mb-3">{{ m.message }}</div>
           </div>
         </div>
       </div>

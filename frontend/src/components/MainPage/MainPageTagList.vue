@@ -6,7 +6,7 @@
         <!-- view router: 검색 결과 페이지로 이동 -->
         <router-link
           :to="{ path: `/search/${tagName}/all/tag` }"
-          class="tag-name"
+          class="tag-name fontL mb-1"
           @click="goSearch"
         >
           # {{ tagName }} <i class="fas fa-caret-down"></i>

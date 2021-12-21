@@ -49,7 +49,6 @@ const actions = {
         localStorage.setItem('nickname', res.data.nickname)
         localStorage.setItem('jwt', res.data.jwt)
         localStorage.setItem('role', res.data.role)
-        window.location.reload()
         commit('SET_RETURN', {
           return: true,
         })
@@ -84,9 +83,15 @@ const actions = {
       .post('/mypage/nicknameCheck', data)
       .then((res) => {
         console.log(res)
-        commit('SET_RETURN_NICKNAME', {
-          return: true,
-        })
+        if (res.data.message === 'Duplicated') {
+          commit('SET_RETURN_NICKNAME', {
+            return: false,
+          })
+        } else {
+          commit('SET_RETURN_NICKNAME', {
+            return: true,
+          })
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -115,7 +120,7 @@ const actions = {
   // 작가로 권한 상승 요청
   upgradeToPg({ commit }) {
     return http
-      .post('/mypage/pg', localStorage.getItem('nickname'))
+      .get('/mypage/pg')
       .then((res) => {
         console.log(res)
         commit('SET_IS_PHOTOGRAPHER')

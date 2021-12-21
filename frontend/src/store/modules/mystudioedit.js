@@ -40,7 +40,7 @@ const actions = {
   // 마이스튜디오 접속시 본인 확인
   studioAuth({ commit }) {
     return http
-      .get('/studioedit/studioauth' + localStorage.getItem('nickname'))
+      .get('/studioedit/studioauth/' + localStorage.getItem('nickname'))
       .then((res) => {
         console.log(res)
         commit('SET_STUDIOAUTH')
@@ -53,26 +53,6 @@ const actions = {
       commit('SET_LOCATION_INTRODUCE', {
         location: res.data.location,
         introduce: res.data.introduce,
-      })
-    })
-  },
-  // 베스트 3 사진 받아오기
-  getBestPhoto({ commit }) {
-    http.get('/studioedit/bestphoto').then((res) => {
-      console.log(res)
-      commit('SET_BEST', {
-        best: res.data.file,
-        bestid: res.data.id,
-      })
-    })
-  },
-  // 작가 전체사진 받아오기
-  getPhoto({ commit }) {
-    http.get('/studioedit/photo').then((res) => {
-      console.log(res)
-      commit('SET_PHOTO', {
-        photo: res.data.file,
-        photoid: res.data.id,
       })
     })
   },
@@ -113,7 +93,7 @@ const actions = {
   // 베스트 사진 삭제 (파라미터 사진 ID)
   deleteBestPhoto({ commit }, data) {
     return http
-      .delete('/studioedit/bestphoto', data)
+      .post('/studioedit/bestphoto/delete', data)
       .then((res) => {
         console.log(res)
         commit('SET_RETURN', {
@@ -157,7 +137,7 @@ const actions = {
   // 전체사진 삭제 (파라미터 사진 ID)
   deletePhoto({ commit }, data) {
     return http
-      .delete('/studioedit/photo', data)
+      .post('/studioedit/photo/delete', data)
       .then((res) => {
         console.log(res)
         commit('SET_RETURN', {

@@ -35,20 +35,6 @@ export default {
       return ((x - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
     }
 
-    // Event Listeners
-    // onClick add clases before transition
-    const items = document.getElementsByClassName('image')
-    Array.prototype.forEach.call(items, function (item, i) {
-      item.addEventListener('click', function () {
-        // For testing purposes im using toggle. Remove Later
-        console.log(i)
-        item.classList.toggle('active')
-        Array.prototype.forEach.call(items, function (otherItem) {
-          if (otherItem != item) otherItem.classList.toggle('close')
-        })
-      })
-    })
-
     // Scroll image Animation (small Y movement)
 
     const inners = document.getElementsByClassName('inner')

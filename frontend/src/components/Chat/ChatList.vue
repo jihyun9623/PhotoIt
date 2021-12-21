@@ -44,15 +44,19 @@ export default {
 
 <style>
 .chatListBorder {
-  border: solid 2px;
   margin-left: 20vw;
   margin-right: 20vw;
+  padding-top: 2vh;
+  display: flex;
+  justify-content: center;
 }
 
 .chatListItem {
-  background-color: rgb(228, 224, 224);
+  background-color: rgb(238, 245, 252);
+  box-shadow: 5px 10px 8px rgb(81, 125, 155);
   border-radius: 30px;
-  padding-top: 2vh;
-  padding-bottom: 2vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  width: 30vw;
 }
 </style>

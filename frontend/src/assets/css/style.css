@@ -100,8 +100,32 @@
 
 /*----------chat---------*/
 
+.fontPeople{
+  font-weight: bolder;
+  font-size: larger;
+  font-family: "Cafe24SsurroundAir";
+  margin-top:3vh;
+  margin-bottom: 3vh;
+  /* background-color: rgb(31, 58, 147); */
+}
 
+.chatBoxLeft{
+  font-family: "Cafe24SsurroundAir";
+  background-color: rgb(213, 220, 226);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-bottom: 3vh;
+}
 
+.chatBoxRight{
+  font-family: "Cafe24SsurroundAir";
+  background-color: rgb(213, 220, 226);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  margin-bottom: 3vh;
+}
 
 
 
@@ -130,6 +154,12 @@
 }
 
 .fontL{
+  font-size: x-large;
+  font-family: "Cafe24SsurroundAir";
+}
+
+.fontEditTitle{
+  font-weight: bolder;
   font-size: x-large;
   font-family: "Cafe24SsurroundAir";
 }

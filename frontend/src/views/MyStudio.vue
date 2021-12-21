@@ -47,9 +47,7 @@
     <MyStudioPhotoList />
   </div>
   <div v-else>
-    <p class="d-flex justify-content-center align-content-center">
-      업로드된 사진이 없습니다.
-    </p>
+    <div class="noPhoto">업로드된 사진이 없습니다.</div>
   </div>
 </template>
 
@@ -116,6 +114,9 @@ export default {
           alert('다시 시도해 주세요.')
         })
     },
+  },
+  mounted() {
+    window.scrollTo(0, 0)
   },
 }
 </script>
@@ -196,5 +197,20 @@ export default {
   display: flex;
   align-items: center;
   font-size: 16px;
+}
+@font-face {
+  font-family: 'Cafe24SsurroundAir';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+.noPhoto {
+  font-size: larger;
+  font-weight: bolder;
+  font-family: 'Cafe24SsurroundAir';
+  display: flex;
+  align-self: center;
+  justify-content: center;
 }
 </style>
